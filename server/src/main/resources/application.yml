@@ -1,11 +1,21 @@
-security:
-  oauth2:
-    client:
-      access-token-uri: https://dev-432925.oktapreview.com/oauth2/default/v1/token
-      user-authorization-uri: https://dev-432925.oktapreview.com/oauth2/default/v1/authorize
-      client-id: 0oaf3f70pf9GJLgNC0h7
-      scope: openid profile email
-    resource:
-      user-info-uri: https://dev-432925.oktapreview.com/oauth2/default/v1/userinfo
-      token-info-uri: https://dev-432925.oktapreview.com/oauth2/default/v1/introspect
-      prefer-token-info: false
+#security:
+#  oauth2:
+#    client:
+#      access-token-uri: https://dev-432925.oktapreview.com/oauth2/default/v1/token
+#      user-authorization-uri: https://dev-432925.oktapreview.com/oauth2/default/v1/authorize
+#      client-id: 0oaf3f70pf9GJLgNC0h7
+#      scope: openid profile email
+#    resource:
+#      user-info-uri: https://dev-432925.oktapreview.com/oauth2/default/v1/userinfo
+#      token-info-uri: https://dev-432925.oktapreview.com/oauth2/default/v1/introspect
+#      prefer-token-info: false
+
+jwt:
+   header: Authorization
+   secret: mySecret
+   expiration: 604800
+   route:
+     authentication:
+       path: /auth
+       refresh: /refresh
+       
