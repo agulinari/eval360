@@ -7,6 +7,7 @@ import { AuthenticationService } from './shared/authentication.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/auth.interceptor';
+import { UnauthorizedInterceptor } from './shared/unauth.interceptor';
 
 import { AppComponent } from './app.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
@@ -51,7 +52,12 @@ const appRoutes: Routes = [
       { enableTracing: true }
     )
   ],
-  providers: [EmployeeService, GiphyService, AuthenticationService, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
+  providers: [EmployeeService,
+    GiphyService,
+    AuthenticationService,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

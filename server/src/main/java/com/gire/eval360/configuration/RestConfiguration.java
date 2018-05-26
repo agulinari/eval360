@@ -13,5 +13,5 @@ public class RestConfiguration extends RepositoryRestConfigurerAdapter {
 	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(Employee.class);
     }
-	
+		
 }
