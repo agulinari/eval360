@@ -4,13 +4,11 @@
     {{ title }}
   </span>
   <span class="toolbar-spacer"></span>
-  <button mat-raised-button color="accent" *ngIf="isAuthenticated" (click)="oktaAuth.logout()">Logout</button>
+  <button mat-raised-button color="accent"  (click)="logout()">Logout</button>
 </mat-toolbar>
 
-<mat-card *ngIf="!isAuthenticated">
-  <mat-card-content>
-    <button mat-raised-button color="accent" (click)="oktaAuth.loginRedirect()">Login</button>
-  </mat-card-content>
-</mat-card>
-
+<div class="mat-app-background basic-container">
 <router-outlet></router-outlet>
+</div>
+
+<span class="version-info">Versión actual: {{ version }}</span>

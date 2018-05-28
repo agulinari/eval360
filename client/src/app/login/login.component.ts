@@ -10,7 +10,8 @@ import { AuthenticationService } from '../shared/authentication.service';
 })
 export class LoginComponent implements OnInit {
 
-  model: any = {};
+  username: string;
+  password: string;
   loading = false;
   error = '';
 
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
 
   login() {
       this.loading = true;
-      this.authenticationService.login(this.model.username, this.model.password)
+      this.authenticationService.login(this.username, this.password)
           .subscribe(result => {
               if (result === true) {
                   // login successful
