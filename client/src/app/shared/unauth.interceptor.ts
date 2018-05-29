@@ -18,7 +18,7 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
 
                 // this response is handled
                 // stop the chain of handlers by returning empty
-                return Observable.empty();
+              //  return Observable.empty();
             }
 
             // rethrow so other error handlers may pick this up

@@ -9,6 +9,9 @@ body {
 
 .basic-container {
     padding: 30px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
 }
 
 .version-info {

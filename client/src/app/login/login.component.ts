@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthenticationService } from '../shared/authentication.service';
 
@@ -10,14 +11,23 @@ import { AuthenticationService } from '../shared/authentication.service';
 })
 export class LoginComponent implements OnInit {
 
-  username: string;
-  password: string;
+  loginForm: FormGroup;
   loading = false;
   error = '';
 
   constructor(
+      private fb: FormBuilder,
       private router: Router,
-      private authenticationService: AuthenticationService) { }
+      private authenticationService: AuthenticationService) {
+        this.createForm();
+    }
+
+    createForm() {
+        this.loginForm = this.fb.group({
+          username: ['',  Validators.compose([Validators.required, Validators.maxLength(30)])],
+          password: ['', Validators.compose([Validators.required, Validators.maxLength(30)])]
+      });
+    }
 
   ngOnInit() {
       // reset login status
@@ -26,7 +36,8 @@ export class LoginComponent implements OnInit {
 
   login() {
       this.loading = true;
-      this.authenticationService.login(this.username, this.password)
+      const formModel = this.loginForm.value;
+      this.authenticationService.login(formModel.username, formModel.password)
           .subscribe(result => {
               if (result === true) {
                   // login successful

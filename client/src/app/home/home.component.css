@@ -1,0 +1,9 @@
+.home-card {
+ max-width: 400px;
+ margin: 10px;
+}
+
+.card-container {
+ display: flex;
+ flex-flow: row wrap;   
+}

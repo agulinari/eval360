@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { EmployeeService } from './shared/employee.service';
 import { GiphyService} from './shared/giphy.service';
@@ -12,7 +12,7 @@ import { UnauthorizedInterceptor } from './shared/unauth.interceptor';
 import { AppComponent } from './app.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatProgressSpinner } from '@angular/material';
-import { MatProgressSpinnerModule } from '@angular/material';
+import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule } from '@angular/material';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -42,12 +42,16 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,
     MatCardModule,
+    MatIconModule,
     MatInputModule,
+    MatGridListModule,
     MatListModule,
+    MatMenuModule,
     MatToolbarModule,
     MatProgressSpinnerModule,
     RouterModule.forRoot(

@@ -1,26 +1,31 @@
-<mat-card class="login-card">
+<mat-card  class="login-card">
   <mat-card-header class="header">
-    <mat-card-title class="title">Login</mat-card-title>
   </mat-card-header>
+  <div class="image-container">
+  <img mat-card-image class="image-login" src="/assets/images/logo.png" alt="Evaluacion">
+  </div>
+  <form class="example-form" [formGroup]="loginForm" (ngSubmit)="login()">      
   <mat-card-content>
-    <form class="example-form">
       <table align="center" class="example-full-width" cellspacing="0">
         <tr>
           <td>
             <mat-form-field a class="example-full-width">
-            <input matInput placeholder="Usuario" [(ngModel)]="username" name="username"  required>
+             <input matInput placeholder="Usuario" formControlName="username" name="username"  required>
+             <mat-error *ngIf="loginForm.controls.username.invalid">Usuario inválido</mat-error>  
             </mat-form-field>
           </td>
         </tr>
         <tr>
         <td><mat-form-field class="example-full-width">
-          <input matInput placeholder="Password" [(ngModel)]="password"type="password" name="password" required>
+          <input matInput placeholder="Password" formControlName="password" type="password" name="password" required>
+          <mat-error *ngIf="loginForm.controls.password.invalid">Password inválido</mat-error>            
         </mat-form-field></td>
       </tr></table>
-    </form>
-    <mat-spinner [style.display]="loading ? 'block' : 'none'"></mat-spinner>
+    <mat-spinner diameter="50" style="margin:0 auto;" [style.display]="loading ? 'block' : 'none'"></mat-spinner>
+    <div align="center" *ngIf="error"><p>Usuario o Password incorrecto</p></div>
   </mat-card-content>
   <mat-card-actions align="center">
-    <button mat-raised-button (click)="login()" color="primary">Login</button>
+    <button mat-raised-button type="submit" [disabled]="loginForm.invalid" color="primary">Login</button>
   </mat-card-actions>
+  </form>
 </mat-card>
