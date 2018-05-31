@@ -10,8 +10,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Data
 public class Address extends AuditedEntity {

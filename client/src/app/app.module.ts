@@ -20,6 +20,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { EmployeeEditComponent } from './employee-edit/employee-edit.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
 
 
 const appRoutes: Routes = [
@@ -28,6 +29,7 @@ const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'employee-list', component: EmployeeListComponent },
   { path: 'employee-add', component: EmployeeEditComponent },
+  { path: 'employee-detail/:id', component: EmployeeDetailComponent },
   { path: 'employee-edit/:id', component: EmployeeEditComponent }
 ];
 
@@ -37,7 +39,8 @@ const appRoutes: Routes = [
     EmployeeListComponent,
     EmployeeEditComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    EmployeeDetailComponent
   ],
   imports: [
     BrowserModule,

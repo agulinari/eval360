@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployeeService } from '../shared/employee.service';
 import { GiphyService } from '../shared/giphy.service';
+import { Employee } from '../domain/employee';
 
 @Component({
   selector: 'app-employee-list',
@@ -9,16 +10,13 @@ import { GiphyService } from '../shared/giphy.service';
 })
 export class EmployeeListComponent implements OnInit {
 
-  employees: Array<any>;
+  employees: Array<Employee>;
 
   constructor(private employeeService: EmployeeService, private giphyService: GiphyService) { }
 
   ngOnInit() {
     this.employeeService.getAll().subscribe(data => {
       this.employees = data._embedded.employees;
-      for (const employee of this.employees) {
-        this.giphyService.get(employee.name).subscribe(url => employee.giphyUrl = url);
-      }
     });
   }
 

@@ -22,7 +22,7 @@ import lombok.Data;
 @MappedSuperclass
 @Data
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties({"id","createdDate","modifiedDate","modifiedBy","createdBy"})
+@JsonIgnoreProperties({"createdDate","modifiedDate","modifiedBy","createdBy"})
 public abstract class AuditedEntity {
 
     @Id

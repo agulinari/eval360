@@ -14,9 +14,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Entity
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Data
 public class Area extends AuditedEntity{
