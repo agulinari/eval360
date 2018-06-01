@@ -1,36 +1,37 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../shared/employee.service';
-import { GiphyService } from '../shared/giphy.service';
-import { NgForm } from '@angular/forms';
+import { Employee } from '../domain/employee';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { OnChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-employee-edit',
   templateUrl: './employee-edit.component.html',
   styleUrls: ['./employee-edit.component.css']
 })
-export class EmployeeEditComponent implements OnInit, OnDestroy {
+export class EmployeeEditComponent implements OnInit, OnChanges, OnDestroy {
 
-  employee: any = {};
+  employee: Employee;
+  employeeForm: FormGroup;
   sub: Subscription;
 
-  constructor(private route: ActivatedRoute,
-              private router: Router,
-              private employeeService: EmployeeService,
-              private giphyService: GiphyService) {
-
-               }
+  constructor(private fb: FormBuilder, private route: ActivatedRoute,
+    private router: Router,
+    private employeeService: EmployeeService) {
+      this.createForm();
+  }
 
   ngOnInit() {
+
     this.sub = this.route.params.subscribe(params => {
       const id = params['id'];
       if (id) {
-        this.employeeService.get(id).subscribe((employee: any) => {
+        this.employeeService.get(id).subscribe((employee: Employee) => {
           if (employee) {
             this.employee = employee;
-            this.employee.href = employee._links.self.href;
-            this.giphyService.get(employee.name).subscribe(url => employee.giphyUrl = url);
+            this.fillForm();
           } else {
             console.log(`Empleado con id '${id}' no encontrado, volviendo a la lista`);
             this.gotoList();
@@ -44,19 +45,93 @@ export class EmployeeEditComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
+  ngOnChanges() {
+    this.rebuildForm();
+  }
+
+  createForm() {
+    this.employeeForm = this.fb.group({
+      name: ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
+      lastname: ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
+      birthDate: ['', Validators.required],
+      startDate: ['', Validators.required],
+      photo: '',
+      contactInfo: this.fb.group({
+        internalNumber: '',
+        telephoneNumber: '',
+        email: ['', Validators.compose([Validators.required, Validators.email])],
+      }),
+      address: this.fb.group({
+        address: '',
+        city: '',
+        state: '',
+        postalCode: ''
+      }),
+      area: '',
+      position: ''
+    });
+  }
+
+  fillForm() {
+    this.employeeForm.patchValue({
+      name: this.employee.name,
+      lastname: this.employee.lastname,
+      birthDate: this.employee.birthDate,
+      startDate: this.employee.startDate,
+      photo: this.employee.photo,
+      contactInfo: {
+        internalNumber: this.employee.contactInfo.internalNumber,
+        telephoneNumber: this.employee.contactInfo.telephoneNumber,
+        email: this.employee.contactInfo.email
+      },
+      address: {
+        address: this.employee.address.address,
+        city: this.employee.address.city,
+        state: this.employee.address.state,
+        postalCode: this.employee.address.postalCode
+      },
+      area: this.employee.area,
+      position: this.employee.position
+    });
+  }
+
+  rebuildForm() {
+  }
+
   gotoList() {
     this.router.navigate(['/employee-list']);
   }
 
-  save(form: NgForm) {
-    this.employeeService.save(form).subscribe(result => {
-      this.gotoList();
-    }, error => console.error(error));
+  onSubmit() {
+    this.employee = this.prepareSaveEmployee();
+    this.employeeService.save(this.employee).subscribe(/* error handling */);
   }
 
-  remove(href) {
-    this.employeeService.remove(href).subscribe(result => {
-      this.gotoList();
-    }, error => console.error(error));
+  prepareSaveEmployee(): Employee {
+    const formModel = this.employeeForm.value;
+
+    const saveEmployee: Employee = {
+      id: 0,
+      name: formModel.name as string,
+      lastname: formModel.lastname as string,
+      birthDate: formModel.birthDate as Date,
+      startDate: formModel.startDate as Date,
+      photo: formModel.photo as string,
+      contactInfo: {
+        internalNumber: formModel.contactInfo.internalNumber as string,
+        telephoneNumber: formModel.contactInfo.telephoneNumber as string,
+        email: formModel.contactInfo.email as string
+      },
+      address: {
+        address: formModel.address.address as string,
+        city: formModel.address.city as string,
+        state: formModel.address.state as string,
+        postalCode: formModel.address.postalCode as string
+      },
+      area: formModel.area,
+      position: formModel.position
+    };
+
+    return saveEmployee;
   }
 }

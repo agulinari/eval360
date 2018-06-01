@@ -1,23 +1,85 @@
 <mat-card>
-  <form #employeeForm="ngForm" (ngSubmit)="save(employeeForm.value)">
-    <mat-card-header>
-      <mat-card-title><h2>{{employee.name ? 'Editar' : 'Nuevo'}} Empleado</h2></mat-card-title>
-    </mat-card-header>
+  <mat-card-header>
+    <h2>Editar Empleado</h2>
+  </mat-card-header>
+  <form class="example-form" [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
     <mat-card-content>
-      <input type="hidden" name="href" [(ngModel)]="employee.href">
-      <mat-form-field>
-        <input matInput placeholder="Nombre" [(ngModel)]="employee.name" required name="name" #name>
-      </mat-form-field>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!employeeForm.form.valid">Guardar</button>
-      <button mat-raised-button color="secondary" (click)="remove(employee.href)" *ngIf="employee.href" type="button">Eliminar</button>
-      <a mat-button routerLink="/employee-list">Cancelar</a>
-    </mat-card-actions>
-    <mat-card-footer>
-      <div class="giphy">
-        <img src="{{employee.giphyUrl}}" alt="{{employee.name}}">
+      <table align="center" class="example-full-width" cellspacing="0">
+        <tr>
+          <td>
+            <mat-form-field a class="example-full-width">
+              <input matInput placeholder="Nombre" formControlName="name" required>
+              <mat-error *ngIf="employeeForm.controls.name.invalid">Campo Requerido</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Apellido" formControlName="lastname" required>
+              <mat-error *ngIf="employeeForm.controls.lastname.invalid">Campo Requerido</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Fecha de Nacimiento" formControlName="birthDate" type="date" required>
+              <mat-error *ngIf="employeeForm.controls.birthDate.invalid">Campo Requerido</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Fecha de Ingreso" formControlName="startDate" type="date" required>
+              <mat-error *ngIf="employeeForm.controls.startDate.invalid">Campo Requerido</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+      <div formGroupName="address" class="well well-lg">
+        <h4>Dirección</h4>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Calle" formControlName="address">
+          <mat-error *ngIf="employeeForm.get('address.address').invalid">Campo Requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Ciudad" formControlName="city">
+          <mat-error *ngIf="employeeForm.get('address.city').invalid">Campo Requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Provincia" formControlName="state">
+          <mat-error *ngIf="employeeForm.get('address.state').invalid">Campo Requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Código Postal" formControlName="postalCode">
+          <mat-error *ngIf="employeeForm.get('address.postalCode').invalid">Campo Requerido</mat-error>
+        </mat-form-field>
       </div>
-    </mat-card-footer>
+      <div formGroupName="contactInfo" class="well well-lg">
+        <h4>Contacto</h4>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Interno" formControlName="internalNumber">
+          <mat-error *ngIf="employeeForm.get('contactInfo.internalNumber').invalid">Campo Requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Personal" formControlName="telephoneNumber">
+          <mat-error *ngIf="employeeForm.get('contactInfo.telephoneNumber').invalid">Campo Requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Email" formControlName="email">
+          <mat-error *ngIf="employeeForm.get('contactInfo.email').invalid">Campo Requerido</mat-error>
+        </mat-form-field>
+      </div>
+      <mat-spinner diameter="50" style="margin:0 auto;" [style.display]="loading ? 'block' : 'none'"></mat-spinner>
+      <div align="center" *ngIf="error">
+        <p>Datos incorrectos</p>
+      </div>
+    </mat-card-content>
+    <mat-card-actions align="center">
+      <button mat-raised-button type="submit" [disabled]="employeeForm.invalid" color="primary">Guardar</button>
+    </mat-card-actions>
   </form>
 </mat-card>
+<p>Form value: {{employeeForm.value | json }}</p>

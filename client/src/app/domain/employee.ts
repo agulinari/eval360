@@ -11,10 +11,10 @@ export class Employee {
     startDate: Date;
     photo: string;
     contactInfo: Contact;
-    addess: Address;
+    address: Address;
     area: Area;
     position: Position;
-    _links: {
+    _links?: {
         self: {
             href: string;
         }
