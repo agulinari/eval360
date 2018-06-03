@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { EmployeeService } from './shared/employee.service';
+import { AreaService } from './shared/area.service';
+import { PositionService } from './shared/position.service';
 import { GiphyService} from './shared/giphy.service';
 import { AuthenticationService } from './shared/authentication.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -12,7 +14,7 @@ import { UnauthorizedInterceptor } from './shared/unauth.interceptor';
 import { AppComponent } from './app.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatProgressSpinner } from '@angular/material';
-import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule } from '@angular/material';
+import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule, MatSelectModule } from '@angular/material';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -52,6 +54,7 @@ const appRoutes: Routes = [
     MatCardModule,
     MatIconModule,
     MatInputModule,
+    MatSelectModule,
     MatGridListModule,
     MatListModule,
     MatMenuModule,
@@ -63,6 +66,8 @@ const appRoutes: Routes = [
     )
   ],
   providers: [EmployeeService,
+    AreaService,
+    PositionService,
     GiphyService,
     AuthenticationService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

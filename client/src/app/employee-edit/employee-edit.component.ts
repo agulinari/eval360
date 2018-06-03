@@ -2,9 +2,12 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../shared/employee.service';
+import { AreaService } from '../shared/area.service';
 import { Employee } from '../domain/employee';
+import { Area } from '../domain/area';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OnChanges, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { PositionService } from '../shared/position.service';
 
 @Component({
   selector: 'app-employee-edit',
@@ -16,15 +19,32 @@ export class EmployeeEditComponent implements OnInit, OnChanges, OnDestroy {
   employee: Employee;
   employeeForm: FormGroup;
   sub: Subscription;
+  areas: Area[];
+  positions: Position[];
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute,
     private router: Router,
-    private employeeService: EmployeeService) {
+    private employeeService: EmployeeService,
+    private areaService: AreaService,
+    private positionService: PositionService ) {
       this.createForm();
   }
 
-  ngOnInit() {
+  getAreas() {
+    this.areaService.getAll()
+    .subscribe(data => {
+      this.areas = data;
+    });
+  }
 
+  getPositions() {
+    this.positionService.getAll()
+    .subscribe(data => {
+      this.positions = data;
+    });
+  }
+
+  getEmployee() {
     this.sub = this.route.params.subscribe(params => {
       const id = params['id'];
       if (id) {
@@ -39,6 +59,12 @@ export class EmployeeEditComponent implements OnInit, OnChanges, OnDestroy {
         });
       }
     });
+  }
+
+  ngOnInit() {
+    this.getAreas();
+    this.getPositions();
+    this.getEmployee();
   }
 
   ngOnDestroy() {
@@ -93,6 +119,10 @@ export class EmployeeEditComponent implements OnInit, OnChanges, OnDestroy {
       area: this.employee.area,
       position: this.employee.position
     });
+  }
+
+  compare(val1, val2) {
+    return val1.id === val2.id;
   }
 
   rebuildForm() {

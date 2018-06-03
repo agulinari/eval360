@@ -28,7 +28,7 @@ export class EmployeeService {
     return result;
   }
 
-  remove(href: string) {
-    return this.http.delete(href);
+  remove(id: string) {
+    return this.http.delete(this.EMPLOYEES_API + '/' + id);
   }
 }

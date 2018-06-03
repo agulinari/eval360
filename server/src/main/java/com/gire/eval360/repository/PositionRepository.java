@@ -3,9 +3,9 @@ package com.gire.eval360.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import com.gire.eval360.domain.Area;
+import com.gire.eval360.domain.Position;
 
 @RepositoryRestResource(exported = false)
-public interface AreaRepository extends JpaRepository<Area, Long>{
+public interface PositionRepository extends JpaRepository<Position, Long>{
 
 }

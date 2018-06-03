@@ -49,8 +49,8 @@ export class EmployeeDetailComponent implements OnInit, OnDestroy {
     this.router.navigate(['/employee-edit', id]);
   }
 
-  remove(href) {
-    this.employeeService.remove(href).subscribe(result => {
+  remove(id: string) {
+    this.employeeService.remove(id).subscribe(result => {
       this.gotoList();
     }, error => console.error(error));
   }
