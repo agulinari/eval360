@@ -111,18 +111,20 @@ export class EmployeeEditComponent implements OnInit, OnChanges, OnDestroy {
     const formModel = this.employeeForm.value;
 
     const saveEmployee: Employee = {
-      id: 0,
+      id: this.employee.id,
       name: formModel.name as string,
       lastname: formModel.lastname as string,
       birthDate: formModel.birthDate as Date,
       startDate: formModel.startDate as Date,
       photo: formModel.photo as string,
       contactInfo: {
+        id: this.employee.contactInfo.id,
         internalNumber: formModel.contactInfo.internalNumber as string,
         telephoneNumber: formModel.contactInfo.telephoneNumber as string,
         email: formModel.contactInfo.email as string
       },
       address: {
+        id: this.employee.address.id,
         address: formModel.address.address as string,
         city: formModel.address.city as string,
         state: formModel.address.state as string,

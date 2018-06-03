@@ -20,8 +20,8 @@ export class EmployeeService {
 
   save(employee: any): Observable<any> {
     let result: Observable<Object>;
-    if (employee['href']) {
-      result = this.http.put(employee.href, employee);
+    if (employee.id) {
+      result = this.http.put(this.EMPLOYEES_API + '/' + employee.id, employee);
     } else {
       result = this.http.post(this.EMPLOYEES_API, employee);
     }

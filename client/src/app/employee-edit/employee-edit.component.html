@@ -4,74 +4,66 @@
   </mat-card-header>
   <form class="example-form" [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
     <mat-card-content>
-      <table align="center" class="example-full-width" cellspacing="0">
-        <tr>
-          <td>
-            <mat-form-field a class="example-full-width">
-              <input matInput placeholder="Nombre" formControlName="name" required>
-              <mat-error *ngIf="employeeForm.controls.name.invalid">Campo Requerido</mat-error>
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Apellido" formControlName="lastname" required>
-              <mat-error *ngIf="employeeForm.controls.lastname.invalid">Campo Requerido</mat-error>
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Fecha de Nacimiento" formControlName="birthDate" type="date" required>
-              <mat-error *ngIf="employeeForm.controls.birthDate.invalid">Campo Requerido</mat-error>
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Fecha de Ingreso" formControlName="startDate" type="date" required>
-              <mat-error *ngIf="employeeForm.controls.startDate.invalid">Campo Requerido</mat-error>
-            </mat-form-field>
-          </td>
-        </tr>
-      </table>
-      <div formGroupName="address" class="well well-lg">
+     <p>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Nombre" formControlName="name" required>
+          <mat-error *ngIf="employeeForm.controls.name.invalid">Campo Requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Apellido" formControlName="lastname" required>
+          <mat-error *ngIf="employeeForm.controls.lastname.invalid">Campo Requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Fecha de Nacimiento" formControlName="birthDate" type="date" required>
+          <mat-error *ngIf="employeeForm.controls.birthDate.invalid">Campo Requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Fecha de Ingreso" formControlName="startDate" type="date" required>
+          <mat-error *ngIf="employeeForm.controls.startDate.invalid">Campo Requerido</mat-error>
+        </mat-form-field>
+      </p>
+      <div formGroupName="address" >
+          
         <h4>Dirección</h4>
-        <mat-form-field class="example-full-width">
+        <p>
+        <mat-form-field appearance="outline">
           <input matInput placeholder="Calle" formControlName="address">
           <mat-error *ngIf="employeeForm.get('address.address').invalid">Campo Requerido</mat-error>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field appearance="outline">
           <input matInput placeholder="Ciudad" formControlName="city">
           <mat-error *ngIf="employeeForm.get('address.city').invalid">Campo Requerido</mat-error>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field appearance="outline">
           <input matInput placeholder="Provincia" formControlName="state">
           <mat-error *ngIf="employeeForm.get('address.state').invalid">Campo Requerido</mat-error>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field appearance="outline">
           <input matInput placeholder="Código Postal" formControlName="postalCode">
           <mat-error *ngIf="employeeForm.get('address.postalCode').invalid">Campo Requerido</mat-error>
         </mat-form-field>
+      </p>
       </div>
-      <div formGroupName="contactInfo" class="well well-lg">
+    
+      <div formGroupName="contactInfo" >
         <h4>Contacto</h4>
-        <mat-form-field class="example-full-width">
+        <p>
+        <mat-form-field appearance="outline">
           <input matInput placeholder="Interno" formControlName="internalNumber">
           <mat-error *ngIf="employeeForm.get('contactInfo.internalNumber').invalid">Campo Requerido</mat-error>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field appearance="outline">
           <input matInput placeholder="Personal" formControlName="telephoneNumber">
           <mat-error *ngIf="employeeForm.get('contactInfo.telephoneNumber').invalid">Campo Requerido</mat-error>
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
           <input matInput placeholder="Email" formControlName="email">
           <mat-error *ngIf="employeeForm.get('contactInfo.email').invalid">Campo Requerido</mat-error>
         </mat-form-field>
+      </p>
       </div>
+
       <mat-spinner diameter="50" style="margin:0 auto;" [style.display]="loading ? 'block' : 'none'"></mat-spinner>
       <div align="center" *ngIf="error">
         <p>Datos incorrectos</p>

@@ -10,6 +10,12 @@
 #      token-info-uri: https://dev-432925.oktapreview.com/oauth2/default/v1/introspect
 #      prefer-token-info: false
 
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
 jwt:
    header: Authorization
    secret: mySecret
