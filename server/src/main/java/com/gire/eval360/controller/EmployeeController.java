@@ -14,7 +14,7 @@ import com.gire.eval360.domain.Employee;
 import com.gire.eval360.repository.EmployeeRepository;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/employees")
 public class EmployeeController {
 
 	private EmployeeRepository employeeRespository;
@@ -27,6 +27,6 @@ public class EmployeeController {
 	@GetMapping("/findByName")
 	@CrossOrigin(origins = "http://localhost:4200")
 	public ResponseEntity<Collection<Employee>> findEmployeesByName(@RequestParam String name){
-		return ResponseEntity.ok(employeeRespository.findEmployeeByName(name));
+		return ResponseEntity.ok(employeeRespository.findEmployeeByNameContainingIgnoreCaseOrLastnameContainingIgnoreCase(name, name));
 	}
 }

@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { EmployeeService } from './shared/employee.service';
 import { AreaService } from './shared/area.service';
 import { PositionService } from './shared/position.service';
-import { GiphyService} from './shared/giphy.service';
 import { AuthenticationService } from './shared/authentication.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -68,7 +67,6 @@ const appRoutes: Routes = [
   providers: [EmployeeService,
     AreaService,
     PositionService,
-    GiphyService,
     AuthenticationService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}

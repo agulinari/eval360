@@ -12,6 +12,6 @@ import com.gire.eval360.domain.Employee;
 @CrossOrigin(origins = "http://localhost:4200")
 public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 
-	Collection<Employee> findEmployeeByName(String name);
+	Collection<Employee> findEmployeeByNameContainingIgnoreCaseOrLastnameContainingIgnoreCase(String name, String lastname);
 
 }
