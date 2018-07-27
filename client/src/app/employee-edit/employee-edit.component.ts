@@ -21,42 +21,38 @@ export class EmployeeEditComponent implements OnInit, OnChanges, OnDestroy {
   sub: Subscription;
   areas: Area[];
   positions: Position[];
+  private roles: String[];
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute,
     private router: Router,
     private employeeService: EmployeeService,
     private areaService: AreaService,
-    private positionService: PositionService ) {
-      this.createForm();
+    private positionService: PositionService) {
+    this.createForm();
   }
 
   getAreas() {
     this.areaService.getAll()
-    .subscribe(data => {
-      this.areas = data;
-    });
+      .subscribe(data => {
+        this.areas = data;
+      });
   }
 
   getPositions() {
     this.positionService.getAll()
-    .subscribe(data => {
-      this.positions = data;
-    });
+      .subscribe(data => {
+        this.positions = data;
+      });
   }
 
-  getEmployee() {
-    this.sub = this.route.params.subscribe(params => {
-      const id = params['id'];
-      if (id) {
-        this.employeeService.get(id).subscribe((employee: Employee) => {
-          if (employee) {
-            this.employee = employee;
-            this.fillForm();
-          } else {
-            console.log(`Empleado con id '${id}' no encontrado, volviendo a la lista`);
-            this.gotoList();
-          }
-        });
+  getEmployee(id) {
+    this.employeeService.get(id).subscribe((employee: Employee) => {
+      if (employee) {
+        this.employee = employee;
+        this.fillForm();
+      } else {
+        console.log(`Empleado con id '${id}' no encontrado, volviendo a la lista`);
+        this.gotoList();
       }
     });
   }
@@ -64,7 +60,12 @@ export class EmployeeEditComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     this.getAreas();
     this.getPositions();
-    this.getEmployee();
+    this.sub = this.route.params.subscribe(params => {
+      const id = params['id'];
+      if (id) {
+        this.getEmployee(id);
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -133,28 +134,32 @@ export class EmployeeEditComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onSubmit() {
-    this.employee = this.prepareSaveEmployee();
+    let id = null;
+    if (this.employee) {
+      id = this.employee.id;
+    }
+    this.employee = this.prepareSaveEmployee(id);
     this.employeeService.save(this.employee).subscribe(/* error handling */);
   }
 
-  prepareSaveEmployee(): Employee {
+  prepareSaveEmployee(id): Employee {
     const formModel = this.employeeForm.value;
 
     const saveEmployee: Employee = {
-      id: this.employee.id,
+      id: id,
       name: formModel.name as string,
       lastname: formModel.lastname as string,
       birthDate: formModel.birthDate as Date,
       startDate: formModel.startDate as Date,
       photo: formModel.photo as string,
       contactInfo: {
-        id: this.employee.contactInfo.id,
+        id: id,
         internalNumber: formModel.contactInfo.internalNumber as string,
         telephoneNumber: formModel.contactInfo.telephoneNumber as string,
         email: formModel.contactInfo.email as string
       },
       address: {
-        id: this.employee.address.id,
+        id: id,
         address: formModel.address.address as string,
         city: formModel.address.city as string,
         state: formModel.address.state as string,

@@ -16,10 +16,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.ToString;
 
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = false, exclude = {"dependentArea", "subAreas", "employees"})
+@ToString(exclude = {"dependentArea", "subAreas", "employees"})
 @Data
 public class Area extends AuditedEntity{
 	

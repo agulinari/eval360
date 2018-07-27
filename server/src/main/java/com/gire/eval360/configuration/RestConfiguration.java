@@ -20,6 +20,7 @@ public class RestConfiguration extends RepositoryRestConfigurerAdapter {
         config.exposeIdsFor(Address.class);
         config.exposeIdsFor(ContactInfo.class);
         config.exposeIdsFor(Area.class);
+       // config.getProjectionConfiguration().addProjection(InlineEmployee.class);
     }
 		
 }

@@ -14,5 +14,5 @@
       </mat-list-item>
     </mat-nav-list>
   </mat-card-content>
-  <button mat-fab color="primary" [routerLink]="['/employee-add']">Nuevo</button>
+  <button *ngIf="roles.includes('ROLE_ADMIN')" mat-fab color="primary" [routerLink]="['/employee-add']">Nuevo</button>
 </mat-card>

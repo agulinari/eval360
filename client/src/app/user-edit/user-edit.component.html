@@ -1,0 +1,38 @@
+<mat-card>
+  <mat-card-header>
+    <h2>Formulario de Usuario</h2>
+  </mat-card-header>
+  <form class="example-form" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <mat-card-content>
+      <p>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Usuario" formControlName="username" required>
+          <mat-error *ngIf="userForm.controls.username.invalid">Campo Requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Password" formControlName="password" type="password" required>
+          <mat-error *ngIf="userForm.controls.password.invalid">Campo Requerido</mat-error>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-slide-toggle formControlName="enabled">{{getEnabledText()}}</mat-slide-toggle>
+      </p>
+      <mat-form-field>
+        <input matInput #searchBox placeholder="Empleado" formControlName="employee" (keyup)="search(searchBox.value)" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let employee of employees$ | async" [value]="employee">
+            {{employee.name}} {{employee.lastname}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-spinner diameter="50" style="margin:0 auto;" [style.display]="loading ? 'block' : 'none'"></mat-spinner>
+      <div align="center" *ngIf="error">
+        <p>Datos incorrectos</p>
+      </div>
+    </mat-card-content>
+    <mat-card-actions align="center">
+      <button mat-raised-button type="submit" [disabled]="userForm.invalid" color="primary">Guardar</button>
+    </mat-card-actions>
+  </form>
+</mat-card>

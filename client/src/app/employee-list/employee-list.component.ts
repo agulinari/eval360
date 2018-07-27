@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import {
   debounceTime, distinctUntilChanged, switchMap
 } from 'rxjs/operators';
+import { AuthenticationService } from '../shared/authentication.service';
 
 @Component({
   selector: 'app-employee-list',
@@ -15,9 +16,11 @@ import {
 export class EmployeeListComponent implements OnInit {
 
   employees$: Observable<Employee[]>;
+  private roles: String[];
   private searchTerms = new Subject<string>();
 
-  constructor(private employeeService: EmployeeService) { }
+
+  constructor(private employeeService: EmployeeService, private authenticationService: AuthenticationService) { }
 
   // Push a search term into the observable stream.
   search(term: string): void {
@@ -25,6 +28,8 @@ export class EmployeeListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.roles = this.authenticationService.getRoles();
+
     this.employees$ = this.searchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),

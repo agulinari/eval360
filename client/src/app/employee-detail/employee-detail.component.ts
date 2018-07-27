@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../shared/employee.service';
 import { Employee } from '../domain/employee';
+import { AuthenticationService } from '../shared/authentication.service';
 
 @Component({
   selector: 'app-employee-detail',
@@ -12,16 +13,19 @@ import { Employee } from '../domain/employee';
 })
 export class EmployeeDetailComponent implements OnInit, OnDestroy {
 
+  private roles: String[];
   employee: Employee;
   sub: Subscription;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private employeeService: EmployeeService) {
+              private employeeService: EmployeeService,
+              private authenticationService: AuthenticationService) {
 
                }
 
   ngOnInit() {
+    this.roles = this.authenticationService.getRoles();
     this.sub = this.route.params.subscribe(params => {
       const id = params['id'];
       if (id) {

@@ -5,10 +5,11 @@ import { Token } from './token';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import * as jwt_decode from 'jwt-decode';
 
 @Injectable()
 export class AuthenticationService {
-  private authUrl = 'http://localhost:8080/auth';
+  private authUrl = 'http://localhost:8762/auth';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient) {
@@ -46,6 +47,12 @@ export class AuthenticationService {
   isAuthenticated(): boolean {
     const token = this.getToken();
     return token ? true : false;
+  }
+
+  getRoles(): String[] {
+    const token = this.getToken();
+    const tokenPayload = jwt_decode(token);
+    return tokenPayload.authorities;
   }
 
 }

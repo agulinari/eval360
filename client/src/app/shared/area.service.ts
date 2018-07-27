@@ -7,7 +7,7 @@ import { catchError } from 'rxjs/operators';
 @Injectable()
 export class AreaService {
 
-  public API = '//localhost:8080';
+  public API = '//localhost:8762';
   public AREAS_API = this.API + '/areas';
 
   constructor(private http: HttpClient) {

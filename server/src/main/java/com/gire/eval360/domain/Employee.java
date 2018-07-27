@@ -54,9 +54,9 @@ public class Employee extends AuditedEntity{
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private Address address;
     
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-    @JsonIgnore
-    private User user;
+//    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JsonIgnore
+//    private Collection<User> user;
 
     @ManyToOne
 	@JoinColumn(name = "area_id")

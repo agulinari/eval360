@@ -21,8 +21,8 @@
         </section>    
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="edit(employee.id)">Editar</button>
-        <button mat-raised-button color="secondary" (click)="remove(employee.id)" type="button">Eliminar</button>
+        <button *ngIf="roles.includes('ROLE_ADMIN')" mat-raised-button color="primary" (click)="edit(employee.id)">Editar</button>
+        <button *ngIf="roles.includes('ROLE_ADMIN')" mat-raised-button color="secondary" (click)="remove(employee.id)" type="button">Eliminar</button>
         <a mat-button routerLink="/employee-list">Cancelar</a>
       </mat-card-actions>
       <mat-card-footer>

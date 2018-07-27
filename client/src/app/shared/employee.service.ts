@@ -7,19 +7,23 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class EmployeeService {
-  public API = '//localhost:8080';
+  public API = '//localhost:8762';
   public EMPLOYEES_API = this.API + '/employees';
 
   constructor(private http: HttpClient) {
   }
 
-  getAll(): Observable<any> {
-    return this.http.get(this.EMPLOYEES_API).pipe(
+  getAll(): Observable<Employee> {
+    return this.http.get(this.EMPLOYEES_API)
+    .map((result: any) => {
+      return result._embedded.employees;
+    })
+    .pipe(
       catchError(this.handleError<any>('getEmployees'))
     );
   }
 
-  get(id: string): Observable<any> {
+  get(id: string): Observable<Employee> {
     return this.http.get(this.EMPLOYEES_API + '/' + id).pipe(
       catchError(this.handleError<any>('getEmployee'))
     );
@@ -50,8 +54,26 @@ export class EmployeeService {
       return of([]);
     }
 
-    return this.http.get<Employee[]>(this.EMPLOYEES_API + '/findByName?name=' + term).pipe(
+    return this.http.get<Employee[]>(this.EMPLOYEES_API + '/search/findByName?name=' + term + '&lastname=' + term)
+    .map((result: any) => {
+      return result._embedded.employees;
+    })
+    .pipe(
       catchError(this.handleError<any>('searchEmployee'))
+    );
+  }
+
+  searchAvailables(term: string): Observable<Employee[]> {
+    if (!term.trim()) {
+      return of([]);
+    }
+
+    return this.http.get<Employee[]>(this.EMPLOYEES_API + '/search/findAvailable?name=' + term)
+    .map((result: any) => {
+      return result._embedded.employees;
+    })
+    .pipe(
+      catchError(this.handleError<any>('searchAvailables'))
     );
   }
 
