@@ -1,3 +1,4 @@
+#Propiedades H2
 spring:
   h2:
     console:
@@ -12,14 +13,21 @@ spring:
 
 
 server:
-  port: 9100
+  port: 0
   
+#Propiedades Eureka
 eureka:
   client:
     service-url:
-      default-zone: http://localhost:8761/eureka
-
-
+      default-zone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddess: true
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 90
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    metadataMap.instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}  
+      
+#Propiedades JWT
 jwt:
    header: Authorization
    secret: mySecret
@@ -28,4 +36,24 @@ jwt:
      authentication:
        path: /auth
        refresh: /refresh
+       
+       
+# Propiedades Kafka
+spring.kafka.bootstrap-servers: localhost:9092
+
+# Zipkin
+spring.zipkin.sender.type: kafka
+
+# Logging
+logging.level:
+  root: ERROR
+  org.springframework.web: ERROR
+  com.gire.eval340.users: DEBUG
+
+# Actuator
+management:
+  endpoints:
+    web.exposure.include:*
+    jmx.exposure.exclude:*
+  security: false
        
