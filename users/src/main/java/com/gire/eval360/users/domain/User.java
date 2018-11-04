@@ -52,7 +52,5 @@ public class User extends AuditedEntity {
 					@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID") })
 	private List<Authority> authorities;
 
-	@Column(name = "employee_id")
-	private Long employeeId;
 
 }

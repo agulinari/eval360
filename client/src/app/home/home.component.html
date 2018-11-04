@@ -15,49 +15,34 @@
     </mat-card-actions>
   </mat-card>
 
+  <mat-card *ngIf="roles.includes('ROLE_ADMIN')" class="home-card">
+    <mat-card-header>
+      <mat-card-title>Templates</mat-card-title>
+      <mat-card-subtitle>Administración de templates</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="/assets/images/evaluation.jpg" alt="Templates">
+    <mat-card-content>
+      <p>
+        Para gestionar sus templates ingrese aquí.
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-button routerLink="/template-list">INGRESAR</a>
+    </mat-card-actions>
+  </mat-card>
   <mat-card *ngIf="roles.includes('ROLE_ADMIN') || roles.includes('ROLE_USER')" class="home-card">
     <mat-card-header>
-      <mat-card-title>La Organización</mat-card-title>
-      <mat-card-subtitle>Administración de empleados</mat-card-subtitle>
+      <mat-card-title>Proyectos</mat-card-title>
+      <mat-card-subtitle>Administración de proyectos</mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image src="/assets/images/organization.jpg" alt="Organizacion">
+    <img mat-card-image src="/assets/images/organization.jpg" alt="Proyectos">
     <mat-card-content>
       <p>
-        Consulte la información de los empleados de Gire aquí.
+        Para gestionar sus proyectos acceda aquí.
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <a mat-button routerLink="/employee-list">INGRESAR</a>
-    </mat-card-actions>
-  </mat-card>
-  <mat-card *ngIf="roles.includes('ROLE_USER')" class="home-card">
-    <mat-card-header>
-      <mat-card-title>Evaluaciones</mat-card-title>
-      <mat-card-subtitle>Administración de evaluaciones</mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image src="/assets/images/evaluation.jpg" alt="Evaluacion">
-    <mat-card-content>
-      <p>
-        Para gestionar sus evaluaciones acceda aquí.
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <a mat-button routerLink="/employee-list">INGRESAR</a>
-    </mat-card-actions>
-  </mat-card>
-  <mat-card *ngIf="roles.includes('ROLE_USER')" class="home-card">
-    <mat-card-header>
-      <mat-card-title>Informes</mat-card-title>
-      <mat-card-subtitle>Gráficos y Reportes</mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image src="/assets/images/report.jpg" alt="Organizacion">
-    <mat-card-content>
-      <p>
-        Para consultar los resultados de sus evaluaciones acceda aquí.
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <a mat-button routerLink="/employee-list">INGRESAR</a>
+      <a mat-button routerLink="/template-list">INGRESAR</a>
     </mat-card-actions>
   </mat-card>
 </div>

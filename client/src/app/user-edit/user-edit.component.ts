@@ -2,10 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../shared/user.service';
-import { EmployeeService } from '../shared/employee.service';
 import { User } from '../domain/user';
 import { Subscription } from 'rxjs/Subscription';
-import { Employee } from '../domain/employee';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
@@ -21,13 +19,11 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
   user: User;
   userForm: FormGroup;
   sub: Subscription;
-  employees$: Observable<Employee[]>;
   searchTerms = new Subject<string>();
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService,
-    private employeeService: EmployeeService) {
+    private userService: UserService) {
     this.createForm();
   }
 
@@ -36,7 +32,7 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
     this.searchTerms.next(term);
   }
 
-  displayFn(employee: Employee): string {
+ /* displayFn(employee: Employee): string {
     return employee ? employee.name + ' ' + employee.lastname : '';
   }
 
@@ -52,6 +48,7 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
       switchMap((term: string) => this.employeeService.searchAvailables(term))
     );
   }
+  */
 
   getEnabledText() {
     if (this.userForm.controls.enabled.value) {
@@ -74,7 +71,6 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit() {
-    this.getEmployees();
     this.sub = this.route.params.subscribe(params => {
       const id = params['id'];
       if (id) {
@@ -95,8 +91,7 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
     this.userForm = this.fb.group({
       username: ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(30)])],
-      enabled: true,
-      employee: ['', Validators.required ]
+      enabled: true
     });
   }
 
@@ -135,13 +130,7 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
       id: id,
       username: formModel.username as string,
       password: formModel.password as string,
-      enabled: formModel.enabled as boolean,
-      employee: 'http://localhost:8080/employees/' + formModel.employee.id,
-      _links: {
-        employee: {
-          href: 'http://localhost:8080/employees/' + formModel.employee.id
-        }
-      }
+      enabled: formModel.enabled as boolean
     };
 
     return saveUser;

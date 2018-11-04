@@ -2,34 +2,31 @@ import 'hammerjs';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { EmployeeService } from './shared/employee.service';
-import { AreaService } from './shared/area.service';
-import { PositionService } from './shared/position.service';
-import { AuthenticationService } from './shared/authentication.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatProgressSpinner } from '@angular/material';
+import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule, MatSelectModule } from '@angular/material';
+import { MatAutocompleteModule, MatSlideToggleModule } from '@angular/material';
+import { RouterModule, Routes } from '@angular/router';
+
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/auth.interceptor';
 import { UnauthorizedInterceptor } from './shared/unauth.interceptor';
 
+import { AreaService } from './shared/area.service';
+import { PositionService } from './shared/position.service';
+import { AuthenticationService } from './shared/authentication.service';
+import { UserService } from './shared/user.service';
+import { RoleGuardService } from './role-guard.service';
+import { TemplateService } from './shared/template.service';
+
 import { AppComponent } from './app.component';
-import { EmployeeListComponent } from './employee-list/employee-list.component';
-import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatProgressSpinner } from '@angular/material';
-import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule, MatSelectModule } from '@angular/material';
-import { MatAutocompleteModule, MatSlideToggleModule } from '@angular/material';
-
-
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { RouterModule, Routes } from '@angular/router';
-import { EmployeeEditComponent } from './employee-edit/employee-edit.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
 import { UserListComponent } from './user-list/user-list.component';
-import { UserService } from './shared/user.service';
 import { UserEditComponent } from './user-edit/user-edit.component';
-import { RoleGuardService } from './role-guard.service';
-
+import { TemplateListComponent } from './template-list/template-list.component';
+import { TemplateEditComponent } from './template-edit/template-edit.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -60,32 +57,16 @@ const appRoutes: Routes = [
     }
   },
   {
-    path: 'employee-list',
-    component: EmployeeListComponent,
-    canActivate: [RoleGuardService],
-    data: {
-      expectedRole: 'ROLE_USER'
-    }
-  },
-  {
-    path: 'employee-add',
-    component: EmployeeEditComponent,
+    path: 'template-edit/:id',
+    component: TemplateEditComponent,
     canActivate: [RoleGuardService],
     data: {
       expectedRole: 'ROLE_ADMIN'
     }
   },
   {
-    path: 'employee-detail/:id',
-    component: EmployeeDetailComponent,
-    canActivate: [RoleGuardService],
-    data: {
-      expectedRole: 'ROLE_USER'
-    }
-  },
-  {
-    path: 'employee-edit/:id',
-    component: EmployeeEditComponent,
+    path: 'template-list',
+    component: TemplateListComponent,
     canActivate: [RoleGuardService],
     data: {
       expectedRole: 'ROLE_ADMIN'
@@ -96,13 +77,12 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    EmployeeListComponent,
-    EmployeeEditComponent,
     HomeComponent,
     LoginComponent,
-    EmployeeDetailComponent,
     UserListComponent,
-    UserEditComponent
+    UserEditComponent,
+    TemplateEditComponent,
+    TemplateListComponent
   ],
   imports: [
     BrowserModule,
@@ -127,12 +107,13 @@ const appRoutes: Routes = [
       { enableTracing: true }
     )
   ],
-  providers: [EmployeeService,
+  providers: [
     AreaService,
     PositionService,
     UserService,
     AuthenticationService,
     RoleGuardService,
+    TemplateService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}
   ],

@@ -17,14 +17,6 @@
       <p>
         <mat-slide-toggle formControlName="enabled">{{getEnabledText()}}</mat-slide-toggle>
       </p>
-      <mat-form-field>
-        <input matInput #searchBox placeholder="Empleado" formControlName="employee" (keyup)="search(searchBox.value)" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let employee of employees$ | async" [value]="employee">
-            {{employee.name}} {{employee.lastname}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
 
       <mat-spinner diameter="50" style="margin:0 auto;" [style.display]="loading ? 'block' : 'none'"></mat-spinner>
       <div align="center" *ngIf="error">
