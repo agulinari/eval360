@@ -3,10 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../shared/user.service';
 import { User } from '../domain/user';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription ,  Subject ,  Observable } from 'rxjs';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({

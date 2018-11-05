@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs/observable/of';
+import { of ,  Observable } from 'rxjs';
 import { User } from '../domain/user';
-import { catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class UserService {
@@ -16,9 +15,9 @@ export class UserService {
 
   getAll(): Observable<User[]> {
     return this.http.get(this.USERS_API)
-    .map((result: any) => {
+    .pipe(map((result: any) => {
       return result._embedded.users;
-    }).pipe(
+    }),
       catchError(this.handleError<any>('getUsers'))
     );
   }
@@ -56,9 +55,9 @@ export class UserService {
     }
 
     return this.http.get<User[]>(this.USERS_API + '/search/usernameIgnoreCase?name=' + term)
-    .map((result: any) => {
+    .pipe(map((result: any) => {
       return result._embedded.users;
-    }).pipe(
+    }),
       catchError(this.handleError<any>('searchUser'))
     );
   }
