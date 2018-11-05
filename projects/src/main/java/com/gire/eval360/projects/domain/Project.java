@@ -6,6 +6,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -31,19 +35,32 @@ public class Project extends AuditedEntity{
 	@OneToOne(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private ReportTemplate report;
 	
-	@OneToOne(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-	private Employee creator;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="user_id")    
+	private User creator;
 		
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.MERGE)
+	@JoinTable(
+	    name = "project_reviewer", 
+	    joinColumns = { @JoinColumn(name = "id") }, 
+	    inverseJoinColumns = { @JoinColumn(name = "reviewerID") })
 	private List<Reviewer> reviewers;
 	
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.MERGE)
+	@JoinTable(
+	    name = "project_teamMember", 
+	    joinColumns = { @JoinColumn(name = "id") }, 
+	    inverseJoinColumns = { @JoinColumn(name = "teamMemberID") })
 	private List<TeamMember> teamMembers;
 	
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.MERGE)
+	@JoinTable(
+	    name = "project_feedbackprovider", 
+	    joinColumns = { @JoinColumn(name = "id") }, 
+	    inverseJoinColumns = { @JoinColumn(name = "feedbackProviderID") })
 	private List<FeedbackProvider> feedbacksProviders;
 	
 	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-	private List<Evaluated> evaluated;
+	private List<Evaluee> evaluees;
 
 }

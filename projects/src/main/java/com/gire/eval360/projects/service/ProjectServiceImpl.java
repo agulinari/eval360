@@ -4,19 +4,19 @@ import java.util.Collection;
 
 import org.springframework.stereotype.Service;
 
-import com.gire.eval360.projects.domain.Employee;
-import com.gire.eval360.projects.repository.EmployeeRepository;
+import com.gire.eval360.projects.domain.Project;
+import com.gire.eval360.projects.repository.ProjectRepository;
 
 @Service
 public class ProjectServiceImpl implements ProjectService{
 	
-	private EmployeeRepository employeeRepository;
+	private ProjectRepository projectRepository;
 	
-	public ProjectServiceImpl(EmployeeRepository employeeRepository) {
-		this.employeeRepository = employeeRepository;
+	public ProjectServiceImpl(ProjectRepository projectRepository) {
+		this.projectRepository = projectRepository;
 	}
 
-	public Collection<Employee> getEmployees() {
-		return employeeRepository.findAll();
+	public Collection<Project> getProjects() {
+		return projectRepository.findAll();
 	}
 }

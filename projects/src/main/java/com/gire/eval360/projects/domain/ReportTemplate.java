@@ -4,8 +4,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
+
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,6 +23,7 @@ public class ReportTemplate extends AuditedEntity{
 	@NotBlank
 	private String title;
 	
-	@OneToOne(mappedBy = "reportTemplate", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-	private Employee creator;
+	@OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+	private User creator;
 }

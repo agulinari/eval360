@@ -32,8 +32,8 @@ public class EvaluationTemplate extends AuditedEntity{
 	@OneToMany(mappedBy = "template", cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	List<Section> sections;
 	
-	@ManyToOne
-	@JoinColumn(name = "creator_id")
-	@JsonIgnore
-	Employee creator;
+//	@ManyToOne
+//	@JoinColumn(name = "creator_id")
+//	@JsonIgnore
+//	Employee creator;
 }
