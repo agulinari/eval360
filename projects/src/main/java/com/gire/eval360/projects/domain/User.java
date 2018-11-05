@@ -6,6 +6,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -17,6 +19,7 @@ import lombok.NonNull;
 
 @Entity
 @Data
+@Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class User extends AuditedEntity{
@@ -32,7 +35,7 @@ public class User extends AuditedEntity{
 	@Column
 	@NonNull
 	private String email;
-	
+
 	@OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<Project> createdProjects;
 	

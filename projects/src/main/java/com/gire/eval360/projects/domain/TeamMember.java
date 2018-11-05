@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class TeamMember extends AuditedEntity{
+public class TeamMember extends User{
 
 
 	@ManyToMany(mappedBy = "teamMembers")
