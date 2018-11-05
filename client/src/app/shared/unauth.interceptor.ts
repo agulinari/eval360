@@ -1,8 +1,8 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/empty';
+import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -12,7 +12,8 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(request).catch((err: any) => {
+        return next.handle(request).pipe(map(res => res),
+        catchError((err: HttpErrorResponse) => {
             if (err instanceof HttpErrorResponse && err.status === 401) {
                 this.router.navigate(['/login']);
 
@@ -22,8 +23,8 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
             }
 
             // rethrow so other error handlers may pick this up
-            return Observable.throw(err);
-        });
+            return observableThrowError(err);
+        }));
     }
 
 }

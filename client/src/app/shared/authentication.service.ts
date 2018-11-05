@@ -1,10 +1,10 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { Token } from './token';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+import { map, catchError } from 'rxjs/operators';
+
 import * as jwt_decode from 'jwt-decode';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class AuthenticationService {
 
   login(username: string, password: string): Observable<boolean> {
     return this.http.post<Token>(this.authUrl, JSON.stringify({ username: username, password: password }), { headers: this.headers })
-      .map((response) => {
+      .pipe(map((response) => {
         // login successful if there's a jwt token in the response
         const token = response && response.token;
         if (token) {
@@ -30,7 +30,7 @@ export class AuthenticationService {
           // return false to indicate failed login
           return false;
         }
-      }).catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+      }), catchError((error: any) => observableThrowError(error.json().error || 'Server error')));
   }
 
   getToken(): String {
