@@ -13,6 +13,6 @@ import com.gire.eval360.projects.domain.Project;
 @CrossOrigin(origins = "http://localhost:4200")
 public interface ProjectRepository extends JpaRepository<Project, Long>{
 	
-	 List<Project> findByUserCreator(@Param("nameUserCreator") String nameUserCreator);
+	 List<Project> findByCreator(@Param("nameUserCreator") String nameUserCreator);
 
 }
