@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
@@ -26,4 +27,8 @@ public class ReportTemplate extends AuditedEntity{
 	@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
 	private User creator;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="project_id") 
+	private Project project;
 }

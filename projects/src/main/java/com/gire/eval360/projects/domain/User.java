@@ -38,4 +38,7 @@ public class User extends AuditedEntity{
 	
 	@OneToOne(mappedBy = "creator", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	private ReportTemplate reportTemplate;
+	
+	@OneToOne(mappedBy = "creator", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	private EvaluationTemplate evaluationTemplate;
 }
