@@ -5,10 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import javax.persistence.ManyToMany;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,13 +13,16 @@ import lombok.EqualsAndHashCode;
 @Entity
 @EqualsAndHashCode(callSuper = false)
 @Data
-public class FeedbackProvider extends AuditedEntity{
+public class FeedbackProvider extends User{
 
-	@JsonManagedReference
-    @OneToOne(mappedBy = "feedbackProvider", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-    private Employee employee;
-	
-	@OneToMany(mappedBy = "feedbackProvider", cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
+		
+	@ManyToMany(mappedBy = "feedbacksProviders", cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
     private List<Project> projects;
+	
+	@ManyToMany(mappedBy = "feedbacksProviders")
+    private List<Evaluation> evaluations;
+	
+	@ManyToMany(mappedBy = "feedbacksProviders")    
+	private List<Evaluee> evaluees; 
 		
 }

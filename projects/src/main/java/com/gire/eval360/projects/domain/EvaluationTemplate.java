@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,8 +33,11 @@ public class EvaluationTemplate extends AuditedEntity{
 	@OneToMany(mappedBy = "template", cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	List<Section> sections;
 	
-	@ManyToOne
-	@JoinColumn(name = "creator_id")
-	@JsonIgnore
-	Employee creator;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="project_id") 
+	private Project project;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+	private User creator;
 }
