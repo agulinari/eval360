@@ -8,18 +8,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'EVAL 360';
-  version = '1.0.0';
 
-  constructor(private router: Router, private authenticationService: AuthenticationService) {
+  constructor() {
   }
 
   async ngOnInit() {
 
   }
 
-  logout() {
-    this.authenticationService.logout();
-    this.router.navigate(['login']);
-  }
 }

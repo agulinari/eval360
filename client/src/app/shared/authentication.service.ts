@@ -51,6 +51,9 @@ export class AuthenticationService {
 
   getRoles(): String[] {
     const token = this.getToken();
+    if (!token) {
+      return [];
+    }
     const tokenPayload = jwt_decode(token);
     return tokenPayload.authorities;
   }

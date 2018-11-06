@@ -5,8 +5,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatProgressSpinner } from '@angular/material';
 import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule, MatSelectModule } from '@angular/material';
-import { MatAutocompleteModule, MatSlideToggleModule } from '@angular/material';
-import { RouterModule, Routes } from '@angular/router';
+import { MatAutocompleteModule, MatSlideToggleModule, MatSidenavModule } from '@angular/material';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -27,52 +26,12 @@ import { UserListComponent } from './user-list/user-list.component';
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { TemplateListComponent } from './template-list/template-list.component';
 import { TemplateEditComponent } from './template-edit/template-edit.component';
+import { NavigationComponent } from './navigation/navigation.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { AppRoutingModule } from './app-routing.module';
+import { MainComponent } from './main/main.component';
 
-const appRoutes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent },
-  {
-    path: 'user-list',
-    component: UserListComponent,
-    canActivate: [RoleGuardService],
-    data: {
-      expectedRole: 'ROLE_ADMIN'
-    }
-  },
-  {
-    path: 'user-add',
-    component: UserEditComponent,
-    canActivate: [RoleGuardService],
-    data: {
-      expectedRole: 'ROLE_ADMIN'
-    }
-  },
-  {
-    path: 'user-edit/:id',
-    component: UserEditComponent,
-    canActivate: [RoleGuardService],
-    data: {
-      expectedRole: 'ROLE_ADMIN'
-    }
-  },
-  {
-    path: 'template-edit/:id',
-    component: TemplateEditComponent,
-    canActivate: [RoleGuardService],
-    data: {
-      expectedRole: 'ROLE_ADMIN'
-    }
-  },
-  {
-    path: 'template-list',
-    component: TemplateListComponent,
-    canActivate: [RoleGuardService],
-    data: {
-      expectedRole: 'ROLE_ADMIN'
-    }
-  }
-];
+
 
 @NgModule({
   declarations: [
@@ -82,7 +41,9 @@ const appRoutes: Routes = [
     UserListComponent,
     UserEditComponent,
     TemplateEditComponent,
-    TemplateListComponent
+    TemplateListComponent,
+    NavigationComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
@@ -102,10 +63,9 @@ const appRoutes: Routes = [
     MatToolbarModule,
     MatSlideToggleModule,
     MatProgressSpinnerModule,
-    RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: true }
-    )
+    LayoutModule,
+    MatSidenavModule,
+    AppRoutingModule
   ],
   providers: [
     AreaService,

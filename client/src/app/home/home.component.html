@@ -11,7 +11,7 @@
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <a mat-button routerLink="/user-list">INGRESAR</a>
+      <a mat-button routerLink="../user-list">INGRESAR</a>
     </mat-card-actions>
   </mat-card>
 
@@ -27,7 +27,7 @@
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <a mat-button routerLink="/template-list">INGRESAR</a>
+      <a mat-button routerLink="../template-list">INGRESAR</a>
     </mat-card-actions>
   </mat-card>
   <mat-card *ngIf="roles.includes('ROLE_ADMIN') || roles.includes('ROLE_USER')" class="home-card">
@@ -42,7 +42,7 @@
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <a mat-button routerLink="/template-list">INGRESAR</a>
+      <a mat-button routerLink="../template-list">INGRESAR</a>
     </mat-card-actions>
   </mat-card>
 </div>
