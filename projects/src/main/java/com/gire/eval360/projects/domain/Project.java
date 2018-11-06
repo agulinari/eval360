@@ -13,12 +13,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+@Builder
+@AllArgsConstructor
 @Entity
 @EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
 @Data
 public class Project extends AuditedEntity{
 	
