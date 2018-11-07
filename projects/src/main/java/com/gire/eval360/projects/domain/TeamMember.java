@@ -16,6 +16,10 @@ import lombok.NoArgsConstructor;
 public class TeamMember extends User{
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@ManyToMany(mappedBy = "teamMembers")
     private List<Project> projects;
 

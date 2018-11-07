@@ -16,6 +16,11 @@ import lombok.NonNull;
 @Data
 public class ItemTemplate extends AuditedEntity{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Column
 	private String description;
 	
@@ -24,7 +29,7 @@ public class ItemTemplate extends AuditedEntity{
 	private Integer position;
 	
 	@ManyToOne
-	@JoinColumn(name = "boss_id")
+	@JoinColumn(name = "BOSS_ID")
 	@JsonIgnore
 	private Section section;
 	

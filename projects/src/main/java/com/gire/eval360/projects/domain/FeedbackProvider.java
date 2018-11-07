@@ -16,6 +16,11 @@ import lombok.EqualsAndHashCode;
 public class FeedbackProvider extends User{
 
 		
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@ManyToMany(mappedBy = "feedbacksProviders", cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
     private List<Project> projects;
 	

@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -23,6 +22,11 @@ import lombok.NonNull;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class User extends AuditedEntity{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Column
 	@NonNull
@@ -39,9 +43,9 @@ public class User extends AuditedEntity{
 	@OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<Project> createdProjects;
 	
-	@OneToOne(mappedBy = "creator", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-	private ReportTemplate reportTemplate;
+//	@OneToMany(mappedBy = "creatorReportTemplate", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+//	private List<ReportTemplate> reportsTemplates;
 	
-	@OneToOne(mappedBy = "creator", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@OneToOne(mappedBy = "creatorEvaluationTemplate", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	private EvaluationTemplate evaluationTemplate;
 }

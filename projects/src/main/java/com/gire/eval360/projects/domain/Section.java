@@ -21,6 +21,11 @@ import lombok.NonNull;
 @Data
 public class Section extends AuditedEntity{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Column
 	@NonNull
 	private String name;
@@ -30,7 +35,7 @@ public class Section extends AuditedEntity{
 	private String description;
 	
     @ManyToOne
-	@JoinColumn(name = "template_id")
+	@JoinColumn(name = "EVALUATION_TEMPLATE_ID")
     @JsonIgnore
 	private EvaluationTemplate template;
 

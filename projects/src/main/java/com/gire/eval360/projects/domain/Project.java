@@ -11,7 +11,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +29,11 @@ import lombok.NonNull;
 @Data
 public class Project extends AuditedEntity{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Column
 	@NonNull
 	private Status status;
@@ -38,32 +44,32 @@ public class Project extends AuditedEntity{
 	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<EvaluationTemplate> evaluationTemplates;
 	
-	@OneToOne(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-	private ReportTemplate report;
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<ReportTemplate> reports;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="user_id")    
+	@JoinColumn(name="USER_CREATOR_PROJECT_ID")    
 	private User creator;
 		
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(
 	    name = "project_reviewer", 
-	    joinColumns = { @JoinColumn(name = "id") }, 
-	    inverseJoinColumns = { @JoinColumn(name = "reviewerID") })
+	    joinColumns = { @JoinColumn(name = "ID") }, 
+	    inverseJoinColumns = { @JoinColumn(name = "REVIEWER_ID") })
 	private List<Reviewer> reviewers;
 	
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(
 	    name = "project_teamMember", 
-	    joinColumns = { @JoinColumn(name = "id") }, 
-	    inverseJoinColumns = { @JoinColumn(name = "teamMemberID") })
+	    joinColumns = { @JoinColumn(name = "ID") }, 
+	    inverseJoinColumns = { @JoinColumn(name = "TEAM_MEMBER_ID") })
 	private List<TeamMember> teamMembers;
 	
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(
 	    name = "project_feedbackprovider", 
-	    joinColumns = { @JoinColumn(name = "id") }, 
-	    inverseJoinColumns = { @JoinColumn(name = "feedbackProviderID") })
+	    joinColumns = { @JoinColumn(name = "ID") }, 
+	    inverseJoinColumns = { @JoinColumn(name = "FEEDBACKPROVIDER_ID") })
 	private List<FeedbackProvider> feedbacksProviders;
 	
 	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch=FetchType.LAZY)

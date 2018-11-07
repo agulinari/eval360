@@ -22,6 +22,11 @@ import lombok.NonNull;
 @Data
 public class Evaluation extends AuditedEntity{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Column
 	@NonNull
 	private Status status;
@@ -31,11 +36,11 @@ public class Evaluation extends AuditedEntity{
 	private String commentary;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="project_id") 
+	@JoinColumn(name="PROJECT_ID") 
 	private Project project;
 
 	@ManyToOne
-	@JoinColumn(name = "template_id")
+	@JoinColumn(name = "EVALUATION_TEMPLATE_ID")
 	private EvaluationTemplate evaluationTemplate;
 	
 	@OneToMany(mappedBy = "evaluation", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
@@ -44,8 +49,8 @@ public class Evaluation extends AuditedEntity{
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(
 	    name = "evaluation_feedbackprovider", 
-	    joinColumns = { @JoinColumn(name = "id") }, 
-	    inverseJoinColumns = { @JoinColumn(name = "feedbackProviderID") })
+	    joinColumns = { @JoinColumn(name = "ID") }, 
+	    inverseJoinColumns = { @JoinColumn(name = "FEEDBACKPROVIDER_ID") })
 	private List<FeedbackProvider> feedbacksProviders;
 	
 	@OneToMany(mappedBy = "evaluation", cascade = CascadeType.ALL, fetch=FetchType.LAZY)

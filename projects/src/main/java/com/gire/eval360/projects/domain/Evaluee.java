@@ -20,18 +20,23 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 public class Evaluee extends User{
 		
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="project_id")    
+	@JoinColumn(name="PROJECT_ID")    
     private Project project;
 
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(
 	    name = "evaluee_feedbackprovider", 
-	    joinColumns = { @JoinColumn(name = "id") }, 
-	    inverseJoinColumns = { @JoinColumn(name = "feedbackProviderID") })
+	    joinColumns = { @JoinColumn(name = "ID") }, 
+	    inverseJoinColumns = { @JoinColumn(name = "FEEDBACKPROVIDER_ID") })
 	private List<FeedbackProvider> feedbacksProviders;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="evaluation_id") 
+	@JoinColumn(name="EVALUATION_ID") 
     private Evaluation evaluation;
 }

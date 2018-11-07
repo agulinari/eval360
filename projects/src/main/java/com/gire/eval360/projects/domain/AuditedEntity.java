@@ -1,5 +1,6 @@
 package com.gire.eval360.projects.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -22,10 +23,12 @@ import lombok.Data;
 @MappedSuperclass
 @Data
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties({"createdDate","modifiedDate","modifiedBy","createdBy"})
-public abstract class AuditedEntity {
+@JsonIgnoreProperties({"createdDate","modifiedDate","modifiedBy","createdBy","hibernateLazyInitializer" , "handler"})
+public abstract class AuditedEntity implements Serializable{
 
-    @Id
+    private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 

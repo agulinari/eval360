@@ -12,8 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -21,6 +19,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @Data
 public class EvaluationTemplate extends AuditedEntity{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Column
 	@NotBlank
@@ -34,10 +37,10 @@ public class EvaluationTemplate extends AuditedEntity{
 	List<Section> sections;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="project_id") 
+	@JoinColumn(name="PROJECT_ID") 
 	private Project project;
 	
 	@OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-	private User creator;
+    @JoinColumn(name = "USER_CREATOR_EVALUATION_TEMPLATE_ID")
+	private User creatorEvaluationTemplate;
 }

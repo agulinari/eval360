@@ -15,6 +15,10 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 public class Reviewer extends User{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@ManyToMany(mappedBy = "reviewers")
     private List<Project> projects;
 
