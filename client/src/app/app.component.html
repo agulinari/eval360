@@ -1,23 +1,4 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div>
-  <mat-toolbar color="primary">
-    <div class="logo">
-      <img class="logo-icon" src="/assets/images/logobarra.png" />
-      <span class="logo-text">{{ title }}</span>
-    </div>
-    <span class="toolbar-spacer"></span>
-    <button mat-icon-button [mat-menu-trigger-for]="menu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-  </mat-toolbar>
-  <mat-menu x-position="before" #menu="matMenu">
-    <button mat-menu-item (click)="logout()">Logout</button>
-  </mat-menu>
-
-  <div class="mat-app-background basic-container" flex="50" layout="row" layout-align="center">
-    <router-outlet></router-outlet>
-  </div>
-
-  <span class="version-info">Versión actual: {{ version }}</span>
-
+  <router-outlet></router-outlet>
 </div>
+

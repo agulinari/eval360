@@ -9,10 +9,10 @@
       <mat-list-item *ngFor="let user of users$ | async">
         <img mat-list-avatar src="/assets/images/avatar.png" alt="{{user.username}}">
         <h3 mat-line>
-          <a mat-line [routerLink]="['/user-edit', user.id]">{{user.username}}</a>
+          <a mat-line [routerLink]="['../user-edit', user.id]">{{user.username}}</a>
         </h3>
       </mat-list-item>
     </mat-nav-list>
   </mat-card-content>
-  <button mat-fab color="primary" [routerLink]="['/user-add']">Nuevo</button>
+  <button mat-fab color="primary" [routerLink]="['../user-add']">Nuevo</button>
 </mat-card>
