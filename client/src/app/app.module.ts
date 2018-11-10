@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatProgressSpinner } from '@angular/material';
 import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule, MatSelectModule } from '@angular/material';
-import { MatAutocompleteModule, MatSlideToggleModule, MatSidenavModule } from '@angular/material';
+import { MatAutocompleteModule, MatSlideToggleModule, MatSidenavModule, MatTableModule, MatPaginatorModule, MatSortModule } from '@angular/material';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -24,12 +24,12 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserEditComponent } from './user-edit/user-edit.component';
-import { TemplateListComponent } from './template-list/template-list.component';
 import { TemplateEditComponent } from './template-edit/template-edit.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './main/main.component';
+import { TemplateListComponent } from './template-list/template-list.component';
 
 
 
@@ -41,9 +41,9 @@ import { MainComponent } from './main/main.component';
     UserListComponent,
     UserEditComponent,
     TemplateEditComponent,
-    TemplateListComponent,
     NavigationComponent,
-    MainComponent
+    MainComponent,
+    TemplateListComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +65,10 @@ import { MainComponent } from './main/main.component';
     MatProgressSpinnerModule,
     LayoutModule,
     MatSidenavModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [
     AreaService,

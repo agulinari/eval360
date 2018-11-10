@@ -30,9 +30,6 @@ public class EvaluationTemplate extends AuditedEntity{
 	@NonNull
 	private  String idUser;
 
-	@Column
-	@NonNull
-	private Date creationDate;
 		
 	@OneToMany(mappedBy = "evaluation", cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
 	@JsonIgnore
