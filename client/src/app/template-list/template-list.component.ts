@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { TemplateListDataSource } from './template-list-datasource';
 import { TemplateService } from '../shared/template.service';
-import { tap } from 'rxjs/operators';
-import { merge } from 'rxjs';
+import { tap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { merge, fromEvent } from 'rxjs';
 
 @Component({
   selector: 'template-list',
@@ -13,6 +13,8 @@ import { merge } from 'rxjs';
 export class TemplateListComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('input') input: ElementRef;
+
   dataSource: TemplateListDataSource;
   templatesCount = 12;
 
@@ -32,6 +34,18 @@ export class TemplateListComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit() {
 
+    // server-side search
+    fromEvent(this.input.nativeElement, 'keyup')
+      .pipe(
+        debounceTime(150),
+        distinctUntilChanged(),
+        tap(() => {
+          this.paginator.pageIndex = 0;
+          this.loadTemplatesPage();
+        })
+      )
+      .subscribe();
+
     // reset the paginator after sorting
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
@@ -43,6 +57,7 @@ export class TemplateListComponent implements AfterViewInit, OnInit {
   }
 
   loadTemplatesPage() {
-    this.dataSource.loadTemplates('', this.sort.active + ',' + this.sort.direction, this.paginator.pageIndex, this.paginator.pageSize);
+    const sortOption = this.sort.active + ',' + this.sort.direction;
+    this.dataSource.loadTemplates(this.input.nativeElement.value, sortOption, this.paginator.pageIndex, this.paginator.pageSize);
   }
 }

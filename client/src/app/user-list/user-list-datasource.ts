@@ -2,22 +2,23 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map, catchError, finalize } from 'rxjs/operators';
 import { Observable, of as observableOf, merge, BehaviorSubject, of } from 'rxjs';
-import { Template } from '../domain/template';
-import { TemplateService } from '../shared/template.service';
+import { User } from '../domain/user';
+import { UserService } from '../shared/user.service';
+
 
 /**
- * Data source for the TemplateList view. This class should
+ * Data source for the UserList view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class TemplateListDataSource extends DataSource<Template> {
+export class UserListDataSource extends DataSource<User> {
 
-  private templatesSubject = new BehaviorSubject<Template[]>([]);
+  private usersSubject = new BehaviorSubject<User[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
 
   public loading$ = this.loadingSubject.asObservable();
 
-  constructor(private paginator: MatPaginator, private sort: MatSort, private templateService: TemplateService) {
+  constructor(private paginator: MatPaginator, private sort: MatSort, private userService: UserService) {
     super();
   }
 
@@ -26,8 +27,8 @@ export class TemplateListDataSource extends DataSource<Template> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<Template[]> {
-    return this.templatesSubject.asObservable();
+  connect(): Observable<User[]> {
+    return this.usersSubject.asObservable();
   }
 
   /**
@@ -35,20 +36,20 @@ export class TemplateListDataSource extends DataSource<Template> {
    * any open connections or free any held resources that were set up during connect.
    */
   disconnect() {
-    this.templatesSubject.complete();
+    this.usersSubject.complete();
     this.loadingSubject.complete();
   }
 
 
-  loadTemplates(filter = '', sortOrder = 'id,asc', pageIndex = 0, pageSize = 10) {
+  loadUsers(filter = '', sortOrder = 'id,asc', pageIndex = 0, pageSize = 10) {
 
     this.loadingSubject.next(true);
 
-    this.templateService.find(filter, sortOrder, pageIndex, pageSize).pipe(
+    this.userService.find(filter, sortOrder, pageIndex, pageSize).pipe(
       catchError(() => of([])),
       finalize(() => this.loadingSubject.next(false))
     )
-    .subscribe(templates => this.templatesSubject.next(templates));
+    .subscribe(users => this.usersSubject.next(users));
   }
 
 }

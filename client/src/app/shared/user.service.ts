@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { of ,  Observable } from 'rxjs';
 import { User } from '../domain/user';
 import { map, catchError } from 'rxjs/operators';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class UserService {
@@ -49,17 +49,28 @@ export class UserService {
   }
 
 
-  searchUsers(term: string): Observable<User[]> {
-    if (!term.trim()) {
-      return of([]);
-    }
+  find(filter = '', sortOrder = 'id,asc', pageNumber = 0, pageSize = 10 ): Observable<User[]> {
 
-    return this.http.get<User[]>(this.USERS_API + '/search/usernameIgnoreCase?name=' + term)
-    .pipe(map((result: any) => {
-      return result._embedded.users;
-    }),
-      catchError(this.handleError<any>('searchUser'))
-    );
+    if (filter !== '') {
+      return this.http.get(this.USERS_API + '/search/usernameContains', {
+        params : new HttpParams()
+        .set('name', filter)
+        .set('sort', sortOrder)
+        .set('page', pageNumber.toString())
+        .set('size', pageSize.toString())
+      }).pipe(
+        map(res => res['_embedded']['users'])
+      );
+    } else {
+      return this.http.get(this.USERS_API, {
+        params : new HttpParams()
+        .set('sort', sortOrder)
+        .set('page', pageNumber.toString())
+        .set('size', pageSize.toString())
+      }).pipe(
+        map(res => res['_embedded']['users'])
+      );
+    }
   }
 
   /**

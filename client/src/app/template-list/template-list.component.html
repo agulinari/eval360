@@ -1,5 +1,9 @@
 <div class="mat-elevation-z8">
 
+  <mat-form-field>
+    <input matInput type="search" placeHolder="Buscar Templates" #input>
+  </mat-form-field>
+
   <div class="spinner-container" *ngIf="dataSource.loading$ | async">
     <mat-spinner></mat-spinner>
   </div>
@@ -8,7 +12,9 @@
     <!-- Id Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-      <td mat-cell *matCellDef="let row">{{row.id}}</td>
+      <td mat-cell *matCellDef="let row">
+          {{row.id}}
+      </td>
     </ng-container>
 
     <!-- Name Column -->

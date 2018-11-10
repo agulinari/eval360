@@ -13,9 +13,9 @@ export class TemplateService {
   constructor(private http: HttpClient) {
   }
 
-  getAll(): Observable<any> {
+  getAll(): Observable<Template[]> {
     return this.http.get(this.TEMPLATES_API).pipe(
-      catchError(this.handleError<any>('getTemplates'))
+      map(res => res['_embedded']['evaluationTemplates'])
     );
   }
 
@@ -26,15 +26,27 @@ export class TemplateService {
   }
 
   find(filter = '', sortOrder = 'id,asc', pageNumber = 0, pageSize = 10 ): Observable<Template[]> {
-    return this.http.get(this.TEMPLATES_API, {
-      params : new HttpParams()
-      // .set('filter', filter)
-      .set('sort', sortOrder)
-      .set('page', pageNumber.toString())
-      .set('size', pageSize.toString())
-    }).pipe(
-      map(res => res['_embedded']['evaluationTemplates'])
-    );
+
+    if (filter !== '') {
+      return this.http.get(this.TEMPLATES_API + '/search/titleContains', {
+        params : new HttpParams()
+        .set('title', filter)
+        .set('sort', sortOrder)
+        .set('page', pageNumber.toString())
+        .set('size', pageSize.toString())
+      }).pipe(
+        map(res => res['_embedded']['evaluationTemplates'])
+      );
+    } else {
+      return this.http.get(this.TEMPLATES_API, {
+        params : new HttpParams()
+        .set('sort', sortOrder)
+        .set('page', pageNumber.toString())
+        .set('size', pageSize.toString())
+      }).pipe(
+        map(res => res['_embedded']['evaluationTemplates'])
+      );
+    }
   }
 
   /**
