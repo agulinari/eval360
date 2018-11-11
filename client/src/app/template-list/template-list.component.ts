@@ -4,6 +4,7 @@ import { TemplateListDataSource } from './template-list-datasource';
 import { TemplateService } from '../shared/template.service';
 import { tap, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { merge, fromEvent } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'template-list',
@@ -21,10 +22,11 @@ export class TemplateListComponent implements AfterViewInit, OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'title'];
 
-  constructor(private templateService: TemplateService) { }
+  constructor(private templateService: TemplateService, private router: Router, private route: ActivatedRoute) { }
 
   onRowClicked(row) {
-    console.log('Row clicked: ', row);
+    console.log('Row clicked: ', row.id);
+    this.router.navigate([`../template-edit/${row.id}`], { relativeTo: this.route });
   }
 
   ngOnInit() {
