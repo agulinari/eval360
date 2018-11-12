@@ -1,3 +1,90 @@
-<p>
-  template-edit works!
-</p>
+<form [formGroup]="templateForm" novalidate (ngSubmit)="onSubmit()">
+
+  <div formArrayName="sections" *ngFor="let section of templateForm.get('sections').controls; let i = index;">
+  <div [formGroupName]="i">
+  <mat-card class="shipping-card">
+    <mat-card-header>
+      <mat-card-title>{{section.controls['name'].value}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Nombre de la Sección" formControlName="name">
+            <mat-error *ngIf="templateForm.controls.sections.controls[i].controls['name'].hasError('required')">
+              El nombre de la sección es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Descripción de la Sección" formControlName="description">
+            <mat-error *ngIf="templateForm.controls.sections.controls[i].controls['description'].hasError('required')">
+              La descripción de la sección es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+            <mat-form-field class="full-width">
+              <mat-select placeholder="Tipo de Sección" formControlName="type">
+                <mat-option *ngFor="let type of sectionTypes" [value]="type">
+                  {{ type }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="templateForm.controls.sections.controls[i].controls['type'].hasError('required')">
+                El tipo de sección es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+      </div>
+      <div formArrayName="items" *ngFor="let item of section.get('items').controls; let j = index;">
+      <div [formGroupName]="j">
+          <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
+                <mat-form-field class="full-width" fxFlex="20%">
+                  <input matInput placeholder="Nombre del Item" formControlName="title">
+                  <mat-error *ngIf="templateForm.controls.sections.controls[i].controls['items'].controls[j].controls['title'].hasError('required')">
+                    El nombre del item es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="full-width" fxFlex="50%">
+                  <input matInput placeholder="Descripción del Item" formControlName="description">
+                  <mat-error *ngIf="templateForm.controls.sections.controls[i].controls['items'].controls[j].controls['description'].hasError('required')">
+                      La descripción del item es <strong>requerida</strong>
+                  </mat-error>
+                </mat-form-field>
+                  <mat-form-field class="full-width" fxFlex="20%">
+                    <mat-select placeholder="Tipo de Item" formControlName="type">
+                      <mat-option *ngFor="let type of itemTypes" [value]="type">
+                        {{ type }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="templateForm.controls.sections.controls[i].controls['items'].controls[j].controls['type'].hasError('required')">
+                      El tipo de item es <strong>requerido</strong>
+                    </mat-error>
+                  </mat-form-field>
+                  <button type="button" color="accent" mat-icon-button (click)="deleteItem(section.controls.items, j)">
+                    <mat-icon aria-label="Delete item button">clear</mat-icon>
+                  </button>
+            </div>
+      </div> 
+      </div>
+      <div class="row">
+        <div class="col">
+          <button mat-button type="button" (click)="addItem(section.controls.items)">
+            + Agregar Item
+          </button>
+        </div>
+      </div>
+     </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="button" (click)="deleteSection(i)">Eliminar Sección</button>
+    </mat-card-actions>
+  </mat-card>
+  </div>
+  </div>
+  <button mat-raised-button color="primary" type="button" (click)="addSection()">Agregar Sección</button>
+</form>

@@ -1,18 +1,44 @@
-<mat-card>
-  <mat-card-header>Usuarios</mat-card-header>
-  <mat-card-content>
-    <mat-form-field>
-      <!--mat-icon matPrefix>search</mat-icon-->
-      <input matInput #searchBox id="search-box" type="search" placeholder="Buscar" (keyup)="search(searchBox.value)">
-    </mat-form-field>
-    <mat-nav-list>
-      <mat-list-item *ngFor="let user of users$ | async">
-        <img mat-list-avatar src="/assets/images/avatar.png" alt="{{user.username}}">
-        <h3 mat-line>
-          <a mat-line [routerLink]="['../user-edit', user.id]">{{user.username}}</a>
-        </h3>
-      </mat-list-item>
-    </mat-nav-list>
-  </mat-card-content>
-  <button mat-fab color="primary" [routerLink]="['../user-add']">Nuevo</button>
-</mat-card>
+<div class="mat-elevation-z8">
+  <mat-form-field>
+    <input matInput type="search" placeHolder="Buscar Usuarios" #input>
+  </mat-form-field>
+    
+  <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <mat-table class="full-width-table" [dataSource]="dataSource" matSort aria-label="Elements">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="username">
+      <mat-header-cell fxFlex="70%" *matHeaderCellDef mat-sort-header>Usuario</mat-header-cell>
+      <mat-cell fxFlex="70%" *matCellDef="let row">
+        <img class="avatar" src="/assets/images/avatar.png" alt="{{row.username}}">
+        {{row.username}}      
+      </mat-cell>
+    </ng-container>
+
+    <!-- Actions Column-->
+    <ng-container matColumnDef="actions">
+        <mat-header-cell fxFlex="30%"  *matHeaderCellDef>Acciones</mat-header-cell>
+        <mat-cell fxFlex="30%" *matCellDef="let row">
+            <button type="button" color="accent" mat-icon-button (click)="onRowClicked(row)">
+                <mat-icon aria-label="Edit template button">create</mat-icon>
+            </button>
+            <button type="button" color="accent" mat-icon-button (click)="deleteUser(row.id)">
+                <mat-icon aria-label="Delete template button">clear</mat-icon>
+            </button>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClicked(row)"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator
+      [length]="usersCount"
+      [pageIndex]="0"
+      [pageSize]="10"
+      [pageSizeOptions]="[10, 25, 50, 100, 250]">
+  </mat-paginator>
+</div>

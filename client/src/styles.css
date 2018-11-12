@@ -18,3 +18,12 @@ body {
     font-size: 8pt;
     float: right;
 }
+
+
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 5px;
+  }

@@ -25,7 +25,7 @@ public class ItemTemplate extends AuditedEntity{
 	private String description;
 	
 	@Column
-	private ItemType type;
+	private ItemType itemType;
 	
 	@Column
 	@NonNull

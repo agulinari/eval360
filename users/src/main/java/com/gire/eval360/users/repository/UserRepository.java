@@ -2,6 +2,8 @@ package com.gire.eval360.users.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -15,7 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
 	List<User> findByUsername(@Param("name") String username);
 
-	@RestResource(path = "usernameIgnoreCase", rel = "usernameIgnoreCase")
-	List<User> findByUsernameContainingIgnoreCase(@Param("name") String name);
+	@RestResource(path = "usernameContains", rel = "usernameContains")
+	Page<User> findByUsernameContainingIgnoreCase(@Param("name") String name, Pageable p);
 
 }

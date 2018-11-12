@@ -32,7 +32,7 @@ public class Section extends AuditedEntity{
 	private String description;
 	
 	@Column
-	private SectionType type;
+	private SectionType sectionType;
 	
 	@Column
 	private Integer position;
@@ -43,6 +43,6 @@ public class Section extends AuditedEntity{
 	private EvaluationTemplate evaluation;
 
 	@OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-	private Collection<ItemTemplate> itemTemplate;
+	private Collection<ItemTemplate> items;
 	
 }

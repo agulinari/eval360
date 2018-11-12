@@ -19,6 +19,7 @@ spring:
     console:
       enabled: true
       path: /h2-console
+      settings.web-allow-others: true
 
   jpa:
     properties:
@@ -44,8 +45,8 @@ spring.zipkin.sender.type: kafka
 
 # Logging
 logging.level:
-  root: ERROR
-  org.springframework.web: ERROR
+  root: INFO
+  org.springframework.web: INFOs
   com.gire.eval340.templates: DEBUG
 
 # Actuator

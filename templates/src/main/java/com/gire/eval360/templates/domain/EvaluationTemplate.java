@@ -1,6 +1,5 @@
 package com.gire.eval360.templates.domain;
 
-import java.sql.Date;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -30,12 +29,8 @@ public class EvaluationTemplate extends AuditedEntity{
 	@NonNull
 	private  String idUser;
 
-	@Column
-	@NonNull
-	private Date creationDate;
 		
-	@OneToMany(mappedBy = "evaluation", cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
-	@JsonIgnore
+	@OneToMany(mappedBy = "evaluation", cascade = CascadeType.PERSIST, fetch=FetchType.EAGER)
 	private Collection<Section> sections;
 	
 	
