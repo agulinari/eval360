@@ -20,13 +20,17 @@ export class TemplateListComponent implements AfterViewInit, OnInit {
   templatesCount = 12;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'title'];
+  displayedColumns = ['id', 'title', 'actions'];
 
   constructor(private templateService: TemplateService, private router: Router, private route: ActivatedRoute) { }
 
   onRowClicked(row) {
     console.log('Row clicked: ', row.id);
     this.router.navigate([`../template-edit/${row.id}`], { relativeTo: this.route });
+  }
+
+  deleteTemplate(id: number) {
+
   }
 
   ngOnInit() {

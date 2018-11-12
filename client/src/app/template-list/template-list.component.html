@@ -8,24 +8,37 @@
     <mat-spinner></mat-spinner>
   </div>
 
-  <table mat-table class="full-width-table" [dataSource]="dataSource" matSort aria-label="Elements">
+  <mat-table class="full-width-table" [dataSource]="dataSource" matSort aria-label="Elements">
     <!-- Id Column -->
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-      <td mat-cell *matCellDef="let row">
+      <mat-header-cell fxFlex="20%" *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+      <mat-cell fxFlex="20%" *matCellDef="let row">
           {{row.id}}
-      </td>
+      </mat-cell>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Template</th>
-      <td mat-cell *matCellDef="let row">{{row.title}}</td>
+      <mat-header-cell fxFlex="50%" *matHeaderCellDef mat-sort-header>Template</mat-header-cell>
+      <mat-cell fxFlex="50%" *matCellDef="let row">{{row.title}}</mat-cell>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClicked(row)"></tr>
-  </table>
+    <!-- Actions Column-->
+    <ng-container matColumnDef="actions">
+        <mat-header-cell fxFlex="30%"  *matHeaderCellDef>Acciones</mat-header-cell>
+        <mat-cell fxFlex="30%" *matCellDef="let row">
+            <button type="button" color="accent" mat-icon-button (click)="onRowClicked(row)">
+                <mat-icon aria-label="Edit template button">create</mat-icon>
+            </button>
+            <button type="button" color="accent" mat-icon-button (click)="deleteTemplate(row.id)">
+                <mat-icon aria-label="Delete template button">clear</mat-icon>
+            </button>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClicked(row)"></mat-row>
+  </mat-table>
 
   <mat-paginator #paginator
       [length]="templatesCount"

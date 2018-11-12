@@ -20,13 +20,17 @@ export class UserListComponent implements AfterViewInit, OnInit {
 
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['username'];
+  displayedColumns = ['username', 'actions'];
 
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) { }
 
   onRowClicked(row) {
     console.log('Row clicked: ', row.id);
     this.router.navigate([`../user-edit/${row.id}`], { relativeTo: this.route });
+  }
+
+  deleteUser(id: number) {
+
   }
 
   ngOnInit() {
