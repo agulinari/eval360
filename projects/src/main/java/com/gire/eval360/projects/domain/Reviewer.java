@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class Reviewer extends User{
+public class Reviewer extends ProjectMember{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
+	private Long idUser;
+	
 	@ManyToMany(mappedBy = "reviewers")
     private List<Project> projects;
 

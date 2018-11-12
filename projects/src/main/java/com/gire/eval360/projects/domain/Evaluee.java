@@ -1,42 +1,42 @@
 package com.gire.eval360.projects.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NaturalIdCache;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-public class Evaluee extends User{
-		
-	/**
-	 * 
-	 */
+@NaturalIdCache
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@EqualsAndHashCode(callSuper=false)
+public class Evaluee extends ProjectMember{
+
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="PROJECT_ID")    
-    private Project project;
-
-	@ManyToMany(cascade = CascadeType.MERGE)
-	@JoinTable(
-	    name = "evaluee_feedbackprovider", 
-	    joinColumns = { @JoinColumn(name = "ID") }, 
-	    inverseJoinColumns = { @JoinColumn(name = "FEEDBACKPROVIDER_ID") })
-	private List<FeedbackProvider> feedbacksProviders;
+	private Long idUser;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="EVALUATION_ID") 
-    private Evaluation evaluation;
+	@JoinColumn(name="PROJECT_ID")    
+	private Project project;
+
+	@OneToMany(mappedBy = "feedbackProvider",cascade = CascadeType.ALL,orphanRemoval = true)
+	private List<EvalueeFeedbackProvider> feedbackProviders = new ArrayList<>();
+
 }
