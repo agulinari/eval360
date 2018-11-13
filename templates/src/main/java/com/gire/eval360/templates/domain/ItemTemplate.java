@@ -2,6 +2,8 @@ package com.gire.eval360.templates.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -19,12 +21,16 @@ import lombok.NonNull;
 public class ItemTemplate extends AuditedEntity{
 	
 	@Column
+	@NonNull
 	private String title;
 	
 	@Column
+	@NonNull
 	private String description;
 	
 	@Column
+	@NonNull
+	@Enumerated(EnumType.STRING)
 	private ItemType itemType;
 	
 	@Column

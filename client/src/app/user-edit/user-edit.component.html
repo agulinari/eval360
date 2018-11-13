@@ -17,7 +17,35 @@
       <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
         <mat-slide-toggle formControlName="enabled">{{getEnabledText()}}</mat-slide-toggle>
       </div>
-
+      <div fxLayout="row">
+        <mat-form-field class="full-width">
+          <mat-chip-list #chipList>
+            <mat-chip
+              *ngFor="let role of userForm.get('authorities').controls; let i = index;"
+              [selectable]="selectable"
+              [removable]="removable"
+              (removed)="remove(i)">
+            {{ role.value.name }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input
+              placeholder="Roles"
+              #roleInput
+              [formControl]="roleCtrl"
+              [matAutocomplete]="auto"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeyCodes"
+              [matChipInputAddOnBlur]="addOnBlur"
+            >
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let role of filteredRoles | async" [value]="role">
+              {{role.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      {{ filteredRoles | async | json}}
       <mat-spinner diameter="50" style="margin:0 auto;" [style.display]="loading ? 'block' : 'none'"></mat-spinner>
       <div align="center" *ngIf="error">
         <p>Datos incorrectos</p>

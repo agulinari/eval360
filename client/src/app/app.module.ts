@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatProgressSpinner } from '@angular/material';
 import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule, MatSelectModule } from '@angular/material';
-import { MatAutocompleteModule, MatSlideToggleModule, MatSidenavModule, MatTableModule, MatPaginatorModule, MatSortModule, MatRadioModule } from '@angular/material';
+import { MatAutocompleteModule, MatChipsModule, MatSlideToggleModule, MatSidenavModule, MatTableModule, MatPaginatorModule, MatSortModule, MatRadioModule } from '@angular/material';
 import { FlexModule } from '@angular/flex-layout';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -53,6 +53,7 @@ import { TemplateListComponent } from './template-list/template-list.component';
     HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    MatChipsModule,
     MatCardModule,
     MatIconModule,
     MatInputModule,

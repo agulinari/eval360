@@ -1,11 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Input } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../shared/user.service';
 import { User } from '../domain/user';
 import { Subscription ,  Subject ,  Observable } from 'rxjs';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material';
+import { Authority } from '../domain/authority';
 
 @Component({
   selector: 'app-user-edit',
@@ -15,38 +18,73 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
 
   user: User;
+  authorities: FormArray;
   userForm: FormGroup;
   sub: Subscription;
   searchTerms = new Subject<string>();
+
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = false;
+  separatorKeyCodes: number[] = [ENTER, COMMA];
+  roleCtrl = new FormControl();
+  filteredRoles: Observable<Authority[]>;
+  roles: Authority[] = [];
+  allRoles: Authority[] = [{ id: 1, name: 'ROLE_USER'}, { id: 2, name: 'ROLE_ADMIN'}];
+
+  @ViewChild('roleInput') roleInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute,
     private router: Router,
     private userService: UserService) {
     this.createForm();
-  }
-
-  // Push a search term into the observable stream.
-  search(term: string): void {
-    this.searchTerms.next(term);
-  }
-
- /* displayFn(employee: Employee): string {
-    return employee ? employee.name + ' ' + employee.lastname : '';
-  }
-
-  getEmployees() {
-    this.employees$ = this.searchTerms.pipe(
-      // wait 300ms after each keystroke before considering the term
-      debounceTime(300),
-
-      // ignore new term if same as previous term
-      distinctUntilChanged(),
-
-      // switch to new search observable each time the term changes
-      switchMap((term: string) => this.employeeService.searchAvailables(term))
+    this.filteredRoles = this.roleCtrl.valueChanges.pipe(
+      startWith(null),
+      map((role: any | null) => {
+        if (!role) {
+          return this.allRoles.slice();
+        }
+        if (role.name) {
+          return this._filter(role.name);
+        } else {
+          return this._filter(role);
+        }
+      })
     );
   }
-  */
+
+  remove(index: number): void {
+    const authorities = this.userForm.get('authorities') as FormArray;
+    if (index >= 0) {
+      authorities.removeAt(index);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    const role = event.option.value;
+    const authorities = this.userForm.get('authorities') as FormArray;
+
+    let add = true;
+    authorities.controls.forEach( (a) => {
+      if (a.value.id === role.id) {
+        add = false;
+      }
+    });
+
+    if (add) {
+      authorities.push(this.fb.control(role));
+      this.roleInput.nativeElement.value = '';
+      this.roleCtrl.setValue(null);
+   }
+
+  }
+
+  private _filter(value: string): Authority[] {
+    const filterValue = value.toLowerCase();
+    return this.allRoles.filter(role => role.name.toLowerCase().indexOf(filterValue) === 0);
+  }
 
   getEnabledText() {
     if (this.userForm.controls.enabled.value) {
@@ -89,7 +127,15 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
     this.userForm = this.fb.group({
       username: ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(30)])],
-      enabled: true
+      enabled: true,
+      authorities: this.fb.array([])
+    });
+  }
+
+  createAuthority(): FormGroup {
+    return this.fb.group({
+      id: [null],
+      name: [null, Validators.required]
     });
   }
 
@@ -99,6 +145,20 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
       password: this.user.password,
       enabled: this.user.enabled
     });
+    this.user.authorities.forEach( a => {
+      const authority = this.addAuthority();
+      authority.patchValue({
+        id: a.id,
+        name: a.name
+      });
+    });
+  }
+
+  addAuthority(): FormGroup {
+    this.authorities = this.userForm.get('authorities') as FormArray;
+    const authority = this.createAuthority();
+    this.authorities.push(authority);
+    return authority;
   }
 
   compare(val1, val2) {
@@ -128,7 +188,8 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
       id: id,
       username: formModel.username as string,
       password: formModel.password as string,
-      enabled: formModel.enabled as boolean
+      enabled: formModel.enabled as boolean,
+      authorities: []
     };
 
     return saveUser;

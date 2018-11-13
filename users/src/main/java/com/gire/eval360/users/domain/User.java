@@ -45,7 +45,6 @@ public class User extends AuditedEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastPasswordResetDate;
 
-	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "USER_AUTHORITY", joinColumns = {
 			@JoinColumn(name = "USER_ID", referencedColumnName = "ID") }, inverseJoinColumns = {
