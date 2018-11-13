@@ -1,33 +1,31 @@
 package com.gire.eval360.projects.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
-@EqualsAndHashCode(callSuper = false)
 @Data
-public class FeedbackProvider extends User{
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
+public class FeedbackProvider extends ProjectMember{
 
-		
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
-	@ManyToMany(mappedBy = "feedbacksProviders", cascade = CascadeType.PERSIST, fetch=FetchType.LAZY)
-    private List<Project> projects;
 	
-	@ManyToMany(mappedBy = "feedbacksProviders")
-    private List<Evaluation> evaluations;
+	@OneToMany(mappedBy = "evaluee",cascade = CascadeType.ALL,orphanRemoval = true)
+	private List<EvalueeFeedbackProvider> evaluees = new ArrayList<>();
 	
-	@ManyToMany(mappedBy = "feedbacksProviders")    
-	private List<Evaluee> evaluees; 
-		
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="PROJECT_ID")    
+	private Project project;
 }
