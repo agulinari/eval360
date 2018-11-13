@@ -20,6 +20,8 @@ public class EvalueeFeedbackProvider extends AuditedEntity{
 
 	@EmbeddedId
 	private EvalueeFeedbackProviderId id;
+	
+	private Long idEvaluation;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("evalueeId")
@@ -35,7 +37,7 @@ public class EvalueeFeedbackProvider extends AuditedEntity{
 	public EvalueeFeedbackProvider(Evaluee evaluee, FeedbackProvider feedbackProvider, Long idEvaluation) {
 		this.evaluee = evaluee;
 		this.feedbackProvider = feedbackProvider;
-		this.id = new EvalueeFeedbackProviderId(evaluee.getId(), feedbackProvider.getId(), feedbackProvider.getIdEvaluation());
+		this.id = new EvalueeFeedbackProviderId(evaluee.getId(), feedbackProvider.getId(), idEvaluation);
 	}
 
 	@Override
@@ -47,12 +49,13 @@ public class EvalueeFeedbackProvider extends AuditedEntity{
 
 		EvalueeFeedbackProvider that = (EvalueeFeedbackProvider) o;
 		return Objects.equals(evaluee, that.evaluee) &&
-				Objects.equals(feedbackProvider, that.feedbackProvider);
+				Objects.equals(feedbackProvider, that.feedbackProvider) &&
+				Objects.equals(idEvaluation, that.idEvaluation);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(evaluee, feedbackProvider);
+		return Objects.hash(evaluee, feedbackProvider, idEvaluation);
 	}
 
 }

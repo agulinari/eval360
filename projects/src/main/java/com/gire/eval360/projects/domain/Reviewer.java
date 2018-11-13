@@ -1,9 +1,9 @@
 package com.gire.eval360.projects.domain;
 
-import java.util.List;
-
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,9 +17,7 @@ public class Reviewer extends ProjectMember{
 	
 	private static final long serialVersionUID = 1L;
 
-	private Long idUser;
-	
-	@ManyToMany(mappedBy = "reviewers")
-    private List<Project> projects;
-
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="PROJECT_ID")    
+	private Project project;
 }

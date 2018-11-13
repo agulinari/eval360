@@ -30,13 +30,10 @@ public class Evaluee extends ProjectMember{
 
 	private static final long serialVersionUID = 1L;
 
-	private Long idUser;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="PROJECT_ID")    
-	private Project project;
-
 	@OneToMany(mappedBy = "feedbackProvider",cascade = CascadeType.ALL,orphanRemoval = true)
 	private List<EvalueeFeedbackProvider> feedbackProviders = new ArrayList<>();
 
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="PROJECT_ID")    
+	private Project project;
 }
