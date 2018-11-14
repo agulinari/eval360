@@ -24,13 +24,17 @@ export class UserListComponent implements AfterViewInit, OnInit {
 
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) { }
 
-  onRowClicked(row) {
+  editUser(row) {
     console.log('Row clicked: ', row.id);
     this.router.navigate([`../user-edit/${row.id}`], { relativeTo: this.route });
   }
 
-  deleteUser(id: number) {
+  addUser() {
+    this.router.navigate(['../user-new'], {relativeTo: this.route});
+  }
 
+  deleteUser(id) {
+    this.userService.remove(id).subscribe( () =>  this.loadUsersPage());
   }
 
   ngOnInit() {

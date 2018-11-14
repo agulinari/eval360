@@ -7,8 +7,9 @@ import { Subscription ,  Subject ,  Observable } from 'rxjs';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent, MatDialog } from '@angular/material';
 import { Authority } from '../domain/authority';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-user-edit',
@@ -36,8 +37,10 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('roleInput') roleInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute,
+  constructor(private fb: FormBuilder, 
+    private route: ActivatedRoute,
     private router: Router,
+    public dialog: MatDialog,
     private userService: UserService) {
     this.createForm();
     this.filteredRoles = this.roleCtrl.valueChanges.pipe(
@@ -47,12 +50,18 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
           return this.allRoles.slice();
         }
         if (role.name) {
-          return this._filter(role.name);
+          return this.allRoles.slice();
         } else {
           return this._filter(role);
         }
       })
     );
+  }
+
+  showError(error: string): void {
+    this.dialog.open(ErrorDialogComponent, {
+      data: {errorMsg: error}, width: '250px'
+    });
   }
 
   remove(index: number): void {
@@ -169,7 +178,7 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   gotoList() {
-    this.router.navigate(['/user-list']);
+    this.router.navigate(['/main/user-list']);
   }
 
   onSubmit() {
@@ -178,11 +187,22 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
       id = this.user.id;
     }
     this.user = this.prepareSaveUser(id);
-    this.userService.save(this.user).subscribe(/* error handling */);
+    this.userService.save(this.user).subscribe(
+      res => console.log('Guardando usuario', res),
+      err => {
+        console.log('Error guardando usuario', err);
+        if (err.status === 409) {
+          this.showError('El usuario ya existe');
+        } else {
+          this.showError('Se produjo un error al guardar el usuario');
+        }
+      },
+      () => this.gotoList());
   }
 
   prepareSaveUser(id): User {
     const formModel = this.userForm.value;
+    const authorities = this.userForm.get('authorities') as FormArray;
 
     const saveUser: User = {
       id: id,
@@ -191,6 +211,14 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
       enabled: formModel.enabled as boolean,
       authorities: []
     };
+
+    authorities.controls.forEach( c => {
+      const role: Authority = {
+        id: c.value.id,
+        name: c.value.name
+      };
+      saveUser.authorities.push(role);
+    });
 
     return saveUser;
   }

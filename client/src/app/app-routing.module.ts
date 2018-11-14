@@ -49,6 +49,14 @@ const appRoutes: Routes = [
         }
       },
       {
+        path: 'user-new',
+        component: UserEditComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: 'ROLE_ADMIN'
+        }
+      },
+      {
         path: 'template-edit/:id',
         component: TemplateEditComponent,
         canActivate: [RoleGuardService],
