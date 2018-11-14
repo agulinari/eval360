@@ -37,13 +37,9 @@ export class UserService {
   save(user: any): Observable<any> {
     let result: Observable<Object>;
     if (user.id) {
-      result = this.http.put(this.USERS_API + '/' + user.id, user).pipe(
-        catchError(this.handleError<any>('putUser'))
-      );
+      result = this.http.put(this.USERS_API + '/' + user.id, user);
     } else {
-      result = this.http.post(this.USERS_API, user).pipe(
-        catchError(this.handleError<any>('postUser'))
-      );
+      result = this.http.post(this.USERS_API, user);
     }
     return result;
   }

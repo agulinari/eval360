@@ -31,8 +31,8 @@
         <div class="col">
             <mat-form-field class="full-width">
               <mat-select placeholder="Tipo de Sección" formControlName="type">
-                <mat-option *ngFor="let type of sectionTypes" [value]="type">
-                  {{ type }}
+                <mat-option *ngFor="let type of sectionTypes" [value]="type.id">
+                  {{ type.value }}
                 </mat-option>
               </mat-select>
               <mat-error *ngIf="templateForm.controls.sections.controls[i].controls['type'].hasError('required')">
@@ -58,8 +58,8 @@
                 </mat-form-field>
                   <mat-form-field class="full-width" fxFlex="20%">
                     <mat-select placeholder="Tipo de Item" formControlName="type">
-                      <mat-option *ngFor="let type of itemTypes" [value]="type">
-                        {{ type }}
+                      <mat-option *ngFor="let type of itemTypes" [value]="type.id">
+                        {{ type.value }}
                       </mat-option>
                     </mat-select>
                     <mat-error *ngIf="templateForm.controls.sections.controls[i].controls['items'].controls[j].controls['type'].hasError('required')">

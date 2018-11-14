@@ -3,9 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatProgressSpinner } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatProgressSpinner, MatDialogModule } from '@angular/material';
 import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule, MatSelectModule } from '@angular/material';
-import { MatAutocompleteModule, MatSlideToggleModule, MatSidenavModule, MatTableModule, MatPaginatorModule, MatSortModule, MatRadioModule } from '@angular/material';
+import { MatAutocompleteModule, MatChipsModule, MatSlideToggleModule, MatSidenavModule, MatTableModule, MatPaginatorModule, MatSortModule, MatRadioModule } from '@angular/material';
 import { FlexModule } from '@angular/flex-layout';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -31,6 +31,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './main/main.component';
 import { TemplateListComponent } from './template-list/template-list.component';
+import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 
 
 
@@ -44,6 +45,7 @@ import { TemplateListComponent } from './template-list/template-list.component';
     TemplateEditComponent,
     NavigationComponent,
     MainComponent,
+    ErrorDialogComponent,
     TemplateListComponent
   ],
   imports: [
@@ -53,6 +55,7 @@ import { TemplateListComponent } from './template-list/template-list.component';
     HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    MatChipsModule,
     MatCardModule,
     MatIconModule,
     MatInputModule,
@@ -71,6 +74,7 @@ import { TemplateListComponent } from './template-list/template-list.component';
     MatPaginatorModule,
     MatSortModule,
     MatRadioModule,
+    MatDialogModule,
     FlexModule
   ],
   providers: [
@@ -83,6 +87,7 @@ import { TemplateListComponent } from './template-list/template-list.component';
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorDialogComponent]
 })
 export class AppModule { }

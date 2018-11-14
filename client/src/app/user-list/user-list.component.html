@@ -1,7 +1,13 @@
 <div class="mat-elevation-z8">
-  <mat-form-field>
-    <input matInput type="search" placeHolder="Buscar Usuarios" #input>
-  </mat-form-field>
+
+  <div class="padding-container" fxLayout="row" fxLayoutWrap  fxLayoutGap="10px">
+    <mat-form-field fxFlex="70%">
+      <input matInput type="search" placeHolder="Buscar Usuarios" #input>
+    </mat-form-field>
+    <button mat-fab color="accent">
+      <mat-icon aria-label="Add User Button" (click)="addUser()">add</mat-icon>
+    </button> 
+  </div>
     
   <div class="spinner-container" *ngIf="dataSource.loading$ | async">
     <mat-spinner></mat-spinner>
@@ -22,11 +28,11 @@
     <ng-container matColumnDef="actions">
         <mat-header-cell fxFlex="30%"  *matHeaderCellDef>Acciones</mat-header-cell>
         <mat-cell fxFlex="30%" *matCellDef="let row">
-            <button type="button" color="accent" mat-icon-button (click)="onRowClicked(row)">
-                <mat-icon aria-label="Edit template button">create</mat-icon>
+            <button type="button" color="accent" mat-icon-button (click)="editUser(row)">
+                <mat-icon aria-label="Edit user button">create</mat-icon>
             </button>
             <button type="button" color="accent" mat-icon-button (click)="deleteUser(row.id)">
-                <mat-icon aria-label="Delete template button">clear</mat-icon>
+                <mat-icon aria-label="Delete user button">clear</mat-icon>
             </button>
         </mat-cell>
     </ng-container>

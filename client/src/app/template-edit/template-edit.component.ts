@@ -21,16 +21,37 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
   private sub: any;
 
   sectionTypes = [
-    'questions',
-    'text'
+    {
+      id: 'QUESTIONS',
+      value: 'Preguntas'
+    },
+    {
+      id: 'TEXT',
+      value: 'Texto'
+    }
   ];
 
   itemTypes = [
-    'rating',
-    'combo',
-    'checkbox',
-    'options',
-    'textbox'
+    {
+      id: 'RATING',
+      value: 'Rating'
+    },
+    {
+      id: 'COMBO',
+      value: 'Combo'
+    },
+    {
+      id: 'CHECKBOX',
+      value: 'Checkbox'
+    },
+    {
+      id: 'OPTIONS',
+      value: 'Options'
+    },
+    {
+      id: 'TEXTBOX',
+      value: 'Textbox'
+    }
   ];
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private templateService: TemplateService) {}
