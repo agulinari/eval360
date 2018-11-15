@@ -28,6 +28,9 @@
     <ng-container matColumnDef="actions">
         <mat-header-cell fxFlex="30%"  *matHeaderCellDef>Acciones</mat-header-cell>
         <mat-cell fxFlex="30%" *matCellDef="let row">
+            <button type="button" color="accent" mat-icon-button (click)="userProfile(row)">
+                <mat-icon aria-label="Profile user button">face</mat-icon>
+            </button>
             <button type="button" color="accent" mat-icon-button (click)="editUser(row)">
                 <mat-icon aria-label="Edit user button">create</mat-icon>
             </button>
@@ -38,7 +41,7 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClicked(row)"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 
   <mat-paginator #paginator

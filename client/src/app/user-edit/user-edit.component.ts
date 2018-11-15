@@ -37,7 +37,7 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('roleInput') roleInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  constructor(private fb: FormBuilder, 
+  constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,

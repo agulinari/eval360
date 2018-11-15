@@ -9,6 +9,7 @@ import { UserEditComponent } from './user-edit/user-edit.component';
 import { TemplateEditComponent } from './template-edit/template-edit.component';
 import { TemplateListComponent } from './template-list/template-list.component';
 import { MainComponent } from './main/main.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 const appRoutes: Routes = [
@@ -43,6 +44,14 @@ const appRoutes: Routes = [
       {
         path: 'user-edit/:id',
         component: UserEditComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: 'ROLE_ADMIN'
+        }
+      },
+      {
+        path: 'user-profile/:id',
+        component: UserProfileComponent,
         canActivate: [RoleGuardService],
         data: {
           expectedRole: 'ROLE_ADMIN'

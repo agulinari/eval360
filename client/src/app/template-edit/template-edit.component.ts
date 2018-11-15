@@ -99,7 +99,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
         id: s.id,
         name: s.name,
         description: s.description,
-        type: s.sectionType
+        sectionType: s.sectionType
       });
 
       s.items.forEach( i => {
@@ -108,7 +108,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
           id: i.id,
           title: i.title,
           description: i.description,
-          type: i.itemType
+          itemType: i.itemType
         });
       });
     });
@@ -134,7 +134,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
     return this.fb.group({
       name: [null, Validators.required],
       description: [null, Validators.required],
-      type: [null, Validators.required],
+      sectionType: [null, Validators.required],
       items: this.fb.array([], Validators.required)
     });
   }
@@ -143,7 +143,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
     return this.fb.group({
       title: [null, Validators.required],
       description: [null, Validators.required],
-      type: [null, Validators.required]
+      itemType: [null, Validators.required]
     });
   }
 

@@ -32,6 +32,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './main/main.component';
 import { TemplateListComponent } from './template-list/template-list.component';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 
@@ -46,7 +47,8 @@ import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
     NavigationComponent,
     MainComponent,
     ErrorDialogComponent,
-    TemplateListComponent
+    TemplateListComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,

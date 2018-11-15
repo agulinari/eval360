@@ -29,6 +29,10 @@ export class UserListComponent implements AfterViewInit, OnInit {
     this.router.navigate([`../user-edit/${row.id}`], { relativeTo: this.route });
   }
 
+  userProfile(row) {
+    this.router.navigate([`../user-profile/${row.id}`], { relativeTo: this.route });
+  }
+
   addUser() {
     this.router.navigate(['../user-new'], {relativeTo: this.route});
   }
