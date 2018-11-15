@@ -36,6 +36,10 @@ public class User extends AuditedEntity {
 	@NotNull
 	@Size(min = 4, max = 100)
 	private String password;
+	
+	@Column(length = 100)
+	@NotNull
+	private String mail;
 
 	@Column
 	@NotNull

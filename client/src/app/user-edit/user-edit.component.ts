@@ -7,7 +7,7 @@ import { Subscription ,  Subject ,  Observable } from 'rxjs';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent, MatDialog } from '@angular/material';
+import { MatAutocomplete, MatAutocompleteSelectedEvent, MatDialog } from '@angular/material';
 import { Authority } from '../domain/authority';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
@@ -136,6 +136,7 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
     this.userForm = this.fb.group({
       username: ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(30)])],
+      mail: ['', Validators.compose([Validators.required, Validators.email])],
       enabled: true,
       authorities: this.fb.array([])
     });
@@ -152,6 +153,7 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
     this.userForm.patchValue({
       username: this.user.username,
       password: this.user.password,
+      mail: this.user.mail,
       enabled: this.user.enabled
     });
     this.user.authorities.forEach( a => {
@@ -208,6 +210,7 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
       id: id,
       username: formModel.username as string,
       password: formModel.password as string,
+      mail: formModel.mail as string,
       enabled: formModel.enabled as boolean,
       authorities: []
     };

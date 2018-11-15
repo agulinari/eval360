@@ -38,7 +38,7 @@ public class ItemTemplate extends AuditedEntity{
 	private Integer position;
 	
 	@ManyToOne
-	@JoinColumn(name = "section_id")
+	@JoinColumn(name = "section_id", insertable=false, updatable=false)
 	@JsonIgnore
 	private Section section;
 	

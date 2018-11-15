@@ -3,8 +3,10 @@ import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { TemplateService } from '../shared/template.service';
 import { Template } from '../domain/template';
-import { map, catchError, switchMap } from 'rxjs/operators';
-import { IterableChangeRecord_ } from '@angular/core/src/change_detection/differs/default_iterable_differ';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { Section } from '../domain/section';
+import { MatDialog } from '@angular/material';
+import { Item } from '../domain/item';
 
 @Component({
   selector: 'template-edit',
@@ -54,26 +56,33 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
     }
   ];
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router, private templateService: TemplateService) {}
+  constructor(private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    public dialog: MatDialog,
+    private templateService: TemplateService) {
+
+      this.createForm();
+    }
 
   ngOnInit() {
+    // Get current template
+    this.sub = this.route.params.subscribe(params => {
+      const id = params['id'];
+      if (id) {
+        this.getTemplate(id);
+      }
+    });
+  }
 
-    // 1. build form
+  createForm() {
+    // build form
     this.templateForm = this.fb.group({
       title: [null, Validators.compose([
         Validators.required, Validators.minLength(5), Validators.maxLength(25)])
       ],
-      sections: this.fb.array([])
+      sections: this.fb.array([], Validators.required)
     });
-
-    // 2. get current template
-    this.sub = this.route.params.pipe(
-       switchMap((params: Params) => this.templateService.get(params['id'])))
-      .subscribe((template: Template) => {
-        // 3. fill in form fields with values from retrieved template
-        this.currentTemplate = template;
-        this.loadTemplateForm(template);
-      });
   }
 
   ngOnDestroy() {
@@ -87,6 +96,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
     template.sections.forEach( s => {
       const section = this.addSection();
       section.patchValue({
+        id: s.id,
         name: s.name,
         description: s.description,
         type: s.sectionType
@@ -95,6 +105,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
       s.items.forEach( i => {
         const item = this.addItem(section.get('items') as FormArray);
         item.patchValue({
+          id: i.id,
           title: i.title,
           description: i.description,
           type: i.itemType
@@ -103,12 +114,28 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
     });
   }
 
+  getTemplate(id) {
+    this.templateService.get(id).subscribe((template: Template) => {
+      if (template) {
+        this.currentTemplate = template;
+        this.loadTemplateForm(template);
+      } else {
+        console.log(`Template con id '${id}' no encontrado, volviendo a la lista`);
+        this.gotoList();
+      }
+    });
+  }
+
+  gotoList() {
+    this.router.navigate(['/main/template-list']);
+  }
+
   createSection(): FormGroup {
     return this.fb.group({
       name: [null, Validators.required],
       description: [null, Validators.required],
       type: [null, Validators.required],
-      items: this.fb.array([])
+      items: this.fb.array([], Validators.required)
     });
   }
 
@@ -141,7 +168,66 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
     control.removeAt(index);
   }
 
+  showError(error: string): void {
+    this.dialog.open(ErrorDialogComponent, {
+      data: {errorMsg: error}, width: '250px'
+    });
+  }
+
   onSubmit() {
-    alert('Thanks!');
+    let id = null;
+    if (this.currentTemplate) {
+      id = this.currentTemplate.id;
+    }
+    this.currentTemplate = this.prepareSaveTemplate(id);
+    this.templateService.save(this.currentTemplate).subscribe(
+      res => console.log('Guardando template', res),
+      err => {
+        console.log('Error guardando template', err);
+        if (err.status === 409) {
+          this.showError('El template ya existe');
+        } else {
+          this.showError('Se produjo un error al guardar el template');
+        }
+      },
+      () => this.gotoList());
+  }
+
+  prepareSaveTemplate(id): Template {
+    const formModel = this.templateForm.value;
+    const sections = this.templateForm.get('sections') as FormArray;
+
+    const saveTemplate: Template = {
+      id: id,
+      title: formModel.title as string,
+      sections: []
+    };
+
+    sections.controls.forEach( s => {
+      const items = s.get('items') as FormArray;
+      const section: Section = {
+        id: s.value.id,
+        name: s.value.name,
+        description: s.value.description,
+        sectionType: s.value.sectionType,
+        position: s.value.position,
+        items: []
+      };
+
+      items.controls.forEach( i => {
+        const item: Item = {
+          id: i.value.id,
+          title: i.value.title,
+          description: i.value.description,
+          itemType: i.value.itemType,
+          position: i.value.position
+        };
+        section.items.push(item);
+      });
+
+      saveTemplate.sections.push(section);
+    });
+
+    return saveTemplate;
   }
 }

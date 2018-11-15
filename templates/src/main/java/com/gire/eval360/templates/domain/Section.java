@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -43,11 +42,13 @@ public class Section extends AuditedEntity{
 	private Integer position;
 	
     @ManyToOne
-	@JoinColumn(name = "template_id")
+	@JoinColumn(name = "template_id", insertable=false, updatable=false)
     @JsonIgnore
 	private EvaluationTemplate evaluation;
 
-	@OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	//@OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval=true)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "section_id", nullable = false, updatable = false)
 	private Collection<ItemTemplate> items;
 	
 }

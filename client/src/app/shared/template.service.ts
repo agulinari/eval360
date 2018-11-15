@@ -19,10 +19,26 @@ export class TemplateService {
     );
   }
 
-  get(id: string): Observable<any> {
+  get(id: string): Observable<Template> {
     return this.http.get(this.TEMPLATES_API + '/' + id).pipe(
       catchError(this.handleError<any>('getTemplate'))
     );
+  }
+
+  remove(id: string) {
+    return this.http.delete(this.TEMPLATES_API + '/' + id).pipe(
+      catchError(this.handleError<any>('deleteTemplate'))
+    );
+  }
+
+  save(template: Template): Observable<any> {
+    let result: Observable<Object>;
+    if (template.id) {
+      result = this.http.put(this.TEMPLATES_API + '/' + template.id, template);
+    } else {
+      result = this.http.post(this.TEMPLATES_API, template);
+    }
+    return result;
   }
 
   find(filter = '', sortOrder = 'id,asc', pageNumber = 0, pageSize = 10 ): Observable<Template[]> {
