@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -22,7 +25,8 @@ public class FeedbackProvider extends ProjectMember{
 
 	private static final long serialVersionUID = 1L;
 	
-	@OneToMany(mappedBy = "evaluee",cascade = CascadeType.ALL,orphanRemoval = true)
+	@OneToMany(mappedBy = "evaluee",cascade = CascadeType.ALL,fetch=FetchType.LAZY, orphanRemoval = true)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<EvalueeFeedbackProvider> evaluees = new ArrayList<>();
 	
 	@ManyToOne(fetch=FetchType.LAZY)

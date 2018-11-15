@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NaturalIdCache;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,7 +32,8 @@ public class Evaluee extends ProjectMember{
 
 	private static final long serialVersionUID = 1L;
 
-	@OneToMany(mappedBy = "feedbackProvider",cascade = CascadeType.ALL,orphanRemoval = true)
+	@OneToMany(mappedBy = "feedbackProvider",cascade = CascadeType.ALL,fetch=FetchType.LAZY,orphanRemoval = true)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<EvalueeFeedbackProvider> feedbackProviders = new ArrayList<>();
 
 	@ManyToOne(fetch=FetchType.LAZY)
