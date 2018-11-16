@@ -13,8 +13,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/auth.interceptor';
 import { UnauthorizedInterceptor } from './shared/unauth.interceptor';
 
-import { AreaService } from './shared/area.service';
-import { PositionService } from './shared/position.service';
 import { AuthenticationService } from './shared/authentication.service';
 import { UserService } from './shared/user.service';
 import { RoleGuardService } from './role-guard.service';
@@ -33,6 +31,8 @@ import { MainComponent } from './main/main.component';
 import { TemplateListComponent } from './template-list/template-list.component';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ProjectListComponent } from './project-list/project-list.component';
+import { ProjectService } from './shared/project.service';
 
 
 
@@ -48,7 +48,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     MainComponent,
     ErrorDialogComponent,
     TemplateListComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    ProjectListComponent
   ],
   imports: [
     BrowserModule,
@@ -80,12 +81,11 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     FlexModule
   ],
   providers: [
-    AreaService,
-    PositionService,
     UserService,
     AuthenticationService,
     RoleGuardService,
     TemplateService,
+    ProjectService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}
   ],

@@ -1,0 +1,53 @@
+<div class="mat-elevation-z8">
+
+    <div class="padding-container" fxLayout="row" fxLayoutWrap  fxLayoutGap="10px">
+      <mat-form-field fxFlex="70%">
+        <input matInput type="search" placeHolder="Buscar Proyectos" #input>
+      </mat-form-field>
+      <button mat-fab color="accent">
+        <mat-icon aria-label="New Project Button" (click)="newProject()">add</mat-icon>
+      </button> 
+    </div>
+      
+    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+      <mat-spinner></mat-spinner>
+    </div>
+  
+    <mat-table class="full-width-table" [dataSource]="dataSource" matSort aria-label="Elements">
+  
+  <!-- Id Column -->
+  <ng-container matColumnDef="id">
+      <mat-header-cell fxFlex="20%" *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+      <mat-cell fxFlex="20%" *matCellDef="let row">
+          {{row.id}}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell fxFlex="50%" *matHeaderCellDef mat-sort-header>Proyecto</mat-header-cell>
+      <mat-cell fxFlex="50%" *matCellDef="let row">{{row.name}}</mat-cell>
+    </ng-container>
+
+    <!-- Actions Column-->
+    <ng-container matColumnDef="actions">
+        <mat-header-cell fxFlex="30%"  *matHeaderCellDef>Acciones</mat-header-cell>
+        <mat-cell fxFlex="30%" *matCellDef="let row">
+            <button type="button" color="accent" mat-icon-button (click)="deleteProject(row.id)">
+                <mat-icon aria-label="Delete project button">clear</mat-icon>
+            </button>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  
+    <mat-paginator #paginator
+        [length]="projectsCount"
+        [pageIndex]="0"
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 25, 50, 100, 250]">
+    </mat-paginator>
+  </div>
+  

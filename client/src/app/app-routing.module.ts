@@ -10,6 +10,7 @@ import { TemplateEditComponent } from './template-edit/template-edit.component';
 import { TemplateListComponent } from './template-list/template-list.component';
 import { MainComponent } from './main/main.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ProjectListComponent } from './project-list/project-list.component';
 
 
 const appRoutes: Routes = [
@@ -80,7 +81,15 @@ const appRoutes: Routes = [
         data: {
           expectedRole: 'ROLE_ADMIN'
         }
-      }
+      },
+      {
+        path: 'project-list',
+        component: ProjectListComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: 'ROLE_USER'
+        }
+      },
     ]
   },
 ];
