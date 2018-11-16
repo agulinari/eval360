@@ -21,6 +21,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
   hasUnitNumber = false;
 
   private sub: any;
+  private subQuery: any;
 
   sectionTypes = [
     {
@@ -73,6 +74,13 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
         this.getTemplate(id);
       }
     });
+
+    this.subQuery = this.route.queryParams.subscribe(params => {
+      const id = params['clone'];
+      if (id) {
+        this.cloneTemplate(id);
+      }
+    });
   }
 
   createForm() {
@@ -87,6 +95,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+    this.subQuery.unsubscribe();
   }
 
   loadTemplateForm(template: Template): void {
@@ -111,6 +120,20 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
           itemType: i.itemType
         });
       });
+    });
+  }
+
+  cloneTemplate(id) {
+    this.templateService.get(id).subscribe((template: Template) => {
+      if (template) {
+        this.currentTemplate = template;
+        this.currentTemplate.id = null;
+        this.currentTemplate.title = null;
+        this.loadTemplateForm(this.currentTemplate);
+      } else {
+        console.log(`Template con id '${id}' no encontrado, volviendo a la lista`);
+        this.gotoList();
+      }
     });
   }
 

@@ -4,6 +4,16 @@
     <mat-card-title>{{templateForm.get('title').value}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
+      <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Título del Template" formControlName="title">
+              <mat-error *ngIf="templateForm.controls['title'].hasError('required')">
+                El título del template es <strong>requerida</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
   <div formArrayName="sections" *ngFor="let section of templateForm.get('sections').controls; let i = index;">
   <div [formGroupName]="i">
   <mat-card class="shipping-card">

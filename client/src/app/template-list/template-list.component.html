@@ -1,8 +1,13 @@
 <div class="mat-elevation-z8">
 
-  <mat-form-field>
-    <input matInput type="search" placeHolder="Buscar Templates" #input>
-  </mat-form-field>
+  <div class="padding-container" fxLayout="row" fxLayoutWrap  fxLayoutGap="10px">
+      <mat-form-field fxFlex="70%">
+        <input matInput type="search" placeHolder="Buscar Templates" #input>
+      </mat-form-field>
+      <button mat-fab color="accent">
+        <mat-icon aria-label="Add Template Button" (click)="addTemplate()">add</mat-icon>
+      </button> 
+    </div>
 
   <div class="spinner-container" *ngIf="dataSource.loading$ | async">
     <mat-spinner></mat-spinner>
@@ -27,7 +32,10 @@
     <ng-container matColumnDef="actions">
         <mat-header-cell fxFlex="30%"  *matHeaderCellDef>Acciones</mat-header-cell>
         <mat-cell fxFlex="30%" *matCellDef="let row">
-            <button type="button" color="accent" mat-icon-button (click)="onRowClicked(row)">
+            <button type="button" color="accent" mat-icon-button (click)="cloneTemplate(row.id)">
+                <mat-icon aria-label="Edit template button">file_copy</mat-icon>
+            </button>
+            <button type="button" color="accent" mat-icon-button (click)="editTemplate(row.id)">
                 <mat-icon aria-label="Edit template button">create</mat-icon>
             </button>
             <button type="button" color="accent" mat-icon-button (click)="deleteTemplate(row.id)">
@@ -37,7 +45,7 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClicked(row)"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 
   <mat-paginator #paginator

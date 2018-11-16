@@ -24,13 +24,20 @@ export class TemplateListComponent implements AfterViewInit, OnInit {
 
   constructor(private templateService: TemplateService, private router: Router, private route: ActivatedRoute) { }
 
-  onRowClicked(row) {
-    console.log('Row clicked: ', row.id);
-    this.router.navigate([`../template-edit/${row.id}`], { relativeTo: this.route });
+  cloneTemplate(id: number) {
+    this.router.navigate(['../template-new'], { queryParams: { clone: id }, relativeTo: this.route});
+  }
+
+  editTemplate(id: number) {
+    this.router.navigate([`../template-edit/${id}`], { relativeTo: this.route });
   }
 
   deleteTemplate(id: number) {
 
+  }
+
+  addTemplate() {
+    this.router.navigate(['../template-new'], {relativeTo: this.route});
   }
 
   ngOnInit() {

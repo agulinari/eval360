@@ -19,7 +19,7 @@ import lombok.NonNull;
 @EqualsAndHashCode(callSuper = false)
 public class EvaluationTemplate extends AuditedEntity{
 
-	@Column
+	@Column(unique = true)
 	@NonNull
 	private String title;
 	
