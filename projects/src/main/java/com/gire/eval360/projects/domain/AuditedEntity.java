@@ -24,9 +24,7 @@ import lombok.Data;
 @Data
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties({"createdDate","modifiedDate","modifiedBy","createdBy","hibernateLazyInitializer" , "handler"})
-public abstract class AuditedEntity implements Serializable{
-
-    private static final long serialVersionUID = 1L;
+public abstract class AuditedEntity {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

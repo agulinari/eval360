@@ -6,8 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.OnDelete;
@@ -18,18 +16,13 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
 @NoArgsConstructor
+@Data
 @EqualsAndHashCode(callSuper = false)
 public class FeedbackProvider extends ProjectMember{
-
-	private static final long serialVersionUID = 1L;
 	
 	@OneToMany(mappedBy = "evaluee",cascade = CascadeType.ALL,fetch=FetchType.LAZY, orphanRemoval = true)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<EvalueeFeedbackProvider> evaluees = new ArrayList<>();
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="PROJECT_ID")    
-	private Project project;
 }

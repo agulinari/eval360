@@ -5,11 +5,10 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,24 +20,24 @@ import lombok.NonNull;
 @NoArgsConstructor
 @Data
 public class Project extends AuditedEntity{
+
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	@Column(unique=true)
+	@NonNull
+	private String name;
+	
+	@Column
+	private String description;
 
 	@Column
 	@NonNull
+	@Enumerated(EnumType.STRING)
 	private Status status;
 		
 	private Long idEvaluationTemplate;
 
 	private Long idReportTemplate;
-	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name="CREATOR_ID") 
-	private ProjectAdmin creator;
-		
+			
 	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
 	private List<Reviewer> reviewers;
 	

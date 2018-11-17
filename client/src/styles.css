@@ -2,8 +2,13 @@
 @import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
+html {
+    height: 100%;
+}
+
 body {
     margin: 0;
+    height: 100%;
     font-family: Roboto, Arial, sans-serif;
 }
 

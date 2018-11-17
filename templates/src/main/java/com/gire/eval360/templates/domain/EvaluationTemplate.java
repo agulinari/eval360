@@ -28,7 +28,6 @@ public class EvaluationTemplate extends AuditedEntity{
 	private  String idUser;
 
 		
-	//@OneToMany(mappedBy = "evaluation", cascade = CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval=true)
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "template_id", nullable = false, updatable = false)
 	private Collection<Section> sections;

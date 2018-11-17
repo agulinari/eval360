@@ -1,24 +1,23 @@
 package com.gire.eval360.projects.domain;
 
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
-@Inheritance(strategy = InheritanceType.JOINED)
+@MappedSuperclass
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class ProjectMember extends AuditedEntity{
+public abstract class ProjectMember extends AuditedEntity{
 
-	private static final long serialVersionUID = 1L;
 	
-	private Long idUser;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="PROJECT_ID")    
+	private Project project;
+	
 }

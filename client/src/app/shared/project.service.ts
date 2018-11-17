@@ -10,7 +10,7 @@ import { map, catchError } from 'rxjs/operators';
 export class ProjectService {
 
   public API = '//localhost:8762';
-  public PROJECTS_API = this.API + '/project';
+  public PROJECTS_API = this.API + '/projects';
 
   constructor(private http: HttpClient) {
   }
@@ -18,7 +18,7 @@ export class ProjectService {
   getAll(): Observable<Project[]> {
     return this.http.get(this.PROJECTS_API)
     .pipe(map((result: any) => {
-      return result._embedded.project;
+      return result._embedded.projects;
     }),
       catchError(this.handleError<any>('getAll'))
     );
@@ -46,6 +46,23 @@ export class ProjectService {
     return result;
   }
 
+  findActiveProjectsByTemplate(idTemplate: string): Observable<Project[]> {
+    return this.http.get(this.PROJECTS_API + '/search/findActiveProjectsByTemplate', {
+      params : new HttpParams()
+      .set('idTemplate', idTemplate)
+    }).pipe(
+      map(res => res['_embedded']['projects'])
+    );
+  }
+
+  findActiveProjectsByUser(idUser: string): Observable<Project[]> {
+    return this.http.get(this.PROJECTS_API + '/search/findActiveProjectsByUser', {
+      params : new HttpParams()
+      .set('idUser', idUser)
+    }).pipe(
+      map(res => res['_embedded']['projects'])
+    );
+  }
 
   find(filter = '', sortOrder = 'id,asc', pageNumber = 0, pageSize = 10 ): Observable<Project[]> {
 

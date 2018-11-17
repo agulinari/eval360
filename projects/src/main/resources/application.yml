@@ -20,7 +20,7 @@ spring:
     console:
       enabled: true
       path: /h2-console
-
+      settings.web-allow-others: true
   datasource:
      plataform: h2
      driverClassName: org.h2.Driver
