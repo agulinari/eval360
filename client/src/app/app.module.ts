@@ -33,6 +33,7 @@ import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectService } from './shared/project.service';
+import { ConfirmDialogComponent } from './dialog/confirm-dialog.component';
 
 
 
@@ -47,6 +48,7 @@ import { ProjectService } from './shared/project.service';
     NavigationComponent,
     MainComponent,
     ErrorDialogComponent,
+    ConfirmDialogComponent,
     TemplateListComponent,
     UserProfileComponent,
     ProjectListComponent
@@ -90,6 +92,6 @@ import { ProjectService } from './shared/project.service';
     {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorDialogComponent]
+  entryComponents: [ErrorDialogComponent, ConfirmDialogComponent]
 })
 export class AppModule { }

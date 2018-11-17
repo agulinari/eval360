@@ -13,11 +13,11 @@ export class ConfirmDialogComponent {
     }
 
     public cancel() {
-        this.dialogRef.close();
+        this.dialogRef.close(0);
     }
 
     public ok() {
-        this.dialogRef.close();
+        this.dialogRef.close(1);
     }
 
 }

@@ -17,10 +17,10 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpec
 	List<Project> findByStatus(@Param("Status") Status status);
 	
 	@Query("select p from Project p where p.status= 'PENDIENTE' "
-			+ "and p.id in ( select m.project.id from ProjectAdmin m where m.id=:idUser) "
-			+ "or p.id in ( select m.project.id from Evaluee m where m.id=:idUser)"
-			+ "or p.id in ( select m.project.id from FeedbackProvider m where m.id=:idUser)"
-			+ "or p.id in ( select m.project.id from Reviewer m where m.id=:idUser)")
+			+ "and p.id in ( select m.project.id from ProjectAdmin m where m.idUser=:idUser) "
+			+ "or p.id in ( select m.project.id from Evaluee m where m.idUser=:idUser)"
+			+ "or p.id in ( select m.project.id from FeedbackProvider m where m.idUser=:idUser)"
+			+ "or p.id in ( select m.project.id from Reviewer m where m.idUser=:idUser)")
 	List<Project> findActiveProjectsByUser(@Param("idUser") Long idUser);
 	
 	@Query("select p from Project p where p.idEvaluationTemplate=:idTemplate and p.status='PENDIENTE'")

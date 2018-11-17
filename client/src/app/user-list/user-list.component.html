@@ -6,14 +6,15 @@
     </mat-form-field>
     <button mat-fab color="accent">
       <mat-icon aria-label="Add User Button" (click)="addUser()">add</mat-icon>
-    </button> 
+    </button>
+    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+      <mat-spinner [diameter]='70'></mat-spinner>
+    </div>
   </div>
     
-  <div class="spinner-container" *ngIf="dataSource.loading$ | async">
-    <mat-spinner></mat-spinner>
-  </div>
 
-  <mat-table class="full-width-table" [dataSource]="dataSource" matSort aria-label="Elements">
+
+  <mat-table class="full-width-table"  [dataSource]="dataSource" matSort aria-label="Elements">
 
     <!-- Name Column -->
     <ng-container matColumnDef="username">
@@ -44,7 +45,7 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 
-  <mat-paginator #paginator
+  <mat-paginator  #paginator 
       [length]="usersCount"
       [pageIndex]="0"
       [pageSize]="10"

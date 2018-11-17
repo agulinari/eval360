@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { UserListDataSource } from './user-list-datasource';
 import { UserService } from '../shared/user.service';
 import { fromEvent, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ConfirmDialogComponent } from '../dialog/confirm-dialog.component';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { ProjectService } from '../shared/project.service';
 
 @Component({
   selector: 'user-list',
@@ -22,7 +25,11 @@ export class UserListComponent implements AfterViewInit, OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['username', 'actions'];
 
-  constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private userService: UserService,
+    private projectService: ProjectService,
+    public dialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   editUser(row) {
     console.log('Row clicked: ', row.id);
@@ -38,7 +45,49 @@ export class UserListComponent implements AfterViewInit, OnInit {
   }
 
   deleteUser(id) {
-    this.userService.remove(id).subscribe( () =>  this.loadUsersPage());
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {message: '¿Está seguro que desea eliminar al usuario?'}, width: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data === 1) {
+
+          this.projectService.findActiveProjectsByUser(id).subscribe(
+            res => {
+              console.log('Consultando proyectos activos de usuario', res);
+              if (res.length === 0) {
+                this.confirmDeleteUser(id);
+              } else {
+                this.showError('El usuario participa en proyectos activos y no se puede eliminar');
+              }
+            },
+            err => {
+              console.log('Error consultando proyectos activos de usuario', err);
+              this.showError('Se produjo un error al eliminar el usuario');
+            }
+          );
+        }
+      }
+    );
+
+  }
+
+  confirmDeleteUser(id) {
+    this.userService.remove(id).subscribe(
+      res => console.log('Eliminando usuario', res),
+      err => {
+        console.log('Error eliminando usuario', err);
+        this.showError('Se produjo un error al eliminar el usuario');
+      },
+      () =>  this.loadUsersPage());
+  }
+
+  showError(error: string): void {
+    this.dialog.open(ErrorDialogComponent, {
+      data: {errorMsg: error}, width: '250px'
+    });
   }
 
   ngOnInit() {

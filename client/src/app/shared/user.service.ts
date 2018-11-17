@@ -29,9 +29,7 @@ export class UserService {
   }
 
   remove(id: string) {
-    return this.http.delete(this.USERS_API + '/' + id).pipe(
-      catchError(this.handleError<any>('deleteUser'))
-    );
+    return this.http.delete(this.USERS_API + '/' + id);
   }
 
   save(user: any): Observable<any> {
