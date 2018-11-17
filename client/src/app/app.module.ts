@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatProgressSpinner, MatDialogModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatProgressSpinner, MatDialogModule, MatStepperModule } from '@angular/material';
 import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule, MatSelectModule } from '@angular/material';
 import { MatAutocompleteModule, MatChipsModule, MatSlideToggleModule, MatSidenavModule, MatTableModule, MatPaginatorModule, MatSortModule, MatRadioModule } from '@angular/material';
 import { FlexModule } from '@angular/flex-layout';
@@ -34,6 +34,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectService } from './shared/project.service';
 import { ConfirmDialogComponent } from './dialog/confirm-dialog.component';
+import { ProjectCreateComponent } from './project-create/project-create.component';
 
 
 
@@ -51,7 +52,8 @@ import { ConfirmDialogComponent } from './dialog/confirm-dialog.component';
     ConfirmDialogComponent,
     TemplateListComponent,
     UserProfileComponent,
-    ProjectListComponent
+    ProjectListComponent,
+    ProjectCreateComponent
   ],
   imports: [
     BrowserModule,
@@ -80,6 +82,7 @@ import { ConfirmDialogComponent } from './dialog/confirm-dialog.component';
     MatSortModule,
     MatRadioModule,
     MatDialogModule,
+    MatStepperModule,
     FlexModule
   ],
   providers: [

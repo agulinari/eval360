@@ -61,6 +61,10 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
       .subscribe();
   }
 
+  createProject() {
+    this.router.navigate(['../project-create'], {relativeTo: this.route});
+  }
+
   loadProjects() {
     const sortOption = this.sort.active + ',' + this.sort.direction;
     this.dataSource.loadProjects(this.input.nativeElement.value, sortOption, this.paginator.pageIndex, this.paginator.pageSize);

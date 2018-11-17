@@ -11,6 +11,7 @@ import { TemplateListComponent } from './template-list/template-list.component';
 import { MainComponent } from './main/main.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ProjectListComponent } from './project-list/project-list.component';
+import { ProjectCreateComponent } from './project-create/project-create.component';
 
 
 const appRoutes: Routes = [
@@ -90,6 +91,14 @@ const appRoutes: Routes = [
           expectedRole: 'ROLE_USER'
         }
       },
+      {
+        path: 'project-create',
+        component: ProjectCreateComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRole: 'ROLE_USER'
+        }
+      }
     ]
   },
 ];

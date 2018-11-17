@@ -5,7 +5,7 @@
         <input matInput type="search" placeHolder="Buscar Proyectos" #input>
       </mat-form-field>
       <button mat-fab color="accent">
-        <mat-icon aria-label="New Project Button" (click)="newProject()">add</mat-icon>
+        <mat-icon aria-label="New Project Button" (click)="createProject()">add</mat-icon>
       </button>
       <div class="spinner-container" *ngIf="dataSource.loading$ | async">
         <mat-spinner [diameter]='70'></mat-spinner>
