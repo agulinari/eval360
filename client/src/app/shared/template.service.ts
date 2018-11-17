@@ -26,9 +26,7 @@ export class TemplateService {
   }
 
   remove(id: string) {
-    return this.http.delete(this.TEMPLATES_API + '/' + id).pipe(
-      catchError(this.handleError<any>('deleteTemplate'))
-    );
+    return this.http.delete(this.TEMPLATES_API + '/' + id);
   }
 
   save(template: Template): Observable<any> {
