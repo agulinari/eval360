@@ -1,0 +1,64 @@
+<h2 mat-dialog-title>Agregar Evaluados</h2>
+<mat-dialog-content [formGroup]="evalueesForm">
+
+    <mat-form-field class="full-width">
+        <input matInput placeholder="Selecciona una persona a evaluar" [matAutocomplete]="auto" formControlName="userInput"> 
+        <mat-error *ngIf="evalueesForm.controls.userInput.hasError('required')">
+                Campo <strong>requerido</strong>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngIf="isLoading" class="is-loading">
+            <mat-spinner diameter="50"></mat-spinner>
+        </mat-option>
+        <ng-container *ngIf="!isLoading">
+            <mat-option *ngFor="let user of filteredUsers" [value]="user">
+                <span>{{user.username}}</span>
+            </mat-option>
+        </ng-container>
+    </mat-autocomplete>
+
+    <div formArrayName="feedbackProviders" *ngFor="let fp of evalueesForm.get('feedbackProviders').controls; let i = index;">
+            <div [formGroupName]="i">
+                <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
+                      <mat-form-field class="full-width" fxFlex="50%">
+                            <input matInput placeholder="Selecciona un evaluador" [matAutocomplete]="autofp" formControlName="fpInput"> 
+                            <mat-error *ngIf="evalueesForm.controls.feedbackProviders.controls[i].controls['fpInput'].hasError('required')">
+                                    Campo <strong>requerido</strong>
+                            </mat-error>
+                      </mat-form-field>
+
+                      <mat-autocomplete #autofp="matAutocomplete" [displayWith]="displayFn">
+                            <mat-option *ngIf="isLoading" class="is-loading">
+                                <mat-spinner diameter="50"></mat-spinner>
+                            </mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let fp of filteredFps" [value]="fp">
+                                    <span>{{fp.username}}</span>
+                                </mat-option>
+                            </ng-container>
+                      </mat-autocomplete>
+
+                      <mat-form-field class="full-width" fxFlex="50%">
+                        <input matInput placeholder="Relacion" formControlName="relationship">
+                        <mat-error *ngIf="evalueesForm.controls.feedbackProviders.controls[i].controls['relationship'].hasError('required')">
+                            Campo <strong>requerido</strong>
+                        </mat-error>
+                      </mat-form-field>
+                        
+                      <button type="button" color="accent" mat-icon-button (click)="deleteFeedbackProvider(i)">
+                          <mat-icon aria-label="Delete FeedbackProvider button">clear</mat-icon>
+                      </button>
+                  </div>
+            </div> 
+            </div>
+
+    <div>
+        <button mat-button type="button" (click)="addFeedbackProvider()">Agregar Evaluador</button>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button (click)="cancel()">Cancelar</button>
+    <button mat-raised-button (click)="ok()">Ok</button>
+</mat-dialog-actions>

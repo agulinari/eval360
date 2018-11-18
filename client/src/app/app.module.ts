@@ -35,6 +35,7 @@ import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectService } from './shared/project.service';
 import { ConfirmDialogComponent } from './dialog/confirm-dialog.component';
 import { ProjectCreateComponent } from './project-create/project-create.component';
+import { AddEvalueeDialogComponent } from './dialog/add-evaluee-dialog.component';
 
 
 
@@ -50,6 +51,7 @@ import { ProjectCreateComponent } from './project-create/project-create.componen
     MainComponent,
     ErrorDialogComponent,
     ConfirmDialogComponent,
+    AddEvalueeDialogComponent,
     TemplateListComponent,
     UserProfileComponent,
     ProjectListComponent,
@@ -95,6 +97,6 @@ import { ProjectCreateComponent } from './project-create/project-create.componen
     {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorDialogComponent, ConfirmDialogComponent]
+  entryComponents: [ErrorDialogComponent, ConfirmDialogComponent, AddEvalueeDialogComponent]
 })
 export class AppModule { }

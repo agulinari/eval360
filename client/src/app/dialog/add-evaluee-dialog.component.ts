@@ -1,0 +1,115 @@
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
+import { UserService } from '../shared/user.service';
+import { User } from '../domain/user';
+import { Evaluee } from '../domain/evaluee';
+import { FeedbackProvider } from '../domain/feedback-provider';
+
+
+@Component({
+    selector: 'app-add-evaluee-dialog',
+    templateUrl: 'add-evaluee-dialog.component.html',
+    styleUrls: ['add-evaluee-dialog.component.css'],
+})
+export class AddEvalueeDialogComponent implements OnInit {
+
+    filteredUsers: User[] = [];
+    filteredFps: User[] = [];
+    evalueesForm: FormGroup;
+    isLoading = false;
+    feedbackProviders: FormArray;
+
+    constructor(private dialogRef: MatDialogRef<AddEvalueeDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        private fb: FormBuilder,
+        private userService: UserService) {
+
+    }
+
+    ngOnInit() {
+        this.evalueesForm = this.fb.group({
+            userInput: ['', Validators.required],
+            feedbackProviders: this.fb.array([], Validators.required)
+        });
+
+        this.evalueesForm.get('userInput')
+        .valueChanges
+        .pipe(
+            debounceTime(300),
+            tap(() => this.isLoading = true),
+            switchMap(value => this.userService.find(value, 'username,asc', 0, 10).pipe(
+                finalize(() => this.isLoading = false)
+            ))
+        ).subscribe(users => this.filteredUsers = users);
+    }
+
+    displayFn(user: User) {
+        if (user) {
+            return user.username;
+        }
+    }
+
+    addFeedbackProvider() {
+        this.feedbackProviders = this.evalueesForm.get('feedbackProviders') as FormArray;
+        const feedbackProvider = this.createFeedbackProvider();
+        this.feedbackProviders.push(feedbackProvider);
+        return feedbackProvider;
+    }
+
+    createFeedbackProvider(): FormGroup {
+        const feedbackProvider = this.fb.group({
+            fpInput: ['', Validators.required],
+            relationship: ['', Validators.required]
+        });
+        feedbackProvider.get('fpInput')
+        .valueChanges
+        .pipe(
+            debounceTime(300),
+            tap(() => this.isLoading = true),
+            switchMap(value => this.userService.find(value, 'username,asc', 0, 10).pipe(
+                finalize(() => this.isLoading = false)
+            ))
+        ).subscribe(users => this.filteredFps = users);
+        return feedbackProvider;
+    }
+
+    deleteFeedbackProvider(index: number): void {
+        this.feedbackProviders.removeAt(index);
+    }
+
+    prepareSaveEvaluee(): Evaluee {
+        const formModel = this.evalueesForm.value;
+        const feedbackProviders = this.evalueesForm.get('feedbackProviders') as FormArray;
+
+        const saveEvaluee: Evaluee = {
+          id: null,
+          user: formModel.userInput as User,
+          feedbackProviders: []
+        };
+
+        feedbackProviders.controls.forEach( fp => {
+
+          const feedbackProvider: FeedbackProvider = {
+            id: null,
+            user: fp.value.fpInput as User,
+            relationship: fp.value.relationship
+          };
+
+          saveEvaluee.feedbackProviders.push(feedbackProvider);
+        });
+
+        return saveEvaluee;
+      }
+
+    public cancel() {
+        this.dialogRef.close(0);
+    }
+
+    public ok() {
+        const evaluee = this.prepareSaveEvaluee();
+        this.dialogRef.close(evaluee);
+    }
+
+}

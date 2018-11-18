@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators, FormArray} from '@angular/forms';
+import { MatDialogConfig, MatDialog } from '@angular/material';
+import { AddEvalueeDialogComponent } from '../dialog/add-evaluee-dialog.component';
+import { Evaluee } from '../domain/evaluee';
+import { Template } from '../domain/template';
+import { TemplateService } from '../shared/template.service';
+import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 
 /**
  * @title Stepper overview
@@ -10,56 +16,77 @@ import {FormBuilder, FormGroup, Validators, FormArray} from '@angular/forms';
   styleUrls: ['project-create.component.css'],
 })
 export class ProjectCreateComponent implements OnInit {
+  projectFormGroup: FormGroup;
   evalueeFormGroup: FormGroup;
   templateFormGroup: FormGroup;
-  evaluees: FormArray;
+  evaluesFormArray: FormArray;
+  filteredTemplates: Template[] = [];
+  isLoading = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder,
+    private dialog: MatDialog,
+    private templateService: TemplateService) {}
 
   ngOnInit() {
+    this.projectFormGroup = this.fb.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required]
+    });
     this.evalueeFormGroup = this.fb.group({
       evaluees: this.fb.array([], Validators.required)
     });
     this.templateFormGroup = this.fb.group({
-      template: ['', Validators.required]
+      templateInput: ['', Validators.required]
     });
+
+    this.templateFormGroup.get('templateInput')
+    .valueChanges
+    .pipe(
+        debounceTime(300),
+        tap(() => this.isLoading = true),
+        switchMap(value => this.templateService.find(value, 'username,asc', 0, 10).pipe(
+            finalize(() => this.isLoading = false)
+        ))
+    ).subscribe(templates => this.filteredTemplates = templates);
   }
 
-  createEvaluee(): FormGroup {
+  openAddEvalueeDialog() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = '400px';
+    const dialogRef = this.dialog.open(AddEvalueeDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data) {
+          this.addEvaluee(data);
+        }
+      }
+    );
+  }
+
+  addEvaluee(evaluee: Evaluee): void {
+    this.evaluesFormArray = this.evalueeFormGroup.get('evaluees') as FormArray;
+    const evalueeForm = this.createEvaluee(evaluee);
+    this.evaluesFormArray.push(evalueeForm);
+  }
+
+  createEvaluee(evaluee: Evaluee): FormGroup {
     return this.fb.group({
-      idUser: [null, Validators.required],
-      username: [null, Validators.required],
-      mail: [null, Validators.required],
-      feedbackProviders: this.fb.array([], Validators.required)
+      evaluee: [evaluee, Validators.required]
     });
-  }
-
-  createFeedbackProvider(): FormGroup {
-    return this.fb.group({
-      idUser: [null, Validators.required],
-      username: [null, Validators.required],
-      mail: [null, Validators.required]
-    });
-  }
-
-  addEvaluee(): FormGroup {
-    this.evaluees = this.evalueeFormGroup.get('evaluees') as FormArray;
-    const evaluee = this.createEvaluee();
-    this.evaluees.push(evaluee);
-    return evaluee;
-  }
-
-  addFeedbackProvider(control: FormArray): FormGroup {
-    const feedbackProvider = this.createFeedbackProvider();
-    control.push(feedbackProvider);
-    return feedbackProvider;
   }
 
   deleteEvaluee(index: number): void {
-    this.evaluees.removeAt(index);
+    this.evaluesFormArray.removeAt(index);
   }
 
-  deleteFeedbackProvider(control: FormArray, index: number): void {
-    control.removeAt(index);
+  displayTemplateFn(template: Template) {
+    if (template) {
+        return template.title;
+    }
   }
+
 }

@@ -1,7 +1,7 @@
-import { Evaluee } from "./evaluee";
+import { User } from "./user";
 
 export class FeedbackProvider {
     id: number;
-    idUser: number;
-    evaluees: Evaluee[];
+    user: User;
+    relationship: string;
 }

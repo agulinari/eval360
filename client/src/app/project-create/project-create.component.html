@@ -5,38 +5,95 @@
     </mat-card-header>
     <mat-card-content>
       <mat-horizontal-stepper [linear]="true" #stepper>
+          <mat-step [stepControl]="projectFormGroup">
+              <form [formGroup]="projectFormGroup">
+                <ng-template matStepLabel>Proyecto</ng-template>
+                <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
+                  <mat-form-field class="full-width" fxFlex="30%">
+                    <input matInput placeholder="Nombre del Proyecto" formControlName="name" required>
+                    <mat-error *ngIf="projectFormGroup.controls.name.invalid">Campo Requerido</mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="full-width" fxFlex="70%">
+                    <input matInput placeholder="Descripción" formControlName="description" required>
+                    <mat-error *ngIf="projectFormGroup.controls.description.invalid">Campo Requerido</mat-error>
+                  </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
+                    <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+                </div>
+              </form>
+          </mat-step>
           <mat-step [stepControl]="evalueeFormGroup">
             <form [formGroup]="evalueeFormGroup">
-              <ng-template matStepLabel>Seleccione los evaluados</ng-template>
-              <!--<mat-form-field>
-                <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-              </mat-form-field>-->
-              <div>
-                  <button mat-raised-button color="primary" type="button" (click)="addEvaluee()">Agregar Evaluado</button>
+              <ng-template matStepLabel>Participantes</ng-template>
+              <div *ngIf="evaluesFormArray" fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
+                <h3 fxFlex="30%">Evaluados</h3>
+                <h3 fxFlex="50%">Evaluadores</h3>
+                <h3 fxFlex="20%">Acciones</h3>
+              </div>
+              <div formArrayName="evaluees" *ngFor="let evaluee of evalueeFormGroup.get('evaluees').controls; let i = index;">
+                <mat-divider [inset]="true"></mat-divider>
+                <div [formGroupName]="i">
+                    <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
+                      <div fxFlex="30%">
+                        <img class="avatar" src="/assets/images/avatar.png" alt="{{evaluee.value.evaluee.user.username}}">
+                         {{evaluee.value.evaluee.user.username}}
+                      </div>
+                      <div fxFlex="50%">
+                          <div *ngFor="let fp of evaluee.value.evaluee.feedbackProviders">
+                              <img class="avatar" src="/assets/images/avatar.png" alt="{{fp.user.username}}">
+                              {{fp.user.username}}
+                          </div>
+                      </div>
+                      <div fxFlex="20%">
+                          <button type="button" color="accent" mat-icon-button (click)="deleteEvaluee(i)">
+                              <mat-icon aria-label="Delete Evaluee button">clear</mat-icon>
+                          </button>
+                      </div>
+                    </div>
+                </div>
               </div>
               <div>
-                <button mat-button matStepperNext>Next</button>
+                  <button mat-button type="button" (click)="openAddEvalueeDialog()">+ Agregar Evaluado</button>
+              </div>
+              <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
+                <button mat-raised-button color="primary" matStepperPrevious>Atras</button>
+                <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
               </div>
             </form>
           </mat-step>
           <mat-step [stepControl]="templateFormGroup">
             <form [formGroup]="templateFormGroup">
-              <ng-template matStepLabel>Seleccione el template</ng-template>
-              <!--<mat-form-field>
-                <input matInput placeholder="Address" formControlName="secondCtrl" required>
-              </mat-form-field>-->
-              <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
+              <ng-template matStepLabel>Templates</ng-template>
+              <mat-form-field class="full-width">
+                  <input matInput placeholder="Selecciona un template de evaluación" [matAutocomplete]="auto" formControlName="templateInput"> 
+                  <mat-error *ngIf="templateFormGroup.controls.templateInput.hasError('required')">
+                          Campo <strong>requerido</strong>
+                  </mat-error>
+              </mat-form-field>
+          
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayTemplateFn">
+                  <mat-option *ngIf="isLoading" class="is-loading">
+                      <mat-spinner diameter="50"></mat-spinner>
+                  </mat-option>
+                  <ng-container *ngIf="!isLoading">
+                      <mat-option *ngFor="let template of filteredTemplates" [value]="template">
+                          <span>{{template.title}}</span>
+                      </mat-option>
+                  </ng-container>
+              </mat-autocomplete>
+              <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
+                <button mat-raised-button color="primary" matStepperPrevious>Atras</button>
+                <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
               </div>
             </form>
           </mat-step>
           <mat-step>
             <ng-template matStepLabel>Finalizar</ng-template>
-            You are now done.
-            <div>
-              <button mat-button matStepperPrevious>Back</button>
-              <button mat-button (click)="stepper.reset()">Reset</button>
+            Al finalizar se enviarán las notificaciones a los miembros del proyecto.
+            <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
+              <button mat-raised-button color="primary" matStepperPrevious>Atras</button>
+              <button mat-raised-button color="primary" (click)="stepper.reset()">Finalizar</button>
             </div>
           </mat-step>
         </mat-horizontal-stepper>

@@ -2,3 +2,8 @@
     min-width: 120px;
     margin: 20px auto;
   }
+
+  .full-width {
+    width: 100%;
+  }
+  
