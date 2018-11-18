@@ -1,13 +1,16 @@
 package com.gire.eval360.projects.domain;
 
+
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import lombok.Data;
@@ -38,16 +41,20 @@ public class Project extends AuditedEntity{
 
 	private Long idReportTemplate;
 			
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
-	private List<Reviewer> reviewers;
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+	@JoinColumn(name = "project_id")
+	private Collection<Reviewer> reviewers;
 	
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
-	private List<ProjectAdmin> teamMembers;
+	@OneToMany(cascade = CascadeType.ALL,orphanRemoval=true)
+	@JoinColumn(name = "project_id")
+	private Collection<ProjectAdmin> teamMembers;
 	
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
-	private List<FeedbackProvider> feedbackProviders;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval=true)
+	@JoinColumn(name = "project_id")
+	private Collection<FeedbackProvider> feedbackProviders;
 	
-	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
-	private List<Evaluee> evaluees;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval=true)
+	@JoinColumn(name = "project_id")
+	private Collection<Evaluee> evaluees;
 
 }

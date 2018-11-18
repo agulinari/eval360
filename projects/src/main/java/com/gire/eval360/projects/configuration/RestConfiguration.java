@@ -9,6 +9,7 @@ import com.gire.eval360.projects.domain.FeedbackProvider;
 import com.gire.eval360.projects.domain.Project;
 import com.gire.eval360.projects.domain.ProjectAdmin;
 import com.gire.eval360.projects.domain.Reviewer;
+import com.gire.eval360.projects.domain.projection.*;
 
 @Configuration
 public class RestConfiguration extends RepositoryRestConfigurerAdapter {
@@ -20,7 +21,9 @@ public class RestConfiguration extends RepositoryRestConfigurerAdapter {
         config.exposeIdsFor(FeedbackProvider.class);
         config.exposeIdsFor(ProjectAdmin.class);
         config.exposeIdsFor(Reviewer.class);
-       // config.getProjectionConfiguration().addProjection(InlineEmployee.class);
+        config.getProjectionConfiguration().addProjection(EvaluatedUser.class).addProjection(FeedbackProviderUser.class)
+        .addProjection(ReportTemplate.class).addProjection(ReviewerUser.class).addProjection(TeamMemberUser.class)
+        .addProjection(Template.class);
     }
 		
 }
