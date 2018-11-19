@@ -21,6 +21,7 @@ export class ProjectCreateComponent implements OnInit {
   evalueeFormGroup: FormGroup;
   templateFormGroup: FormGroup;
   evaluesFormArray: FormArray;
+  selectedTemplate: Template;
   filteredTemplates: Template[] = [];
   isLoading = false;
 
@@ -29,6 +30,8 @@ export class ProjectCreateComponent implements OnInit {
     private templateService: TemplateService) {}
 
   ngOnInit() {
+    this.selectedTemplate = null;
+
     this.projectFormGroup = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required]
@@ -102,5 +105,16 @@ export class ProjectCreateComponent implements OnInit {
         return template.title;
     }
   }
+
+  templateClick(event: any) {
+    this.selectedTemplate = event.option.value;
+  }
+
+  checkTemplate() {
+    if (!this.selectedTemplate || this.selectedTemplate !== this.templateFormGroup.controls['templateInput'].value) {
+      this.templateFormGroup.controls['templateInput'].setValue(null);
+      this.selectedTemplate = null;
+    }
+}
 
 }

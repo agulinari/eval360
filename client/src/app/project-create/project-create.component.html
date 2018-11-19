@@ -66,13 +66,13 @@
             <form [formGroup]="templateFormGroup">
               <ng-template matStepLabel>Templates</ng-template>
               <mat-form-field class="full-width">
-                  <input matInput placeholder="Selecciona un template de evaluación" [matAutocomplete]="auto" formControlName="templateInput"> 
+                  <input matInput placeholder="Selecciona un template de evaluación" [matAutocomplete]="auto" formControlName="templateInput" (blur)="checkTemplate()" required>  
                   <mat-error *ngIf="templateFormGroup.controls.templateInput.hasError('required')">
                           Campo <strong>requerido</strong>
                   </mat-error>
               </mat-form-field>
           
-              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayTemplateFn">
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="templateClick($event)" [displayWith]="displayTemplateFn">
                   <mat-option *ngIf="isLoading" class="is-loading">
                       <mat-spinner diameter="50"></mat-spinner>
                   </mat-option>
