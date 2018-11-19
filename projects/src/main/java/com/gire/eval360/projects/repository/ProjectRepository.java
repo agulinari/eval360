@@ -22,10 +22,10 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpec
 	
 	@RestResource(rel = "active-projects-user", path="active-projects-user")
 	@Query("select p from Project p where p.status= 'PENDIENTE' "
-			+ "and p.id in ( select m.project.id from ProjectAdmin m where m.idUser=:idUser) "
+			+ "and (p.id in ( select m.project.id from ProjectAdmin m where m.idUser=:idUser) "
 			+ "or p.id in ( select m.project.id from Evaluee m where m.idUser=:idUser)"
 			+ "or p.id in ( select m.project.id from FeedbackProvider m where m.idUser=:idUser)"
-			+ "or p.id in ( select m.project.id from Reviewer m where m.idUser=:idUser)")
+			+ "or p.id in ( select m.project.id from Reviewer m where m.idUser=:idUser))")
 	List<Project> findActiveProjectsByUser(@Param("idUser") Long idUser);
 	
 	@RestResource(path = "user", rel = "user")
@@ -35,6 +35,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpec
 			+ "or p.id in ( select m.project.id from FeedbackProvider m where m.idUser=:idUser)"
 			+ "or p.id in ( select m.project.id from Reviewer m where m.idUser=:idUser))")
 	Page<Project> findUserProjects(@Param("name") String name, @Param("idUser") Long idUser, Pageable p);
+
 	
 	@RestResource(rel = "active-projects-template", path="active-projects-template")
 	@Query("select p from Project p where p.idEvaluationTemplate=:idTemplate and p.status='PENDIENTE'")
