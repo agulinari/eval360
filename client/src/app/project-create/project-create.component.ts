@@ -6,6 +6,7 @@ import { Evaluee } from '../domain/evaluee';
 import { Template } from '../domain/template';
 import { TemplateService } from '../shared/template.service';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
+import { User } from '../domain/user';
 
 /**
  * @title Stepper overview
@@ -56,6 +57,7 @@ export class ProjectCreateComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.minWidth = '400px';
+    dialogConfig.data = this.getEvaluees();
     const dialogRef = this.dialog.open(AddEvalueeDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
@@ -65,6 +67,18 @@ export class ProjectCreateComponent implements OnInit {
         }
       }
     );
+  }
+
+  getEvaluees(): User[] {
+    const users: User[] = [];
+    if (!this.evaluesFormArray) {
+      return users;
+    }
+    this.evaluesFormArray.controls.forEach(c => {
+      const user = c.get('evaluee').value.user;
+      users.push(user);
+    });
+    return users;
   }
 
   addEvaluee(evaluee: Evaluee): void {
