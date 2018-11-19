@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
+@Embeddable
 public class EvalueeFeedbackProviderId implements Serializable {
 	
 	/**
@@ -18,18 +20,18 @@ public class EvalueeFeedbackProviderId implements Serializable {
     @Column(name = "feedbackProvider_id")
     private Long feedbackProviderId;
     
-    @Column(name = "evaluation_id")
-    private Long evaluationId;
  
     public EvalueeFeedbackProviderId(Long evalueeId, Long feedbackProviderId, Long evaluationId) {
         this.evalueeId = evalueeId;
         this.feedbackProviderId = feedbackProviderId;
-        this.evaluationId = evaluationId;
     }
  
     //Getters omitted for brevity
  
-    @Override
+    public EvalueeFeedbackProviderId() {
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
  
@@ -38,13 +40,29 @@ public class EvalueeFeedbackProviderId implements Serializable {
  
         EvalueeFeedbackProviderId that = (EvalueeFeedbackProviderId) o;
         return Objects.equals(evalueeId, that.evalueeId) && 
-               Objects.equals(feedbackProviderId, that.feedbackProviderId) &&
-               Objects.equals(evaluationId, that.evaluationId);
+               Objects.equals(feedbackProviderId, that.feedbackProviderId);
     }
  
     @Override
     public int hashCode() {
-        return Objects.hash(evalueeId, feedbackProviderId, evaluationId);
+        return Objects.hash(evalueeId, feedbackProviderId);
     }
 
+	public Long getEvalueeId() {
+		return evalueeId;
+	}
+
+	public void setEvalueeId(Long evalueeId) {
+		this.evalueeId = evalueeId;
+	}
+
+	public Long getFeedbackProviderId() {
+		return feedbackProviderId;
+	}
+
+	public void setFeedbackProviderId(Long feedbackProviderId) {
+		this.feedbackProviderId = feedbackProviderId;
+	}
+
+    
 }

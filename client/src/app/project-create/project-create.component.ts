@@ -7,6 +7,13 @@ import { Template } from '../domain/template';
 import { TemplateService } from '../shared/template.service';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { User } from '../domain/user';
+import { ProjectService } from '../shared/project.service';
+import { CreateProject } from '../domain/request/create-project';
+import { CreateEvaluee } from '../domain/request/create-evaluee';
+import { FeedbackProvider } from '../domain/feedback-provider';
+import { CreateFeedbackProvider } from '../domain/request/create-feedback-provider';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { Router } from '@angular/router';
 
 /**
  * @title Stepper overview
@@ -27,7 +34,9 @@ export class ProjectCreateComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private dialog: MatDialog,
-    private templateService: TemplateService) {}
+    private router: Router,
+    private templateService: TemplateService,
+    private projectService: ProjectService) {}
 
   ngOnInit() {
     this.selectedTemplate = null;
@@ -115,6 +124,65 @@ export class ProjectCreateComponent implements OnInit {
       this.templateFormGroup.controls['templateInput'].setValue(null);
       this.selectedTemplate = null;
     }
-}
+  }
+
+  showError(error: string): void {
+    this.dialog.open(ErrorDialogComponent, {
+      data: {errorMsg: error}, width: '250px'
+    });
+  }
+
+  createProject() {
+     const project = this.prepareSaveProject();
+     this.projectService.createProject(project).subscribe(
+      res => console.log('Creando proyecto', res),
+      err => {
+        console.log('Error creando proyecto', err);
+        this.showError('Se produjo un error al crear el proyecto');
+      },
+      () => this.gotoList());
+  }
+
+  gotoList() {
+    this.router.navigate(['/main/project-list']);
+  }
+
+  prepareSaveProject(): CreateProject {
+    const projectModel = this.projectFormGroup.value;
+    const evalueesModel = this.evalueeFormGroup.value;
+    const templateModel = this.templateFormGroup.value;
+    const evalueesArray = this.evalueeFormGroup.get('evaluees') as FormArray;
+
+    const saveProject: CreateProject = {
+      id: null,
+      idTemplate: templateModel.templateInput.id as number,
+      name: projectModel.name as string,
+      description: projectModel.description as string,
+      evaluees: []
+    };
+
+    evalueesArray.controls.forEach( e => {
+
+      const evaluee: CreateEvaluee = {
+        id: null,
+        idUser: e.value.evaluee.user.id as number,
+        feedbackProviders: []
+      };
+
+      e.value.evaluee.feedbackProviders.forEach( fp => {
+
+        const feedbackProvider: CreateFeedbackProvider = {
+          id: null,
+          idUser: fp.user.id as number,
+          relationship: fp.relationship as string
+        };
+        evaluee.feedbackProviders.push(feedbackProvider);
+      });
+
+      saveProject.evaluees.push(evaluee);
+    });
+
+    return saveProject;
+  }
 
 }

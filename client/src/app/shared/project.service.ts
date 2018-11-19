@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Project } from '../domain/project';
 import { map, catchError } from 'rxjs/operators';
+import { CreateProject } from '../domain/request/create-project';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,11 @@ export class ProjectService {
     return this.http.delete(this.PROJECTS_API + '/' + id).pipe(
       catchError(this.handleError<any>('deleteProject'))
     );
+  }
+
+  createProject(project: CreateProject): Observable<any> {
+    const result = this.http.post(this.PROJECTS_API + '/create', project);
+    return result;
   }
 
   save(project: any): Observable<any> {
