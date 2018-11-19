@@ -20,6 +20,9 @@ export class AddEvalueeDialogComponent implements OnInit {
     evalueesForm: FormGroup;
     isLoading = false;
     feedbackProviders: FormArray;
+    selectedEvaluee: User;
+    selectedFPs: User[];
+
 
     constructor(private dialogRef: MatDialogRef<AddEvalueeDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -29,6 +32,9 @@ export class AddEvalueeDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.selectedEvaluee = null;
+        this.selectedFPs = [];
+
         this.evalueesForm = this.fb.group({
             userInput: ['', Validators.required],
             feedbackProviders: this.fb.array([], Validators.required)
@@ -112,4 +118,25 @@ export class AddEvalueeDialogComponent implements OnInit {
         this.dialogRef.close(evaluee);
     }
 
+    evalueeClick(event: any) {
+        this.selectedEvaluee = event.option.value;
+    }
+
+    checkEvaluee() {
+        if (!this.selectedEvaluee || this.selectedEvaluee !== this.evalueesForm.controls['userInput'].value) {
+          this.evalueesForm.controls['userInput'].setValue(null);
+          this.selectedEvaluee = null;
+        }
+    }
+
+    fpClick(event: any, index: number) {
+        this.selectedFPs[index] = event.option.value;
+    }
+
+    checkFp(index: number) {
+        if (!this.selectedFPs[index] || this.selectedFPs[index] !== this.feedbackProviders.controls[index].get('fpInput').value) {
+            this.feedbackProviders.controls[index].get('fpInput').setValue(null);
+            this.selectedFPs.splice(index, 1);
+        }
+    }
 }

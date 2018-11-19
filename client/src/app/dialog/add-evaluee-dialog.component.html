@@ -2,13 +2,13 @@
 <mat-dialog-content [formGroup]="evalueesForm">
 
     <mat-form-field class="full-width">
-        <input matInput placeholder="Selecciona una persona a evaluar" [matAutocomplete]="auto" formControlName="userInput"> 
+        <input matInput placeholder="Selecciona una persona a evaluar" [matAutocomplete]="auto" formControlName="userInput" (blur)="checkEvaluee()" required> 
         <mat-error *ngIf="evalueesForm.controls.userInput.hasError('required')">
                 Campo <strong>requerido</strong>
         </mat-error>
     </mat-form-field>
 
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="evalueeClick($event)" [displayWith]="displayFn">
         <mat-option *ngIf="isLoading" class="is-loading">
             <mat-spinner diameter="50"></mat-spinner>
         </mat-option>
@@ -23,13 +23,13 @@
             <div [formGroupName]="i">
                 <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
                       <mat-form-field class="full-width" fxFlex="50%">
-                            <input matInput placeholder="Selecciona un evaluador" [matAutocomplete]="autofp" formControlName="fpInput"> 
+                            <input matInput placeholder="Selecciona un evaluador" [matAutocomplete]="autofp" formControlName="fpInput" (blur)="checkFp(i)" required> 
                             <mat-error *ngIf="evalueesForm.controls.feedbackProviders.controls[i].controls['fpInput'].hasError('required')">
                                     Campo <strong>requerido</strong>
                             </mat-error>
                       </mat-form-field>
 
-                      <mat-autocomplete #autofp="matAutocomplete" [displayWith]="displayFn">
+                      <mat-autocomplete #autofp="matAutocomplete"  (optionSelected)="fpClick($event, i)"  [displayWith]="displayFn">
                             <mat-option *ngIf="isLoading" class="is-loading">
                                 <mat-spinner diameter="50"></mat-spinner>
                             </mat-option>
@@ -41,7 +41,11 @@
                       </mat-autocomplete>
 
                       <mat-form-field class="full-width" fxFlex="50%">
-                        <input matInput placeholder="Relacion" formControlName="relationship">
+                        <mat-select formControlName="relationship" placeholder="Relacion" required>
+                            <mat-option value="Jefe">Jefe</mat-option>
+                            <mat-option value="Par">Par</mat-option>
+                            <mat-option value="Dependiente">Dependiente</mat-option>
+                        </mat-select>
                         <mat-error *ngIf="evalueesForm.controls.feedbackProviders.controls[i].controls['relationship'].hasError('required')">
                             Campo <strong>requerido</strong>
                         </mat-error>
@@ -59,6 +63,6 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-raised-button (click)="cancel()">Cancelar</button>
-    <button mat-raised-button (click)="ok()">Ok</button>
+    <button mat-raised-button color="primary" (click)="cancel()">Cancelar</button>
+    <button mat-raised-button color="primary" [disabled]="evalueesForm.invalid"  (click)="ok()">Ok</button>
 </mat-dialog-actions>

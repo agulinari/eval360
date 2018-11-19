@@ -19,7 +19,7 @@
                   </mat-form-field>
                 </div>
                 <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
-                    <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+                    <button mat-raised-button color="primary" [disabled]="projectFormGroup.invalid" matStepperNext>Siguiente</button>
                 </div>
               </form>
           </mat-step>
@@ -40,9 +40,9 @@
                          {{evaluee.value.evaluee.user.username}}
                       </div>
                       <div fxFlex="50%">
-                          <div *ngFor="let fp of evaluee.value.evaluee.feedbackProviders">
+                          <div  *ngFor="let fp of evaluee.value.evaluee.feedbackProviders">
                               <img class="avatar" src="/assets/images/avatar.png" alt="{{fp.user.username}}">
-                              {{fp.user.username}}
+                              {{fp.user.username}} ( <strong>{{fp.relationship}}</strong> )
                           </div>
                       </div>
                       <div fxFlex="20%">
@@ -58,7 +58,7 @@
               </div>
               <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
                 <button mat-raised-button color="primary" matStepperPrevious>Atras</button>
-                <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+                <button mat-raised-button color="primary" [disabled]="evalueeFormGroup.invalid" matStepperNext>Siguiente</button>
               </div>
             </form>
           </mat-step>
@@ -84,7 +84,7 @@
               </mat-autocomplete>
               <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
                 <button mat-raised-button color="primary" matStepperPrevious>Atras</button>
-                <button mat-raised-button color="primary" matStepperNext>Siguiente</button>
+                <button mat-raised-button color="primary" [disabled]="templateFormGroup.invalid" matStepperNext>Siguiente</button>
               </div>
             </form>
           </mat-step>
