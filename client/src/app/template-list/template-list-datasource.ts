@@ -4,6 +4,7 @@ import { map, catchError, finalize } from 'rxjs/operators';
 import { Observable, of as observableOf, merge, BehaviorSubject, of } from 'rxjs';
 import { Template } from '../domain/template';
 import { TemplateService } from '../shared/template.service';
+import { TemplateList } from '../domain/template-list';
 
 /**
  * Data source for the TemplateList view. This class should
@@ -14,7 +15,7 @@ export class TemplateListDataSource extends DataSource<Template> {
 
   private templatesSubject = new BehaviorSubject<Template[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
-
+  public totalItems = 0;
   public loading$ = this.loadingSubject.asObservable();
 
   constructor(private paginator: MatPaginator, private sort: MatSort, private templateService: TemplateService) {
@@ -48,7 +49,11 @@ export class TemplateListDataSource extends DataSource<Template> {
       catchError(() => of([])),
       finalize(() => this.loadingSubject.next(false))
     )
-    .subscribe(templates => this.templatesSubject.next(templates));
+    .subscribe(templateList => {
+      const tl = templateList as TemplateList;
+      this.templatesSubject.next(tl.templates);
+      this.totalItems = tl.total;
+    });
   }
 
 }

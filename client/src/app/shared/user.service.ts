@@ -3,6 +3,7 @@ import { of ,  Observable } from 'rxjs';
 import { User } from '../domain/user';
 import { map, catchError } from 'rxjs/operators';
 import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
+import { UserList } from '../domain/user-list';
 
 @Injectable()
 export class UserService {
@@ -43,9 +44,7 @@ export class UserService {
   }
 
 
-  find(filter = '', sortOrder = 'id,asc', pageNumber = 0, pageSize = 10 ): Observable<User[]> {
-
-    if (filter !== '') {
+  find(filter = '', sortOrder = 'id,asc', pageNumber = 0, pageSize = 10 ): Observable<UserList> {
       return this.http.get(this.USERS_API + '/search/usernameContains', {
         params : new HttpParams()
         .set('name', filter)
@@ -53,18 +52,15 @@ export class UserService {
         .set('page', pageNumber.toString())
         .set('size', pageSize.toString())
       }).pipe(
-        map(res => res['_embedded']['users'])
+        map(res => {
+          const userList = {
+            users: res['_embedded']['users'],
+            total: res['page']['totalElements']
+          };
+          return userList;
+        })
       );
-    } else {
-      return this.http.get(this.USERS_API, {
-        params : new HttpParams()
-        .set('sort', sortOrder)
-        .set('page', pageNumber.toString())
-        .set('size', pageSize.toString())
-      }).pipe(
-        map(res => res['_embedded']['users'])
-      );
-    }
+
   }
 
   /**

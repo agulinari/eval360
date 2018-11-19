@@ -4,6 +4,7 @@ import { map, catchError, finalize } from 'rxjs/operators';
 import { Observable, of as observableOf, merge, BehaviorSubject, of } from 'rxjs';
 import { User } from '../domain/user';
 import { UserService } from '../shared/user.service';
+import { UserList } from '../domain/user-list';
 
 
 /**
@@ -15,7 +16,7 @@ export class UserListDataSource extends DataSource<User> {
 
   private usersSubject = new BehaviorSubject<User[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
-
+  public totalItems = 0;
   public loading$ = this.loadingSubject.asObservable();
 
   constructor(private paginator: MatPaginator, private sort: MatSort, private userService: UserService) {
@@ -49,7 +50,11 @@ export class UserListDataSource extends DataSource<User> {
       catchError(() => of([])),
       finalize(() => this.loadingSubject.next(false))
     )
-    .subscribe(users => this.usersSubject.next(users));
+    .subscribe(userList => {
+      const ul = userList as UserList;
+      this.usersSubject.next(ul.users);
+      this.totalItems = ul.total;
+    });
   }
 
 }

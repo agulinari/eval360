@@ -51,7 +51,7 @@ export class ProjectCreateComponent implements OnInit {
         switchMap(value => this.templateService.find(value, 'username,asc', 0, 10).pipe(
             finalize(() => this.isLoading = false)
         ))
-    ).subscribe(templates => this.filteredTemplates = templates);
+    ).subscribe(tl => this.filteredTemplates = tl.templates);
   }
 
   openAddEvalueeDialog() {

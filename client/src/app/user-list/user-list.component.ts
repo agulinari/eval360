@@ -19,7 +19,6 @@ export class UserListComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('input') input: ElementRef;
   dataSource: UserListDataSource;
-  usersCount = 3;
 
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */

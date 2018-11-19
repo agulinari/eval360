@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, pipe } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Template } from '../domain/template';
+import { TemplateList } from '../domain/template-list';
 
 @Injectable()
 export class TemplateService {
@@ -39,9 +40,7 @@ export class TemplateService {
     return result;
   }
 
-  find(filter = '', sortOrder = 'id,asc', pageNumber = 0, pageSize = 10 ): Observable<Template[]> {
-
-    if (filter !== '') {
+  find(filter = '', sortOrder = 'id,asc', pageNumber = 0, pageSize = 10 ): Observable<TemplateList> {
       return this.http.get(this.TEMPLATES_API + '/search/titleContains', {
         params : new HttpParams()
         .set('title', filter)
@@ -49,18 +48,14 @@ export class TemplateService {
         .set('page', pageNumber.toString())
         .set('size', pageSize.toString())
       }).pipe(
-        map(res => res['_embedded']['evaluationTemplates'])
+        map(res => {
+          const templateList = {
+            templates: res['_embedded']['evaluationTemplates'],
+            total: res['page']['totalElements']
+          };
+          return templateList;
+        })
       );
-    } else {
-      return this.http.get(this.TEMPLATES_API, {
-        params : new HttpParams()
-        .set('sort', sortOrder)
-        .set('page', pageNumber.toString())
-        .set('size', pageSize.toString())
-      }).pipe(
-        map(res => res['_embedded']['evaluationTemplates'])
-      );
-    }
   }
 
   /**

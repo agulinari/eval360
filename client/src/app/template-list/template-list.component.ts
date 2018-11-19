@@ -20,7 +20,6 @@ export class TemplateListComponent implements AfterViewInit, OnInit {
   @ViewChild('input') input: ElementRef;
 
   dataSource: TemplateListDataSource;
-  templatesCount = 12;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'title', 'actions'];

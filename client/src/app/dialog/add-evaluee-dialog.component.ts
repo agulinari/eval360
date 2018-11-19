@@ -48,7 +48,7 @@ export class AddEvalueeDialogComponent implements OnInit {
             switchMap(value => this.userService.find(value, 'username,asc', 0, 10).pipe(
                 finalize(() => this.isLoading = false)
             ))
-        ).subscribe(users => this.filteredUsers = users.filter(user => !this.data.find(u => u.id === user.id)));
+        ).subscribe(userList => this.filteredUsers = userList.users.filter(user => !this.data.find(u => u.id === user.id)));
     }
 
     displayFn(user: User) {
@@ -77,8 +77,8 @@ export class AddEvalueeDialogComponent implements OnInit {
             switchMap(value => this.userService.find(value, 'username,asc', 0, 10).pipe(
                 finalize(() => this.isLoading = false)
             ))
-        ).subscribe(users => {
-            this.filteredFps = users.filter(user => !this.selectedFPs.find(u => u.id === user.id));
+        ).subscribe(userList => {
+            this.filteredFps = userList.users.filter(user => !this.selectedFPs.find(u => u.id === user.id));
         });
         return feedbackProvider;
     }
