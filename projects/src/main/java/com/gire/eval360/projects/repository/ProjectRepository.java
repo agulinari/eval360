@@ -20,7 +20,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpec
 	@RestResource(rel = "project-status", path="project-status")
 	List<Project> findByStatus(@Param("Status") Status status);
 	
-//	@RestResource(rel = "active-projects-user", path="active-projects-user")
+	@RestResource(rel = "active-projects-user", path="active-projects-user")
 	@Query("select p from Project p where p.status= 'PENDIENTE' "
 			+ "and (p.id in ( select m.project.id from ProjectAdmin m where m.idUser=:idUser) "
 			+ "or p.id in ( select m.project.id from Evaluee m where m.idUser=:idUser)"
