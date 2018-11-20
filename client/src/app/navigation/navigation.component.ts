@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AuthenticationService } from '../shared/authentication.service';
 import { Router } from '@angular/router';
@@ -10,10 +10,11 @@ import { map } from 'rxjs/operators';
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.css'],
 })
-export class NavigationComponent {
+export class NavigationComponent implements OnInit {
 
   title = 'EVAL 360';
   version = '1.0.0';
+  private roles: String[];
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -23,6 +24,9 @@ export class NavigationComponent {
   constructor(private breakpointObserver: BreakpointObserver,
     private router: Router, private authenticationService: AuthenticationService) {}
 
+  ngOnInit(): void {
+    this.roles = this.authenticationService.getRoles();
+  }
 
   logout() {
     this.authenticationService.logout();

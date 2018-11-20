@@ -12,6 +12,7 @@ import com.gire.eval360.projects.domain.Evaluee;
 import com.gire.eval360.projects.domain.EvalueeFeedbackProvider;
 import com.gire.eval360.projects.domain.FeedbackProvider;
 import com.gire.eval360.projects.domain.Project;
+import com.gire.eval360.projects.domain.Status;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateFeedbackProvider;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
@@ -39,6 +40,7 @@ public class ProjectServiceImpl implements ProjectService{
 		project.setName(request.getName());
 		project.setDescription(request.getDescription());
 		project.setIdEvaluationTemplate(request.getIdTemplate());
+		project.setStatus(Status.PENDIENTE);
 		
 		List<CreateEvaluee> createEvaluees = request.getEvaluees();
 		List<Evaluee> evaluees = new ArrayList<>();

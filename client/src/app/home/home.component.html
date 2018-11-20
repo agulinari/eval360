@@ -30,7 +30,7 @@
       <a mat-button routerLink="../template-list">INGRESAR</a>
     </mat-card-actions>
   </mat-card>
-  <mat-card *ngIf="roles.includes('ROLE_ADMIN') || roles.includes('ROLE_USER')" class="home-card">
+  <mat-card *ngIf="roles.includes('ROLE_USER')" class="home-card">
     <mat-card-header>
       <mat-card-title>Proyectos</mat-card-title>
       <mat-card-subtitle>Administración de proyectos</mat-card-subtitle>
@@ -42,7 +42,7 @@
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <a mat-button routerLink="../template-list">INGRESAR</a>
+      <a mat-button routerLink="../project-list">INGRESAR</a>
     </mat-card-actions>
   </mat-card>
 </div>

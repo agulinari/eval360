@@ -22,7 +22,7 @@ const appRoutes: Routes = [
     component: MainComponent,
     canActivate: [RoleGuardService],
     data: {
-          expectedRole: 'ROLE_ADMIN'
+          expectedRoles: ['ROLE_ADMIN', 'ROLE_USER']
     },
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -32,7 +32,7 @@ const appRoutes: Routes = [
         component: UserListComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: 'ROLE_ADMIN'
+          expectedRoles: ['ROLE_ADMIN']
         }
       },
       {
@@ -40,7 +40,7 @@ const appRoutes: Routes = [
         component: UserEditComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: 'ROLE_ADMIN'
+          expectedRoles: ['ROLE_ADMIN']
         }
       },
       {
@@ -48,7 +48,7 @@ const appRoutes: Routes = [
         component: UserProfileComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: 'ROLE_ADMIN'
+          expectedRoles: ['ROLE_ADMIN']
         }
       },
       {
@@ -56,7 +56,7 @@ const appRoutes: Routes = [
         component: UserEditComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: 'ROLE_ADMIN'
+          expectedRoles: ['ROLE_ADMIN']
         }
       },
       {
@@ -64,7 +64,7 @@ const appRoutes: Routes = [
         component: TemplateEditComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: 'ROLE_ADMIN'
+          expectedRoles: ['ROLE_ADMIN']
         }
       },
       {
@@ -72,7 +72,7 @@ const appRoutes: Routes = [
         component: TemplateListComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: 'ROLE_ADMIN'
+          expectedRole: ['ROLE_ADMIN']
         }
       },
       {
@@ -80,7 +80,7 @@ const appRoutes: Routes = [
         component: TemplateEditComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: 'ROLE_ADMIN'
+          expectedRole: ['ROLE_ADMIN']
         }
       },
       {
@@ -88,7 +88,7 @@ const appRoutes: Routes = [
         component: ProjectListComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: 'ROLE_USER'
+          expectedRoles: ['ROLE_USER']
         }
       },
       {
@@ -96,7 +96,7 @@ const appRoutes: Routes = [
         component: ProjectCreateComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: 'ROLE_USER'
+          expectedRoles: ['ROLE_USER']
         }
       }
     ]
