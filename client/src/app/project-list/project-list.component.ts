@@ -5,9 +5,10 @@ import { fromEvent, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../shared/project.service';
+import { AuthenticationService } from '../shared/authentication.service';
 
 @Component({
-  selector: 'project-list',
+  selector: 'app-project-list',
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.css'],
 })
@@ -22,7 +23,10 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'name', 'actions'];
 
-  constructor(private projectService: ProjectService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private projectService: ProjectService,
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   deleteProject(id: number) {
 
@@ -33,7 +37,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.dataSource = new ProjectListDataSource(this.paginator, this.sort, this.projectService);
+    this.dataSource = new ProjectListDataSource(this.paginator, this.sort, this.authenticationService, this.projectService);
     this.dataSource.loadProjects();
   }
 

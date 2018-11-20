@@ -4,6 +4,7 @@ import { map, catchError, finalize } from 'rxjs/operators';
 import { Observable, of as observableOf, merge, BehaviorSubject, of } from 'rxjs';
 import { Project } from '../domain/project';
 import { ProjectService } from '../shared/project.service';
+import { AuthenticationService } from '../shared/authentication.service';
 
 
 /**
@@ -18,7 +19,10 @@ export class ProjectListDataSource extends DataSource<Project> {
 
   public loading$ = this.loadingSubject.asObservable();
 
-  constructor(private paginator: MatPaginator, private sort: MatSort, private projectService: ProjectService) {
+  constructor(private paginator: MatPaginator,
+    private sort: MatSort,
+    private authenticationService: AuthenticationService,
+    private projectService: ProjectService) {
     super();
   }
 
@@ -50,7 +54,9 @@ export class ProjectListDataSource extends DataSource<Project> {
       finalize(() => this.loadingSubject.next(false))
     )*/
 
-    this.projectService.getAll().pipe(
+    const userId = this.authenticationService.getUserId();
+
+    this.projectService.find(userId, filter, sortOrder, pageIndex, pageSize).pipe(
       catchError(() => of([])),
       finalize(() => this.loadingSubject.next(false))
     )

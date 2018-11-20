@@ -58,4 +58,13 @@ export class AuthenticationService {
     return tokenPayload.authorities;
   }
 
+  getUserId(): string {
+    const token = this.getToken();
+    if (!token) {
+      return '';
+    }
+    const tokenPayload = jwt_decode(token);
+    return tokenPayload.jti;
+  }
+
 }

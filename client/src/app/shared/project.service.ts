@@ -70,11 +70,10 @@ export class ProjectService {
     );
   }
 
-  find(filter = '', sortOrder = 'id,asc', pageNumber = 0, pageSize = 10 ): Observable<Project[]> {
-
-    if (filter !== '') {
-      return this.http.get(this.PROJECTS_API + '/search/nameContains', {
+  find(idUser: string, filter = '', sortOrder = 'id,asc', pageNumber = 0, pageSize = 10 ): Observable<Project[]> {
+      return this.http.get(this.PROJECTS_API + '/search/user', {
         params : new HttpParams()
+        .set('idUser', idUser)
         .set('name', filter)
         .set('sort', sortOrder)
         .set('page', pageNumber.toString())
@@ -82,16 +81,6 @@ export class ProjectService {
       }).pipe(
         map(res => res['_embedded']['projects'])
       );
-    } else {
-      return this.http.get(this.PROJECTS_API, {
-        params : new HttpParams()
-        .set('sort', sortOrder)
-        .set('page', pageNumber.toString())
-        .set('size', pageSize.toString())
-      }).pipe(
-        map(res => res['_embedded']['projects'])
-      );
-    }
   }
 
   /**

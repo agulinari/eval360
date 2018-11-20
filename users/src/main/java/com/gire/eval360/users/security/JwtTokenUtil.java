@@ -79,10 +79,12 @@ public class JwtTokenUtil implements Serializable {
     private String doGenerateToken(Map<String, Object> claims, String subject, Authentication auth) {
         final Date createdDate = clock.now();
         final Date expirationDate = calculateExpirationDate(createdDate);
+        JwtUser jwtUser = (JwtUser) auth.getPrincipal();
 
         return Jwts.builder()
             .setClaims(claims)
             .setSubject(subject)
+            .setId(jwtUser.getId().toString())
             .claim("authorities", auth.getAuthorities().stream()
     				.map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
             .setIssuedAt(createdDate)
