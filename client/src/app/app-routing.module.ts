@@ -72,7 +72,7 @@ const appRoutes: Routes = [
         component: TemplateListComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: ['ROLE_ADMIN']
+          expectedRoles: ['ROLE_ADMIN']
         }
       },
       {
@@ -80,7 +80,7 @@ const appRoutes: Routes = [
         component: TemplateEditComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRole: ['ROLE_ADMIN']
+          expectedRoles: ['ROLE_ADMIN']
         }
       },
       {
