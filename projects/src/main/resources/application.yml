@@ -54,7 +54,7 @@ spring.zipkin.sender.type: kafka
 logging.level:
   root: ERROR
   org.springframework.web: ERROR
-  com.gire.eval340.users: DEBUG
+  com.gire.eval360.projects: DEBUG
 
 # Actuator
 management:

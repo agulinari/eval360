@@ -1,3 +1,4 @@
+
 server:
   port: 0
 
@@ -13,29 +14,6 @@ eureka:
     instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     metadataMap.instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}  
   
-#Propiedades de H2
-spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-      settings.web-allow-others: true
-
-  jpa:
-    properties:
-      hibernate:
-        show_sql: true
-        type: trace
-
-#Propiedades de JWT
-jwt:
-   header: Authorization
-   secret: mySecret
-   expiration: 86400
-   route:
-     authentication:
-       path: /auth
-       refresh: /refresh
  
  # Propiedades Kafka
 spring.kafka.bootstrap-servers: localhost:9092
@@ -45,9 +23,9 @@ spring.zipkin.sender.type: kafka
 
 # Logging
 logging.level:
-  root: INFO
-  org.springframework.web: INFOs
-  com.gire.eval360.templates: DEBUG
+  root: ERROR
+  org.springframework.web: ERROR
+  com.gire.eval360.notifications: DEBUG
 
 # Actuator
 management:
