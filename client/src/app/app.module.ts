@@ -36,6 +36,7 @@ import { ProjectService } from './shared/project.service';
 import { ConfirmDialogComponent } from './dialog/confirm-dialog.component';
 import { ProjectCreateComponent } from './project-create/project-create.component';
 import { AddEvalueeDialogComponent } from './dialog/add-evaluee-dialog.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 
@@ -55,7 +56,8 @@ import { AddEvalueeDialogComponent } from './dialog/add-evaluee-dialog.component
     TemplateListComponent,
     UserProfileComponent,
     ProjectListComponent,
-    ProjectCreateComponent
+    ProjectCreateComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

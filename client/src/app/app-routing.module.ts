@@ -12,6 +12,7 @@ import { MainComponent } from './main/main.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectCreateComponent } from './project-create/project-create.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 const appRoutes: Routes = [
@@ -26,7 +27,7 @@ const appRoutes: Routes = [
     },
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full'},
-      { path: 'home', component: HomeComponent },
+      { path: 'home', component: DashboardComponent },
       {
         path: 'user-list',
         component: UserListComponent,
