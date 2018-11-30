@@ -5,6 +5,7 @@ import { Observable, of as observableOf, merge, BehaviorSubject, of } from 'rxjs
 import { Project } from '../domain/project';
 import { ProjectService } from '../shared/project.service';
 import { AuthenticationService } from '../shared/authentication.service';
+import { ProjectList } from '../domain/project-list';
 
 
 /**
@@ -16,7 +17,7 @@ export class ProjectListDataSource extends DataSource<Project> {
 
   private projectsSubject = new BehaviorSubject<Project[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
-
+  public totalItems = 0;
   public loading$ = this.loadingSubject.asObservable();
 
   constructor(private paginator: MatPaginator,
@@ -60,6 +61,10 @@ export class ProjectListDataSource extends DataSource<Project> {
       catchError(() => of([])),
       finalize(() => this.loadingSubject.next(false))
     )
-    .subscribe(templates => this.projectsSubject.next(templates));
+    .subscribe(projectList => {
+      const pl = projectList as ProjectList;
+      this.projectsSubject.next(pl.projects);
+      this.totalItems = pl.total;
+    });
   }
 }

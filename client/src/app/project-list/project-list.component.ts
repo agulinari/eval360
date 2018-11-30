@@ -18,7 +18,6 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
   @ViewChild('input') input: ElementRef;
 
   dataSource: ProjectListDataSource;
-  projectsCount = 12;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'name', 'actions'];
@@ -30,6 +29,10 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
 
   deleteProject(id: number) {
 
+  }
+
+  goToProjectStatus(id: number) {
+    this.router.navigate([`../project-status/${id}`], {relativeTo: this.route});
   }
 
   newProject() {

@@ -32,6 +32,9 @@
       <ng-container matColumnDef="actions">
           <mat-header-cell fxFlex="30%"  *matHeaderCellDef>Acciones</mat-header-cell>
           <mat-cell fxFlex="30%" *matCellDef="let row">
+              <button type="button" color="accent" mat-icon-button (click)="goToProjectStatus(row.id)">
+                  <mat-icon aria-label="Go to project status button">more_horiz</mat-icon>
+              </button>
               <button type="button" color="accent" mat-icon-button (click)="deleteProject(row.id)">
                   <mat-icon aria-label="Delete project button">clear</mat-icon>
               </button>
@@ -43,7 +46,7 @@
     </mat-table>
   
     <mat-paginator #paginator
-        [length]="projectsCount"
+        [length]="dataSource.totalItems"
         [pageIndex]="0"
         [pageSize]="10"
         [pageSizeOptions]="[10, 25, 50, 100, 250]">

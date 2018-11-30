@@ -10,7 +10,7 @@ import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { ProjectService } from '../shared/project.service';
 
 @Component({
-  selector: 'user-list',
+  selector: 'app-user-list',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css'],
 })

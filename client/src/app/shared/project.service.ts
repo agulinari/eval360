@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { Project } from '../domain/project';
 import { map, catchError } from 'rxjs/operators';
 import { CreateProject } from '../domain/request/create-project';
+import { ProjectList } from '../domain/project-list';
 
 @Injectable({
   providedIn: 'root'
@@ -70,7 +71,7 @@ export class ProjectService {
     );
   }
 
-  find(idUser: string, filter = '', sortOrder = 'id,asc', pageNumber = 0, pageSize = 10 ): Observable<Project[]> {
+  find(idUser: string, filter = '', sortOrder = 'id,asc', pageNumber = 0, pageSize = 10 ): Observable<ProjectList> {
       return this.http.get(this.PROJECTS_API + '/search/user', {
         params : new HttpParams()
         .set('idUser', idUser)
@@ -79,7 +80,13 @@ export class ProjectService {
         .set('page', pageNumber.toString())
         .set('size', pageSize.toString())
       }).pipe(
-        map(res => res['_embedded']['projects'])
+        map(res => {
+          const projectList = {
+            projects: res['_embedded']['projects'],
+            total: res['page']['totalElements']
+          };
+          return projectList;
+        })
       );
   }
 

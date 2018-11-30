@@ -40,6 +40,7 @@ import { ProjectCreateComponent } from './project-create/project-create.componen
 import { AddEvalueeDialogComponent } from './dialog/add-evaluee-dialog.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AddAdminDialogComponent } from './dialog/add-admin-dialog.component';
+import { ProjectStatusComponent } from './project-status/project-status.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { AddAdminDialogComponent } from './dialog/add-admin-dialog.component';
     UserProfileComponent,
     ProjectListComponent,
     ProjectCreateComponent,
-    DashboardComponent
+    DashboardComponent,
+    ProjectStatusComponent
   ],
   imports: [
     BrowserModule,
