@@ -17,6 +17,7 @@ import { ProjectAdmin } from '../domain/project-admin';
 import { AddAdminDialogComponent } from '../dialog/add-admin-dialog.component';
 import { UserService } from '../shared/user.service';
 import { AuthenticationService } from '../shared/authentication.service';
+import { CreateAdmin } from '../domain/request/create-admin';
 
 /**
  * @title Stepper overview
@@ -230,12 +231,14 @@ export class ProjectCreateComponent implements OnInit {
     const evalueesModel = this.evalueeFormGroup.value;
     const templateModel = this.templateFormGroup.value;
     const evalueesArray = this.evalueeFormGroup.get('evaluees') as FormArray;
+    const adminsArray = this.projectFormGroup.get('adminsFormArray') as FormArray;
 
     const saveProject: CreateProject = {
       id: null,
       idTemplate: templateModel.templateInput.id as number,
       name: projectModel.name as string,
       description: projectModel.description as string,
+      admins: [],
       evaluees: []
     };
 
@@ -258,6 +261,17 @@ export class ProjectCreateComponent implements OnInit {
       });
 
       saveProject.evaluees.push(evaluee);
+    });
+
+    adminsArray.controls.forEach( a => {
+
+      const admin: CreateAdmin = {
+        id: null,
+        idUser: a.value.adminInput.user.id as number,
+        creator: a.value.adminInput.creator
+      };
+
+      saveProject.admins.push(admin);
     });
 
     return saveProject;

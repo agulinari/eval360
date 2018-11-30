@@ -1,5 +1,6 @@
 package com.gire.eval360.projects.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -12,9 +13,11 @@ import com.gire.eval360.projects.domain.Evaluee;
 import com.gire.eval360.projects.domain.EvalueeFeedbackProvider;
 import com.gire.eval360.projects.domain.FeedbackProvider;
 import com.gire.eval360.projects.domain.Project;
+import com.gire.eval360.projects.domain.ProjectAdmin;
 import com.gire.eval360.projects.domain.Status;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateFeedbackProvider;
+import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
 import com.gire.eval360.projects.repository.ProjectRepository;
 
@@ -72,6 +75,19 @@ public class ProjectServiceImpl implements ProjectService{
 		project.setEvaluees(evaluees);
 		project.setFeedbackProviders(mapaFps.values());
 		
+		List<CreateProjectAdmin> createAdmins = request.getAdmins();
+		List<ProjectAdmin> projectAdmins = new ArrayList<>();
+		
+		for (CreateProjectAdmin createAdmin : createAdmins) {
+			ProjectAdmin admin = new ProjectAdmin();
+			admin.setIdUser(createAdmin.getIdUser());
+			admin.setCreator(createAdmin.getCreator());
+			admin.setCreatedDate(LocalDateTime.now());
+			admin.setProject(project);
+			projectAdmins.add(admin);
+		}
+		
+		project.setProjectAdmins(projectAdmins);
 		projectRepository.save(project);
 		return project;
 	}

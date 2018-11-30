@@ -1,7 +1,5 @@
 package com.gire.eval360.projects.domain.request;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,13 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class CreateProjectRequest {
+public class CreateProjectAdmin {
 	
 	private Long id;
-	private Long idTemplate;
-	private String name;
-	private String description;
-	private List<CreateEvaluee> evaluees;
-	private List<CreateProjectAdmin> admins;
+	private Long idUser;
+	private Boolean creator;
 
 }

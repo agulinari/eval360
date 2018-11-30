@@ -2,8 +2,6 @@ package com.gire.eval360.projects.domain;
 
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -47,7 +45,7 @@ public class Project extends AuditedEntity{
 	
 	@OneToMany(cascade = CascadeType.ALL,orphanRemoval=true)
 	@JoinColumn(name = "project_id")
-	private Collection<ProjectAdmin> teamMembers;
+	private Collection<ProjectAdmin> projectAdmins;
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name = "project_id")
