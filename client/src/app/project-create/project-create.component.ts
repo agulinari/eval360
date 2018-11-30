@@ -10,10 +10,13 @@ import { User } from '../domain/user';
 import { ProjectService } from '../shared/project.service';
 import { CreateProject } from '../domain/request/create-project';
 import { CreateEvaluee } from '../domain/request/create-evaluee';
-import { FeedbackProvider } from '../domain/feedback-provider';
 import { CreateFeedbackProvider } from '../domain/request/create-feedback-provider';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { Router } from '@angular/router';
+import { ProjectAdmin } from '../domain/project-admin';
+import { AddAdminDialogComponent } from '../dialog/add-admin-dialog.component';
+import { UserService } from '../shared/user.service';
+import { AuthenticationService } from '../shared/authentication.service';
 
 /**
  * @title Stepper overview
@@ -28,6 +31,7 @@ export class ProjectCreateComponent implements OnInit {
   evalueeFormGroup: FormGroup;
   templateFormGroup: FormGroup;
   evaluesFormArray: FormArray;
+  adminsFormArray: FormArray;
   selectedTemplate: Template;
   filteredTemplates: Template[] = [];
   isLoading = false;
@@ -36,14 +40,19 @@ export class ProjectCreateComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
     private templateService: TemplateService,
+    private userService: UserService,
+    private authService: AuthenticationService,
     private projectService: ProjectService) {}
 
   ngOnInit() {
     this.selectedTemplate = null;
 
+    this.setAdminCreator();
+
     this.projectFormGroup = this.fb.group({
       name: ['', Validators.required],
-      description: ['', Validators.required]
+      description: ['', Validators.required],
+      adminsFormArray: this.fb.array([], Validators.required)
     });
     this.evalueeFormGroup = this.fb.group({
       evaluees: this.fb.array([], Validators.required)
@@ -62,6 +71,10 @@ export class ProjectCreateComponent implements OnInit {
         ))
     ).subscribe(tl => this.filteredTemplates = tl.templates);
   }
+
+
+  // --------------- EVALUEES ------------------------------------------
+
 
   openAddEvalueeDialog() {
     const dialogConfig = new MatDialogConfig();
@@ -109,6 +122,68 @@ export class ProjectCreateComponent implements OnInit {
     this.evaluesFormArray.removeAt(index);
   }
 
+  // --------------- PROJECT ADMINS ----------------------------------------
+
+  setAdminCreator() {
+    const userId = this.authService.getUserId();
+    this.userService.get(userId).subscribe(user => {
+      const admin: ProjectAdmin = {
+        id: null,
+        user: user,
+        creator: true
+      };
+      this.addAdmin(admin);
+    });
+  }
+
+  openAddAdminDialog() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = '400px';
+    dialogConfig.data = this.getAdmins();
+    const dialogRef = this.dialog.open(AddAdminDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data) {
+          this.addAdmin(data);
+        }
+      }
+    );
+  }
+
+  getAdmins(): User[] {
+    const users: User[] = [];
+    if (!this.adminsFormArray) {
+      return users;
+    }
+    this.adminsFormArray.controls.forEach(c => {
+      const user = c.get('adminInput').value.user;
+      users.push(user);
+    });
+    return users;
+  }
+
+  addAdmin(admin: ProjectAdmin): void {
+    this.adminsFormArray = this.projectFormGroup.get('adminsFormArray') as FormArray;
+    const adminForm = this.createAdmin(admin);
+    this.adminsFormArray.push(adminForm);
+  }
+
+  createAdmin(admin: ProjectAdmin): FormGroup {
+    return this.fb.group({
+        adminInput: [admin, Validators.required]
+     });
+  }
+
+  deleteAdmin(index: number): void {
+    this.adminsFormArray.removeAt(index);
+  }
+
+ // --------------- TEMPLATES --------------------------------------------
+
   displayTemplateFn(template: Template) {
     if (template) {
         return template.title;
@@ -125,6 +200,9 @@ export class ProjectCreateComponent implements OnInit {
       this.selectedTemplate = null;
     }
   }
+
+  // --------------- PROJECT ----------------------------------------------
+
 
   showError(error: string): void {
     this.dialog.open(ErrorDialogComponent, {

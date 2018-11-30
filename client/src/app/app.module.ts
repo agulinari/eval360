@@ -3,9 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatProgressSpinner, MatDialogModule, MatStepperModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule,
+  MatProgressSpinner, MatDialogModule, MatStepperModule } from '@angular/material';
 import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule, MatSelectModule } from '@angular/material';
-import { MatAutocompleteModule, MatChipsModule, MatSlideToggleModule, MatSidenavModule, MatTableModule, MatPaginatorModule, MatSortModule, MatRadioModule } from '@angular/material';
+import { MatAutocompleteModule, MatChipsModule, MatSlideToggleModule,
+  MatSidenavModule, MatTableModule, MatPaginatorModule, MatSortModule, MatRadioModule } from '@angular/material';
 import { FlexModule } from '@angular/flex-layout';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -37,7 +39,7 @@ import { ConfirmDialogComponent } from './dialog/confirm-dialog.component';
 import { ProjectCreateComponent } from './project-create/project-create.component';
 import { AddEvalueeDialogComponent } from './dialog/add-evaluee-dialog.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-
+import { AddAdminDialogComponent } from './dialog/add-admin-dialog.component';
 
 
 @NgModule({
@@ -53,6 +55,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ErrorDialogComponent,
     ConfirmDialogComponent,
     AddEvalueeDialogComponent,
+    AddAdminDialogComponent,
     TemplateListComponent,
     UserProfileComponent,
     ProjectListComponent,
@@ -99,6 +102,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorDialogComponent, ConfirmDialogComponent, AddEvalueeDialogComponent]
+  entryComponents: [ErrorDialogComponent, ConfirmDialogComponent, AddEvalueeDialogComponent, AddAdminDialogComponent]
 })
 export class AppModule { }

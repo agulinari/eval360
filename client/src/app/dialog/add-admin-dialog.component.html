@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Agregar Administrador</h2>
+<mat-dialog-content [formGroup]="adminsForm">
+
+    <mat-form-field class="full-width">
+        <input matInput placeholder="Selecciona un administrador" [matAutocomplete]="auto" formControlName="userInput" (blur)="checkAdmin()" required> 
+        <mat-error *ngIf="adminsForm.controls.userInput.hasError('required')">
+                Campo <strong>requerido</strong>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="adminClick($event)" [displayWith]="displayFn">
+        <mat-option *ngIf="isLoading" class="is-loading">
+            <mat-spinner diameter="50"></mat-spinner>
+        </mat-option>
+        <ng-container *ngIf="!isLoading">
+            <mat-option *ngFor="let user of filteredUsers" [value]="user">
+                <span>{{user.username}}</span>
+            </mat-option>
+        </ng-container>
+    </mat-autocomplete>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="cancel()">Cancelar</button>
+    <button mat-raised-button color="primary" [disabled]="adminsForm.invalid"  (click)="ok()">Ok</button>
+</mat-dialog-actions>

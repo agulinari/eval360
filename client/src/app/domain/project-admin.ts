@@ -1,5 +1,7 @@
+import { User } from './user';
+
 export class ProjectAdmin {
     id: number;
-    idUser: number;
+    user: User;
     creator: boolean;
 }

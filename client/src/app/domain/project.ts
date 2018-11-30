@@ -1,7 +1,7 @@
-import { Reviewer } from "./reviewer";
-import { FeedbackProvider } from "./feedback-provider";
-import { Evaluee } from "./evaluee";
-import { ProjectAdmin } from "./project-admin";
+import { Reviewer } from './reviewer';
+import { FeedbackProvider } from './feedback-provider';
+import { Evaluee } from './evaluee';
+import { ProjectAdmin } from './project-admin';
 
 export class Project {
     id: number;

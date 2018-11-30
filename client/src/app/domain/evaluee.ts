@@ -1,5 +1,5 @@
-import { FeedbackProvider } from "./feedback-provider";
-import { User } from "./user";
+import { FeedbackProvider } from './feedback-provider';
+import { User } from './user';
 
 export class Evaluee {
     id: number;

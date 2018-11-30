@@ -18,10 +18,34 @@
                     <mat-error *ngIf="projectFormGroup.controls.description.invalid">Campo Requerido</mat-error>
                   </mat-form-field>
                 </div>
-                <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
-                    <button mat-raised-button color="primary" [disabled]="projectFormGroup.invalid" matStepperNext>Siguiente</button>
+                <div *ngIf="adminsFormArray" fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
+                  <h3 fxFlex="80%">Administradores</h3>
+                  <h3 fxFlex="20%">Acciones</h3>
                 </div>
-              </form>
+                <div formArrayName="adminsFormArray" *ngFor="let admin of projectFormGroup.get('adminsFormArray').controls; let i = index;">
+                  <mat-divider [inset]="true"></mat-divider>
+                  <div [formGroupName]="i">
+                      <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
+                        <div fxFlex="80%">
+                          <img class="avatar" src="/assets/images/avatar.png" alt="{{admin.value.adminInput.user.username}}">
+                           {{admin.value.adminInput.user.username}}
+                        </div>
+                        <div *ngIf="admin.value.adminInput.creator === false" fxFlex="20%">
+                            <button  type="button" color="accent" mat-icon-button (click)="deleteAdmin(i)">
+                                <mat-icon aria-label="Delete Admin button">clear</mat-icon>
+                            </button>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+       
+          <div>
+              <button mat-button type="button" (click)="openAddAdminDialog()">+ Agregar Admin</button>
+          </div>
+          <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
+              <button mat-raised-button color="primary" [disabled]="projectFormGroup.invalid" matStepperNext>Siguiente</button>
+          </div>
+          </form>
           </mat-step>
           <mat-step [stepControl]="evalueeFormGroup">
             <form [formGroup]="evalueeFormGroup">
