@@ -1,6 +1,9 @@
+import { FeedbackProviderProject } from './feedback-provider-project';
+
 export class EvalueeFeedbackProvider {
     id: number;
-    evalueeId: number;
-    feedbackProviderId: number;
-    evaluationId: number;
+    feedbackProvider: FeedbackProviderProject;
+    status: string;
+    relationship: string;
+    createdOn: string;
 }

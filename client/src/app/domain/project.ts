@@ -1,7 +1,7 @@
 import { Reviewer } from './reviewer';
-import { FeedbackProvider } from './feedback-provider';
-import { Evaluee } from './evaluee';
 import { ProjectAdmin } from './project-admin';
+import { FeedbackProviderProject } from './feedback-provider-project';
+import { EvalueeProject } from './evaluee-project';
 
 export class Project {
     id: number;
@@ -9,7 +9,7 @@ export class Project {
     name: string;
     description: string;
     reviewers: Reviewer[];
-    feedbackProviders: FeedbackProvider[];
-    evaluees: Evaluee[];
+    feedbackProviders: FeedbackProviderProject[];
+    evaluees: EvalueeProject[];
     projectAdmins: ProjectAdmin[];
 }

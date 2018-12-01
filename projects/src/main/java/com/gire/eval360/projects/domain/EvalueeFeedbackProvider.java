@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,9 +14,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Entity
 @NoArgsConstructor
@@ -27,16 +32,19 @@ public class EvalueeFeedbackProvider {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@JoinColumn(nullable = false)
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name="evaluee_id", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@JsonIgnore
 	private Evaluee evaluee;
 
-	@JoinColumn(nullable = false)
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name="feedback_provider_id", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	private FeedbackProvider feedbackProvider;
-	
+	    
+	@Enumerated(EnumType.STRING)
+	@NonNull
     @Column
-    private Long evaluationId;
+    private EvaluationStatus status;
     
 	@Column
 	private String relationship;

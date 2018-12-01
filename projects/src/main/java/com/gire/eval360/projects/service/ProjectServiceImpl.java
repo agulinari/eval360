@@ -7,8 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gire.eval360.projects.domain.EvaluationStatus;
 import com.gire.eval360.projects.domain.Evaluee;
 import com.gire.eval360.projects.domain.EvalueeFeedbackProvider;
 import com.gire.eval360.projects.domain.FeedbackProvider;
@@ -19,15 +23,22 @@ import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateFeedbackProvider;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
+import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
+import com.gire.eval360.projects.repository.EvalueeFeedbackProviderRepository;
 import com.gire.eval360.projects.repository.ProjectRepository;
 
 @Service
 public class ProjectServiceImpl implements ProjectService{
 	
-	private ProjectRepository projectRepository;
+	private final ProjectRepository projectRepository;
 	
-	public ProjectServiceImpl(ProjectRepository projectRepository) {
+	private final EvalueeFeedbackProviderRepository efpRepository;
+	
+	@Autowired
+	public ProjectServiceImpl(final ProjectRepository projectRepository,
+			final EvalueeFeedbackProviderRepository efpRepository) {
 		this.projectRepository = projectRepository;
+		this.efpRepository = efpRepository;
 	}
 
 	public Collection<Project> getProjects() {
@@ -55,6 +66,7 @@ public class ProjectServiceImpl implements ProjectService{
 			
 			for (CreateFeedbackProvider createFp: createEvaluee.getFeedbackProviders()) {
 				EvalueeFeedbackProvider efp = new EvalueeFeedbackProvider();
+				efp.setStatus(EvaluationStatus.PENDIENTE);
 				efp.setEvaluee(evaluee);
 				
 				FeedbackProvider fp = mapaFps.get(createFp.getIdUser());
@@ -90,5 +102,12 @@ public class ProjectServiceImpl implements ProjectService{
 		project.setProjectAdmins(projectAdmins);
 		projectRepository.save(project);
 		return project;
+	}
+
+	@Override
+	@Transactional
+	public void reportFeedback(ReportFeedbackRequest request) {
+		EvalueeFeedbackProvider efp = efpRepository.findByEvalueeAndFeedbackProvider(request.getIdEvaluee(), request.getIdFeedbackProvider());
+		efp.setStatus(EvaluationStatus.RESUELTO);
 	}
 }
