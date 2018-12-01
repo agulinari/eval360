@@ -8,16 +8,16 @@ import { TemplateService } from '../shared/template.service';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { User } from '../domain/user';
 import { ProjectService } from '../shared/project.service';
-import { CreateProject } from '../domain/request/create-project';
-import { CreateEvaluee } from '../domain/request/create-evaluee';
-import { CreateFeedbackProvider } from '../domain/request/create-feedback-provider';
+import { CreateProject } from '../domain/create-project/create-project';
+import { CreateEvaluee } from '../domain/create-project/create-evaluee';
+import { CreateFeedbackProvider } from '../domain/create-project/create-feedback-provider';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { Router } from '@angular/router';
 import { ProjectAdmin } from '../domain/project-admin';
 import { AddAdminDialogComponent } from '../dialog/add-admin-dialog.component';
 import { UserService } from '../shared/user.service';
 import { AuthenticationService } from '../shared/authentication.service';
-import { CreateAdmin } from '../domain/request/create-admin';
+import { CreateAdmin } from '../domain/create-project/create-admin';
 
 /**
  * @title Stepper overview

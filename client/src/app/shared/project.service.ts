@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Project } from '../domain/project';
 import { map, catchError } from 'rxjs/operators';
-import { CreateProject } from '../domain/request/create-project';
+import { CreateProject } from '../domain/create-project/create-project';
 import { ProjectList } from '../domain/project-list';
 
 @Injectable({

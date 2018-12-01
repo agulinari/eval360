@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule,
   MatProgressSpinner, MatDialogModule, MatStepperModule } from '@angular/material';
 import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule, MatSelectModule } from '@angular/material';
-import { MatAutocompleteModule, MatChipsModule, MatSlideToggleModule,
+import { MatAutocompleteModule, MatChipsModule, MatSlideToggleModule, MatProgressBarModule,
   MatSidenavModule, MatTableModule, MatPaginatorModule, MatSortModule, MatRadioModule } from '@angular/material';
 import { FlexModule } from '@angular/flex-layout';
 
@@ -92,6 +92,7 @@ import { ProjectStatusComponent } from './project-status/project-status.componen
     MatRadioModule,
     MatDialogModule,
     MatStepperModule,
+    MatProgressBarModule,
     FlexModule
   ],
   providers: [

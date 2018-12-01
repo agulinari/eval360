@@ -6,6 +6,8 @@ import { UserService } from '../shared/user.service';
 import { Project } from '../domain/project';
 import { ProjectService } from '../shared/project.service';
 import { User } from '../domain/user';
+import { EvalueeStatus } from '../domain/project-status/evaluee-status';
+import { FeedbackProviderStatus } from '../domain/project-status/feedback-provider-status';
 
 @Component({
   selector: 'app-project-status',
@@ -16,7 +18,8 @@ export class ProjectStatusComponent implements OnInit {
 
   sub: Subscription;
   project: Project = undefined;
-  users: Observable<User>[] = [];
+  evaluees: EvalueeStatus[] = [];
+  feedbackProviders: FeedbackProviderStatus[] = [];
 
   constructor( private route: ActivatedRoute,
     private router: Router,
@@ -38,10 +41,49 @@ export class ProjectStatusComponent implements OnInit {
 
       if (project) {
         project.evaluees.forEach(evaluee => {
-          evaluee.user = this.userService.get(evaluee.idUser.toString());
+          const user = this.userService.get(evaluee.idUser.toString());
+          const evalueeStatus: EvalueeStatus = {
+              id: evaluee.id,
+              user: user,
+              status: 'Pendiente',
+              feedbackRequests: evaluee.feedbackProviders.length,
+              feedbackResponses: 0,
+              progress: 0
+          };
+
+          let responses = 0;
+          evaluee.feedbackProviders.forEach(fp => {
+            if (fp.status !== 'PENDIENTE') {
+              responses++;
+            }
+          });
+          evalueeStatus.feedbackResponses = responses;
+          evalueeStatus.progress = responses * 100 / evalueeStatus.feedbackRequests;
+          this.evaluees.push(evalueeStatus);
         });
         project.feedbackProviders.forEach(fp => {
-          fp.user = this.userService.get(fp.idUser.toString());
+          const user = this.userService.get(fp.idUser.toString());
+          const fpStatus: FeedbackProviderStatus = {
+            id: fp.id,
+            user: user,
+            status: 'Pendiente',
+            feedbacksPending: 0,
+            feedbacksCompleted: 0,
+            progress: 0
+          };
+          let pending = 0;
+          let completed = 0;
+          project.evaluees.forEach(evaluee => {
+            evaluee.feedbackProviders.forEach(efp => {
+              if (efp.feedbackProvider.id === fp.id) {
+                (efp.status === 'PENDIENTE') ? pending++ : completed++;
+              }
+            });
+          });
+          fpStatus.feedbacksPending = pending;
+          fpStatus.feedbacksCompleted = completed;
+          fpStatus.progress = (completed * 100) / (pending + completed);
+          this.feedbackProviders.push(fpStatus);
         });
         this.project = project;
       } else {

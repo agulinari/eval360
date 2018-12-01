@@ -6,21 +6,31 @@
     <mat-card-content>
       
           <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
-            <h3 fxFlex="80%">Evaluados</h3>
-            <h3 fxFlex="20%">Acciones</h3>
+            <h4 fxFlex="20%">Evaluados</h4>
+            <h4 fxFlex="20%">Estado</h4>
+            <h4 fxFlex="20%">Pedidos de Feedback</h4>
+            <h4 fxFlex="20%">Respuestas</h4>
+            <h4 fxFlex="20%">Progreso</h4>
           </div>
-          <mat-list *ngIf="project !== undefined">
-          <div *ngFor="let evaluee of project.evaluees; let i = index; last as last">
+          <mat-list>
+          <div *ngFor="let evaluee of evaluees; let i = index; last as last">
             <div *ngIf="evaluee.user | async; let user">      
-                <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
-                  <div  fxFlex="80%">
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap fxLayoutGap="5px">
+                  <div  fxFlex="20%">
                     <img class="avatar" src="/assets/images/avatar.png" alt="{{evaluee.idUser}}">
                      {{user.username}}
                   </div>
                   <div fxFlex="20%">
-                      <button  type="button" color="accent" mat-icon-button>
-                          <mat-icon aria-label="Delete Admin button">clear</mat-icon>
-                      </button>
+                      {{evaluee.status}}
+                  </div>
+                  <div fxFlex="20%">
+                      {{evaluee.feedbackRequests}}
+                  </div>
+                  <div fxFlex="20%">
+                      {{evaluee.feedbackResponses}}
+                  </div>
+                  <div fxFlex="20%">
+                      <mat-progress-bar mode="determinate" [value]="evaluee.progress"></mat-progress-bar>
                   </div>
                 </div>
               </div>
@@ -28,21 +38,31 @@
           </div>
         </mat-list>
           <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
-              <h3 fxFlex="80%">Evaluadores</h3>
-              <h3 fxFlex="20%">Acciones</h3>
+              <h4 fxFlex="20%">Evaluadores</h4>
+              <h4 fxFlex="20%">Estado</h4>
+              <h4 fxFlex="20%">Pendientes</h4>
+              <h4 fxFlex="20%">Completados</h4>
+              <h4 fxFlex="20%">Progreso</h4>
           </div>
-          <mat-list *ngIf="project !== undefined">
-          <div *ngFor="let fp of project.feedbackProviders; let i = index; last as last">
+          <mat-list>
+          <div *ngFor="let fp of feedbackProviders; let i = index; last as last">
               <div *ngIf="fp.user | async; let user">
-                  <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
-                    <div fxFlex="80%">
+                  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap fxLayoutGap="5px">
+                    <div fxFlex="20%">
                       <img class="avatar" src="/assets/images/avatar.png" alt="{{fp.idUser}}">
                        {{user.username}}
                     </div>
                     <div fxFlex="20%">
-                        <button  type="button" color="accent" mat-icon-button>
-                            <mat-icon aria-label="Delete Admin button">clear</mat-icon>
-                        </button>
+                        {{fp.status}}
+                    </div>
+                    <div fxFlex="20%">
+                        {{fp.feedbacksPending}}
+                    </div>
+                    <div fxFlex="20%">
+                        {{fp.feedbacksCompleted}}
+                    </div>
+                    <div fxFlex="20%">
+                        <mat-progress-bar mode="determinate" [value]="fp.progress"></mat-progress-bar>
                     </div>
                   </div>
               </div>
