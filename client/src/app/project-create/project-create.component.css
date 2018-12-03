@@ -7,3 +7,6 @@
     width: 100%;
   }
   
+  .mat-list .mat-list-item {
+    height: 60px; /* default is 72px */
+  }
