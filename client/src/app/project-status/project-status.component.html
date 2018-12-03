@@ -1,10 +1,18 @@
-
+<mat-tab-group>
+<mat-tab label="Estado">
 <mat-card  class="shipping-card">
     <mat-card-header>
       <mat-card-title>Estado del Proyecto <strong>{{project?.name}}</strong></mat-card-title>
     </mat-card-header>
+    <mat-card-actions align="right">
+        <button mat-raised-button type="button" color="primary" [disabled]="loading" (click)="openAddEvalueeDialog()">+ Evaluado</button>
+        <button mat-raised-button type="button" color="primary" [disabled]="loading" (click)="addAdmin()">+ Admin</button>
+    </mat-card-actions>
     <mat-card-content>
-      
+      <div class="spinner-container" *ngIf="loading">
+          <mat-spinner [diameter]='70'></mat-spinner>
+      </div>
+      <div *ngIf="!loading">
           <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
             <h4 fxFlex="20%">Evaluados</h4>
             <h4 fxFlex="20%">Estado</h4>
@@ -69,5 +77,10 @@
               <mat-divider [inset]="true" *ngIf="!last"></mat-divider> 
           </div>
         </mat-list>
+      </div>
     </mat-card-content>
 </mat-card>
+</mat-tab>
+<mat-tab label="Estadisticas"> Content 2 </mat-tab>
+<mat-tab label="Resultados"> Content 3 </mat-tab>
+</mat-tab-group>

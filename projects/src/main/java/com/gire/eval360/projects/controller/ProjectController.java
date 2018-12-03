@@ -3,12 +3,14 @@ package com.gire.eval360.projects.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
 import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
 import com.gire.eval360.projects.service.ProjectService;
@@ -37,4 +39,12 @@ public class ProjectController {
 		this.projectService.reportFeedback(request);
 		return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
+	
+	@PostMapping("/{id}/addEvaluee")
+	public ResponseEntity<?> addEvaluee(@PathVariable Long id, @RequestBody CreateEvaluee request) {
+		// TODO: validate request
+		this.projectService.addEvaluee(id, request);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+
 }

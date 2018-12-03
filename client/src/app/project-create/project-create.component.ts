@@ -95,14 +95,14 @@ export class ProjectCreateComponent implements OnInit {
     );
   }
 
-  getEvaluees(): User[] {
-    const users: User[] = [];
+  getEvaluees(): number[] {
+    const users: number[] = [];
     if (!this.evaluesFormArray) {
       return users;
     }
     this.evaluesFormArray.controls.forEach(c => {
       const user = c.get('evaluee').value.user;
-      users.push(user);
+      users.push(user.id);
     });
     return users;
   }

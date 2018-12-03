@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule,
-  MatProgressSpinner, MatDialogModule, MatStepperModule } from '@angular/material';
+  MatTabsModule, MatDialogModule, MatStepperModule } from '@angular/material';
 import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule, MatSelectModule } from '@angular/material';
 import { MatAutocompleteModule, MatChipsModule, MatSlideToggleModule, MatProgressBarModule,
   MatSidenavModule, MatTableModule, MatPaginatorModule, MatSortModule, MatRadioModule } from '@angular/material';
@@ -93,6 +93,7 @@ import { ProjectStatusComponent } from './project-status/project-status.componen
     MatDialogModule,
     MatStepperModule,
     MatProgressBarModule,
+    MatTabsModule,
     FlexModule
   ],
   providers: [

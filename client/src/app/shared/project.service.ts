@@ -5,6 +5,8 @@ import { Project } from '../domain/project';
 import { map, catchError } from 'rxjs/operators';
 import { CreateProject } from '../domain/create-project/create-project';
 import { ProjectList } from '../domain/project-list';
+import { Evaluee } from '../domain/evaluee';
+import { CreateEvaluee } from '../domain/create-project/create-evaluee';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +52,11 @@ export class ProjectService {
     } else {
       result = this.http.post(this.PROJECTS_API, project);
     }
+    return result;
+  }
+
+  addEvaluee(id: number, evaluee: CreateEvaluee): Observable<any> {
+    const result = this.http.post(this.PROJECTS_API + '/' + id + '/addEvaluee', evaluee);
     return result;
   }
 

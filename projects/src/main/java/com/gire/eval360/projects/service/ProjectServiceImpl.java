@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -109,5 +110,45 @@ public class ProjectServiceImpl implements ProjectService{
 	public void reportFeedback(ReportFeedbackRequest request) {
 		EvalueeFeedbackProvider efp = efpRepository.findByEvalueeAndFeedbackProvider(request.getIdEvaluee(), request.getIdFeedbackProvider());
 		efp.setStatus(EvaluationStatus.RESUELTO);
+	}
+
+	@Override
+	@Transactional
+	public void addEvaluee(Long id, CreateEvaluee createEvaluee) {
+		
+		Optional<Project> project = projectRepository.findById(id);
+		
+		project.ifPresent(p -> {
+			
+			Map<Long, FeedbackProvider> mapaFps = new HashMap<>();
+			for (FeedbackProvider fp: p.getFeedbackProviders()){
+				mapaFps.put(fp.getIdUser(), fp);
+			}
+			
+			Evaluee evaluee = new Evaluee();
+			evaluee.setIdUser(createEvaluee.getIdUser());
+			evaluee.setProject(p);
+			
+			for (CreateFeedbackProvider createFp: createEvaluee.getFeedbackProviders()) {
+				EvalueeFeedbackProvider efp = new EvalueeFeedbackProvider();
+				efp.setStatus(EvaluationStatus.PENDIENTE);
+				efp.setEvaluee(evaluee);
+				
+				FeedbackProvider fp = mapaFps.get(createFp.getIdUser());
+				if (fp == null) {
+					fp = new FeedbackProvider();
+					fp.setIdUser(createFp.getIdUser());
+					fp.setProject(p);
+					fp.getEvaluees().add(efp);
+					mapaFps.put(createFp.getIdUser(), fp);
+				}
+				
+				efp.setFeedbackProvider(fp);
+				efp.setRelationship(createFp.getRelationship());
+				evaluee.getFeedbackProviders().add(efp);
+			}
+			p.getEvaluees().add(evaluee);
+		});
+		
 	}
 }
