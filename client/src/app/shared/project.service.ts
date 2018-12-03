@@ -61,7 +61,7 @@ export class ProjectService {
   }
 
   findActiveProjectsByTemplate(idTemplate: string): Observable<Project[]> {
-    return this.http.get(this.PROJECTS_API + '/search/findActiveProjectsByTemplate', {
+    return this.http.get(this.PROJECTS_API + '/search/active-projects-template', {
       params : new HttpParams()
       .set('idTemplate', idTemplate)
     }).pipe(
@@ -70,7 +70,7 @@ export class ProjectService {
   }
 
   findActiveProjectsByUser(idUser: string): Observable<Project[]> {
-    return this.http.get(this.PROJECTS_API + '/search/findActiveProjectsByUser', {
+    return this.http.get(this.PROJECTS_API + '/search/active-projects-user', {
       params : new HttpParams()
       .set('idUser', idUser)
     }).pipe(
