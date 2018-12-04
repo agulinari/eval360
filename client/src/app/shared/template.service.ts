@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, pipe } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Template } from '../domain/template';
-import { TemplateList } from '../domain/template-list';
+import { Template } from '../domain/template/template';
+import { TemplateList } from '../domain/template/template-list';
 
 @Injectable()
 export class TemplateService {

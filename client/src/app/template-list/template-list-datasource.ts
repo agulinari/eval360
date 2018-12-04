@@ -2,9 +2,9 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map, catchError, finalize } from 'rxjs/operators';
 import { Observable, of as observableOf, merge, BehaviorSubject, of } from 'rxjs';
-import { Template } from '../domain/template';
+import { Template } from '../domain/template/template';
 import { TemplateService } from '../shared/template.service';
-import { TemplateList } from '../domain/template-list';
+import { TemplateList } from '../domain/template/template-list';
 
 /**
  * Data source for the TemplateList view. This class should

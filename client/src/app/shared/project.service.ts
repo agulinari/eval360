@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { Project } from '../domain/project';
+import { Project } from '../domain/project/project';
 import { map, catchError } from 'rxjs/operators';
 import { CreateProject } from '../domain/create-project/create-project';
-import { ProjectList } from '../domain/project-list';
-import { Evaluee } from '../domain/evaluee';
+import { ProjectList } from '../domain/project/project-list';
+import { Evaluee } from '../domain/project/evaluee';
 import { CreateEvaluee } from '../domain/create-project/create-evaluee';
 
 @Injectable({

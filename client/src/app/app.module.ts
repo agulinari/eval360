@@ -6,8 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule,
   MatTabsModule, MatDialogModule, MatStepperModule } from '@angular/material';
 import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule, MatSelectModule } from '@angular/material';
-import { MatAutocompleteModule, MatChipsModule, MatSlideToggleModule, MatProgressBarModule,
-  MatSidenavModule, MatTableModule, MatPaginatorModule, MatSortModule, MatRadioModule } from '@angular/material';
+import { MatAutocompleteModule, MatChipsModule, MatSlideToggleModule, MatProgressBarModule, MatTooltipModule,
+  MatSidenavModule, MatTableModule, MatPaginatorModule, MatExpansionModule, MatSortModule, MatRadioModule } from '@angular/material';
 import { FlexModule } from '@angular/flex-layout';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -41,6 +41,7 @@ import { AddEvalueeDialogComponent } from './dialog/add-evaluee-dialog.component
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AddAdminDialogComponent } from './dialog/add-admin-dialog.component';
 import { ProjectStatusComponent } from './project-status/project-status.component';
+import { EvaluationComponent } from './evaluation/evaluation.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { ProjectStatusComponent } from './project-status/project-status.componen
     ProjectListComponent,
     ProjectCreateComponent,
     DashboardComponent,
-    ProjectStatusComponent
+    ProjectStatusComponent,
+    EvaluationComponent
   ],
   imports: [
     BrowserModule,
@@ -94,6 +96,8 @@ import { ProjectStatusComponent } from './project-status/project-status.componen
     MatStepperModule,
     MatProgressBarModule,
     MatTabsModule,
+    MatExpansionModule,
+    MatTooltipModule,
     FlexModule
   ],
   providers: [

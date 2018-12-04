@@ -4,7 +4,7 @@
       <mat-form-field fxFlex="70%">
         <input matInput type="search" placeHolder="Buscar Templates" #input>
       </mat-form-field>
-      <button mat-fab color="accent">
+      <button matTooltip="Crear nuevo template" mat-fab color="accent">
         <mat-icon aria-label="Add Template Button" (click)="addTemplate()">add</mat-icon>
       </button> 
       <div class="spinner-container" *ngIf="dataSource.loading$ | async">
@@ -31,13 +31,13 @@
     <ng-container matColumnDef="actions">
         <mat-header-cell fxFlex="30%"  *matHeaderCellDef>Acciones</mat-header-cell>
         <mat-cell fxFlex="30%" *matCellDef="let row">
-            <button type="button" color="accent" mat-icon-button (click)="cloneTemplate(row.id)">
+            <button type="button" matTooltip="Clonar template" color="accent" mat-icon-button (click)="cloneTemplate(row.id)">
                 <mat-icon aria-label="Edit template button">file_copy</mat-icon>
             </button>
-            <button type="button" color="accent" mat-icon-button (click)="editTemplate(row.id)">
+            <button type="button" matTooltip="Editar template" color="accent" mat-icon-button (click)="editTemplate(row.id)">
                 <mat-icon aria-label="Edit template button">create</mat-icon>
             </button>
-            <button type="button" color="accent" mat-icon-button (click)="deleteTemplate(row.id)">
+            <button type="button" matTooltip="Eliminar template" color="accent" mat-icon-button (click)="deleteTemplate(row.id)">
                 <mat-icon aria-label="Delete template button">clear</mat-icon>
             </button>
         </mat-cell>

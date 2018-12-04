@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 
 
 @Component({
-    selector: 'dialog-overview',
+    selector: 'app-dialog-overview',
     templateUrl: 'error-dialog.component.html'
 })
 export class ErrorDialogComponent {

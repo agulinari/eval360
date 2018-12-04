@@ -3,9 +3,9 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { UserService } from '../shared/user.service';
-import { User } from '../domain/user';
-import { Evaluee } from '../domain/evaluee';
-import { FeedbackProvider } from '../domain/feedback-provider';
+import { User } from '../domain/user/user';
+import { Evaluee } from '../domain/project/evaluee';
+import { FeedbackProvider } from '../domain/project/feedback-provider';
 
 
 @Component({
