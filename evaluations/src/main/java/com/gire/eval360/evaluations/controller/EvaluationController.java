@@ -41,19 +41,37 @@ public class EvaluationController {
 		return repository.findById(evaluationId).map(savedEval -> ResponseEntity.ok(savedEval))
 				.defaultIfEmpty(ResponseEntity.notFound().build());
 	}
+	
+	@GetMapping("/evaluations/project/{id}")
+	public Flux<Evaluation> getEvaluationsByProject(@PathVariable(value = "id") Long projectId) {
+		return repository.findByIdProject(projectId);
+	}
+	
+	@GetMapping("/evaluations/project/{id}/feedbackProvider/{idFp}")
+	public Flux<Evaluation> getEvaluationsByProjectAndFeedbackProvider(@PathVariable(value = "id") Long projectId, @PathVariable(value="idFp") Long feedbackProviderId) {
+		return repository.findByIdProjectAndIdFeedbackProvider(projectId, feedbackProviderId);
+	}
+	
+	@GetMapping("/evaluations/project/{id}/evaluee/{idEvaluee}")
+	public Flux<Evaluation> getEvaluationsByProjectAndEvaluee(@PathVariable(value = "id") Long projectId, @PathVariable(value="idEvaluee") Long evalueeId) {
+		return repository.findByIdProjectAndIdEvaluee(projectId, evalueeId);
+	}
+
 
 	@PutMapping("/evaluations/{id}")
-	public Mono<ResponseEntity<Evaluation>> updateTweet(@PathVariable(value = "id") String evaluationId,
+	public Mono<ResponseEntity<Evaluation>> updateEvaluation(@PathVariable(value = "id") String evaluationId,
 			@Valid @RequestBody Evaluation evaluation) {
 		return repository.findById(evaluationId).flatMap(existingEval -> {
-			//TODO: update existing Eval
+			existingEval.setIdEvaluee(evaluation.getIdEvaluee());
+			existingEval.setIdFeedbackProvider(evaluation.getIdFeedbackProvider());
+			existingEval.setIdProject(evaluation.getIdProject());
 			return repository.save(existingEval);
 		}).map(updatedEval -> new ResponseEntity<>(updatedEval, HttpStatus.OK))
 				.defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
 	@DeleteMapping("/evaluations/{id}")
-	public Mono<ResponseEntity<Void>> deleteTweet(@PathVariable(value = "id") String evaluationId) {
+	public Mono<ResponseEntity<Void>> deleteEvaluation(@PathVariable(value = "id") String evaluationId) {
 
 		return repository.findById(evaluationId)
 				.flatMap(existingEval -> repository.delete(existingEval)
@@ -63,7 +81,7 @@ public class EvaluationController {
 
 	// Evaluations are Sent to the client as Server Sent Events
 	@GetMapping(value = "/stream/evaluations", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-	public Flux<Evaluation> streamAllTweets() {
+	public Flux<Evaluation> streamAllEvaluation() {
 		return repository.findAll();
 	}
 

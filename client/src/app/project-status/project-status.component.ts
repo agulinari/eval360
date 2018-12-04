@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, Observable, forkJoin } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material';
@@ -19,7 +19,7 @@ import { finalize } from 'rxjs/operators';
   templateUrl: './project-status.component.html',
   styleUrls: ['./project-status.component.css']
 })
-export class ProjectStatusComponent implements OnInit {
+export class ProjectStatusComponent implements OnInit, OnDestroy {
 
   sub: Subscription;
   project: Project = undefined;
@@ -40,6 +40,10 @@ export class ProjectStatusComponent implements OnInit {
         this.getProject(id);
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   getProject(id) {

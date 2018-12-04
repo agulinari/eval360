@@ -42,6 +42,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AddAdminDialogComponent } from './dialog/add-admin-dialog.component';
 import { ProjectStatusComponent } from './project-status/project-status.component';
 import { EvaluationComponent } from './evaluation/evaluation.component';
+import { EvaluationService } from './shared/evaluation.service';
 
 
 @NgModule({
@@ -106,6 +107,7 @@ import { EvaluationComponent } from './evaluation/evaluation.component';
     RoleGuardService,
     TemplateService,
     ProjectService,
+    EvaluationService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}
   ],

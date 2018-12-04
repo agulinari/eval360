@@ -14,6 +14,7 @@ import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectCreateComponent } from './project-create/project-create.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProjectStatusComponent } from './project-status/project-status.component';
+import { EvaluationComponent } from './evaluation/evaluation.component';
 
 
 const appRoutes: Routes = [
@@ -104,6 +105,14 @@ const appRoutes: Routes = [
       {
         path: 'project-status/:id',
         component: ProjectStatusComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRoles: ['ROLE_USER']
+        }
+      },
+      {
+        path: 'project/evaluations/:id',
+        component: EvaluationComponent,
         canActivate: [RoleGuardService],
         data: {
           expectedRoles: ['ROLE_USER']
