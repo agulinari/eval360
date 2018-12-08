@@ -32,11 +32,11 @@
       <ng-container matColumnDef="actions">
           <mat-header-cell fxFlex="30%"  *matHeaderCellDef>Acciones</mat-header-cell>
           <mat-cell fxFlex="30%" *matCellDef="let row">
-              <button type="button" matTooltip="Ver estado del proyecto" color="accent" mat-icon-button (click)="goToProjectStatus(row.id)">
-                  <mat-icon aria-label="Go to project status button">more_horiz</mat-icon>
+              <button type="button" matTooltip="Administrar el proyecto" color="accent" mat-icon-button (click)="goToProjectStatus(row.id)">
+                  <mat-icon aria-label="Go to project status button">settings</mat-icon>
               </button>
-              <button type="button" matTooltip="Eliminar proyecto" color="accent" mat-icon-button (click)="deleteProject(row.id)">
-                  <mat-icon aria-label="Delete project button">clear</mat-icon>
+              <button type="button" matTooltip="Mis Evaluaciones" color="accent" mat-icon-button (click)="goToProjectTasks(row.id)">
+                <mat-icon aria-label="Go to project tasks button">assignment</mat-icon>
               </button>
           </mat-cell>
       </ng-container>

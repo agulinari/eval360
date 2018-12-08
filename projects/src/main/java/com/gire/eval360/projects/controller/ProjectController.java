@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
+import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
 import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
 import com.gire.eval360.projects.service.ProjectService;
@@ -44,6 +45,13 @@ public class ProjectController {
 	public ResponseEntity<?> addEvaluee(@PathVariable Long id, @RequestBody CreateEvaluee request) {
 		// TODO: validate request
 		this.projectService.addEvaluee(id, request);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/{id}/addAdmin")
+	public ResponseEntity<?> addAdmin(@PathVariable Long id, @RequestBody CreateProjectAdmin request) {
+		// TODO: validate request
+		this.projectService.addAdmin(id, request);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 

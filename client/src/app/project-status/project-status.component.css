@@ -11,3 +11,9 @@
     height: 60px; /* default is 72px */
   }
 
+  .item-panel{
+    border-radius: 25px;
+    border: 1px solid grey;
+    padding: 10px;
+    margin: 5px;
+}

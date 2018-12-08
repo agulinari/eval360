@@ -6,13 +6,14 @@
     </mat-card-header>
     <mat-card-actions align="right">
         <button mat-raised-button type="button" color="primary" [disabled]="loading" (click)="openAddEvalueeDialog()">+ Evaluado</button>
-        <button mat-raised-button type="button" color="primary" [disabled]="loading" (click)="addAdmin()">+ Admin</button>
+        <button mat-raised-button type="button" color="primary" [disabled]="loading" (click)="openAddAdminDialog()">+ Admin</button>
     </mat-card-actions>
     <mat-card-content>
       <div class="spinner-container" *ngIf="loading">
           <mat-spinner [diameter]='70'></mat-spinner>
       </div>
       <div *ngIf="!loading">
+        <div class="item-panel">
           <div fxLayout="row"  fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px">
             <h4 fxFlex="30%">Evaluados</h4>
             <h4 fxFlex="10%">Estado</h4>
@@ -41,38 +42,61 @@
                   </div>
               </div>
             <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
-        </mat-list-item>
-        </mat-list>
-          <div fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px">
-              <h4 fxFlex="30%">Evaluadores</h4>
-              <h4 fxFlex="10%">Estado</h4>
-              <h4 fxFlex="10%">Pendientes</h4>
-              <h4 fxFlex="10%">Completados</h4>
-              <h4 fxFlex="20%">Progreso</h4>
-          </div>
-          <mat-list>
-          <mat-list-item *ngFor="let fp of feedbackProviders; let i = index; last as last">
-              <div class="full-width" fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px" *ngIf="fp.user | async; let user">
-                    <div fxFlex="30%">
-                      <img class="avatar" src="/assets/images/avatar.png" alt="{{fp.idUser}}">
-                       {{user.username}}
-                    </div>
-                    <div fxFlex="10%">
-                        {{fp.status}}
-                    </div>
-                    <div fxFlex="10%">
-                        {{fp.feedbacksPending}}
-                    </div>
-                    <div fxFlex="10%">
-                        {{fp.feedbacksCompleted}}
-                    </div>
-                    <div fxFlex="20%">
-                        <mat-progress-bar mode="determinate" [value]="fp.progress"></mat-progress-bar>
-                    </div>
-              </div>
-              <mat-divider [inset]="true" *ngIf="!last"></mat-divider> 
           </mat-list-item>
-        </mat-list>
+          </mat-list>
+        </div>
+        <div class="item-panel">
+            <div fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px">
+                <h4 fxFlex="30%">Evaluadores</h4>
+                <h4 fxFlex="10%">Estado</h4>
+                <h4 fxFlex="10%">Pendientes</h4>
+                <h4 fxFlex="10%">Completados</h4>
+                <h4 fxFlex="20%">Progreso</h4>
+            </div>
+            <mat-list>
+            <mat-list-item *ngFor="let fp of feedbackProviders; let i = index; last as last">
+                <div class="full-width" fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px" *ngIf="fp.user | async; let user">
+                        <div fxFlex="30%">
+                        <img class="avatar" src="/assets/images/avatar.png" alt="{{fp.idUser}}">
+                        {{user.username}}
+                        </div>
+                        <div fxFlex="10%">
+                            {{fp.status}}
+                        </div>
+                        <div fxFlex="10%">
+                            {{fp.feedbacksPending}}
+                        </div>
+                        <div fxFlex="10%">
+                            {{fp.feedbacksCompleted}}
+                        </div>
+                        <div fxFlex="20%">
+                            <mat-progress-bar mode="determinate" [value]="fp.progress"></mat-progress-bar>
+                        </div>
+                </div>
+                <mat-divider [inset]="true" *ngIf="!last"></mat-divider> 
+            </mat-list-item>
+            </mat-list>
+        </div>
+            <div class="item-panel">    
+            <div fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px">
+                <h4 fxFlex="30%">Administradores</h4>
+                <h4 fxFlex="10%">Creador</h4>
+            </div>
+            <mat-list>
+            <mat-list-item *ngFor="let admin of admins; let i = index; last as last">
+                <div class="full-width" fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px" *ngIf="admin.user | async; let user">
+                    <div fxFlex="30%">
+                        <img class="avatar" src="/assets/images/avatar.png" alt="{{admin.idUser}}">
+                        {{user.username}}
+                    </div>
+                    <div fxFlex="10%">
+                        {{admin.creator}}
+                    </div>
+                </div>
+                <mat-divider [inset]="true" *ngIf="!last"></mat-divider> 
+            </mat-list-item>
+            </mat-list>
+        </div>   
       </div>
     </mat-card-content>
 </mat-card>

@@ -13,6 +13,10 @@ import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { CreateEvaluee } from '../domain/create-project/create-evaluee';
 import { CreateFeedbackProvider } from '../domain/create-project/create-feedback-provider';
 import { finalize } from 'rxjs/operators';
+import { AddAdminDialogComponent } from '../dialog/add-admin-dialog.component';
+import { CreateAdmin } from '../domain/create-project/create-admin';
+import { ProjectAdmin } from '../domain/project/project-admin';
+import { AdminStatus } from '../domain/project-status/admin-status';
 
 @Component({
   selector: 'app-project-status',
@@ -24,6 +28,7 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
   sub: Subscription;
   project: Project = undefined;
   evaluees: EvalueeStatus[] = [];
+  admins: AdminStatus[] = [];
   feedbackProviders: FeedbackProviderStatus[] = [];
   loading = false;
 
@@ -50,6 +55,7 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.evaluees = [];
     this.feedbackProviders = [];
+    this.admins = [];
     this.projectService.get(id).subscribe((project: Project) => {
 
       if (project) {
@@ -100,6 +106,16 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
           fpStatus.progress = (completed * 100) / (pending + completed);
           this.feedbackProviders.push(fpStatus);
         });
+        project.projectAdmins.forEach(admin => {
+          const user = this.userService.get(admin.idUser.toString());
+          const adminStatus: AdminStatus = {
+            id: admin.id,
+            idUser: admin.idUser,
+            user: user,
+            creator: admin.creator
+          };
+          this.admins.push(adminStatus);
+        });
         this.project = project;
       } else {
         console.log(`Proyecto con id '${id}' no encontrado, volviendo a la lista`);
@@ -114,6 +130,57 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
     () => {
       this.loading = false;
     });
+  }
+
+
+  openAddAdminDialog() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.minWidth = '400px';
+    dialogConfig.data = this.getAdmins();
+    const dialogRef = this.dialog.open(AddAdminDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data) {
+          this.addAdmin(data);
+        }
+      }
+    );
+  }
+
+  getAdmins(): number[] {
+    const users: number[] = [];
+
+    this.admins.forEach(admin => {
+      users.push(admin.idUser);
+    });
+    return users;
+  }
+
+  addAdmin(admin: ProjectAdmin): void {
+    this.loading = true;
+    const createAdmin: CreateAdmin = {
+      id: null,
+      idUser: admin.user.id as number,
+      creator: false
+    };
+
+    this.projectService.addAdmin(this.project.id, createAdmin)
+    .pipe(finalize(() => {
+        this.loading = false;
+        this.getProject(this.project.id);
+      })
+    )
+    .subscribe(
+      res => console.log('Agregando admin al proyecto', res),
+      err => {
+        console.log('Error agregando admin al proyecto', err);
+        this.showError('Se produjo un error al agregar admin al proyecto');
+      }
+    );
   }
 
 

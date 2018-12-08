@@ -151,4 +151,20 @@ public class ProjectServiceImpl implements ProjectService{
 		});
 		
 	}
+
+	@Override
+	@Transactional
+	public void addAdmin(Long id, CreateProjectAdmin createAdmin) {
+		Optional<Project> project = projectRepository.findById(id);
+		
+		project.ifPresent(p -> {
+				
+			ProjectAdmin admin = new ProjectAdmin();
+			admin.setIdUser(createAdmin.getIdUser());
+			admin.setProject(p);
+			admin.setCreator(createAdmin.getCreator());
+			
+			p.getProjectAdmins().add(admin);
+		});		
+	}
 }
