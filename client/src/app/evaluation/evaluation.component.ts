@@ -32,7 +32,7 @@ export class EvaluationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Get current template
     this.sub = this.route.params.subscribe(params => {
-      const id = params['id'];
+      const id = params['idTemplate'];
       if (id) {
         this.getTemplate(id);
       }

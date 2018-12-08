@@ -1,7 +1,9 @@
 package com.gire.eval360.projects.service;
 
 import java.util.Collection;
+import java.util.List;
 
+import com.gire.eval360.projects.domain.Evaluee;
 import com.gire.eval360.projects.domain.Project;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
@@ -19,5 +21,7 @@ public interface ProjectService {
 	void addEvaluee(Long id, CreateEvaluee request);
 
 	void addAdmin(Long id, CreateProjectAdmin request);
+
+	List<Evaluee> getEvalueesForFeedback(Long id, Long idFp);
 
 }

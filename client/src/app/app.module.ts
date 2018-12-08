@@ -43,6 +43,7 @@ import { AddAdminDialogComponent } from './dialog/add-admin-dialog.component';
 import { ProjectStatusComponent } from './project-status/project-status.component';
 import { EvaluationComponent } from './evaluation/evaluation.component';
 import { EvaluationService } from './shared/evaluation.service';
+import { EvaluationListComponent } from './evaluation-list/evaluation-list.component';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { EvaluationService } from './shared/evaluation.service';
     ProjectCreateComponent,
     DashboardComponent,
     ProjectStatusComponent,
-    EvaluationComponent
+    EvaluationComponent,
+    EvaluationListComponent
   ],
   imports: [
     BrowserModule,

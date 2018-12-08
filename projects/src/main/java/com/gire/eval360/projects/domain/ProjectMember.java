@@ -1,9 +1,10 @@
 package com.gire.eval360.projects.domain;
 
 import javax.persistence.Column;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,6 +21,7 @@ public abstract class ProjectMember extends AuditedEntity{
 	@NonNull
 	private Long idUser;
 	
+	@JsonIgnore
 	@ManyToOne	
 	private Project project;
 	

@@ -229,4 +229,23 @@ public class ProjectServiceImpl implements ProjectService{
 			p.getProjectAdmins().add(admin);
 		});		
 	}
+
+	@Override
+	public List<Evaluee> getEvalueesForFeedback(Long id, Long idFp) {
+		Optional<Project> project = projectRepository.findById(id);
+				
+		List<Evaluee> evaluees = new ArrayList<>();
+		project.ifPresent(p -> {
+			Optional<FeedbackProvider> feedbackProvider = p.getFeedbackProviders().stream().filter(fp -> fp.getIdUser().equals(idFp)).findFirst();
+			feedbackProvider.ifPresent(fp -> {
+				for (EvalueeFeedbackProvider efp : fp.getEvaluees()) {
+					if (efp.getStatus().equals(EvaluationStatus.PENDIENTE)) {
+						Evaluee evaluee = efp.getEvaluee();
+						evaluees.add(evaluee);
+					}
+				}
+			});
+		});
+		return evaluees;
+	}
 }
