@@ -6,6 +6,7 @@ import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../shared/project.service';
 import { AuthenticationService } from '../shared/authentication.service';
+import { Project } from '../domain/project/project';
 
 @Component({
   selector: 'app-project-list',
@@ -66,6 +67,12 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
         tap(() => this.loadProjects())
       )
       .subscribe();
+  }
+
+  userIsAdmin(project: Project): boolean {
+    const userId = this.authenticationService.getUserId();
+    const isAdmin = (project.projectAdmins.find(admin => admin.idUser === +userId) !== undefined);
+    return isAdmin;
   }
 
   createProject() {

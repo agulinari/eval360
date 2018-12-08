@@ -5,7 +5,6 @@ import { Project } from '../domain/project/project';
 import { map, catchError } from 'rxjs/operators';
 import { CreateProject } from '../domain/create-project/create-project';
 import { ProjectList } from '../domain/project/project-list';
-import { Evaluee } from '../domain/project/evaluee';
 import { CreateEvaluee } from '../domain/create-project/create-evaluee';
 import { CreateAdmin } from '../domain/create-project/create-admin';
 

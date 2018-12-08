@@ -17,6 +17,7 @@ import { AddAdminDialogComponent } from '../dialog/add-admin-dialog.component';
 import { CreateAdmin } from '../domain/create-project/create-admin';
 import { ProjectAdmin } from '../domain/project/project-admin';
 import { AdminStatus } from '../domain/project-status/admin-status';
+import { AuthenticationService } from '../shared/authentication.service';
 
 @Component({
   selector: 'app-project-status',
@@ -36,9 +37,11 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
     private router: Router,
     public dialog: MatDialog,
     private userService: UserService,
+    private authenticationService: AuthenticationService,
     private projectService: ProjectService) { }
 
   ngOnInit() {
+
     this.sub = this.route.params.subscribe(params => {
       const id = params['id'];
       if (id) {
@@ -117,6 +120,14 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
           this.admins.push(adminStatus);
         });
         this.project = project;
+
+        // Chequear que el usuario sea admin del proyecto
+        const userId = this.authenticationService.getUserId();
+        const isAdmin = (project.projectAdmins.find(admin => admin.idUser === +userId) !== undefined);
+        if (!isAdmin) {
+          console.log('El usuario no es admin del proyecto, volviendo a la lista');
+          this.gotoList();
+        }
       } else {
         console.log(`Proyecto con id '${id}' no encontrado, volviendo a la lista`);
         this.gotoList();
