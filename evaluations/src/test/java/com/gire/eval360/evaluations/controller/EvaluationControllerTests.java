@@ -53,7 +53,7 @@ public class EvaluationControllerTests {
     }
 
     @Test
-    public void testGetSingleTweet() {
+    public void testGetSingleEvaluation() {
     	Evaluation evaluation = repository.save(new Evaluation()).block();
 
         webTestClient.get()
@@ -66,10 +66,11 @@ public class EvaluationControllerTests {
     }
 
     @Test
-    public void testUpdateTweet() {
+    public void testUpdateEvaluation() {
     	Evaluation evaluation = repository.save(new Evaluation()).block();
 
     	Evaluation newEvaluation = new Evaluation();
+    	newEvaluation.setIdEvaluee(Long.valueOf(2));
 
         webTestClient.put()
                 .uri("/evaluations/{id}", Collections.singletonMap("id", evaluation.getId()))
@@ -80,11 +81,11 @@ public class EvaluationControllerTests {
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
                 .expectBody()
-                .jsonPath("$.text").isEqualTo("Updated Tweet");
+                .jsonPath("$.idEvaluee").isEqualTo(Long.valueOf(2));
     }
 
     @Test
-    public void testDeleteTweet() {
+    public void testDeleteEvaluation() {
     	Evaluation evaluation = repository.save(new Evaluation()).block();
 
 	    webTestClient.delete()

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { of ,  Observable } from 'rxjs';
-import { User } from '../domain/user';
+import { User } from '../domain/user/user';
 import { map, catchError } from 'rxjs/operators';
 import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
-import { UserList } from '../domain/user-list';
+import { UserList } from '../domain/user/user-list';
 
 @Injectable()
 export class UserService {

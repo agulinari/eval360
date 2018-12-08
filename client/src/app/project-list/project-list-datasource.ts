@@ -2,10 +2,10 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map, catchError, finalize } from 'rxjs/operators';
 import { Observable, of as observableOf, merge, BehaviorSubject, of } from 'rxjs';
-import { Project } from '../domain/project';
+import { Project } from '../domain/project/project';
 import { ProjectService } from '../shared/project.service';
 import { AuthenticationService } from '../shared/authentication.service';
-import { ProjectList } from '../domain/project-list';
+import { ProjectList } from '../domain/project/project-list';
 
 
 /**

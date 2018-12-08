@@ -22,10 +22,11 @@
                   <h3 fxFlex="80%">Administradores</h3>
                   <h3 fxFlex="20%">Acciones</h3>
                 </div>
-                <div formArrayName="adminsFormArray" *ngFor="let admin of projectFormGroup.get('adminsFormArray').controls; let i = index;">
-                  <mat-divider [inset]="true"></mat-divider>
-                  <div [formGroupName]="i">
-                      <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
+                <mat-list>
+                <mat-list-item formArrayName="adminsFormArray" *ngFor="let admin of projectFormGroup.get('adminsFormArray').controls; let i = index; last as last">    
+                  
+                  <div class="full-width" fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="5px" [formGroupName]="i">
+                   
                         <div fxFlex="80%">
                           <img class="avatar" src="/assets/images/avatar.png" alt="{{admin.value.adminInput.user.username}}">
                            {{admin.value.adminInput.user.username}}
@@ -35,9 +36,11 @@
                                 <mat-icon aria-label="Delete Admin button">clear</mat-icon>
                             </button>
                         </div>
-                      </div>
+                    
                   </div>
-                </div>
+                  <mat-divider [inset]="true"  *ngIf="!last"></mat-divider>
+                </mat-list-item>
+                </mat-list>
        
           <div>
               <button mat-button type="button" (click)="openAddAdminDialog()">+ Agregar Admin</button>

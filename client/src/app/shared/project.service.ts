@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { Project } from '../domain/project';
+import { Project } from '../domain/project/project';
 import { map, catchError } from 'rxjs/operators';
 import { CreateProject } from '../domain/create-project/create-project';
-import { ProjectList } from '../domain/project-list';
+import { ProjectList } from '../domain/project/project-list';
+import { Evaluee } from '../domain/project/evaluee';
+import { CreateEvaluee } from '../domain/create-project/create-evaluee';
 
 @Injectable({
   providedIn: 'root'
@@ -53,8 +55,13 @@ export class ProjectService {
     return result;
   }
 
+  addEvaluee(id: number, evaluee: CreateEvaluee): Observable<any> {
+    const result = this.http.post(this.PROJECTS_API + '/' + id + '/addEvaluee', evaluee);
+    return result;
+  }
+
   findActiveProjectsByTemplate(idTemplate: string): Observable<Project[]> {
-    return this.http.get(this.PROJECTS_API + '/search/findActiveProjectsByTemplate', {
+    return this.http.get(this.PROJECTS_API + '/search/active-projects-template', {
       params : new HttpParams()
       .set('idTemplate', idTemplate)
     }).pipe(
@@ -63,7 +70,7 @@ export class ProjectService {
   }
 
   findActiveProjectsByUser(idUser: string): Observable<Project[]> {
-    return this.http.get(this.PROJECTS_API + '/search/findActiveProjectsByUser', {
+    return this.http.get(this.PROJECTS_API + '/search/active-projects-user', {
       params : new HttpParams()
       .set('idUser', idUser)
     }).pipe(

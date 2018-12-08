@@ -10,7 +10,7 @@ import { ConfirmDialogComponent } from '../dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
 @Component({
-  selector: 'template-list',
+  selector: 'app-template-list',
   templateUrl: './template-list.component.html',
   styleUrls: ['./template-list.component.css'],
 })

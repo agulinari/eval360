@@ -1,10 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { User } from '../domain/user';
+import { User } from '../domain/user/user';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { UserService } from '../shared/user.service';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
-import { ProjectAdmin } from '../domain/project-admin';
+import { ProjectAdmin } from '../domain/project/project-admin';
 
 @Component({
     selector: 'app-add-admin-dialog',

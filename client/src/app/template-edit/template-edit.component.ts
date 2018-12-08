@@ -2,14 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { TemplateService } from '../shared/template.service';
-import { Template } from '../domain/template';
+import { Template } from '../domain/template/template';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
-import { Section } from '../domain/section';
+import { Section } from '../domain/template/section';
 import { MatDialog } from '@angular/material';
-import { Item } from '../domain/item';
+import { Item } from '../domain/template/item';
 
 @Component({
-  selector: 'template-edit',
+  selector: 'app-template-edit',
   templateUrl: './template-edit.component.html',
   styleUrls: ['./template-edit.component.css'],
 })

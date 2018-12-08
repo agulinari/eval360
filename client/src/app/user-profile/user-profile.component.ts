@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../shared/user.service';
 import { Subscription } from 'rxjs';
-import { User } from '../domain/user';
+import { User } from '../domain/user/user';
 
 @Component({
   selector: 'app-user-profile',

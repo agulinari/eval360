@@ -4,10 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule,
-  MatProgressSpinner, MatDialogModule, MatStepperModule } from '@angular/material';
+  MatTabsModule, MatDialogModule, MatStepperModule } from '@angular/material';
 import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule, MatSelectModule } from '@angular/material';
-import { MatAutocompleteModule, MatChipsModule, MatSlideToggleModule, MatProgressBarModule,
-  MatSidenavModule, MatTableModule, MatPaginatorModule, MatSortModule, MatRadioModule } from '@angular/material';
+import { MatAutocompleteModule, MatChipsModule, MatSlideToggleModule, MatProgressBarModule, MatTooltipModule,
+  MatSidenavModule, MatTableModule, MatPaginatorModule, MatExpansionModule, MatSortModule, MatRadioModule } from '@angular/material';
 import { FlexModule } from '@angular/flex-layout';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -41,6 +41,8 @@ import { AddEvalueeDialogComponent } from './dialog/add-evaluee-dialog.component
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AddAdminDialogComponent } from './dialog/add-admin-dialog.component';
 import { ProjectStatusComponent } from './project-status/project-status.component';
+import { EvaluationComponent } from './evaluation/evaluation.component';
+import { EvaluationService } from './shared/evaluation.service';
 
 
 @NgModule({
@@ -62,7 +64,8 @@ import { ProjectStatusComponent } from './project-status/project-status.componen
     ProjectListComponent,
     ProjectCreateComponent,
     DashboardComponent,
-    ProjectStatusComponent
+    ProjectStatusComponent,
+    EvaluationComponent
   ],
   imports: [
     BrowserModule,
@@ -93,6 +96,9 @@ import { ProjectStatusComponent } from './project-status/project-status.componen
     MatDialogModule,
     MatStepperModule,
     MatProgressBarModule,
+    MatTabsModule,
+    MatExpansionModule,
+    MatTooltipModule,
     FlexModule
   ],
   providers: [
@@ -101,6 +107,7 @@ import { ProjectStatusComponent } from './project-status/project-status.componen
     RoleGuardService,
     TemplateService,
     ProjectService,
+    EvaluationService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}
   ],

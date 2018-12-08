@@ -2,9 +2,9 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map, catchError, finalize } from 'rxjs/operators';
 import { Observable, of as observableOf, merge, BehaviorSubject, of } from 'rxjs';
-import { User } from '../domain/user';
+import { User } from '../domain/user/user';
 import { UserService } from '../shared/user.service';
-import { UserList } from '../domain/user-list';
+import { UserList } from '../domain/user/user-list';
 
 
 /**

@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators, FormArray} from '@angular/forms';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { AddEvalueeDialogComponent } from '../dialog/add-evaluee-dialog.component';
-import { Evaluee } from '../domain/evaluee';
-import { Template } from '../domain/template';
+import { Evaluee } from '../domain/project/evaluee';
+import { Template } from '../domain/template/template';
 import { TemplateService } from '../shared/template.service';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
-import { User } from '../domain/user';
+import { User } from '../domain/user/user';
 import { ProjectService } from '../shared/project.service';
 import { CreateProject } from '../domain/create-project/create-project';
 import { CreateEvaluee } from '../domain/create-project/create-evaluee';
 import { CreateFeedbackProvider } from '../domain/create-project/create-feedback-provider';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { Router } from '@angular/router';
-import { ProjectAdmin } from '../domain/project-admin';
+import { ProjectAdmin } from '../domain/project/project-admin';
 import { AddAdminDialogComponent } from '../dialog/add-admin-dialog.component';
 import { UserService } from '../shared/user.service';
 import { AuthenticationService } from '../shared/authentication.service';
@@ -95,14 +95,14 @@ export class ProjectCreateComponent implements OnInit {
     );
   }
 
-  getEvaluees(): User[] {
-    const users: User[] = [];
+  getEvaluees(): number[] {
+    const users: number[] = [];
     if (!this.evaluesFormArray) {
       return users;
     }
     this.evaluesFormArray.controls.forEach(c => {
       const user = c.get('evaluee').value.user;
-      users.push(user);
+      users.push(user.id);
     });
     return users;
   }

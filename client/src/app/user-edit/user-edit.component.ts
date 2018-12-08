@@ -2,13 +2,13 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Input } from '@ang
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../shared/user.service';
-import { User } from '../domain/user';
+import { User } from '../domain/user/user';
 import { Subscription ,  Subject ,  Observable } from 'rxjs';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatDialog } from '@angular/material';
-import { Authority } from '../domain/authority';
+import { Authority } from '../domain/user/authority';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
 @Component({
@@ -62,6 +62,26 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
     this.dialog.open(ErrorDialogComponent, {
       data: {errorMsg: error}, width: '250px'
     });
+  }
+
+  getUsernameErrorMessage(): string {
+    return this.userForm.controls.username.hasError('required') ? 'Campo requerido' :
+    this.userForm.controls.username.hasError('minlength') ? 'La cantidad mínima de caracteres es 4' :
+    this.userForm.controls.username.hasError('maxlength') ? 'La cantidad máxima de caracteres es 30' :
+            '';
+  }
+
+  getPasswordErrorMessage(): string {
+    return this.userForm.controls.password.hasError('required') ? 'Campo requerido' :
+    this.userForm.controls.password.hasError('minlength') ? 'La cantidad mínima de caracteres es 8' :
+    this.userForm.controls.password.hasError('maxlength') ? 'La cantidad máxima de caracteres es 30' :
+            '';
+  }
+
+  getEmailErrorMessage(): string {
+    return this.userForm.controls.mail.hasError('required') ? 'Campo requerido' :
+    this.userForm.controls.mail.hasError('email') ? 'Mail inválido' :
+            '';
   }
 
   remove(index: number): void {
@@ -134,7 +154,7 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
 
   createForm() {
     this.userForm = this.fb.group({
-      username: ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
+      username: ['', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(30)])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(30)])],
       mail: ['', Validators.compose([Validators.required, Validators.email])],
       enabled: true,

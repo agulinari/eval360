@@ -7,17 +7,17 @@
       <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
         <mat-form-field class="full-width" fxFlex="50%">
           <input matInput placeholder="Usuario" formControlName="username" required>
-          <mat-error *ngIf="userForm.controls.username.invalid">Campo Requerido</mat-error>
+          <mat-error *ngIf="userForm.controls.username.invalid">{{getUsernameErrorMessage()}}</mat-error>
         </mat-form-field>
         <mat-form-field class="full-width" fxFlex="50%">
           <input matInput placeholder="Password" formControlName="password" type="password" required>
-          <mat-error *ngIf="userForm.controls.password.invalid">Campo Requerido</mat-error>
+          <mat-error *ngIf="userForm.controls.password.invalid">{{getPasswordErrorMessage()}}</mat-error>
         </mat-form-field>
       </div>
       <div fxLayout="row" fxLayoutWrap>
         <mat-form-field class="full-width">
           <input matInput placeholder="Email" formControlName="mail" type="mail" required>
-          <mat-error *ngIf="userForm.controls.mail.invalid">Mail invalido</mat-error>
+          <mat-error *ngIf="userForm.controls.mail.invalid">{{getEmailErrorMessage()}}</mat-error>
         </mat-form-field>
       </div>
       <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
