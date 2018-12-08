@@ -16,14 +16,14 @@ public class NotificationReceiver {
 
     @KafkaListener(topics = "${app.topic.notification}", containerFactory = "kafkaListenerNotificationContainerFactory")
     public void listenTrx(@Payload NotificationFeedbackProviderDto data, @Headers MessageHeaders headers) {
-        log.debug("received trx='{}'", data);
+    	System.out.println("received trx='{}'"+ data);
 
-        headers.keySet().forEach(key -> log.debug("{}: {}", key, headers.get(key)));
+        headers.keySet().forEach(key -> System.out.println("{}: {}" + key + headers.get(key)));
 
         try {
             System.out.println("Datos recibidos: "+data.getIdUser());
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            System.out.println("Error: "+e);
         }
     }
 
