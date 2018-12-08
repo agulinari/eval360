@@ -28,14 +28,13 @@ public class NotificationFeedBackSender {
 	}
 
 	public void sendNotification(NotificationFeedbackProviderDto data){
-		log.debug("sending transaccion='{}' to topic='{}'", data, notificationTopic);
-
+		
 		Mono<SenderRecord<String, NotificationFeedbackProviderDto, NotificationFeedbackProviderDto>> outboundMono = 
 				Mono.just(data).map(i -> SenderRecord.create(new ProducerRecord<String, NotificationFeedbackProviderDto>(notificationTopic, i), i));
 
 
 		kafkaNotificationFeedBackSender.send(outboundMono)
-		.doOnError(e-> log.error("Send failed", e))  
+		.doOnError(e-> System.out.println("Sender failed"))  
 		// .doOnNext(r -> System.out.printf("Message #%d send response: %s\n", r.correlationMetadata(), r.recordMetadata()))
 		.subscribe();
 	}
