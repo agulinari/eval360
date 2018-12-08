@@ -20,6 +20,7 @@ import com.gire.eval360.projects.domain.FeedbackProvider;
 import com.gire.eval360.projects.domain.Project;
 import com.gire.eval360.projects.domain.ProjectAdmin;
 import com.gire.eval360.projects.domain.Status;
+import com.gire.eval360.projects.domain.notifications.NotificationFeedbackProviderDto;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateFeedbackProvider;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
@@ -35,11 +36,14 @@ public class ProjectServiceImpl implements ProjectService{
 	
 	private final EvalueeFeedbackProviderRepository efpRepository;
 	
+	private final NotificationFeedBackSender notificationFeedBackSender;
+	
 	@Autowired
-	public ProjectServiceImpl(final ProjectRepository projectRepository,
-			final EvalueeFeedbackProviderRepository efpRepository) {
+	public ProjectServiceImpl(final ProjectRepository projectRepository,final EvalueeFeedbackProviderRepository efpRepository,
+							  final NotificationFeedBackSender notificationFeedBackSender) {
 		this.projectRepository = projectRepository;
 		this.efpRepository = efpRepository;
+		this.notificationFeedBackSender = notificationFeedBackSender;
 	}
 
 	public Collection<Project> getProjects() {
@@ -60,30 +64,7 @@ public class ProjectServiceImpl implements ProjectService{
 		List<CreateEvaluee> createEvaluees = request.getEvaluees();
 		List<Evaluee> evaluees = new ArrayList<>();
 		
-		for (CreateEvaluee createEvaluee : createEvaluees) {
-			Evaluee evaluee = new Evaluee();
-			evaluee.setIdUser(createEvaluee.getIdUser());
-			evaluee.setProject(project);
-			
-			for (CreateFeedbackProvider createFp: createEvaluee.getFeedbackProviders()) {
-				EvalueeFeedbackProvider efp = new EvalueeFeedbackProvider();
-				efp.setStatus(EvaluationStatus.PENDIENTE);
-				efp.setEvaluee(evaluee);
-				
-				FeedbackProvider fp = mapaFps.get(createFp.getIdUser());
-				if (fp == null) {
-					fp = new FeedbackProvider();
-					fp.setIdUser(createFp.getIdUser());
-					fp.setProject(project);
-					fp.getEvaluees().add(efp);
-					mapaFps.put(createFp.getIdUser(), fp);
-				}
-				
-				efp.setFeedbackProvider(fp);
-				efp.setRelationship(createFp.getRelationship());
-				evaluee.getFeedbackProviders().add(efp);
-			}
-		}
+		createEvaluee(mapaFps, project, createEvaluees);
 	
 		project.setEvaluees(evaluees);
 		project.setFeedbackProviders(mapaFps.values());
@@ -91,6 +72,51 @@ public class ProjectServiceImpl implements ProjectService{
 		List<CreateProjectAdmin> createAdmins = request.getAdmins();
 		List<ProjectAdmin> projectAdmins = new ArrayList<>();
 		
+		createProjectAdmin(project, createAdmins, projectAdmins);
+		
+		project.setProjectAdmins(projectAdmins);
+		Project projectGenerated=projectRepository.save(project);
+		notifyFeedBack(projectGenerated);
+		
+		
+		return project;
+	}
+	
+	@Override
+	@Transactional
+	public void reportFeedback(ReportFeedbackRequest request) {
+		EvalueeFeedbackProvider efp = efpRepository.findByEvalueeAndFeedbackProvider(request.getIdEvaluee(), request.getIdFeedbackProvider());
+		efp.setStatus(EvaluationStatus.RESUELTO);
+	}
+	
+	/******* METODOS PRIVADOS *******/
+	
+	/**
+	 * Notifica a los provideers, haciendoles llegar un mail, que se genero un nuevo proyecto de evaluación.
+	 * @param projectGenerated
+	 */
+	private void notifyFeedBack(Project projectGenerated) {
+		
+	
+		for (Evaluee evaluee : projectGenerated.getEvaluees()) {
+			
+			for (EvalueeFeedbackProvider evalueeFp : evaluee.getFeedbackProviders()) {
+				NotificationFeedbackProviderDto notifyFpDto = new NotificationFeedbackProviderDto(evalueeFp.getId(),evalueeFp.getRelationship(),
+																								 evalueeFp.getStatus());
+				notificationFeedBackSender.sendNotification(notifyFpDto);
+			}
+		}
+			
+	}
+	
+	/**
+	 * Crea los project admins del proyecto de evaluación.
+	 * 
+	 * @param project
+	 * @param createAdmins
+	 * @param projectAdmins
+	 */
+	private void createProjectAdmin(Project project, List<CreateProjectAdmin> createAdmins,	List<ProjectAdmin> projectAdmins) {
 		for (CreateProjectAdmin createAdmin : createAdmins) {
 			ProjectAdmin admin = new ProjectAdmin();
 			admin.setIdUser(createAdmin.getIdUser());
@@ -99,17 +125,53 @@ public class ProjectServiceImpl implements ProjectService{
 			admin.setProject(project);
 			projectAdmins.add(admin);
 		}
-		
-		project.setProjectAdmins(projectAdmins);
-		projectRepository.save(project);
-		return project;
 	}
 
-	@Override
-	@Transactional
-	public void reportFeedback(ReportFeedbackRequest request) {
-		EvalueeFeedbackProvider efp = efpRepository.findByEvalueeAndFeedbackProvider(request.getIdEvaluee(), request.getIdFeedbackProvider());
-		efp.setStatus(EvaluationStatus.RESUELTO);
+	/**
+	 * Crea el evaluee y posteriormente llama al metodo de createFeedBackProvider para asociar los proveedores de feedback para el evaluado creado.
+	 * 
+	 * @param mapaFps
+	 * @param project
+	 * @param createEvaluees
+	 */
+	private void createEvaluee(Map<Long, FeedbackProvider> mapaFps, Project project, List<CreateEvaluee> createEvaluees) {
+		for (CreateEvaluee createEvaluee : createEvaluees) {
+			Evaluee evaluee = new Evaluee();
+			evaluee.setIdUser(createEvaluee.getIdUser());
+			evaluee.setProject(project);
+			
+			createFeedBackProvider(mapaFps, project, createEvaluee, evaluee);
+		}
+	}
+
+	/**
+	 * Crea los feedbacks providers a partir de los evaluee
+	 * 
+	 * @param mapaFps
+	 * @param project
+	 * @param createEvaluee
+	 * @param evaluee
+	 */
+	private void createFeedBackProvider(Map<Long, FeedbackProvider> mapaFps, Project project, CreateEvaluee createEvaluee, Evaluee evaluee) {
+		
+		for (CreateFeedbackProvider createFp: createEvaluee.getFeedbackProviders()) {
+			EvalueeFeedbackProvider efp = new EvalueeFeedbackProvider();
+			efp.setStatus(EvaluationStatus.PENDIENTE);
+			efp.setEvaluee(evaluee);
+			
+			FeedbackProvider fp = mapaFps.get(createFp.getIdUser());
+			if (fp == null) {
+				fp = new FeedbackProvider();
+				fp.setIdUser(createFp.getIdUser());
+				fp.setProject(project);
+				fp.getEvaluees().add(efp);
+				mapaFps.put(createFp.getIdUser(), fp);
+			}
+			
+			efp.setFeedbackProvider(fp);
+			efp.setRelationship(createFp.getRelationship());
+			evaluee.getFeedbackProviders().add(efp);
+		}
 	}
 
 	@Override
