@@ -22,7 +22,7 @@
         <div [formGroupName]="j" class="item-panel">
            
               <p>{{item.get('description').value}}</p>
-              <mat-radio-group *ngIf="item.get('itemType').value==='RATING'" fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap fxLayoutGap="5px">
+              <mat-radio-group *ngIf="item.get('itemType').value==='RATING'" formControlName="value" fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap fxLayoutGap="5px">
                 <mat-radio-button fxFlex="20%" value="1">Pobre</mat-radio-button>
                 <mat-radio-button fxFlex="20%" value="2">Regular</mat-radio-button>
                 <mat-radio-button fxFlex="20%" value="3">Bueno</mat-radio-button>
@@ -30,7 +30,7 @@
                 <mat-radio-button fxFlex="20%" value="5">Excelente</mat-radio-button>
               </mat-radio-group>
               <mat-form-field *ngIf="item.get('itemType').value==='TEXTBOX'" class="full-width">
-                <textarea matInput rows="4" formControlName="content"></textarea>
+                <textarea matInput rows="4" formControlName="value"></textarea>
               </mat-form-field>          
         </div> 
         </div>
@@ -41,11 +41,10 @@
     </div>
   </mat-card-content>
     <mat-card-actions  align="center">
-      <!--button mat-raised-button type="button" color="primary" (click)="gotoList()">Volver</button -->
+      <button mat-raised-button type="button" color="primary" (click)="gotoEvaluationList()">Ir a Evaluaciones Pendientes</button>
       <button mat-raised-button type="submit" [disabled]="evaluationForm.invalid" color="primary">Guardar</button>
     </mat-card-actions>
   </mat-card> 
-  
   </div>
   </form>
   

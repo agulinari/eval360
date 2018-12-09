@@ -5,6 +5,7 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 
 import com.gire.eval360.projects.domain.Evaluee;
+import com.gire.eval360.projects.domain.EvalueeFeedbackProvider;
 import com.gire.eval360.projects.domain.FeedbackProvider;
 import com.gire.eval360.projects.domain.Project;
 import com.gire.eval360.projects.domain.ProjectAdmin;
@@ -18,6 +19,7 @@ public class RestConfiguration extends RepositoryRestConfigurerAdapter {
 	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(Project.class);
         config.exposeIdsFor(Evaluee.class);
+        config.exposeIdsFor(EvalueeFeedbackProvider.class);
         config.exposeIdsFor(FeedbackProvider.class);
         config.exposeIdsFor(ProjectAdmin.class);
         config.exposeIdsFor(Reviewer.class);

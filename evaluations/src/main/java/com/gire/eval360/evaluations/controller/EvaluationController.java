@@ -3,6 +3,7 @@ package com.gire.eval360.evaluations.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.gire.eval360.evaluations.domain.Evaluation;
+import com.gire.eval360.evaluations.domain.ReportFeedbackRequest;
 import com.gire.eval360.evaluations.repository.EvaluationRepository;
 
 import reactor.core.publisher.Flux;
@@ -25,6 +30,11 @@ public class EvaluationController {
 
 	@Autowired
 	private EvaluationRepository repository;
+	
+	@Autowired
+	@Qualifier("projectsClient")
+	private WebClient webClient;
+	
 
 	@GetMapping("/evaluations")
 	public Flux<Evaluation> getAllEvaluations() {
@@ -33,7 +43,22 @@ public class EvaluationController {
 
 	@PostMapping("/evaluations")
 	public Mono<Evaluation> createEvaluation(@Valid @RequestBody Evaluation evaluation) {
-		return repository.save(evaluation);
+		
+		ReportFeedbackRequest request = new ReportFeedbackRequest();
+		request.setIdEvaluee(evaluation.getIdEvaluee());
+		request.setIdFeedbackProvider(evaluation.getIdFeedbackProvider());
+		Mono<ClientResponse> call = this.webClient.put()
+						.uri("/reportFeedback")
+						.body(BodyInserters.fromObject(request))
+						.exchange();
+
+		return call.flatMap(clientResponse -> {
+			if (clientResponse.statusCode().is2xxSuccessful()) {
+				return repository.save(evaluation);
+			} else {
+				throw new RuntimeException();
+			}
+		});
 	}
 
 	@GetMapping("/evaluations/{id}")

@@ -1,20 +1,17 @@
 package com.gire.eval360.evaluations.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@EqualsAndHashCode(of={"id"})
-public class Item {
+@EqualsAndHashCode(callSuper=false)
+public class ReportFeedbackRequest {
 	
-	private Long id;
-	private String type;
-	private String value;
+	private Long idEvaluee;
+	private Long idFeedbackProvider;
 
 }

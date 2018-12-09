@@ -15,6 +15,9 @@ eureka:
     metadataMap.instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}  
   
 #Propiedades de MongoDb
+
+#Project service
+projects.url: http://projects-service/projects
  
  # Propiedades Kafka
 spring.kafka.bootstrap-servers: localhost:9092

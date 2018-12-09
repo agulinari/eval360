@@ -98,8 +98,9 @@ export class EvaluationListComponent implements OnInit, OnDestroy {
     });
   }
 
-  goToEvaluationForm(id) {
-    this.router.navigate([`/main/project-tasks/${this.project.id}/evaluation/${id}`]);
+  goToEvaluationForm(evalueeId) {
+
+    this.router.navigate([`/main/project-tasks/${this.project.id}/evaluation/${evalueeId}`]);
   }
 
   gotoList() {

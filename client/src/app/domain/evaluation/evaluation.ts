@@ -5,6 +5,5 @@ export class Evaluation {
     idProject: number;
     idEvaluee: number;
     idFeedbackProvider: number;
-    date: string;
     sections: Section[];
 }

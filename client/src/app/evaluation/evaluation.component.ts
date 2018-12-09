@@ -10,6 +10,9 @@ import { ProjectService } from '../shared/project.service';
 import { AuthenticationService } from '../shared/authentication.service';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { Project } from '../domain/project/project';
+import { Evaluation } from '../domain/evaluation/evaluation';
+import { Section } from '../domain/evaluation/section';
+import { Item } from '../domain/evaluation/item';
 
 @Component({
   selector: 'app-evaluation',
@@ -22,6 +25,7 @@ export class EvaluationComponent implements OnInit, OnDestroy {
   evaluationForm: FormGroup;
   project: Project;
   template: Template;
+  idEvalueeFeedbackProvider: number;
   sections: FormArray;
   loading = false;
 
@@ -41,6 +45,7 @@ export class EvaluationComponent implements OnInit, OnDestroy {
     // Get current template
     this.sub = this.route.params.subscribe(params => {
       const idProject = params['idProject'];
+      this.idEvalueeFeedbackProvider = params['idEvaluee'];
       if (idProject) {
         this.getProject(idProject);
       }
@@ -72,7 +77,7 @@ export class EvaluationComponent implements OnInit, OnDestroy {
     err => {
       console.log('Error obteniendo template', err);
       this.showError('Se produjo un error al  obtener el template');
-      this.gotoList();
+      this.gotoProjectList();
     },
     () => {
       this.loading = false;
@@ -92,7 +97,7 @@ export class EvaluationComponent implements OnInit, OnDestroy {
 
         if ((!isFeedbackProvider) && (!isEvaluee)) {
           console.log('El usuario no es participante del proyecto, volviendo a la lista');
-          this.gotoList();
+          this.gotoProjectList();
         }
 
         this.getTemplate(project.idEvaluationTemplate);
@@ -100,13 +105,13 @@ export class EvaluationComponent implements OnInit, OnDestroy {
 
        } else {
         console.log(`Proyecto con id '${id}' no encontrado, volviendo a la lista`);
-        this.gotoList();
+        this.gotoProjectList();
       }
     },
     err => {
       console.log('Error obteniendo proyecto', err);
       this.showError('Se produjo un error al  obtener al proyecto');
-      this.gotoList();
+      this.gotoProjectList();
     },
     () => {
       this.loading = false;
@@ -167,7 +172,6 @@ export class EvaluationComponent implements OnInit, OnDestroy {
       title: null,
       description: null,
       itemType: null,
-      content: null,
       value: [null, Validators.required]
     });
   }
@@ -178,7 +182,72 @@ export class EvaluationComponent implements OnInit, OnDestroy {
     });
   }
 
-  gotoList() {
+  gotoProjectList() {
     this.router.navigate(['/main/project-list']);
   }
+
+  gotoEvaluationList() {
+    this.router.navigate([`/main/project-tasks/${this.project.id}`]);
+  }
+
+  onSubmit() {
+
+    const evaluation = this.prepareSaveEvaluation();
+    this.evaluationService.save(evaluation).subscribe(
+      res => console.log('Guardando evaluacion', res),
+      err => {
+        console.log('Error guardando evaluacion', err);
+        this.showError('Se produjo un error al guardar la evaluacion');
+      },
+      () => this.gotoEvaluationList());
+  }
+
+  getEvaluee(): number {
+    const evaluee = this.project.evaluees
+    .find(e => e.feedbackProviders.find(efp => efp.id === +this.idEvalueeFeedbackProvider) !== undefined);
+    return evaluee.id;
+  }
+
+  getFeedbackProvider(): number {
+    const userId = this.authenticationService.getUserId();
+    const feedbackProvider = this.project.feedbackProviders.find(fp => fp.idUser === +userId);
+    return feedbackProvider.id;
+  }
+
+  prepareSaveEvaluation(): Evaluation {
+    const formModel = this.evaluationForm.value;
+    const sections = this.evaluationForm.get('sections') as FormArray;
+
+    const saveEvaluation: Evaluation = {
+      id: null,
+      idProject: this.project.id,
+      idEvaluee: this.getEvaluee(),
+      idFeedbackProvider: this.getFeedbackProvider(),
+      sections: []
+    };
+
+    sections.controls.forEach( s => {
+      const items = s.get('items') as FormArray;
+      const section: Section = {
+        id: s.value.id,
+        items: []
+      };
+
+      items.controls.forEach( i => {
+        const item: Item = {
+          id: i.value.id,
+          type: i.value.itemType,
+          value: i.value.value
+        };
+        section.items.push(item);
+      });
+
+      saveEvaluation.sections.push(section);
+    });
+
+    return saveEvaluation;
+  }
+
 }
+
+
