@@ -1,4 +1,8 @@
 <form [formGroup]="evaluationForm" novalidate (ngSubmit)="onSubmit()">
+    <div class="spinner-container" *ngIf="loading">
+        <mat-spinner [diameter]='70'></mat-spinner>
+    </div>
+    <div *ngIf="!loading">
   <mat-card  class="shipping-card">
     <mat-card-header>
       <mat-card-title>Evaluación {{evaluationForm.get('title').value}}</mat-card-title>
@@ -18,15 +22,19 @@
         <div [formGroupName]="j" class="item-panel">
            
               <p>{{item.get('description').value}}</p>
-              <mat-radio-group fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap fxLayoutGap="5px">
+              <mat-radio-group *ngIf="item.get('itemType').value==='RATING'" fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap fxLayoutGap="5px">
                 <mat-radio-button fxFlex="20%" value="1">Pobre</mat-radio-button>
                 <mat-radio-button fxFlex="20%" value="2">Regular</mat-radio-button>
                 <mat-radio-button fxFlex="20%" value="3">Bueno</mat-radio-button>
                 <mat-radio-button fxFlex="20%" value="4">Muy Bueno</mat-radio-button>
                 <mat-radio-button fxFlex="20%" value="5">Excelente</mat-radio-button>
-              </mat-radio-group>    
+              </mat-radio-group>
+              <mat-form-field *ngIf="item.get('itemType').value==='TEXTBOX'" class="full-width">
+                <textarea matInput rows="4" formControlName="content"></textarea>
+              </mat-form-field>          
         </div> 
         </div>
+
        </mat-card-content>
     </mat-card>
     </div>
@@ -38,6 +46,6 @@
     </mat-card-actions>
   </mat-card> 
   
-  
+  </div>
   </form>
   

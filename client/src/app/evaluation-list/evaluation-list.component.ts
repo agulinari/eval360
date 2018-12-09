@@ -66,7 +66,7 @@ export class EvaluationListComponent implements OnInit, OnDestroy {
           if (evalFeedbackProvider !== undefined && evalFeedbackProvider.status === 'PENDIENTE') {
             const user = this.userService.get(evaluee.idUser.toString());
             const evalueeItem: EvalueeItem = {
-              id: evaluee.id,
+              id: evalFeedbackProvider.id,
               idUser: evaluee.idUser,
               user: user,
               relationship: evalFeedbackProvider.relationship
@@ -99,7 +99,7 @@ export class EvaluationListComponent implements OnInit, OnDestroy {
   }
 
   goToEvaluationForm(id) {
-    this.router.navigate([`/main/project-tasks/${this.project.id}/evaluation/${1}`]);
+    this.router.navigate([`/main/project-tasks/${this.project.id}/evaluation/${id}`]);
   }
 
   gotoList() {

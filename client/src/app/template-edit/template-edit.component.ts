@@ -40,18 +40,6 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
       value: 'Rating'
     },
     {
-      id: 'COMBO',
-      value: 'Combo'
-    },
-    {
-      id: 'CHECKBOX',
-      value: 'Checkbox'
-    },
-    {
-      id: 'OPTIONS',
-      value: 'Options'
-    },
-    {
       id: 'TEXTBOX',
       value: 'Textbox'
     }

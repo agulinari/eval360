@@ -8,6 +8,7 @@ export class Project {
     status: string;
     name: string;
     description: string;
+    idEvaluationTemplate: number;
     reviewers: Reviewer[];
     feedbackProviders: FeedbackProviderProject[];
     evaluees: EvalueeProject[];

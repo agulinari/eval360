@@ -6,6 +6,10 @@ import { TemplateService } from '../shared/template.service';
 import { EvaluationService } from '../shared/evaluation.service';
 import { Template } from '../domain/template/template';
 import { Subscription } from 'rxjs';
+import { ProjectService } from '../shared/project.service';
+import { AuthenticationService } from '../shared/authentication.service';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { Project } from '../domain/project/project';
 
 @Component({
   selector: 'app-evaluation',
@@ -16,14 +20,18 @@ export class EvaluationComponent implements OnInit, OnDestroy {
 
   sub: Subscription;
   evaluationForm: FormGroup;
+  project: Project;
   template: Template;
   sections: FormArray;
+  loading = false;
 
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
     private templateService: TemplateService,
+    private projectService: ProjectService,
+    private authenticationService: AuthenticationService,
     private evaluationService: EvaluationService) {
 
     this.createForm();
@@ -32,9 +40,9 @@ export class EvaluationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Get current template
     this.sub = this.route.params.subscribe(params => {
-      const id = params['idTemplate'];
-      if (id) {
-        this.getTemplate(id);
+      const idProject = params['idProject'];
+      if (idProject) {
+        this.getProject(idProject);
       }
     });
   }
@@ -60,6 +68,48 @@ export class EvaluationComponent implements OnInit, OnDestroy {
         console.log(`Template con id '${id}' no encontrado, volviendo a la lista`);
        // this.gotoList();
       }
+    },
+    err => {
+      console.log('Error obteniendo template', err);
+      this.showError('Se produjo un error al  obtener el template');
+      this.gotoList();
+    },
+    () => {
+      this.loading = false;
+    });
+  }
+
+  getProject(id) {
+    this.loading = true;
+    this.projectService.get(id).subscribe((project: Project) => {
+
+      if (project) {
+
+        // Chequear que el usuario sea admin del proyecto
+        const userId = this.authenticationService.getUserId();
+        const isFeedbackProvider = (project.feedbackProviders.find(fp => fp.idUser === +userId) !== undefined);
+        const isEvaluee = (project.evaluees.find(evaluee => evaluee.idUser === +userId) !== undefined);
+
+        if ((!isFeedbackProvider) && (!isEvaluee)) {
+          console.log('El usuario no es participante del proyecto, volviendo a la lista');
+          this.gotoList();
+        }
+
+        this.getTemplate(project.idEvaluationTemplate);
+        this.project = project;
+
+       } else {
+        console.log(`Proyecto con id '${id}' no encontrado, volviendo a la lista`);
+        this.gotoList();
+      }
+    },
+    err => {
+      console.log('Error obteniendo proyecto', err);
+      this.showError('Se produjo un error al  obtener al proyecto');
+      this.gotoList();
+    },
+    () => {
+      this.loading = false;
     });
   }
 
@@ -116,10 +166,19 @@ export class EvaluationComponent implements OnInit, OnDestroy {
     return this.fb.group({
       title: null,
       description: null,
-      type: null,
+      itemType: null,
       content: null,
       value: [null, Validators.required]
     });
   }
 
+  showError(error: string): void {
+    this.dialog.open(ErrorDialogComponent, {
+      data: {errorMsg: error}, width: '250px'
+    });
+  }
+
+  gotoList() {
+    this.router.navigate(['/main/project-list']);
+  }
 }
