@@ -35,7 +35,7 @@ public class NotificationFeedBackSender {
 
 		kafkaNotificationFeedBackSender.send(outboundMono)
 		.doOnError(e-> System.out.println("Sender failed"))  
-		// .doOnNext(r -> System.out.printf("Message #%d send response: %s\n", r.correlationMetadata(), r.recordMetadata()))
+		//.doOnNext(r -> System.out.printf("Message #%d send response: %s\n", r.correlationMetadata(), r.recordMetadata()))
 		.subscribe();
 	}
 
