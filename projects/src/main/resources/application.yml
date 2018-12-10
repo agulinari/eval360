@@ -46,7 +46,7 @@ jwt:
  
  # Propiedades Kafka
 spring.kafka.bootstrap-servers: localhost:9092
-app.topic.notification: notification.t
+app.topic.notification: notification
 
 # Zipkin
 spring.zipkin.sender.type: kafka

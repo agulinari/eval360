@@ -17,7 +17,7 @@ eureka:
  
  # Propiedades Kafka
 spring.kafka.bootstrap-servers: localhost:9092
-app.topic.notification: notification.t
+app.topic.notification: notification
 
 # Zipkin
 spring.zipkin.sender.type: kafka
@@ -33,3 +33,6 @@ management:
   endpoints:
     web.exposure.include:*
     jmx.exposure.exclude:*
+    
+#Propiedades Servicio Users
+users.url: http://users/users

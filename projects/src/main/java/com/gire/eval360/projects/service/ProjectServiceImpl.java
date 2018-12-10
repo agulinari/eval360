@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -62,9 +63,9 @@ public class ProjectServiceImpl implements ProjectService{
 		project.setStatus(Status.PENDIENTE);
 		
 		List<CreateEvaluee> createEvaluees = request.getEvaluees();
-		List<Evaluee> evaluees = new ArrayList<>();
+		List<Evaluee> evaluees = new LinkedList<Evaluee>();
 		
-		createEvaluee(mapaFps, project, createEvaluees);
+		createEvaluee(mapaFps,evaluees, project, createEvaluees);
 	
 		project.setEvaluees(evaluees);
 		project.setFeedbackProviders(mapaFps.values());
@@ -134,13 +135,14 @@ public class ProjectServiceImpl implements ProjectService{
 	 * @param project
 	 * @param createEvaluees
 	 */
-	private void createEvaluee(Map<Long, FeedbackProvider> mapaFps, Project project, List<CreateEvaluee> createEvaluees) {
+	private void createEvaluee(Map<Long, FeedbackProvider> mapaFps,List<Evaluee> evaluees, Project project, List<CreateEvaluee> createEvaluees) {
+						
 		for (CreateEvaluee createEvaluee : createEvaluees) {
 			Evaluee evaluee = new Evaluee();
 			evaluee.setIdUser(createEvaluee.getIdUser());
 			evaluee.setProject(project);
-			
 			createFeedBackProvider(mapaFps, project, createEvaluee, evaluee);
+			evaluees.add(evaluee);
 		}
 	}
 
