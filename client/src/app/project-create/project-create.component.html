@@ -111,6 +111,7 @@
               </mat-autocomplete>
               <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
                 <button mat-raised-button color="primary" matStepperPrevious>Atras</button>
+                <button mat-raised-button color="primary" [disabled]="templateFormGroup.invalid" (click)="previewTemplate()">Previsualizar</button>
                 <button mat-raised-button color="primary" [disabled]="templateFormGroup.invalid" matStepperNext>Siguiente</button>
               </div>
             </form>

@@ -44,6 +44,7 @@ import { ProjectStatusComponent } from './project-status/project-status.componen
 import { EvaluationComponent } from './evaluation/evaluation.component';
 import { EvaluationService } from './shared/evaluation.service';
 import { EvaluationListComponent } from './evaluation-list/evaluation-list.component';
+import { EvaluationPreviewComponent } from './evaluation-preview/evaluation-preview.component';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { EvaluationListComponent } from './evaluation-list/evaluation-list.compo
     ConfirmDialogComponent,
     AddEvalueeDialogComponent,
     AddAdminDialogComponent,
+    EvaluationPreviewComponent,
     TemplateListComponent,
     UserProfileComponent,
     ProjectListComponent,
@@ -114,6 +116,7 @@ import { EvaluationListComponent } from './evaluation-list/evaluation-list.compo
     {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorDialogComponent, ConfirmDialogComponent, AddEvalueeDialogComponent, AddAdminDialogComponent]
+  entryComponents: [ErrorDialogComponent, ConfirmDialogComponent, AddEvalueeDialogComponent,
+     AddAdminDialogComponent, EvaluationPreviewComponent]
 })
 export class AppModule { }

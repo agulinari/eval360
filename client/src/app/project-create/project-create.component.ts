@@ -18,6 +18,7 @@ import { AddAdminDialogComponent } from '../dialog/add-admin-dialog.component';
 import { UserService } from '../shared/user.service';
 import { AuthenticationService } from '../shared/authentication.service';
 import { CreateAdmin } from '../domain/create-project/create-admin';
+import { EvaluationPreviewComponent } from '../evaluation-preview/evaluation-preview.component';
 
 /**
  * @title Stepper overview
@@ -224,6 +225,14 @@ export class ProjectCreateComponent implements OnInit {
 
   gotoList() {
     this.router.navigate(['/main/project-list']);
+  }
+
+  previewTemplate() {
+    if (this.selectedTemplate !== undefined) {
+      this.dialog.open(EvaluationPreviewComponent, {
+        data: {idTemplate: this.selectedTemplate.id}
+      });
+    }
   }
 
   prepareSaveProject(): CreateProject {

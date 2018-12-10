@@ -90,13 +90,18 @@ export class EvaluationComponent implements OnInit, OnDestroy {
 
       if (project) {
 
-        // Chequear que el usuario sea admin del proyecto
+        // Chequear que el usuario sea el evaluador
         const userId = this.authenticationService.getUserId();
-        const isFeedbackProvider = (project.feedbackProviders.find(fp => fp.idUser === +userId) !== undefined);
-        const isEvaluee = (project.evaluees.find(evaluee => evaluee.idUser === +userId) !== undefined);
+        let fp;
+        project.evaluees.forEach(evaluee => {
+          const evalueFp = evaluee.feedbackProviders.find(efp => efp.id === +this.idEvalueeFeedbackProvider);
+          if (evalueFp !== undefined) {
+            fp = evalueFp.feedbackProvider;
+          }
+        });
 
-        if ((!isFeedbackProvider) && (!isEvaluee)) {
-          console.log('El usuario no es participante del proyecto, volviendo a la lista');
+        if ((fp === undefined) || (fp.idUser !== +userId)) {
+          console.log('El usuario no es dueño de la evaluacion, volviendo a la lista');
           this.gotoProjectList();
         }
 
