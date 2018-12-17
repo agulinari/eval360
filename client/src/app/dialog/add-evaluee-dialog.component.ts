@@ -6,6 +6,7 @@ import { UserService } from '../shared/user.service';
 import { User } from '../domain/user/user';
 import { Evaluee } from '../domain/project/evaluee';
 import { FeedbackProvider } from '../domain/project/feedback-provider';
+import { Reviewer } from '../domain/project/reviewer';
 
 
 @Component({
@@ -17,12 +18,14 @@ export class AddEvalueeDialogComponent implements OnInit {
 
     filteredUsers: User[] = [];
     filteredFps: User[] = [];
+    filteredReviewers: User[] = [];
     evalueesForm: FormGroup;
     isLoading = false;
     feedbackProviders: FormArray;
+    reviewers: FormArray;
     selectedEvaluee: User;
     selectedFPs: User[];
-
+    selectedReviewers: User[];
 
     constructor(private dialogRef: MatDialogRef<AddEvalueeDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -34,10 +37,12 @@ export class AddEvalueeDialogComponent implements OnInit {
     ngOnInit() {
         this.selectedEvaluee = null;
         this.selectedFPs = [];
+        this.selectedReviewers = [];
 
         this.evalueesForm = this.fb.group({
             userInput: ['', Validators.required],
-            feedbackProviders: this.fb.array([], Validators.required)
+            feedbackProviders: this.fb.array([], Validators.required),
+            reviewers: this.fb.array([])
         });
 
         this.evalueesForm.get('userInput')
@@ -64,6 +69,13 @@ export class AddEvalueeDialogComponent implements OnInit {
         return feedbackProvider;
     }
 
+    addReviewer() {
+        this.reviewers = this.evalueesForm.get('reviewers') as FormArray;
+        const reviewer = this.createReviewer();
+        this.reviewers.push(reviewer);
+        return reviewer;
+    }
+
     createFeedbackProvider(): FormGroup {
         const feedbackProvider = this.fb.group({
             fpInput: ['', Validators.required],
@@ -78,9 +90,29 @@ export class AddEvalueeDialogComponent implements OnInit {
                 finalize(() => this.isLoading = false)
             ))
         ).subscribe(userList => {
-            this.filteredFps = userList.users.filter(user => !this.selectedFPs.find(u => u.id === user.id));
+            this.filteredFps = userList.users.filter(user =>
+                (!this.selectedFPs.find(u => u.id === user.id) && !this.selectedReviewers.find(u => u.id === user.id)));
         });
         return feedbackProvider;
+    }
+
+    createReviewer(): FormGroup {
+        const reviewer = this.fb.group({
+            reviewerInput: ['', Validators.required]
+        });
+        reviewer.get('reviewerInput')
+        .valueChanges
+        .pipe(
+            debounceTime(300),
+            tap(() => this.isLoading = true),
+            switchMap(value => this.userService.find(value, 'username,asc', 0, 10).pipe(
+                finalize(() => this.isLoading = false)
+            ))
+        ).subscribe(userList => {
+            this.filteredReviewers = userList.users.filter(user =>
+                (!this.selectedFPs.find(u => u.id === user.id) && !this.selectedReviewers.find(u => u.id === user.id)));
+        });
+        return reviewer;
     }
 
     deleteFeedbackProvider(index: number): void {
@@ -88,14 +120,21 @@ export class AddEvalueeDialogComponent implements OnInit {
         this.feedbackProviders.removeAt(index);
     }
 
+    deleteReviewer(index: number): void {
+        this.selectedReviewers.splice(index, 1);
+        this.reviewers.removeAt(index);
+    }
+
     prepareSaveEvaluee(): Evaluee {
         const formModel = this.evalueesForm.value;
         const feedbackProviders = this.evalueesForm.get('feedbackProviders') as FormArray;
+        const reviewers = this.evalueesForm.get('reviewers') as FormArray;
 
         const saveEvaluee: Evaluee = {
           id: null,
           user: formModel.userInput as User,
-          feedbackProviders: []
+          feedbackProviders: [],
+          reviewers: []
         };
 
         feedbackProviders.controls.forEach( fp => {
@@ -108,6 +147,16 @@ export class AddEvalueeDialogComponent implements OnInit {
 
           saveEvaluee.feedbackProviders.push(feedbackProvider);
         });
+
+        reviewers.controls.forEach( r => {
+
+            const reviewer: Reviewer = {
+              id: null,
+              user: r.value.reviewerInput as User
+            };
+
+            saveEvaluee.reviewers.push(reviewer);
+          });
 
         return saveEvaluee;
       }
@@ -140,6 +189,17 @@ export class AddEvalueeDialogComponent implements OnInit {
         if (!this.selectedFPs[index] || this.selectedFPs[index] !== this.feedbackProviders.controls[index].get('fpInput').value) {
             this.feedbackProviders.controls[index].get('fpInput').setValue(null);
             this.selectedFPs.splice(index, 1);
+        }
+    }
+
+    reviewerClick(event: any, index: number) {
+        this.selectedReviewers[index] = event.option.value;
+    }
+
+    checkReviewer(index: number) {
+        if (!this.selectedReviewers[index] || this.selectedReviewers[index] !== this.reviewers.controls[index].get('reviewerInput').value) {
+            this.reviewers.controls[index].get('reviewerInput').setValue(null);
+            this.selectedReviewers.splice(index, 1);
         }
     }
 }

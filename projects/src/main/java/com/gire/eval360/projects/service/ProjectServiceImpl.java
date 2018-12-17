@@ -17,15 +17,18 @@ import org.springframework.stereotype.Service;
 import com.gire.eval360.projects.domain.EvaluationStatus;
 import com.gire.eval360.projects.domain.Evaluee;
 import com.gire.eval360.projects.domain.EvalueeFeedbackProvider;
+import com.gire.eval360.projects.domain.EvalueeReviewer;
 import com.gire.eval360.projects.domain.FeedbackProvider;
 import com.gire.eval360.projects.domain.Project;
 import com.gire.eval360.projects.domain.ProjectAdmin;
+import com.gire.eval360.projects.domain.Reviewer;
 import com.gire.eval360.projects.domain.Status;
 import com.gire.eval360.projects.domain.notifications.NotificationFeedbackProviderDto;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateFeedbackProvider;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
+import com.gire.eval360.projects.domain.request.CreateReviewer;
 import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
 import com.gire.eval360.projects.repository.EvalueeFeedbackProviderRepository;
 import com.gire.eval360.projects.repository.ProjectRepository;
@@ -52,9 +55,11 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
+	@Transactional
 	public Project createProject(CreateProjectRequest request) {
 
 		Map<Long, FeedbackProvider> mapaFps = new HashMap<>();
+		Map<Long, Reviewer> mapaReviewers = new HashMap<>();
 		
 		Project project = new Project();
 		project.setName(request.getName());
@@ -65,10 +70,11 @@ public class ProjectServiceImpl implements ProjectService{
 		List<CreateEvaluee> createEvaluees = request.getEvaluees();
 		List<Evaluee> evaluees = new LinkedList<Evaluee>();
 		
-		createEvaluee(mapaFps,evaluees, project, createEvaluees);
+		createEvaluee(mapaFps, mapaReviewers, evaluees, project, createEvaluees);
 	
 		project.setEvaluees(evaluees);
 		project.setFeedbackProviders(mapaFps.values());
+		project.setReviewers(mapaReviewers.values());
 		
 		List<CreateProjectAdmin> createAdmins = request.getAdmins();
 		List<ProjectAdmin> projectAdmins = new ArrayList<>();
@@ -135,13 +141,14 @@ public class ProjectServiceImpl implements ProjectService{
 	 * @param project
 	 * @param createEvaluees
 	 */
-	private void createEvaluee(Map<Long, FeedbackProvider> mapaFps,List<Evaluee> evaluees, Project project, List<CreateEvaluee> createEvaluees) {
+	private void createEvaluee(Map<Long, FeedbackProvider> mapaFps, Map<Long, Reviewer> mapaReviewers, List<Evaluee> evaluees, Project project, List<CreateEvaluee> createEvaluees) {
 						
 		for (CreateEvaluee createEvaluee : createEvaluees) {
 			Evaluee evaluee = new Evaluee();
 			evaluee.setIdUser(createEvaluee.getIdUser());
 			evaluee.setProject(project);
 			createFeedBackProvider(mapaFps, project, createEvaluee, evaluee);
+			createReviewer(mapaReviewers, project, createEvaluee, evaluee);
 			evaluees.add(evaluee);
 		}
 	}
@@ -175,6 +182,34 @@ public class ProjectServiceImpl implements ProjectService{
 			evaluee.getFeedbackProviders().add(efp);
 		}
 	}
+	
+	/**
+	 * Crea los feedbacks providers a partir de los evaluee
+	 * 
+	 * @param mapaFps
+	 * @param project
+	 * @param createEvaluee
+	 * @param evaluee
+	 */
+	private void createReviewer(Map<Long, Reviewer> mapaReviewers, Project project, CreateEvaluee createEvaluee, Evaluee evaluee) {
+		
+		for (CreateReviewer createReviewer: createEvaluee.getReviewers()) {
+			EvalueeReviewer er = new EvalueeReviewer();
+			er.setEvaluee(evaluee);
+			
+			Reviewer reviewer = mapaReviewers.get(createReviewer.getIdUser());
+			if (reviewer == null) {
+				reviewer = new Reviewer();
+				reviewer.setIdUser(createReviewer.getIdUser());
+				reviewer.setProject(project);
+				reviewer.getEvaluees().add(er);
+				mapaReviewers.put(createReviewer.getIdUser(), reviewer);
+			}
+			
+			er.setReviewer(reviewer);
+			evaluee.getReviewers().add(er);
+		}
+	}
 
 	@Override
 	@Transactional
@@ -185,8 +220,14 @@ public class ProjectServiceImpl implements ProjectService{
 		project.ifPresent(p -> {
 			
 			Map<Long, FeedbackProvider> mapaFps = new HashMap<>();
+			Map<Long, Reviewer> mapaReviewers = new HashMap<>();
+			
 			for (FeedbackProvider fp: p.getFeedbackProviders()){
 				mapaFps.put(fp.getIdUser(), fp);
+			}
+			
+			for (Reviewer reviewer: p.getReviewers()) {
+				mapaReviewers.put(reviewer.getIdUser(), reviewer);
 			}
 			
 			Evaluee evaluee = new Evaluee();
@@ -211,6 +252,25 @@ public class ProjectServiceImpl implements ProjectService{
 				efp.setRelationship(createFp.getRelationship());
 				evaluee.getFeedbackProviders().add(efp);
 			}
+			
+			for (CreateReviewer createReviewer: createEvaluee.getReviewers()) {
+				EvalueeReviewer er = new EvalueeReviewer();
+				er.setEvaluee(evaluee);
+				
+				Reviewer reviewer = mapaReviewers.get(createReviewer.getIdUser());
+				if (reviewer == null) {
+					reviewer = new Reviewer();
+					reviewer.setIdUser(createReviewer.getIdUser());
+					reviewer.setProject(p);
+					reviewer.getEvaluees().add(er);
+					mapaReviewers.put(createReviewer.getIdUser(), reviewer);
+				}
+				
+				er.setReviewer(reviewer);
+				evaluee.getReviewers().add(er);
+			}
+			
+			
 			p.getEvaluees().add(evaluee);
 		});
 		

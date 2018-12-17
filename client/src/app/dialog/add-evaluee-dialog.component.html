@@ -61,6 +61,38 @@
     <div>
         <button mat-button type="button" (click)="addFeedbackProvider()">Agregar Evaluador</button>
     </div>
+
+    <div formArrayName="reviewers" *ngFor="let reviewer of evalueesForm.get('reviewers').controls; let i = index;">
+        <div [formGroupName]="i">
+            <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
+                  <mat-form-field class="full-width" fxFlex="50%">
+                        <input matInput placeholder="Selecciona un reviewer" [matAutocomplete]="autorwr" formControlName="reviewerInput" (blur)="checkReviewer(i)" required> 
+                        <mat-error *ngIf="evalueesForm.controls.reviewers.controls[i].controls['reviewerInput'].hasError('required')">
+                                Campo <strong>requerido</strong>
+                        </mat-error>
+                  </mat-form-field>
+
+                  <mat-autocomplete #autorwr="matAutocomplete"  (optionSelected)="reviewerClick($event, i)"  [displayWith]="displayFn">
+                        <mat-option *ngIf="isLoading" class="is-loading">
+                            <mat-spinner diameter="50"></mat-spinner>
+                        </mat-option>
+                        <ng-container *ngIf="!isLoading">
+                            <mat-option *ngFor="let reviewer of filteredReviewers" [value]="reviewer">
+                                <span>{{reviewer.username}}</span>
+                            </mat-option>
+                        </ng-container>
+                  </mat-autocomplete>
+                    
+                  <button type="button" color="accent" mat-icon-button (click)="deleteReviewer(i)">
+                      <mat-icon aria-label="Delete Reviewer button">clear</mat-icon>
+                  </button>
+              </div>
+        </div> 
+        </div>
+
+        <div>
+            <button mat-button type="button" (click)="addReviewer()">Agregar Reviewer</button>
+        </div>
 </mat-dialog-content>
 <mat-dialog-actions>
     <button mat-raised-button color="primary" (click)="cancel()">Cancelar</button>

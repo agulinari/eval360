@@ -55,8 +55,9 @@
               <ng-template matStepLabel>Participantes</ng-template>
               <div *ngIf="evaluesFormArray" fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
                 <h3 fxFlex="30%">Evaluados</h3>
-                <h3 fxFlex="50%">Evaluadores</h3>
-                <h3 fxFlex="20%">Acciones</h3>
+                <h3 fxFlex="30%">Evaluadores</h3>
+                <h3 fxFlex="30%">Reviewers</h3>
+                <h3 fxFlex="10%">Acciones</h3>
               </div>
               <div formArrayName="evaluees" *ngFor="let evaluee of evalueeFormGroup.get('evaluees').controls; let i = index;">
                 <mat-divider [inset]="true"></mat-divider>
@@ -66,13 +67,19 @@
                         <img class="avatar" src="/assets/images/avatar.png" alt="{{evaluee.value.evaluee.user.username}}">
                          {{evaluee.value.evaluee.user.username}}
                       </div>
-                      <div fxFlex="50%">
+                      <div fxFlex="30%">
                           <div  *ngFor="let fp of evaluee.value.evaluee.feedbackProviders">
                               <img class="avatar" src="/assets/images/avatar.png" alt="{{fp.user.username}}">
                               {{fp.user.username}} ( <strong>{{fp.relationship}}</strong> )
                           </div>
                       </div>
-                      <div fxFlex="20%">
+                      <div fxFlex="30%">
+                        <div  *ngFor="let reviewer of evaluee.value.evaluee.reviewers">
+                            <img class="avatar" src="/assets/images/avatar.png" alt="{{reviewer.user.username}}">
+                            {{reviewer.user.username}}
+                        </div>
+                      </div>
+                      <div fxFlex="10%">
                           <button type="button" color="accent" mat-icon-button (click)="deleteEvaluee(i)">
                               <mat-icon aria-label="Delete Evaluee button">clear</mat-icon>
                           </button>

@@ -19,6 +19,7 @@ import { UserService } from '../shared/user.service';
 import { AuthenticationService } from '../shared/authentication.service';
 import { CreateAdmin } from '../domain/create-project/create-admin';
 import { EvaluationPreviewComponent } from '../evaluation-preview/evaluation-preview.component';
+import { CreateReviewer } from '../domain/create-project/create-reviewer';
 
 /**
  * @title Stepper overview
@@ -256,7 +257,8 @@ export class ProjectCreateComponent implements OnInit {
       const evaluee: CreateEvaluee = {
         id: null,
         idUser: e.value.evaluee.user.id as number,
-        feedbackProviders: []
+        feedbackProviders: [],
+        reviewers: []
       };
 
       e.value.evaluee.feedbackProviders.forEach( fp => {
@@ -267,6 +269,15 @@ export class ProjectCreateComponent implements OnInit {
           relationship: fp.relationship as string
         };
         evaluee.feedbackProviders.push(feedbackProvider);
+      });
+
+      e.value.evaluee.reviewers.forEach( r => {
+
+        const reviewer: CreateReviewer = {
+          id: null,
+          idUser: r.user.id as number
+        };
+        evaluee.reviewers.push(reviewer);
       });
 
       saveProject.evaluees.push(evaluee);

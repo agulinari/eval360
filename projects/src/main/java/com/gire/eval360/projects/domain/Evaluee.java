@@ -25,9 +25,14 @@ import lombok.NoArgsConstructor;
 public class Evaluee extends ProjectMember{
 
 	
-	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER,orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,orphanRemoval = true)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "evaluee_id")
 	private List<EvalueeFeedbackProvider> feedbackProviders = new ArrayList<>();
+	
+	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.LAZY,orphanRemoval = true)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JoinColumn(name = "evaluee_id")
+	private List<EvalueeReviewer> reviewers = new ArrayList<>();
 
 }

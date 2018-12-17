@@ -1,4 +1,6 @@
+import { User } from '../user/user';
+
 export class Reviewer {
     id: number;
-    idUser: string;
+    user: User;
 }
