@@ -77,6 +77,22 @@
             </mat-list-item>
             </mat-list>
         </div>
+        <div class="item-panel">
+            <div fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px">
+                <h4 fxFlex="30%">Reviewers</h4>
+            </div>
+            <mat-list>
+            <mat-list-item *ngFor="let reviewer of reviewers; let i = index; last as last">
+                <div class="full-width" fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px" *ngIf="reviewer.user | async; let user">
+                        <div fxFlex="30%">
+                        <img class="avatar" src="/assets/images/avatar.png" alt="{{reviewer.idUser}}">
+                        {{user.username}}
+                        </div>
+                </div>
+                <mat-divider [inset]="true" *ngIf="!last"></mat-divider> 
+            </mat-list-item>
+            </mat-list>
+        </div>
             <div class="item-panel">    
             <div fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px">
                 <h4 fxFlex="30%">Administradores</h4>

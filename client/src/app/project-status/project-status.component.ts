@@ -18,6 +18,8 @@ import { CreateAdmin } from '../domain/create-project/create-admin';
 import { ProjectAdmin } from '../domain/project/project-admin';
 import { AdminStatus } from '../domain/project-status/admin-status';
 import { AuthenticationService } from '../shared/authentication.service';
+import { ReviewerStatus } from '../domain/project-status/reviewer-status';
+import { CreateReviewer } from '../domain/create-project/create-reviewer';
 
 @Component({
   selector: 'app-project-status',
@@ -31,6 +33,7 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
   evaluees: EvalueeStatus[] = [];
   admins: AdminStatus[] = [];
   feedbackProviders: FeedbackProviderStatus[] = [];
+  reviewers: ReviewerStatus[] = [];
   loading = false;
 
   constructor( private route: ActivatedRoute,
@@ -58,6 +61,7 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.evaluees = [];
     this.feedbackProviders = [];
+    this.reviewers = [];
     this.admins = [];
     this.projectService.get(id).subscribe((project: Project) => {
 
@@ -109,6 +113,19 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
           fpStatus.progress = (completed * 100) / (pending + completed);
           this.feedbackProviders.push(fpStatus);
         });
+
+        project.reviewers.forEach(reviewer => {
+          const user = this.userService.get(reviewer.idUser.toString());
+          const reviewerStatus: ReviewerStatus = {
+            id: reviewer.id,
+            idUser: reviewer.idUser,
+            user: user,
+            feedbacksAvailable: 0
+          };
+
+          this.reviewers.push(reviewerStatus);
+        });
+
         project.projectAdmins.forEach(admin => {
           const user = this.userService.get(admin.idUser.toString());
           const adminStatus: AdminStatus = {
@@ -227,7 +244,8 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
     const createEvaluee: CreateEvaluee = {
       id: null,
       idUser: evaluee.user.id as number,
-      feedbackProviders: []
+      feedbackProviders: [],
+      reviewers: []
     };
 
     evaluee.feedbackProviders.forEach( fp => {
@@ -238,6 +256,15 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
         relationship: fp.relationship as string
       };
       createEvaluee.feedbackProviders.push(createFeedbackProvider);
+    });
+
+    evaluee.reviewers.forEach( reviewer => {
+
+      const createReviewer: CreateReviewer = {
+        id: null,
+        idUser: reviewer.user.id as number
+      };
+      createEvaluee.reviewers.push(createReviewer);
     });
 
 
