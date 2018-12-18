@@ -20,15 +20,7 @@ public class UserServiceRemoteImpl implements UserServiceRemote{
 	@Override
 	public Mono<UserResponse> getUserById(Long idUser) {
 		
-		Mono<UserResponse> call = this.webClient.get().uri("/findById").attribute("id", idUser).exchange().flatMap(userResponse-> {
-			if(userResponse.statusCode().isError()) {
-				return Mono.empty();
-			}else {
-				Mono<UserResponse> response = userResponse.body(BodyExtractors.toMono(UserResponse.class));
-				return response;
-			}
-		});
-		
+		Mono<UserResponse> call = this.webClient.get().uri("/"+idUser).retrieve().bodyToMono(UserResponse.class);		
 		return call;
 	}
 	

@@ -108,7 +108,9 @@ public class ProjectServiceImpl implements ProjectService{
 		for (Evaluee evaluee : projectGenerated.getEvaluees()) {
 			
 			for (EvalueeFeedbackProvider evalueeFp : evaluee.getFeedbackProviders()) {
-				NotificationFeedbackProviderDto notifyFpDto = new NotificationFeedbackProviderDto(evalueeFp.getId(),evalueeFp.getRelationship(),
+				Long idEvaluee=evalueeFp.getEvaluee().getId();
+				Long idProject=evalueeFp.getEvaluee().getProject().getId();
+				NotificationFeedbackProviderDto notifyFpDto = new NotificationFeedbackProviderDto(evalueeFp.getId(),idEvaluee,idProject,evalueeFp.getRelationship(),
 																								 evalueeFp.getStatus());
 				notificationFeedBackSender.sendNotification(notifyFpDto);
 			}

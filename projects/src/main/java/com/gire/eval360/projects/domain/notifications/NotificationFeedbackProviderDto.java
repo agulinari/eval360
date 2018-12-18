@@ -13,7 +13,9 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper=false)
 public class NotificationFeedbackProviderDto {
 	
-	private Long idUser;
+	private Long idUserFeedback;
+	private Long idUserEvaluee;
+	private Long idProject;
 	private String relationship;
     private EvaluationStatus status;
     			

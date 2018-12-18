@@ -18,12 +18,13 @@ public class UsersConfiguration {
 	@Autowired
 	private ServicesProperties properties;
 	
-	@Autowired
-	private LoadBalancerExchangeFilterFunction lbFunction;
+//	@Autowired
+//	private LoadBalancerExchangeFilterFunction lbFunction;
 	
 	@Bean(name="usersClient")
-	@LoadBalanced
+	//@LoadBalanced
 	public WebClient createUsersWebClientRibbon() {
-		return WebClient.builder().baseUrl(properties.getUsersUrl()).filter(lbFunction).build();
+		return WebClient.builder().baseUrl(properties.getUsersUrl()).build();
+				//.filter(lbFunction).build();
 	}
 }
