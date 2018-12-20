@@ -82,8 +82,8 @@ public class ProjectServiceImpl implements ProjectService{
 		createProjectAdmin(project, createAdmins, projectAdmins);
 		
 		project.setProjectAdmins(projectAdmins);
-		Project projectGenerated=projectRepository.save(project);
-		notifyFeedBack(projectGenerated);
+		projectRepository.save(project);
+		notifyFeedBack(project);
 		
 		
 		return project;
@@ -108,10 +108,12 @@ public class ProjectServiceImpl implements ProjectService{
 		for (Evaluee evaluee : projectGenerated.getEvaluees()) {
 			
 			for (EvalueeFeedbackProvider evalueeFp : evaluee.getFeedbackProviders()) {
-				Long idEvaluee=evalueeFp.getEvaluee().getId();
-				Long idProject=evalueeFp.getEvaluee().getProject().getId();
-				NotificationFeedbackProviderDto notifyFpDto = new NotificationFeedbackProviderDto(evalueeFp.getId(),idEvaluee,idProject,evalueeFp.getRelationship(),
-																								 evalueeFp.getStatus());
+				Long idEvaluee=evaluee.getIdUser();
+				Long idEvalueeFp = evalueeFp.getFeedbackProvider().getIdUser();
+				Long idProject=evaluee.getProject().getId();
+				Long idEvaluation=evaluee.getProject().getIdReportTemplate();
+				NotificationFeedbackProviderDto notifyFpDto = new NotificationFeedbackProviderDto(idEvalueeFp,idEvaluee,idProject,evalueeFp.getRelationship(),
+																								 evalueeFp.getStatus(),idEvaluation);
 				notificationFeedBackSender.sendNotification(notifyFpDto);
 			}
 		}

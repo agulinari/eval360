@@ -17,7 +17,7 @@ eureka:
  
  # Propiedades Kafka
 spring.kafka.bootstrap-servers: localhost:9092
-app.topic.notification: notification
+app.topic.notification: notification.t
 
 # Zipkin
 spring.zipkin.sender.type: kafka
@@ -34,5 +34,23 @@ management:
     web.exposure.include:*
     jmx.exposure.exclude:*
     
-#Propiedades Servicio Users
-users.url: http://users/users
+#Propiedades Servicio Users, Evaluations
+users.url: http://AUTH-SERVICE/users
+evaluations.url: http://evaluations/evaluations
+
+#SMTP
+spring:
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    username: notifica.eval360@gmail.com
+    password: Password3245
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: false

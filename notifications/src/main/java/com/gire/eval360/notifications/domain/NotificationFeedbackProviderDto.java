@@ -16,5 +16,6 @@ public class NotificationFeedbackProviderDto {
 	private Long idProject;
 	private String relationship;
 	private EvaluationStatus status;
+	private Long idEvaluation;
 	
 }
