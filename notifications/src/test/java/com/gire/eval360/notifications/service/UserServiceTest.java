@@ -2,6 +2,7 @@ package com.gire.eval360.notifications.service;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class UserServiceTest {
 	@Autowired
 	private UserServiceRemote userServiceRemote;
 	
+	@Ignore
 	@Test
 	public void getUserByIdTest() {
 		Mono<UserResponse> response = userServiceRemote.getUserById(Long.valueOf(1));
