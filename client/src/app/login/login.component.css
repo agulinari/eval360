@@ -3,6 +3,12 @@
     margin: 10px;
 }
 
+.card-container {
+    height: 100%;
+    width: 100%;
+    background-color: #303030;
+}
+
 .image-container {
     display: flex;
     width: 400px;

@@ -3,6 +3,7 @@ package com.gire.eval360.evaluations.controller;
 import java.util.Collections;
 
 import org.assertj.core.api.Assertions;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class EvaluationControllerTests {
 
 	@Autowired
     EvaluationRepository repository;
-
+	@Ignore
 	@Test
 	public void testCreateEvaluation() {
 		Evaluation evaluation = new Evaluation();
