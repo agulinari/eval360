@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.gire.eval360.projects.domain.notifications.NotificationFeedbackProviderDto;
+import com.gire.eval360.projects.domain.notifications.NotificationReviewerDto;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -18,25 +19,40 @@ public class NotificationFeedBackSender {
 
 	
 	private final KafkaSender<String, NotificationFeedbackProviderDto> kafkaNotificationFeedBackSender;
+	
+	private final KafkaSender<String, NotificationReviewerDto> kafkaNotificationReviewerSender;
 
-	@Value("${app.topic.notification}")
-	private String notificationTopic;    
+	@Value("${app.topic.notificationFP}")
+	private String notificationTopicFP;   
+	
+	@Value("${app.topic.notificationRV}")
+	private String notificationTopicRV;   
 	
 	@Autowired
-	public NotificationFeedBackSender(final KafkaSender<String, NotificationFeedbackProviderDto> kafkaNotificationFeedBackSender) {
+	public NotificationFeedBackSender(final KafkaSender<String, NotificationFeedbackProviderDto> kafkaNotificationFeedBackSender,
+									  final KafkaSender<String, NotificationReviewerDto> kafkaNotificationReviewerSender) {
 		this.kafkaNotificationFeedBackSender=kafkaNotificationFeedBackSender;
+		this.kafkaNotificationReviewerSender=kafkaNotificationReviewerSender;
 	}
 
-	public void sendNotification(NotificationFeedbackProviderDto data){
+	public void sendNotificationFeedBackProvider(NotificationFeedbackProviderDto data){
 		
 		Mono<SenderRecord<String, NotificationFeedbackProviderDto, NotificationFeedbackProviderDto>> outboundMono = 
-				Mono.just(data).map(i -> SenderRecord.create(new ProducerRecord<String, NotificationFeedbackProviderDto>(notificationTopic, i), i));
+				Mono.just(data).map(i -> SenderRecord.create(new ProducerRecord<String, NotificationFeedbackProviderDto>(notificationTopicFP, i), i));
 
 
 		kafkaNotificationFeedBackSender.send(outboundMono)
-		.doOnError(e-> System.out.println("Sender failed"))  
-		//.doOnNext(r -> System.out.printf("Message #%d send response: %s\n", r.correlationMetadata(), r.recordMetadata()))
-		.subscribe();
+		.doOnError(e-> log.error("Sender failed")).subscribe();
+	}
+	
+	public void sendNotificationReviewer(NotificationReviewerDto data){
+		
+		Mono<SenderRecord<String, NotificationReviewerDto, NotificationReviewerDto>> outboundMono = 
+				Mono.just(data).map(i -> SenderRecord.create(new ProducerRecord<String, NotificationReviewerDto>(notificationTopicRV, i), i));
+
+
+		kafkaNotificationReviewerSender.send(outboundMono)
+		.doOnError(e-> log.error("Sender failed")).subscribe();
 	}
 
 }

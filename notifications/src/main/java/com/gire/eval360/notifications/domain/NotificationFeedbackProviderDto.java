@@ -12,10 +12,7 @@ import lombok.NoArgsConstructor;
 public class NotificationFeedbackProviderDto {
 	
 	private Long idUserFeedback;
-	private Long idUserEvaluee;
+	private Long idEvalueeFP;
 	private Long idProject;
-	private String relationship;
-	private EvaluationStatus status;
-	private Long idEvaluation;
 	
 }

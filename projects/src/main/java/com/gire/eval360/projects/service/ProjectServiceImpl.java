@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import javax.transaction.Transactional;
 
@@ -24,6 +25,7 @@ import com.gire.eval360.projects.domain.ProjectAdmin;
 import com.gire.eval360.projects.domain.Reviewer;
 import com.gire.eval360.projects.domain.Status;
 import com.gire.eval360.projects.domain.notifications.NotificationFeedbackProviderDto;
+import com.gire.eval360.projects.domain.notifications.NotificationReviewerDto;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateFeedbackProvider;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
@@ -83,7 +85,7 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		project.setProjectAdmins(projectAdmins);
 		projectRepository.save(project);
-		notifyFeedBack(project);
+		armarFeedBack(project);
 		
 		
 		return project;
@@ -94,30 +96,64 @@ public class ProjectServiceImpl implements ProjectService{
 	public void reportFeedback(ReportFeedbackRequest request) {
 		EvalueeFeedbackProvider efp = efpRepository.findByEvalueeAndFeedbackProvider(request.getIdEvaluee(), request.getIdFeedbackProvider());
 		efp.setStatus(EvaluationStatus.RESUELTO);
+		sendNotificationReviewerForFeedbackComplete(efp);
+	}
+	
+	/**
+	 * Evalua si no quedaron feedbacks pendientes. En caso de que no queden feedbacks pendientes, significa que se ha completado la evaluación y por lo cual
+	 * se enviará la notificación al evaluado (quien pasará a ser reviewer), para que pueda ingresar a la aplicación y ver el resultado de la evaluación.
+	 * @param efp
+	 */
+	private void sendNotificationReviewerForFeedbackComplete(EvalueeFeedbackProvider efp) {
+		List<EvalueeFeedbackProvider> providers = efp.getEvaluee().getFeedbackProviders();
+		Predicate<EvalueeFeedbackProvider> predicate = e -> e.getStatus().equals(EvaluationStatus.PENDIENTE);
+		Optional<EvalueeFeedbackProvider> fpPendiente=providers.stream().filter(predicate).findAny();
+		if(!fpPendiente.isPresent()) {
+			sendNotificationEvaluationCompleteToReviewer(efp.getEvaluee().getIdUser(),efp.getEvaluee().getProject().getId());
+		}
 	}
 	
 	/******* METODOS PRIVADOS *******/
 	
 	/**
-	 * Notifica a los provideers, haciendoles llegar un mail, que se genero un nuevo proyecto de evaluación.
+	 * Arma el dto para enviar la notificación a los provideers, haciendoles llegar un mail, que se genero un nuevo proyecto de evaluación.
 	 * @param projectGenerated
 	 */
-	private void notifyFeedBack(Project projectGenerated) {
+	private void armarFeedBack(Project projectGenerated) {
 		
 	
 		for (Evaluee evaluee : projectGenerated.getEvaluees()) {
 			
 			for (EvalueeFeedbackProvider evalueeFp : evaluee.getFeedbackProviders()) {
-				Long idEvaluee=evaluee.getIdUser();
-				Long idEvalueeFp = evalueeFp.getFeedbackProvider().getIdUser();
+				Long idFp = evalueeFp.getFeedbackProvider().getIdUser();
+				Long idEvalueeFP=evalueeFp.getId();
 				Long idProject=evaluee.getProject().getId();
-				Long idEvaluation=evaluee.getProject().getIdReportTemplate();
-				NotificationFeedbackProviderDto notifyFpDto = new NotificationFeedbackProviderDto(idEvalueeFp,idEvaluee,idProject,evalueeFp.getRelationship(),
-																								 evalueeFp.getStatus(),idEvaluation);
-				notificationFeedBackSender.sendNotification(notifyFpDto);
+				sendFeedBackToFeedbackProviders(idFp,idEvalueeFP,idProject);
 			}
 		}
 			
+	}
+
+	/**
+	 * Envia notificación a reviewer
+	 * 
+	 * @param idUser
+	 * @param id
+	 */
+	private void sendNotificationEvaluationCompleteToReviewer(Long idEvalueeUser, Long idProject) {
+		NotificationReviewerDto notifyFpDto = new NotificationReviewerDto(idEvalueeUser,idProject);
+		notificationFeedBackSender.sendNotificationReviewer(notifyFpDto);	
+	}
+	
+	/**
+	 * Envia notificación a feedbackProviders
+	 * @param idEvaluee
+	 * @param idEvalueeFp
+	 * @param idProject
+	 */
+	private void sendFeedBackToFeedbackProviders(Long idFp,Long idEvalueeFP,Long idProject) {
+		NotificationFeedbackProviderDto notifyFpDto = new NotificationFeedbackProviderDto(idFp,idEvalueeFP,idProject);
+		notificationFeedBackSender.sendNotificationFeedBackProvider(notifyFpDto);
 	}
 	
 	/**
@@ -255,6 +291,7 @@ public class ProjectServiceImpl implements ProjectService{
 				efp.setFeedbackProvider(fp);
 				efp.setRelationship(createFp.getRelationship());
 				evaluee.getFeedbackProviders().add(efp);
+				sendFeedBackToFeedbackProviders(fp.getIdUser(),efp.getId(), evaluee.getProject().getId());				
 			}
 			
 			for (CreateReviewer createReviewer: createEvaluee.getReviewers()) {
@@ -276,6 +313,7 @@ public class ProjectServiceImpl implements ProjectService{
 			
 			
 			p.getEvaluees().add(evaluee);
+			
 		});
 		
 	}

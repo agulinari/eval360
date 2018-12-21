@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import com.gire.eval360.projects.domain.notifications.NotificationFeedbackProviderDto;
+import com.gire.eval360.projects.domain.notifications.NotificationReviewerDto;
 
 import reactor.kafka.sender.KafkaSender;
 import reactor.kafka.sender.SenderOptions;
@@ -35,7 +36,7 @@ public class KafkaConfiguration {
 	}
 
 	@Bean
-	public SenderOptions<String, NotificationFeedbackProviderDto> senderNotificationOptions() {
+	public SenderOptions<String, NotificationFeedbackProviderDto> senderNotificationOptionsFP() {
 
 		SenderOptions<String, NotificationFeedbackProviderDto> senderOptions =
 				SenderOptions.<String, NotificationFeedbackProviderDto>create(producerConfig())       
@@ -44,8 +45,23 @@ public class KafkaConfiguration {
 	}
 
 	@Bean
-	public KafkaSender<String, NotificationFeedbackProviderDto> senderNotificationFactory() {
-		KafkaSender<String, NotificationFeedbackProviderDto> sender = KafkaSender.create(senderNotificationOptions());
+	public KafkaSender<String, NotificationFeedbackProviderDto> senderNotificationFactoryFP() {
+		KafkaSender<String, NotificationFeedbackProviderDto> sender = KafkaSender.create(senderNotificationOptionsFP());
+		return sender;
+	}
+	
+	@Bean
+	public SenderOptions<String, NotificationReviewerDto> senderNotificationOptionsRV() {
+
+		SenderOptions<String, NotificationReviewerDto> senderOptions =
+				SenderOptions.<String, NotificationReviewerDto>create(producerConfig())       
+				.maxInFlight(1024);   
+		return senderOptions;
+	}
+
+	@Bean
+	public KafkaSender<String, NotificationReviewerDto> senderNotificationFactoryRV() {
+		KafkaSender<String, NotificationReviewerDto> sender = KafkaSender.create(senderNotificationOptionsRV());
 		return sender;
 	}
 

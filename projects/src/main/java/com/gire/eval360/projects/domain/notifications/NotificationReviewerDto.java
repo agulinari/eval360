@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class NotificationFeedbackProviderDto {
-	
-	private Long idUserFeedback;
-	private Long idEvalueeFP;
+public class NotificationReviewerDto {
+
+	private Long idEvalueeUser;
 	private Long idProject;
-    			
+	
 }

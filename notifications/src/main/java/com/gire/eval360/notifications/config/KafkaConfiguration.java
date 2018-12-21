@@ -15,6 +15,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import com.gire.eval360.notifications.domain.NotificationFeedbackProviderDto;
+import com.gire.eval360.notifications.domain.NotificationReviewerDto;
 
 @EnableKafka
 @Configuration
@@ -23,14 +24,25 @@ public class KafkaConfiguration {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-    @Value("${app.topic.notification}")
-    private String notificationTopic;
+    @Value("${app.topic.notificationFP}")
+    private String notificationTopicFP;
+    
+    @Value("${app.topic.notificationRV}")
+    private String notificationTopicRV;
 
-    @Bean("kafkaListenerNotificationContainerFactory")
-    public ConcurrentKafkaListenerContainerFactory<String, NotificationFeedbackProviderDto> kafkaListenerNotificationContainerFactory() {
+    @Bean("kafkaListenerNotificationFPContainerFactory")
+    public ConcurrentKafkaListenerContainerFactory<String, NotificationFeedbackProviderDto> kafkaListenerNotificationFPContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, NotificationFeedbackProviderDto> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerNotificationFactory());
+        factory.setConsumerFactory(consumerNotificationFpFactory());
+        return factory;
+    }
+    
+    @Bean("kafkaListenerNotificationRVContainerFactory")
+    public ConcurrentKafkaListenerContainerFactory<String, NotificationReviewerDto> kafkaListenerNotificationRVContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, NotificationReviewerDto> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerNotificationRvFactory());
         return factory;
     }
 
@@ -44,11 +56,18 @@ public class KafkaConfiguration {
         return props;
     }
 
-    public ConsumerFactory<String, NotificationFeedbackProviderDto> consumerNotificationFactory() {
+    public ConsumerFactory<String, NotificationFeedbackProviderDto> consumerNotificationFpFactory() {
         return new DefaultKafkaConsumerFactory<>(
                 consumerConfigs(),
                 new StringDeserializer(),
                 new JsonDeserializer<>(NotificationFeedbackProviderDto.class));
+    }
+    
+    public ConsumerFactory<String, NotificationReviewerDto> consumerNotificationRvFactory() {
+        return new DefaultKafkaConsumerFactory<>(
+                consumerConfigs(),
+                new StringDeserializer(),
+                new JsonDeserializer<>(NotificationReviewerDto.class));
     }
 
 }
