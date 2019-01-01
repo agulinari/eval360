@@ -2,9 +2,11 @@ package com.gire.eval360.projects.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import com.gire.eval360.projects.domain.Evaluee;
 import com.gire.eval360.projects.domain.Project;
+import com.gire.eval360.projects.domain.dto.ProjectStatus;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
@@ -23,5 +25,7 @@ public interface ProjectService {
 	void addAdmin(Long id, CreateProjectAdmin request);
 	
 	List<Evaluee> getEvalueesForFeedback(Long id, Long idFp);
+
+	Optional<ProjectStatus> getProjectStatus(Long id);
 
 }

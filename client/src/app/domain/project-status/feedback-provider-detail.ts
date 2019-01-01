@@ -1,9 +1,8 @@
-
-export class AdminStatus {
+export class FeedbackProviderDetail {
 
     id: number;
     idUser: number;
     username: string;
     avatar: string;
-    creator: boolean;
+    status: string;
 }

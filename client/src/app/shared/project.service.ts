@@ -7,6 +7,7 @@ import { CreateProject } from '../domain/create-project/create-project';
 import { ProjectList } from '../domain/project/project-list';
 import { CreateEvaluee } from '../domain/create-project/create-evaluee';
 import { CreateAdmin } from '../domain/create-project/create-admin';
+import { ProjectStatus } from '../domain/project-status/project-status';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,12 @@ export class ProjectService {
   get(id: string): Observable<Project> {
     return this.http.get(this.PROJECTS_API + '/' + id).pipe(
       catchError(this.handleError<any>('getProject'))
+    );
+  }
+
+  getStatus(id: string): Observable<ProjectStatus> {
+    return this.http.get(this.PROJECTS_API + '/' + id + '/status').pipe(
+      catchError(this.handleError<any>('getProjectStatus'))
     );
   }
 

@@ -1,13 +1,15 @@
 import { User } from '../user/user';
 import { Observable } from 'rxjs';
+import { FeedbackProviderDetail } from './feedback-provider-detail';
 
 export class EvalueeStatus {
 
     id: number;
     idUser: number;
-    user: Observable<User>;
+    username: string;
+    avatar: string;
     status: string;
-    feedbackRequests: number;
-    feedbackResponses: number;
-    progress: number;
+    pendingFeedbacks: number;
+    completedFeedbacks: number;
+    feedbackProviders: FeedbackProviderDetail[];
 }

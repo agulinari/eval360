@@ -1,11 +1,13 @@
-import { User } from '../user/user';
-import { Observable } from 'rxjs';
+
+import { EvalueeDetail } from './evaluee-detail';
 
 export class ReviewerStatus {
 
     id: number;
     idUser: number;
-    user: Observable<User>;
-    feedbacksAvailable: number;
-
+    username: string;
+    avatar: string;
+    pendingReports: number;
+    completedReports: number;
+    evaluees: EvalueeDetail[];
 }

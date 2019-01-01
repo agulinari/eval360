@@ -49,6 +49,9 @@ spring.kafka.bootstrap-servers: localhost:9092
 app.topic.notificationFP: notificationFP.t
 app.topic.notificationRV: notificationRV.t
 
+#Propiedades Servicio Users
+users.url: http://AUTH-SERVICE/users
+
 # Zipkin
 spring.zipkin.sender.type: kafka
 

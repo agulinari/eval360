@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -24,6 +25,14 @@ import com.gire.eval360.projects.domain.Project;
 import com.gire.eval360.projects.domain.ProjectAdmin;
 import com.gire.eval360.projects.domain.Reviewer;
 import com.gire.eval360.projects.domain.Status;
+import com.gire.eval360.projects.domain.dto.AdminStatus;
+import com.gire.eval360.projects.domain.dto.EvalueeDetail;
+import com.gire.eval360.projects.domain.dto.EvalueeStatus;
+import com.gire.eval360.projects.domain.dto.FeedbackProviderDetail;
+import com.gire.eval360.projects.domain.dto.FeedbackProviderStatus;
+import com.gire.eval360.projects.domain.dto.ProjectStatus;
+import com.gire.eval360.projects.domain.dto.ProjectStatus.ProjectStatusBuilder;
+import com.gire.eval360.projects.domain.dto.ReviewerStatus;
 import com.gire.eval360.projects.domain.notifications.NotificationFeedbackProviderDto;
 import com.gire.eval360.projects.domain.notifications.NotificationReviewerDto;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
@@ -34,6 +43,8 @@ import com.gire.eval360.projects.domain.request.CreateReviewer;
 import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
 import com.gire.eval360.projects.repository.EvalueeFeedbackProviderRepository;
 import com.gire.eval360.projects.repository.ProjectRepository;
+import com.gire.eval360.projects.service.remote.UserServiceRemote;
+import com.gire.eval360.projects.service.remote.dto.UserResponse;
 
 @Service
 public class ProjectServiceImpl implements ProjectService{
@@ -44,12 +55,17 @@ public class ProjectServiceImpl implements ProjectService{
 	
 	private final NotificationFeedBackSender notificationFeedBackSender;
 	
+	private final UserServiceRemote userServiceRemote;
+	
 	@Autowired
-	public ProjectServiceImpl(final ProjectRepository projectRepository,final EvalueeFeedbackProviderRepository efpRepository,
-							  final NotificationFeedBackSender notificationFeedBackSender) {
+	public ProjectServiceImpl(final ProjectRepository projectRepository,
+							  final EvalueeFeedbackProviderRepository efpRepository,
+							  final NotificationFeedBackSender notificationFeedBackSender,
+							  final UserServiceRemote userServiceRemote) {
 		this.projectRepository = projectRepository;
 		this.efpRepository = efpRepository;
 		this.notificationFeedBackSender = notificationFeedBackSender;
+		this.userServiceRemote = userServiceRemote;
 	}
 
 	public Collection<Project> getProjects() {
@@ -352,4 +368,158 @@ public class ProjectServiceImpl implements ProjectService{
 		});
 		return evaluees;
 	}
+
+	@Override
+	public Optional<ProjectStatus> getProjectStatus(Long id) {
+			
+		Optional<Project> project = projectRepository.findById(id);
+	
+		return project.map(p -> buildProjectStatus(p));
+		
+	}
+
+	private ProjectStatus buildProjectStatus(Project p) {
+		ProjectStatusBuilder builder = ProjectStatus.builder().id(p.getId()).name(p.getName()).description(p.getDescription());
+		
+		List<EvalueeStatus> evalueesStatus = p.getEvaluees().stream().map(e -> buildEvalueeStatus(e)).collect(Collectors.toList());
+		List<FeedbackProviderStatus> fpStatus = p.getFeedbackProviders().stream().map(fp -> buildFeedbackProviderStatus(fp)).collect(Collectors.toList());
+		List<ReviewerStatus> reviewerStatus = p.getReviewers().stream().map(r -> buildReviewerStatus(r)).collect(Collectors.toList());
+		List<AdminStatus> adminStatus = p.getProjectAdmins().stream().map(a -> buildAdminStatus(a)).collect(Collectors.toList());
+		
+		ProjectStatus projectStatus = builder.evalueesStatus(evalueesStatus)
+			   .feedbackProvidersStatus(fpStatus)
+			   .reviewersStatus(reviewerStatus)
+			   .adminsStatus(adminStatus)
+			   .build();
+		return projectStatus;
+	}
+	
+	private EvalueeStatus buildEvalueeStatus(Evaluee e) {
+		UserResponse user = this.userServiceRemote.getUserById(e.getIdUser());
+		
+		EvalueeStatus evalueeStatus = EvalueeStatus.builder().id(e.getId())
+															 .idUser(e.getIdUser())
+															 .username(user.getUsername())
+															 .avatar("")
+															 .status(Status.PENDIENTE)
+															 .completedFeedbacks(0)
+															 .pendingFeedbacks(0)
+															 .build();
+		
+		List<FeedbackProviderDetail> fpDetails = e.getFeedbackProviders().stream().map(efp -> buildFeedbackProviderDetail(efp)).collect(Collectors.toList());
+		Integer totalFeedbacks = fpDetails.size();
+		Integer completedFeedbacks = 0;
+		for (FeedbackProviderDetail fpDetail : fpDetails) {
+			if (fpDetail.getStatus().equals(EvaluationStatus.RESUELTO)) {
+				completedFeedbacks ++;
+			}
+		}
+		Integer pendingFeedbacks = totalFeedbacks - completedFeedbacks;
+		
+		evalueeStatus.setPendingFeedbacks(pendingFeedbacks);
+		evalueeStatus.setCompletedFeedbacks(completedFeedbacks);
+		evalueeStatus.setFeedbackProviders(fpDetails);
+		if (completedFeedbacks == totalFeedbacks) {
+			evalueeStatus.setStatus(Status.RESUELTO);
+		}
+		return evalueeStatus;
+	}
+
+
+	private FeedbackProviderDetail buildFeedbackProviderDetail(EvalueeFeedbackProvider efp) {
+		
+		UserResponse user = this.userServiceRemote.getUserById(efp.getFeedbackProvider().getIdUser());
+
+		
+		FeedbackProviderDetail fpDetail = FeedbackProviderDetail.builder().id(efp.getFeedbackProvider().getId())
+																		  .avatar("")
+																		  .idUser(efp.getFeedbackProvider().getIdUser())
+																		  .username(user.getUsername())
+																		  .status(efp.getStatus())
+																		  .build();
+																		  
+		return fpDetail;
+	}
+
+	private FeedbackProviderStatus buildFeedbackProviderStatus(FeedbackProvider fp) {
+		UserResponse user = this.userServiceRemote.getUserById(fp.getIdUser());
+		
+		FeedbackProviderStatus fpStatus = FeedbackProviderStatus.builder().id(fp.getId())
+															 .idUser(fp.getIdUser())
+															 .username(user.getUsername())
+															 .avatar("")
+															 .status(Status.PENDIENTE)
+															 .completedFeedbacks(0)
+															 .pendingFeedbacks(0)
+															 .build();
+		
+		List<EvalueeDetail> evalueeDetails = fp.getEvaluees().stream().map(efp -> buildEvalueeDetail(efp)).collect(Collectors.toList());
+		Integer totalFeedbacks = evalueeDetails.size();
+		Integer completedFeedbacks = 0;
+		for (EvalueeDetail evalueeDetail : evalueeDetails) {
+			if (evalueeDetail.getStatus().equals(EvaluationStatus.RESUELTO)) {
+				completedFeedbacks ++;
+			}
+		}
+		Integer pendingFeedbacks = totalFeedbacks - completedFeedbacks;
+		
+		fpStatus.setPendingFeedbacks(pendingFeedbacks);
+		fpStatus.setCompletedFeedbacks(completedFeedbacks);
+		fpStatus.setEvaluees(evalueeDetails);
+		if (completedFeedbacks == totalFeedbacks) {
+			fpStatus.setStatus(Status.RESUELTO);
+		}
+		return fpStatus;
+	}
+
+
+
+	private EvalueeDetail buildEvalueeDetail(EvalueeFeedbackProvider efp) {
+		UserResponse user = this.userServiceRemote.getUserById(efp.getFeedbackProvider().getIdUser());
+
+		
+		EvalueeDetail evalueeDetail = EvalueeDetail.builder().id(efp.getFeedbackProvider().getId())
+																		  .avatar("")
+																		  .idUser(efp.getFeedbackProvider().getIdUser())
+																		  .username(user.getUsername())
+																		  .status(efp.getStatus())
+																		  .build();
+																		  
+		return evalueeDetail;
+	}
+
+	private ReviewerStatus buildReviewerStatus(Reviewer r) {
+		UserResponse user = this.userServiceRemote.getUserById(r.getIdUser());
+		
+		ReviewerStatus reviewerStatus = ReviewerStatus.builder().id(r.getId())
+															 .idUser(r.getIdUser())
+															 .username(user.getUsername())
+															 .avatar("")
+															 .status(Status.PENDIENTE)
+															 .completedReports(0)
+															 .pendingReports(0)
+															 .build();
+		
+		
+		return reviewerStatus;
+	}
+
+	private EvalueeDetail buildEvalueeReviewerDetail(EvalueeReviewer er) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private AdminStatus buildAdminStatus(ProjectAdmin a) {
+		UserResponse user = this.userServiceRemote.getUserById(a.getIdUser());
+		
+		AdminStatus adminStatus = AdminStatus.builder().id(a.getId())
+															 .idUser(a.getIdUser())
+															 .username(user.getUsername())
+															 .avatar("")
+															 .creator(a.getCreator())
+															 .build();
+				
+		return adminStatus;
+	}
+
 }

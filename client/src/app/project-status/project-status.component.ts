@@ -20,6 +20,7 @@ import { AdminStatus } from '../domain/project-status/admin-status';
 import { AuthenticationService } from '../shared/authentication.service';
 import { ReviewerStatus } from '../domain/project-status/reviewer-status';
 import { CreateReviewer } from '../domain/create-project/create-reviewer';
+import { ProjectStatus } from '../domain/project-status/project-status';
 
 @Component({
   selector: 'app-project-status',
@@ -29,11 +30,7 @@ import { CreateReviewer } from '../domain/create-project/create-reviewer';
 export class ProjectStatusComponent implements OnInit, OnDestroy {
 
   sub: Subscription;
-  project: Project = undefined;
-  evaluees: EvalueeStatus[] = [];
-  admins: AdminStatus[] = [];
-  feedbackProviders: FeedbackProviderStatus[] = [];
-  reviewers: ReviewerStatus[] = [];
+  projectStatus: ProjectStatus = undefined;
   loading = false;
 
   constructor( private route: ActivatedRoute,
@@ -48,7 +45,7 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
     this.sub = this.route.params.subscribe(params => {
       const id = params['id'];
       if (id) {
-        this.getProject(id);
+        this.getProjectStatus(id);
       }
     });
   }
@@ -57,90 +54,17 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  getProject(id) {
+  getProjectStatus(id) {
     this.loading = true;
-    this.evaluees = [];
-    this.feedbackProviders = [];
-    this.reviewers = [];
-    this.admins = [];
-    this.projectService.get(id).subscribe((project: Project) => {
+    this.projectService.getStatus(id).subscribe((projectStatus: ProjectStatus) => {
 
-      if (project) {
-        project.evaluees.forEach(evaluee => {
-          const user = this.userService.get(evaluee.idUser.toString());
-          const evalueeStatus: EvalueeStatus = {
-              id: evaluee.id,
-              idUser: evaluee.idUser,
-              user: user,
-              status: 'Pendiente',
-              feedbackRequests: evaluee.feedbackProviders.length,
-              feedbackResponses: 0,
-              progress: 0
-          };
+      if (projectStatus) {
 
-          let responses = 0;
-          evaluee.feedbackProviders.forEach(fp => {
-            if (fp.status !== 'PENDIENTE') {
-              responses++;
-            }
-          });
-          evalueeStatus.feedbackResponses = responses;
-          evalueeStatus.progress = responses * 100 / evalueeStatus.feedbackRequests;
-          this.evaluees.push(evalueeStatus);
-        });
-        project.feedbackProviders.forEach(fp => {
-          const user = this.userService.get(fp.idUser.toString());
-          const fpStatus: FeedbackProviderStatus = {
-            id: fp.id,
-            idUser: fp.idUser,
-            user: user,
-            status: 'Pendiente',
-            feedbacksPending: 0,
-            feedbacksCompleted: 0,
-            progress: 0
-          };
-          let pending = 0;
-          let completed = 0;
-          project.evaluees.forEach(evaluee => {
-            evaluee.feedbackProviders.forEach(efp => {
-              if (efp.feedbackProvider.id === fp.id) {
-                (efp.status === 'PENDIENTE') ? pending++ : completed++;
-              }
-            });
-          });
-          fpStatus.feedbacksPending = pending;
-          fpStatus.feedbacksCompleted = completed;
-          fpStatus.progress = (completed * 100) / (pending + completed);
-          this.feedbackProviders.push(fpStatus);
-        });
-
-        project.reviewers.forEach(reviewer => {
-          const user = this.userService.get(reviewer.idUser.toString());
-          const reviewerStatus: ReviewerStatus = {
-            id: reviewer.id,
-            idUser: reviewer.idUser,
-            user: user,
-            feedbacksAvailable: 0
-          };
-
-          this.reviewers.push(reviewerStatus);
-        });
-
-        project.projectAdmins.forEach(admin => {
-          const user = this.userService.get(admin.idUser.toString());
-          const adminStatus: AdminStatus = {
-            id: admin.id,
-            idUser: admin.idUser,
-            user: user,
-            creator: admin.creator
-          };
-          this.admins.push(adminStatus);
-        });
-        this.project = project;
+        this.projectStatus = projectStatus;
 
         // Chequear que el usuario sea admin del proyecto
         const userId = this.authenticationService.getUserId();
-        const isAdmin = (project.projectAdmins.find(admin => admin.idUser === +userId) !== undefined);
+        const isAdmin = (projectStatus.adminsStatus.find(admin => admin.idUser === +userId) !== undefined);
         if (!isAdmin) {
           console.log('El usuario no es admin del proyecto, volviendo a la lista');
           this.gotoList();
@@ -182,7 +106,7 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
   getAdmins(): number[] {
     const users: number[] = [];
 
-    this.admins.forEach(admin => {
+    this.projectStatus.adminsStatus.forEach(admin => {
       users.push(admin.idUser);
     });
     return users;
@@ -196,10 +120,10 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
       creator: false
     };
 
-    this.projectService.addAdmin(this.project.id, createAdmin)
+    this.projectService.addAdmin(this.projectStatus.id, createAdmin)
     .pipe(finalize(() => {
         this.loading = false;
-        this.getProject(this.project.id);
+        this.getProjectStatus(this.projectStatus.id);
       })
     )
     .subscribe(
@@ -233,7 +157,7 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
   getEvaluees(): number[] {
     const users: number[] = [];
 
-    this.evaluees.forEach(evaluee => {
+    this.projectStatus.evalueesStatus.forEach(evaluee => {
       users.push(evaluee.idUser);
     });
     return users;
@@ -268,10 +192,10 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
     });
 
 
-    this.projectService.addEvaluee(this.project.id, createEvaluee)
+    this.projectService.addEvaluee(this.projectStatus.id, createEvaluee)
     .pipe(finalize(() => {
         this.loading = false;
-        this.getProject(this.project.id);
+        this.getProjectStatus(this.projectStatus.id);
       })
     )
     .subscribe(

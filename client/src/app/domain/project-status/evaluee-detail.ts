@@ -1,9 +1,9 @@
 
-export class AdminStatus {
+export class EvalueeDetail {
 
     id: number;
     idUser: number;
     username: string;
     avatar: string;
-    creator: boolean;
+    status: string;
 }
