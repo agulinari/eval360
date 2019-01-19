@@ -87,6 +87,59 @@ public class ReportController {
        // outputStream.close();
         
     }
+    
+    @GetMapping("/cover")
+    public void generateCover(HttpServletResponse response) throws Exception {
+
+        // The data in our Thymeleaf templates is not hard-coded. Instead,
+        // we use placeholders in our templates. We fill these placeholders
+        // with actual data by passing in an object. In this example, we will
+        // write a letter to "John Doe".
+        //
+        // Note that we could also read this data from a JSON file, a database
+        // a web service or whatever.
+        Data data = exampleDataForJohnDoe();
+
+        Context context = new Context();
+        context.setVariable("data", data);
+
+        // Flying Saucer needs XHTML - not just normal HTML. To make our life
+        // easy, we use JTidy to convert the rendered Thymeleaf template to
+        // XHTML. Note that this might no work for very complicated HTML. But
+        // it's good enough for a simple letter.
+        String renderedHtmlContent = templateEngine.process("cover/cover", context);
+        String xHtml = convertToXhtml(renderedHtmlContent);
+
+        ITextRenderer renderer = new ITextRenderer();
+        renderer.getFontResolver().addFont("Code39.ttf", IDENTITY_H, EMBEDDED);
+
+        // FlyingSaucer has a working directory. If you run this test, the working directory
+        // will be the root folder of your project. However, all files (HTML, CSS, etc.) are
+        // located under "/src/test/resources". So we want to use this folder as the working
+        // directory.
+        String baseUrl = FileSystems
+                                .getDefault()
+                                .getPath("src", "main", "resources", "templates", "cover")
+                                .toUri()
+                                .toURL()
+                                .toString();
+        renderer.setDocumentFromString(xHtml, baseUrl);
+        renderer.layout();
+        
+        try {
+        // And finally, we create the PDF:
+       // OutputStream outputStream = new FileOutputStream(OUTPUT_FILE);
+        OutputStream outputStream = response.getOutputStream();
+        renderer.createPDF(outputStream);
+        response.setContentType("application/pdf");
+        response.flushBuffer();
+        } catch (IOException ex) {
+            log.info("Error writing file to output stream. ", ex);
+            throw new RuntimeException("IOError writing file to output stream");
+          }
+       // outputStream.close();
+        
+    }
 
     private Data exampleDataForJohnDoe() {
         Data data = new Data();
