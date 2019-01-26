@@ -1,4 +1,4 @@
-package com.gire.eval360.projects.service.remote.dto;
+package com.gire.eval360.reports.service.remote.dto.users;
 
 import lombok.Data;
 

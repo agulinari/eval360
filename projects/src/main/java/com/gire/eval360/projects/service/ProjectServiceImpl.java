@@ -44,7 +44,7 @@ import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
 import com.gire.eval360.projects.repository.EvalueeFeedbackProviderRepository;
 import com.gire.eval360.projects.repository.ProjectRepository;
 import com.gire.eval360.projects.service.remote.UserServiceRemote;
-import com.gire.eval360.projects.service.remote.dto.UserResponse;
+import com.gire.eval360.projects.service.remote.dto.users.UserResponse;
 
 @Service
 public class ProjectServiceImpl implements ProjectService{

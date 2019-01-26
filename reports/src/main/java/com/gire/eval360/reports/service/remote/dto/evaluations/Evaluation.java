@@ -1,11 +1,7 @@
-package com.gire.eval360.evaluations.domain;
+package com.gire.eval360.reports.service.remote.dto.evaluations;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,17 +15,14 @@ import lombok.Singular;
 @NoArgsConstructor
 @EqualsAndHashCode(of={"id"})
 @Builder
-@Document(collection = "evaluations")
 public class Evaluation {
 	
-	@Id
 	private String id;
 	private Long idProject;
 	private Long idFeedbackProvider;
 	private Long idEvaluee;
 	private String username;
 	private String relationship;
-	@CreatedDate
 	private LocalDateTime date;
 	private @Singular List<Section> sections;
 	

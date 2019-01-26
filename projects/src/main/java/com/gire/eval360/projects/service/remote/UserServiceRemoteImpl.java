@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.gire.eval360.projects.service.remote.dto.UserResponse;
+import com.gire.eval360.projects.service.remote.dto.users.UserResponse;
 
 @Service
 public class UserServiceRemoteImpl implements UserServiceRemote {

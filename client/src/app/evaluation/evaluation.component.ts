@@ -13,6 +13,8 @@ import { Project } from '../domain/project/project';
 import { Evaluation } from '../domain/evaluation/evaluation';
 import { Section } from '../domain/evaluation/section';
 import { Item } from '../domain/evaluation/item';
+import { UserService } from '../shared/user.service';
+import { User } from '../domain/user/user';
 
 @Component({
   selector: 'app-evaluation',
@@ -35,6 +37,7 @@ export class EvaluationComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private templateService: TemplateService,
     private projectService: ProjectService,
+    private userService: UserService,
     private authenticationService: AuthenticationService,
     private evaluationService: EvaluationService) {
 
@@ -60,18 +63,39 @@ export class EvaluationComponent implements OnInit, OnDestroy {
     // build form
     this.evaluationForm = this.fb.group({
       title: null,
+      username: null,
+      relationship: null,
       sections: this.fb.array([], Validators.required)
     });
   }
 
-  getTemplate(id) {
+  getUserEvaluee(idUser, relationship, idTemplate) {
+    this.userService.get(idUser).subscribe((user: User) => {
+      if (user) {
+        this.getTemplate(user, relationship, idTemplate);
+      } else {
+        console.log(`Usuario con id '${idUser}' no encontrado, volviendo a la lista`);
+        this.gotoProjectList();
+      }
+    },
+    err => {
+      console.log('Error obteniendo usuario', err);
+      this.showError('Se produjo un error al  obtener el usuario');
+      this.gotoProjectList();
+    },
+    () => {
+      this.loading = false;
+    });
+  }
+
+  getTemplate(user, relationship, id) {
     this.templateService.get(id).subscribe((template: Template) => {
       if (template) {
         this.template = template;
-        this.loadEvaluationForm(template);
+        this.loadEvaluationForm(user, relationship, template);
       } else {
         console.log(`Template con id '${id}' no encontrado, volviendo a la lista`);
-       // this.gotoList();
+        this.gotoProjectList();
       }
     },
     err => {
@@ -105,8 +129,14 @@ export class EvaluationComponent implements OnInit, OnDestroy {
           this.gotoProjectList();
         }
 
-        this.getTemplate(project.idEvaluationTemplate);
-        this.project = project;
+        // Busco el evaluado
+        project.evaluees.forEach(evaluee => {
+          const evalueFp = evaluee.feedbackProviders.find(efp => efp.id === +this.idEvalueeFeedbackProvider);
+          if (evalueFp !== undefined) {
+            this.getUserEvaluee(evaluee.idUser, evalueFp.relationship, project.idEvaluationTemplate);
+            this.project = project;
+          }
+        });
 
        } else {
         console.log(`Proyecto con id '${id}' no encontrado, volviendo a la lista`);
@@ -123,9 +153,11 @@ export class EvaluationComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadEvaluationForm(template: Template): void {
+  loadEvaluationForm(user: User, relationship: string, template: Template): void {
 
     this.evaluationForm.patchValue({
+      username: user.username,
+      relationship: relationship,
       title: template.title
     });
 
@@ -165,6 +197,7 @@ export class EvaluationComponent implements OnInit, OnDestroy {
 
   createSection(): FormGroup {
     return this.fb.group({
+      id: null,
       name: null,
       description: null,
       sectionType: null,
@@ -174,6 +207,7 @@ export class EvaluationComponent implements OnInit, OnDestroy {
 
   createItem(): FormGroup {
     return this.fb.group({
+      id: null,
       title: null,
       description: null,
       itemType: null,
@@ -228,6 +262,8 @@ export class EvaluationComponent implements OnInit, OnDestroy {
       idProject: this.project.id,
       idEvaluee: this.getEvaluee(),
       idFeedbackProvider: this.getFeedbackProvider(),
+      username: formModel.username,
+      relationship: formModel.relationship,
       sections: []
     };
 

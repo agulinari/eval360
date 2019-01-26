@@ -23,8 +23,11 @@ jwt:
        path: /auth
        refresh: /refresh
  
-#Propiedades Servicio Users
-projects.url: http://PROJECTS-SERVICE/projects
+#Propiedades Servicios
+projects.url: http://projects-service/projects
+users.url: http://auth-service/users
+evaluations.url: http://evaluations-service/evaluations
+templates.url: http://templates-service/evaluationTemplates
 
 # Zipkin
 spring.zipkin.sender.type: kafka

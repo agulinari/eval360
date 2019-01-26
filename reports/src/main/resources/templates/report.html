@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Cover</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="main">
+	<div id="yourlogohere">
+		<p>Your logo here</p>
+	</div>
+	<div id="imagen">
+		<img src="imgs/3personas.png" alt="3 personas">
+	</div>
+	<div id="titulo">
+		<h1> [[${data.getUsername()}]]</h1>
+		<h3>Your feedback report and personal development plan</h3>
+		<h6>June 2013</h6>
+	</div>
+
+<table>
+  <tr id="firstrow">
+    <td><div id="cubo1"></div>Your Results</td>
+    <td>Pages 2-5</td>
+  </tr>
+  <tr id="secondrow">
+    <td><div id="cubo2"></div>Your personal development plan</td>
+    <td>Pages 6-7</td>
+  </tr>
+  <tr id="thirdrow">
+    <td><div id="cubo3"></div>Appendix: Detailed results</td>
+    <td>Pages 8-16</td>
+  </tr>
+</table>
+
+
+</div>
+
+<!--  div class='footer' th:include="footer::footer"></div-->
+
+<div class="next-page">
+
+<div class="page">
+
+<h2>Your results</h2>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime reiciendis excepturi cumque, temporibus non incidunt veniam ex dolores esse recusandae officiis, a ipsa quas quae cupiditate perferendis aut, dolorem. Accusantium!</p>
+
+<h3>Summary of top strengths and areas to improve</h3>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt voluptas ullam, nobis quo cum velit placeat odio nulla nam ut dolorem aliquam doloremque illo. In soluta nihil totam numquam illum?</p>
+
+<div id="greenbox">
+	<h5>Your top 5 strengths</h5>
+	<ol>
+		<li>[[${data.getStrengths().get(0)}]]</li>
+		<li>[[${data.getStrengths().get(1)}]]</li>
+		<li>[[${data.getStrengths().get(2)}]]</li>
+		<li>[[${data.getStrengths().get(3)}]]</li>
+		<li>[[${data.getStrengths().get(4)}]]</li>
+	</ol>
+</div>
+
+<div id="redbox">
+	<h5>Your top 5 areas to improve</h5>
+	<ol>
+		<li>[[${data.getWeaknesses().get(0)}]]</li>
+		<li>[[${data.getWeaknesses().get(1)}]]</li>
+		<li>[[${data.getWeaknesses().get(2)}]]</li>
+		<li>[[${data.getWeaknesses().get(3)}]]</li>
+		<li>[[${data.getWeaknesses().get(4)}]]</li>
+	</ol>
+</div>
+
+<div id="greencommentbox">
+	<p>Each person gave you a score (out of 5) for your current performance for each of the areas in the assessment. Your top 5 strengths are the areas for which, on average, you were given the highest scores.</p>
+</div>
+
+<div id="redcommentbox">
+	<p>Each person gave you a score (out of 5) for your current performance for each of the areas in the assessment. Your top 5 strengths are the areas for which, on average, you were given the highest scores.</p>
+</div>
+
+<div class="informationbox">
+
+	<div class="informationicon">
+		<img src="imgs/informationicon.png" alt="information icon">
+	</div>
+
+	<div class="informationcomment">
+		<h4>"Why was each person asked to rate my desired performance?"</h4>
+
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint at ipsam, mollitia, possimus explicabo alias, unde animi dignissimos quibusdam recusandae rem molestias nobis! Eius repellendus quam voluptates excepturi deserunt error.</p>
+
+		<p><b>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta deleniti sapiente dicta? Praesentium optio corporis, eius, deleniti quo, quod impedit</b></p>
+
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae atque rerum, corrupti corporis quasi ipsam quod deserunt ullam sint dolorum fuga. Enim ex voluptatibus optio reprehenderit atque distinctio? Veniam, perspiciatis?</p>
+	</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!--  div class='footer' th:include="footer::footer"></div -->
+
+<div class="next-page">
+<!-- start page 3 -->
+
+<div class="page">
+  <h3>Your top areas to improve</h3>
+  <p>All of the areas you were assessed against are shown below. They are ordered by the average amount others want to see you improve.</p>
+
+
+
+  <div class="containertable1">
+    <div class="commentsleft">
+      <div class="orangecommentleftbox">
+        <p>These 5 areas need the <b>most</b> improvement</p>
+      </div>
+      <div class="orangecommentleftbox">
+        <p>You can review all of the areas to see if there are others you wish to prioritize in your personal development plan.</p>
+      </div>
+      <div class="orangecommentleftbox">
+        <p>These areas need less improvement and should not be your top priority.</p>
+      </div>  
+    </div>
+    <div class="table1 width50">
+      <table class="t1">
+          <tr>
+            <th>Area assessed</th>
+            <th>Desired improvement</th> 
+          <tr>
+            <td></td>
+            <td>
+              <table class="minitablepage3">
+                <tr>
+                  <td>small</td>
+                  <td>medium</td>
+                  <td>large</td>
+                </tr>
+                <tr class="barrasmallmediumlarge">
+                  <td><div class="boxcolorsmall"></div></td>
+                  <td><div class="boxcolormedium"></div></td>
+                  <td><div class="boxcolorlarge"></div></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          </tr>
+        </table>
+        <table class="t2">
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 0) ? data.getAreasToImprove().get(0).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 1) ? data.getAreasToImprove().get(1).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 2) ? data.getAreasToImprove().get(2).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 3) ? data.getAreasToImprove().get(3).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 4) ? data.getAreasToImprove().get(4).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+        </table>
+        <table class="tableborderdottedsides tableborderbottomlight">
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 5) ? data.getAreasToImprove().get(5).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 6) ? data.getAreasToImprove().get(6).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 7) ? data.getAreasToImprove().get(7).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 8) ? data.getAreasToImprove().get(8).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 9) ? data.getAreasToImprove().get(9).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+        </table>
+        <table class="tableborderdottedsides tableborderdottedbottom">
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 10) ? data.getAreasToImprove().get(10).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 11) ? data.getAreasToImprove().get(11).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 12) ? data.getAreasToImprove().get(12).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 13) ? data.getAreasToImprove().get(13).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 14) ? data.getAreasToImprove().get(14).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+        </table>
+        <table class="tableborderdottedsides tableborderbottomlight">
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 15) ? data.getAreasToImprove().get(15).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 16) ? data.getAreasToImprove().get(16).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 17) ? data.getAreasToImprove().get(17).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 18) ? data.getAreasToImprove().get(18).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 19) ? data.getAreasToImprove().get(19).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+        </table>
+        <table class="tableborderdottedsides tableborderbottomlight">
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 20) ? data.getAreasToImprove().get(20).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 21) ? data.getAreasToImprove().get(21).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 22) ? data.getAreasToImprove().get(22).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 23) ? data.getAreasToImprove().get(23).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 24) ? data.getAreasToImprove().get(24).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+        </table>
+        <table class="tableborderdottedsides tableborderbottomlight">
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 25) ? data.getAreasToImprove().get(25).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 26) ? data.getAreasToImprove().get(26).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 27) ? data.getAreasToImprove().get(27).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 28) ? data.getAreasToImprove().get(28).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>[[${(data.getAreasToImprove().size() > 29) ? data.getAreasToImprove().get(29).getAreaAssessed() : ""}]]</td>
+            <td></td>
+          </tr>
+        </table>
+    </div>
+  </div>
+</div>
+
+<!-- end page 3 -->
+
+</div>
+
+<!-- div class='footer' th:include="footer::footer"></div -->
+
+<div class="next-page">
+
+<div class="page">
+	<h3>Comparision of views</h3>
+	<p>Using the table below you can see if people agreed with the average amount of desired improvement. See the detailed results (pages 8-16) to review their answers in more detail.</p>
+
+
+
+	<div class="containertable2">
+		<div class="commentstop">
+			<div class="orangecommenttopbox">
+				<p>This column shows the average amount of desired improvement.</p>
+        <p>Note: We do not include your view when calculating this average</p>
+			</div>
+			<div class="orangecommenttopbox">
+				<p>You can compare the different views of respondents below.</p>
+			</div>	
+		</div>
+		<div class="table1">
+			<table class="t1">
+  				<tr>
+    				<th>Area assessed</th>
+    				<th>Desired improvement (average)</th>
+            <th>Your view</th>
+            <th>Line manager</th>
+            <th>Peers</th>
+            <th>Direct reports</th>
+
+    			<tr>
+    				<td></td>
+    				<td>
+              <table class="minitable">
+                <tr>
+                  <td>small</td>
+                  <td>medium</td>
+                  <td>large</td>
+                </tr>
+                <tr class="barrasmallmediumlarge">
+                  <td><div class="boxcolorsmall"></div></td>
+                  <td><div class="boxcolormedium"></div></td>
+                  <td><div class="boxcolorlarge"></div></td>
+                </tr>
+              </table>    
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+  				</tr>
+  			</table>
+  			<table class="tablebordertop">
+  				<tr>
+   					<td>Handling disagreement</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+
+  				</tr>
+  				<tr>
+    				<td>Seeking feedback</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+   				<tr>
+   					<td>Listening</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdsmall"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Demonstrating self-improvement</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdsmall"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  			</table>
+  			<table class="tablebordertoplight">
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdmedium"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+   				<tr>
+   					<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdmedium"><p>Large</p></td>
+  				</tr>
+  			</table>
+  			<table class="tablebordertoplight">
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdlarge"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdsmall"><p>Medium</p></td>
+            <td class="tdsmall"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+   				<tr>
+   					<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  			</table>
+  			<table class="tablebordertoplight">
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+   				<tr>
+   					<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  			</table>
+  			<table class="tablebordertoplight">
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  			</table>
+  			<table class="tablebordertoplight">
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+   				<tr>
+   					<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  				<tr>
+    				<td>Communicating clearly</td>
+    				<td></td>
+            <td class="tdsmall"><p>Small</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+            <td class="tdmedium"><p>Medium</p></td>
+            <td class="tdlarge"><p>Large</p></td>
+  				</tr>
+  			</table>
+
+	</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="next-page">
+<!-- PAGE 5 START -->
+<div class="page5">
+<h3>What people said about you</h3>
+<p>Respondents were asked to summarize your performance — you can see their answers below</p>
+
+<h4>What are this person's biggest strengths, and how should they build on these? </h4>
+
+<div class="yourresponseleft">
+  <p>Your response</p>
+</div>
+<div class="yourresponseright">
+  <ul>
+    <li>Communicating and managing others</li>
+  </ul>
+</div>
+
+<br class="clear">
+
+<div class="yourresponseleft">
+  <p>Other responses</p>
+</div>
+<div class="yourresponseright">
+  <ul>
+    <li>You'se got a great attitude - always looking to develop yourself and others, and generally helping to mothete those around you. Keep it up!</li>
+    <li>Generally a good manager</li>
+    <li>Any more coaching would be welcomed!</li>
+    <li>John is good fun to work for and is often a strong mothetor.</li>
+    <li>Generally good - I know you want to take the strategy course and think it'll be really useful to supporting our team </li>
+  </ul>
+</div>
+
+<h4 class="clear">What are this person's weakest areas, and how should they improve these? </h4>
+
+<div class="yourresponseleft">
+  <p>Your response</p>
+</div>
+<div class="yourresponseright">
+  <ul>
+    <li>Time management - I need to realistic about how long things take and then manage the time (and reassess if tasks are taking longer than expected). rd also like to build my leadership skills - perhaps taking the strategy course.</li>
+  </ul>
+</div>
+
+<br class="clear">
+
+<div class="yourresponseleft">
+  <p>Other responses</p>
+</div>
+<div class="yourresponseright">
+  <ul>
+    <li> Be sure to seek feedback from others - particularly your direct reports - early and often!</li>
+    <li>Focus on improting the communications - they're sometimes great but when they am unclear they can lead to time wasted</li>
+    <li>We should try to work more collaborathely towards setting the team's direction and working towards it - it'd be great to invite more input from us.</li>
+    <li>We had the problem earlier in the year that was sorted out - looks like you\e leamt from it, but continue to make sure tasks are broken down the team understand the direction you want us to take!</li>
+  </ul>
+</div>
+
+<h4 class="clear">Do you have any other comments?</h4>
+
+<div class="yourresponseleft">
+  <p>Your response</p>
+</div>
+<div class="yourresponseright">
+  <ul>
+    <li>(Left blank)</li>
+  </ul>
+</div>
+
+<br class="clear">
+
+<div class="yourresponseleft">
+  <p>Other responses</p>
+</div>
+<div class="yourresponseright">
+  <ul>
+    <li> Good job this year! </li>
+  </ul>
+</div>
+
+
+
+</div>
+<!-- PAGE 5 END -->
+</div>
+
+<div class="next-page">
+<!-- PAGE 6 START -->
+
+<div class="page5">
+
+<h3>Your personal development plan</h3>
+
+<p>This personal development plan is for you to fill in. either on your own or with your lire manager. It is recommended that you focus on 3-5 areas to improve:</p>
+
+<ul>
+  <li>You can use the summary of results to identify the areas where improvement is most needed</li>
+  <li>The detailed results (on page 8) provide more detail where necessary</li>
+  <li>You should aim to end up with a clear list of actions that you will take to improve your performance </li>
+</ul>
+
+<div class="contenedortablepage6">
+<div class="greencommentovertable1">
+  <p>The first row is filled as an example</p>
+</div>
+
+<div class="greencommentovertable2">
+  <p>Fill in your own actions below</p>
+</div>
+
+<table class="tablepage6">
+  <tr>
+    <th>Area to improve</th>
+    <th>Current performance</th>
+    <th>Target performance</th>
+    <th>Action(s) to take</th>
+    <th>How and when i will measure success</th>
+  </tr>
+  <tr>
+    <td><p>e.g.<br>
+    !morose my oritten communications to my direct reports (as unclear emails etc. are costing the Mote team time!)</p></td>
+    <td><p>e.g.<br>
+    Inconsistent-sometimes my emails are rushed and unclear.</p></td>
+    <td><p>e.g.<br>
+    Consistently clear. concise emails (and other documents)</p></td>
+    <td><p>e.g.<br>
+    I mill focus on reviening my emails before sending. and Ill also take the document wiling Course our company offers</p></td>
+    <td><p>e.g.<br>
+    <u>In one month</u> Check that my direct reports are happier Moth my emails!<br>
+    <u>Next Year</u> Ensure that it is not highlighted as an area improvement in next year's 360!</p></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>  
+</table>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
