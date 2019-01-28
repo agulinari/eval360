@@ -181,8 +181,41 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 	private List<Comment> getComments(EvaluationTemplate template, List<Evaluation> evaluations) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Comment> comments = new ArrayList<>();
+		for (com.gire.eval360.reports.service.remote.dto.templates.Section section : template.getSections()) {
+			if (section.getSectionType().equals(SectionType.QUESTIONS)){
+				Long sectionId = section.getId();
+				for (ItemTemplate itemTemplate : section.getItems()) {
+					Long itemId = itemTemplate.getId();
+					if (itemTemplate.getItemType().equals(ItemType.TEXTBOX)) {
+						Comment comment = Comment.builder().question(itemTemplate.getDescription()).ownResponse("N/A").build();
+						
+						List<String> otherResponses = new ArrayList<>();
+						for (Evaluation evaluation : evaluations){
+							String response = getComment(sectionId, itemId, evaluation);
+							otherResponses.add(response);
+							
+						}
+						comment.setOtherResponses(otherResponses);
+						comments.add(comment);
+					}
+				}
+			}
+		}
+		return comments;
+	}
+
+	private String getComment(Long sectionId, Long itemId, Evaluation evaluation) {
+		for (com.gire.eval360.reports.service.remote.dto.evaluations.Section section : evaluation.getSections()) {
+			if (section.getId().longValue() == sectionId.longValue()) {
+				for (com.gire.eval360.reports.service.remote.dto.evaluations.Item item: section.getItems()) {
+					if (item.getId().longValue() == itemId.longValue()) {
+						 return item.getValue();
+					}
+				}
+			}
+		}
+		return "N/A";
 	}
 
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.tymeleaf.org" lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>Cover</title>
@@ -116,13 +116,13 @@
 
   <div class="containertable1">
     <div class="commentsleft">
-      <div class="orangecommentleftbox">
+      <div id="orangecommentleftbox1">
         <p>These 5 areas need the <b>most</b> improvement</p>
       </div>
-      <div class="orangecommentleftbox">
+      <div id="orangecommentleftbox2">
         <p>You can review all of the areas to see if there are others you wish to prioritize in your personal development plan.</p>
       </div>
-      <div class="orangecommentleftbox">
+      <div id="orangecommentleftbox3">
         <p>These areas need less improvement and should not be your top priority.</p>
       </div>  
     </div>
@@ -141,53 +141,52 @@
                   <td>large</td>
                 </tr>
                 <tr class="barrasmallmediumlarge">
-                  <td><div class="boxcolorsmall"></div></td>
-                  <td><div class="boxcolormedium"></div></td>
-                  <td><div class="boxcolorlarge"></div></td>
+                  <td><div class="boxcolorsmall">&nbsp;</div></td>
+                  <td><div class="boxcolormedium">&nbsp;</div></td>
+                  <td><div class="boxcolorlarge">&nbsp;</div></td>
                 </tr>
               </table>
             </td>
           </tr>
-          </tr>
         </table>
-        <table class="t2">
+        <table class="t2 tablewidthtd">
           <tr>
             <td>[[${(data.getAreasToImprove().size() > 0) ? data.getAreasToImprove().get(0).getAreaAssessed() : ""}]]</td>
-            <td></td>
+            <td><div class="progressbar" style="width:50%;">&nbsp;</div></td>
           </tr>
           <tr>
             <td>[[${(data.getAreasToImprove().size() > 1) ? data.getAreasToImprove().get(1).getAreaAssessed() : ""}]]</td>
-            <td></td>
+            <td><div class="progressbar" style="width:100%;">&nbsp;</div></td>
           </tr>
           <tr>
             <td>[[${(data.getAreasToImprove().size() > 2) ? data.getAreasToImprove().get(2).getAreaAssessed() : ""}]]</td>
-            <td></td>
+            <td><div class="progressbar" style="width:50%;">&nbsp;</div></td>
           </tr>
           <tr>
             <td>[[${(data.getAreasToImprove().size() > 3) ? data.getAreasToImprove().get(3).getAreaAssessed() : ""}]]</td>
-            <td></td>
+            <td><div class="progressbar" style="width:50%;">&nbsp;</div></td>
           </tr>
           <tr>
             <td>[[${(data.getAreasToImprove().size() > 4) ? data.getAreasToImprove().get(4).getAreaAssessed() : ""}]]</td>
-            <td></td>
+            <td><div class="progressbar" style="width:50%;">&nbsp;</div></td>
           </tr>
         </table>
-        <table class="tableborderdottedsides tableborderbottomlight">
+        <table class="tableborderdottedsides tableborderbottomlight tablewidthtd">
           <tr>
             <td>[[${(data.getAreasToImprove().size() > 5) ? data.getAreasToImprove().get(5).getAreaAssessed() : ""}]]</td>
-            <td></td>
+            <td><div class="progressbar" style="width:20%;">&nbsp;</div></td>
           </tr>
           <tr>
             <td>[[${(data.getAreasToImprove().size() > 6) ? data.getAreasToImprove().get(6).getAreaAssessed() : ""}]]</td>
-            <td></td>
+            <td><div class="progressbar" style="width:30%;">&nbsp;</div></td>
           </tr>
           <tr>
             <td>[[${(data.getAreasToImprove().size() > 7) ? data.getAreasToImprove().get(7).getAreaAssessed() : ""}]]</td>
-            <td></td>
+            <td><div class="progressbar" style="width:40%;">&nbsp;</div></td>
           </tr>
           <tr>
             <td>[[${(data.getAreasToImprove().size() > 8) ? data.getAreasToImprove().get(8).getAreaAssessed() : ""}]]</td>
-            <td></td>
+            <td><div class="progressbar" style="width:10%;">&nbsp;</div></td>
           </tr>
           <tr>
             <td>[[${(data.getAreasToImprove().size() > 9) ? data.getAreasToImprove().get(9).getAreaAssessed() : ""}]]</td>
@@ -302,11 +301,11 @@
 
 	<div class="containertable2">
 		<div class="commentstop">
-			<div class="orangecommenttopbox">
+			<div id="orangecommenttopbox1">
 				<p>This column shows the average amount of desired improvement.</p>
         <p>Note: We do not include your view when calculating this average</p>
 			</div>
-			<div class="orangecommenttopbox">
+			<div id="orangecommenttopbox2">
 				<p>You can compare the different views of respondents below.</p>
 			</div>	
 		</div>
@@ -330,9 +329,9 @@
                   <td>large</td>
                 </tr>
                 <tr class="barrasmallmediumlarge">
-                  <td><div class="boxcolorsmall"></div></td>
-                  <td><div class="boxcolormedium"></div></td>
-                  <td><div class="boxcolorlarge"></div></td>
+                  <td><div class="boxcolorsmall">&nbsp;</div></td>
+                  <td><div class="boxcolormedium">&nbsp;</div></td>
+                  <td><div class="boxcolorlarge">&nbsp;</div></td>
                 </tr>
               </table>    
             </td>
@@ -345,7 +344,7 @@
   			<table class="tablebordertop">
   				<tr>
    					<td>Handling disagreement</td>
-    				<td></td>
+    				<td>kxjldflkdjsf</td>
             <td class="tdsmall"><p>Small</p></td>
             <td class="tdlarge"><p>Large</p></td>
             <td class="tdmedium"><p>Medium</p></td>
@@ -354,7 +353,7 @@
   				</tr>
   				<tr>
     				<td>Seeking feedback</td>
-    				<td></td>
+    				<td><div style="background-color: #8ec1e4;"></div></td>
             <td class="tdsmall"><p>Small</p></td>
             <td class="tdlarge"><p>Large</p></td>
             <td class="tdmedium"><p>Medium</p></td>
@@ -610,14 +609,15 @@
 <h3>What people said about you</h3>
 <p>Respondents were asked to summarize your performance — you can see their answers below</p>
 
-<h4>What are this person's biggest strengths, and how should they build on these? </h4>
+<th:block th:each="comment: ${data.getComments()}">
+<h4 class="clear">[[${comment.getQuestion()}]]</h4>
 
 <div class="yourresponseleft">
   <p>Your response</p>
 </div>
 <div class="yourresponseright">
   <ul>
-    <li>Communicating and managing others</li>
+    <li>[[${comment.getOwnResponse()}]]</li>
   </ul>
 </div>
 
@@ -628,62 +628,11 @@
 </div>
 <div class="yourresponseright">
   <ul>
-    <li>You'se got a great attitude - always looking to develop yourself and others, and generally helping to mothete those around you. Keep it up!</li>
-    <li>Generally a good manager</li>
-    <li>Any more coaching would be welcomed!</li>
-    <li>John is good fun to work for and is often a strong mothetor.</li>
-    <li>Generally good - I know you want to take the strategy course and think it'll be really useful to supporting our team </li>
+    <li th:each="response : ${comment.getOtherResponses()}">[[${response}]]</li>
   </ul>
 </div>
 
-<h4 class="clear">What are this person's weakest areas, and how should they improve these? </h4>
-
-<div class="yourresponseleft">
-  <p>Your response</p>
-</div>
-<div class="yourresponseright">
-  <ul>
-    <li>Time management - I need to realistic about how long things take and then manage the time (and reassess if tasks are taking longer than expected). rd also like to build my leadership skills - perhaps taking the strategy course.</li>
-  </ul>
-</div>
-
-<br class="clear">
-
-<div class="yourresponseleft">
-  <p>Other responses</p>
-</div>
-<div class="yourresponseright">
-  <ul>
-    <li> Be sure to seek feedback from others - particularly your direct reports - early and often!</li>
-    <li>Focus on improting the communications - they're sometimes great but when they am unclear they can lead to time wasted</li>
-    <li>We should try to work more collaborathely towards setting the team's direction and working towards it - it'd be great to invite more input from us.</li>
-    <li>We had the problem earlier in the year that was sorted out - looks like you\e leamt from it, but continue to make sure tasks are broken down the team understand the direction you want us to take!</li>
-  </ul>
-</div>
-
-<h4 class="clear">Do you have any other comments?</h4>
-
-<div class="yourresponseleft">
-  <p>Your response</p>
-</div>
-<div class="yourresponseright">
-  <ul>
-    <li>(Left blank)</li>
-  </ul>
-</div>
-
-<br class="clear">
-
-<div class="yourresponseleft">
-  <p>Other responses</p>
-</div>
-<div class="yourresponseright">
-  <ul>
-    <li> Good job this year! </li>
-  </ul>
-</div>
-
-
+</th:block>
 
 </div>
 <!-- PAGE 5 END -->
@@ -760,6 +709,44 @@
 
 </div>
 
+</div>
+
+<div class="next-page">
+<div class="page8">
+<h3>Planning</h3>
+
+<table class="tablepage8">
+ <caption>Favorite and Least Favorite Things</caption>
+ <tr>
+  <th></th><th></th>
+  <th>Bob</th>
+  <th>Alice</th>
+ </tr>
+ <tr>
+  <th rowspan="2">Favorite</th>
+  <th>Color</th>
+  <td>Blue</td>
+  <td>Purple</td>
+ </tr>
+ <tr>
+  <th>Flavor</th>
+  <td>Banana</td>
+  <td>Chocolate</td>
+ </tr>
+ <tr>
+  <th>Least Favorite</th>
+  <th>Color</th>
+  <td>Yellow</td>
+  <td>Pink</td>
+ </tr>
+ <tr>
+  <th>Flavor</th>
+  <td>Mint</td>
+  <td>Walnut</td>
+  <td></td>
+ </tr>
+</table>
+</div>
 </div>
 
 </body>

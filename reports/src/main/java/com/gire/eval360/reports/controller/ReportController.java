@@ -96,62 +96,38 @@ public class ReportController {
         
     }
 
-    private Data exampleDataForJohnDoe() {
-        Data data = new Data();
-        data.setFirstname("John");
-        data.setLastname("Doe");
-        data.setStreet("Example Street 1");
-        data.setZipCode("12345");
-        data.setCity("Example City");
-        return data;
-    }
+    @GetMapping("/test")
+    public void testReport(HttpServletResponse response) throws Exception {
 
-    static class Data {
-        private String firstname;
-        private String lastname;
-        private String street;
-        private String zipCode;
-        private String city;
+        Context context = new Context();
+        String renderedHtmlContent = templateEngine.process("test/report", context);
+        String xHtml = convertToXhtml(renderedHtmlContent);
 
-        public String getFirstname() {
-            return firstname;
-        }
+        ITextRenderer renderer = new ITextRenderer();
+        renderer.getFontResolver().addFont("Code39.ttf", IDENTITY_H, EMBEDDED);
 
-        public void setFirstname(String firstname) {
-            this.firstname = firstname;
-        }
-
-        public String getLastname() {
-            return lastname;
-        }
-
-        public void setLastname(String lastname) {
-            this.lastname = lastname;
-        }
-
-        public String getStreet() {
-            return street;
-        }
-
-        public void setStreet(String street) {
-            this.street = street;
-        }
-
-        public String getZipCode() {
-            return zipCode;
-        }
-
-        public void setZipCode(String zipCode) {
-            this.zipCode = zipCode;
-        }
-
-        public String getCity() {
-            return city;
-        }
-
-        public void setCity(String city) {
-            this.city = city;
-        }
+        String baseUrl = FileSystems
+                                .getDefault()
+                                .getPath("src", "main", "resources", "templates", "test")
+                                .toUri()
+                                .toURL()
+                                .toString();
+        renderer.setDocumentFromString(xHtml, baseUrl);
+        renderer.layout();
+        
+        try {
+        // And finally, we create the PDF:
+       // OutputStream outputStream = new FileOutputStream(OUTPUT_FILE);
+        OutputStream outputStream = response.getOutputStream();
+        renderer.createPDF(outputStream);
+        response.setContentType("application/pdf");
+        response.flushBuffer();
+        } catch (IOException ex) {
+            log.info("Error writing file to output stream. ", ex);
+            throw new RuntimeException("IOError writing file to output stream");
+          }
+       // outputStream.close();
+        
     }
 
     private String convertToXhtml(String html) throws UnsupportedEncodingException {

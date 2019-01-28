@@ -318,22 +318,76 @@ th, td {
 
 /*posicion de cada comentario orangecommentleftbox */
 
-.orangecommentleftbox:nth-of-type(1) {
+#orangecommentleftbox1 {
+	width: 127px;
+	padding: 8px;
+	color: white;
+	background-color: #e36c09;
 	float: right;
 	margin-top: 100px;
 	margin-right:10px;
 }
 
-.orangecommentleftbox:nth-of-type(2) {
+#orangecommentleftbox1:after {
+	content:'';
+    position: absolute;
+    top: 130px;
+    right: 1px;
+    /*margin-left: -50px;*/
+    width: 0;  /*en 0 para que queden solo los bordes */
+    height: 0; /*en 0 para que queden solo los bordes */
+    border-top: solid 10px transparent;
+    border-left: solid 10px #e36c09;
+    /*border-right: solid 50px yellow;*/
+    border-bottom: solid 10px transparent;
+}
+
+#orangecommentleftbox2 {
+	width: 127px;
+	padding: 8px;
+	color: white;
+	background-color: #e36c09;
 	float: right;
 	margin-top: 50px;
 	margin-right:10px;
 }
 
-.orangecommentleftbox:nth-of-type(3) {
+#orangecommentleftbox2:after {
+	content:'';
+    position: absolute;
+    top: 280px;
+    right: 1px;
+    /*margin-left: -50px;*/
+    width: 0;  /*en 0 para que queden solo los bordes */
+    height: 0; /*en 0 para que queden solo los bordes */
+    border-top: solid 10px transparent;
+    border-left: solid 10px #e36c09;
+    /*border-right: solid 50px yellow;*/
+    border-bottom: solid 10px transparent;
+}
+
+#orangecommentleftbox3 {
+	width: 127px;
+	padding: 8px;
+	color: white;
+	background-color: #e36c09;
 	float: right;
 	margin-top: 130px;
 	margin-right:10px;
+}
+
+#orangecommentleftbox3:after {
+	content:'';
+    position: absolute;
+    top: 540px;
+    right: 1px;
+    /*margin-left: -50px;*/
+    width: 0;  /*en 0 para que queden solo los bordes */
+    height: 0; /*en 0 para que queden solo los bordes */
+    border-top: solid 10px transparent;
+    border-left: solid 10px #e36c09;
+    /*border-right: solid 50px yellow;*/
+    border-bottom: solid 10px transparent;
 }
 
 /* ------------------------- */
@@ -379,13 +433,21 @@ th, td {
 }
 
 
-/*Flecha derecha de orangecommentleftbox*/
+#orangecommenttopbox1 {
+	width: 200px;
+	padding: 8px;
+	color: white;
+	background-color: #e36c09;
+	position:relative;
+	margin-left:50px;
+	float: left;
+}
 
-.orangecommenttopbox:after {
+#orangecommenttopbox1:after {
 	content:'';
     position: absolute;
-    left: 50%;
-    top: 100%;
+    left: 100px;
+    bottom:-10px;
     /*margin-left: -50px;*/
     width: 0;  /*en 0 para que queden solo los bordes */
     height: 0; /*en 0 para que queden solo los bordes */
@@ -395,21 +457,29 @@ th, td {
     /*border-bottom: solid 10px #e36c09;*/
 }
 
-/* ---------------------------- */
-
-
-/* posicion de cada comentario orangecommenttopbox */
-
-.orangecommenttopbox:nth-of-type(1) {
-	position: absolute;
-	bottom:10px;
-	left: 150px;
+#orangecommenttopbox2 {
+	width: 200px;
+	padding: 8px;
+	color: white;
+	background-color: #e36c09;
+	position:relative;
+	float: right;
+	margin-right:50px;
+	margin-top: 44px;
 }
 
-.orangecommenttopbox:nth-of-type(2) {
-	position: absolute;
-	bottom:10px;
-	left: 400px;
+#orangecommenttopbox2:after {
+	content:'';
+    position: absolute;
+    right: 100px;
+    bottom:-10px;
+    /*margin-left: -50px;*/
+    width: 0;  /*en 0 para que queden solo los bordes */
+    height: 0; /*en 0 para que queden solo los bordes */
+    border-top: solid 10px #e36c09;
+   	border-left: solid 10px transparent;
+    border-right: solid 10px transparent;
+    /*border-bottom: solid 10px #e36c09;*/
 }
 
 
@@ -508,6 +578,11 @@ th, td {
   	border-spacing: 0px;
 }
 
+.tablewidthtd td{
+	width: 200px;
+}
+
+
 .tableborderdottedsides {
 	width:100%;
 	border-right: 2px dotted #e36c09;
@@ -577,6 +652,10 @@ th, td {
 }
 
 /* PROGRESS BAR */
+.progressbar{
+	height: 20px;
+	background-color: #8ec1e4;
+}
 
 progress[value] {
   /* Reset the default appearance */
@@ -790,6 +869,38 @@ table   {
 }
 
 
+.tablepage8 {
+	margin-top: 100px;
+	background-color: #f2eff5;
+}
+
+
+.tablepage8 th{
+	font-size: 10px;
+	/*color: #76923c;*/
+	border: 1px solid black;
+}
+
+.tablepage8 td{
+	width: 112px;
+	height:auto;
+	/*vertical-align: top;*/
+	padding:6px;
+	font-size: 11px;
+	border: 1px solid black;
+	/*border-top: 1px solid #9bbb59 ;
+	border-bottom: 1px solid #9bbb59;*/
+}
+
+
+.tablepage8 p{
+	font-size: 9px;
+	color: #76923c;
+}
+
+
+
+
 /* ---------------------- */
 
 .page-break {
@@ -837,4 +948,6 @@ table   {
 
     size: A4 portrait;
 }
+
+
 
