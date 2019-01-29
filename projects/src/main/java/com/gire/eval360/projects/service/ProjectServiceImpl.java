@@ -125,7 +125,9 @@ public class ProjectServiceImpl implements ProjectService{
 		Predicate<EvalueeFeedbackProvider> predicate = e -> e.getStatus().equals(EvaluationStatus.PENDIENTE);
 		Optional<EvalueeFeedbackProvider> fpPendiente=providers.stream().filter(predicate).findAny();
 		if(!fpPendiente.isPresent()) {
-			sendNotificationEvaluationCompleteToReviewer(efp.getEvaluee().getIdUser(),efp.getEvaluee().getProject().getId());
+			Evaluee evaluee = efp.getEvaluee();
+			Project project = evaluee.getProject();
+			sendNotificationEvaluationCompleteToReviewer(evaluee.getIdUser(),evaluee.getId(),project.getId(),project.getIdEvaluationTemplate());
 		}
 	}
 	
@@ -156,8 +158,8 @@ public class ProjectServiceImpl implements ProjectService{
 	 * @param idUser
 	 * @param id
 	 */
-	private void sendNotificationEvaluationCompleteToReviewer(Long idEvalueeUser, Long idProject) {
-		NotificationReviewerDto notifyFpDto = new NotificationReviewerDto(idEvalueeUser,idProject);
+	private void sendNotificationEvaluationCompleteToReviewer(Long idUser, Long idEvaluee, Long idProject, Long idTemplate) {
+		NotificationReviewerDto notifyFpDto = new NotificationReviewerDto(idUser,idEvaluee,idProject,idTemplate);
 		notificationFeedBackSender.sendNotificationReviewer(notifyFpDto);	
 	}
 	

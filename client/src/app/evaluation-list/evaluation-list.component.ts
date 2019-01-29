@@ -20,7 +20,8 @@ export class EvaluationListComponent implements OnInit, OnDestroy {
 
   sub: Subscription;
   project: Project = undefined;
-  evaluees: EvalueeItem[] = [];
+  pendingEvaluees: EvalueeItem[] = [];
+  completedEvaluees: EvalueeItem[] = [];
   loading = false;
 
   constructor( private route: ActivatedRoute,
@@ -46,7 +47,8 @@ export class EvaluationListComponent implements OnInit, OnDestroy {
 
   getProject(id) {
     this.loading = true;
-    this.evaluees = [];
+    this.pendingEvaluees = [];
+    this.completedEvaluees = [];
     this.projectService.get(id).subscribe((project: Project) => {
 
       if (project) {
@@ -71,7 +73,7 @@ export class EvaluationListComponent implements OnInit, OnDestroy {
               user: user,
               relationship: evalFeedbackProvider.relationship
             };
-            this.evaluees.push(evalueeItem);
+            this.pendingEvaluees.push(evalueeItem);
           }
         });
 

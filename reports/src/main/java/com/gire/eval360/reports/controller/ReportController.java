@@ -9,11 +9,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.FileSystems;
+import java.util.function.Function;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.TemplateEngine;
@@ -22,9 +24,10 @@ import org.w3c.tidy.Tidy;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.gire.eval360.reports.domain.ReportData;
-import com.gire.eval360.reports.service.ReportService;
+import com.gire.eval360.reports.repository.ReportRepository;
 
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
 
 
 @Slf4j
@@ -35,26 +38,32 @@ public class ReportController {
     private static final String OUTPUT_FILE = "test.pdf";
     private static final String UTF_8 = "UTF-8";
     
-    @Autowired
-    TemplateEngine templateEngine;
-    
-    @Autowired
-    ReportService reportService;
+    private final TemplateEngine templateEngine;
+    private final ReportRepository repository;
 
+    @Autowired
+    public ReportController(TemplateEngine templateEngine, ReportRepository repository) {
+    	this.templateEngine = templateEngine;
+    	this.repository = repository;
+    }
   
     
-    @GetMapping
-    public void generateReport(HttpServletResponse response) throws Exception {
+    @GetMapping("/{idEvaluee}")
+    public void generateReport(@PathVariable Long idEvaluee, HttpServletResponse response) throws Exception {
 
         // The data in our Thymeleaf templates is not hard-coded. Instead,
         // we use placeholders in our templates. We fill these placeholders
-        // with actual data by passing in an object. In this example, we will
-        // write a letter to "John Doe".
+        // with actual data by passing in an object. 
         //
         // Note that we could also read this data from a JSON file, a database
         // a web service or whatever.
-        ReportData data = reportService.generateReport(Long.valueOf(1), Long.valueOf(3), Long.valueOf(1)).block();
+        ReportData data = repository.findByIdEvaluee(idEvaluee).block();
 
+        if (data == null) {
+        	//TODO: devolver 404
+        	return;
+        }
+        
         Context context = new Context();
         context.setVariable("data", data);
 
@@ -70,7 +79,7 @@ public class ReportController {
 
         // FlyingSaucer has a working directory. If you run this test, the working directory
         // will be the root folder of your project. However, all files (HTML, CSS, etc.) are
-        // located under "/src/test/resources". So we want to use this folder as the working
+        // located under "/src/main/resources/templates". So we want to use this folder as the working
         // directory.
         String baseUrl = FileSystems
                                 .getDefault()
@@ -82,18 +91,17 @@ public class ReportController {
         renderer.layout();
         
         try {
-        // And finally, we create the PDF:
-       // OutputStream outputStream = new FileOutputStream(OUTPUT_FILE);
-        OutputStream outputStream = response.getOutputStream();
-        renderer.createPDF(outputStream);
-        response.setContentType("application/pdf");
-        response.flushBuffer();
+	        // And finally, we create the PDF:
+	       // OutputStream outputStream = new FileOutputStream(OUTPUT_FILE);
+	        OutputStream outputStream = response.getOutputStream();
+	        renderer.createPDF(outputStream);
+	        response.setContentType("application/pdf");
+	        response.flushBuffer();
         } catch (IOException ex) {
             log.info("Error writing file to output stream. ", ex);
             throw new RuntimeException("IOError writing file to output stream");
-          }
-       // outputStream.close();
-        
+        }        
+         
     }
 
     @GetMapping("/test")

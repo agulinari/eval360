@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper=false)
 public class NotificationReviewerDto {
 
-	private Long idEvalueeUser;
+	private Long idUser;
+	private Long idEvaluee;
 	private Long idProject;
+	private Long idTemplate;
 	
 }

@@ -45,13 +45,13 @@ public class ReportServiceImpl implements ReportService {
 			
 			Mono<List<Evaluation>> evaluations = evaluationServiceRemote.getEvaluationsByProjectAndEvaluee(idProject, idEvaluee).collectList();
 			
-			return evaluations.map(es -> createReport(template, es));
+			return evaluations.map(es -> createReport(idProject, idEvaluee, template, es));
 		});
 		
 		return report;
 	}
 
-	private ReportData createReport(EvaluationTemplate template, List<Evaluation> evaluations) {
+	private ReportData createReport(Long idProject, Long idEvaluee, EvaluationTemplate template, List<Evaluation> evaluations) {
 		
 		Integer managers = countRelationship(evaluations, "Jefe");
 		Integer peers = countRelationship(evaluations, "Par");
@@ -63,6 +63,8 @@ public class ReportServiceImpl implements ReportService {
 		List<Comment> comments = getComments(template, evaluations);
 		List<Section> detailedResults = getDetailedResults(template, evaluations);
 		ReportData report = ReportData.builder()
+									  .idProject(idProject)
+									  .idEvaluee(idEvaluee)
 									  .username("User")
 									  .managers(managers)
 									  .peers(peers)
