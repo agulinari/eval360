@@ -26,10 +26,12 @@ import com.gire.eval360.projects.domain.ProjectAdmin;
 import com.gire.eval360.projects.domain.Reviewer;
 import com.gire.eval360.projects.domain.Status;
 import com.gire.eval360.projects.domain.dto.AdminStatus;
+import com.gire.eval360.projects.domain.dto.CompletedEvaluee;
 import com.gire.eval360.projects.domain.dto.EvalueeDetail;
 import com.gire.eval360.projects.domain.dto.EvalueeStatus;
 import com.gire.eval360.projects.domain.dto.FeedbackProviderDetail;
 import com.gire.eval360.projects.domain.dto.FeedbackProviderStatus;
+import com.gire.eval360.projects.domain.dto.PendingEvaluee;
 import com.gire.eval360.projects.domain.dto.ProjectStatus;
 import com.gire.eval360.projects.domain.dto.ProjectStatus.ProjectStatusBuilder;
 import com.gire.eval360.projects.domain.dto.ReviewerStatus;
@@ -46,6 +48,9 @@ import com.gire.eval360.projects.repository.ProjectRepository;
 import com.gire.eval360.projects.service.remote.UserServiceRemote;
 import com.gire.eval360.projects.service.remote.dto.users.UserResponse;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ProjectServiceImpl implements ProjectService{
 	
@@ -522,6 +527,88 @@ public class ProjectServiceImpl implements ProjectService{
 															 .build();
 				
 		return adminStatus;
+	}
+
+	@Override
+	public List<PendingEvaluee> getPendingEvalueesForUser(Long id, Long idUser) {
+		Optional<Project> oProject = projectRepository.findById(id);
+		
+		List<PendingEvaluee> pendingEvaluees = new ArrayList<>();
+		if (oProject.isPresent()) {
+			Project project = oProject.get();
+			for (Evaluee evaluee : project.getEvaluees()) {
+				for (EvalueeFeedbackProvider efp : evaluee.getFeedbackProviders()) {
+					if ((efp.getFeedbackProvider().getIdUser().longValue() == idUser) && (efp.getStatus().equals(EvaluationStatus.PENDIENTE))) {
+						PendingEvaluee pendingEvaluee = buildPendingEvaluee(evaluee, efp.getId(), efp.getRelationship());
+						pendingEvaluees.add(pendingEvaluee);
+					}
+				}
+			}
+			return pendingEvaluees;
+		}else {
+			log.warn("Proyecto con id {} inexistente", id);
+			return pendingEvaluees;
+		}
+	}
+
+	private PendingEvaluee buildPendingEvaluee(Evaluee evaluee, Long efpId, String relationship) {
+		UserResponse user = this.userServiceRemote.getUserById(evaluee.getIdUser());
+		
+		PendingEvaluee pendingEvaluee = PendingEvaluee.builder()
+													  .id(evaluee.getId())
+													  .idEvalueeFp(efpId)
+													  .idUser(evaluee.getIdUser())
+													  .avatar("")
+													  .relationShip(relationship)
+													  .username(user.getUsername())
+													  .build();
+		return pendingEvaluee;
+	}
+
+	@Override
+	public List<CompletedEvaluee> getCompletedEvalueesForUser(Long id, Long idUser) {
+		Optional<Project> oProject = projectRepository.findById(id);
+		
+		List<CompletedEvaluee> completedEvaluees = new ArrayList<>();
+
+		if (oProject.isPresent()) {
+			Project project = oProject.get();
+
+			for (Evaluee evaluee :  project.getEvaluees()) {
+				// Filtro los evaluees que tienen como reviewer al usuario
+				Optional<EvalueeReviewer> er = evaluee.getReviewers().stream().filter(r -> r.getReviewer().getIdUser().longValue() == idUser) .findAny();
+				if (er.isPresent()) {
+					boolean completed = true;
+					for (EvalueeFeedbackProvider efp : evaluee.getFeedbackProviders()) {
+						if (efp.getStatus().equals(EvaluationStatus.PENDIENTE)) {
+							completed = false;
+							break;
+						}
+					}
+					if (completed) {
+						CompletedEvaluee completedEvaluee = buildCompletedEvaluee(evaluee);
+						completedEvaluees.add(completedEvaluee);
+					}
+				}
+				
+			}
+			return completedEvaluees;
+		}else {
+			log.warn("Proyecto con id {} inexistente", id);
+			return completedEvaluees;
+		}
+	}
+	
+	private CompletedEvaluee buildCompletedEvaluee(Evaluee evaluee) {
+		UserResponse user = this.userServiceRemote.getUserById(evaluee.getIdUser());
+		
+		CompletedEvaluee completedEvaluee = CompletedEvaluee.builder()
+													  .id(evaluee.getId())
+													  .idUser(evaluee.getIdUser())
+													  .avatar("")
+													  .username(user.getUsername())
+													  .build();
+		return completedEvaluee;
 	}
 
 }

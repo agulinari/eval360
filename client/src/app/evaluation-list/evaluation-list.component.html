@@ -2,7 +2,7 @@
     <mat-tab label="Mis Evaluaciones">
     <mat-card  class="shipping-card">
         <mat-card-header>
-          <mat-card-title>Mis Evaluaciones del Proyecto <strong>{{project?.name}}</strong></mat-card-title>
+          <mat-card-title>Mis Evaluaciones</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <div class="spinner-container" *ngIf="loading">
@@ -16,16 +16,16 @@
                 </div>
                 <mat-list>
                 <mat-list-item *ngFor="let evaluee of pendingEvaluees; let i = index; last as last">
-                    <div class="full-width" fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px" *ngIf="evaluee.user | async; let user">
+                    <div class="full-width" fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px">
                         <div fxFlex="30%">
                             <img class="avatar" src="/assets/images/avatar.png" alt="{{evaluee.idUser}}">
-                            {{user.username}}
+                            {{evaluee.username}}
                         </div>
                         <div fxFlex="30%">
-                            {{evaluee.relationship}}
+                            {{evaluee.relationShip}}
                         </div>
                         <div fxFlex="10%">
-                            <button type="button" matTooltip="Completar evaluación" color="accent" mat-icon-button (click)="goToEvaluationForm(evaluee.id)">
+                            <button type="button" matTooltip="Completar evaluación" color="accent" mat-icon-button (click)="goToEvaluationForm(evaluee.idEvalueeFp)">
                                 <mat-icon aria-label="Go to evaluation button">edit</mat-icon>
                             </button>
                         </div>
@@ -40,7 +40,7 @@
     <mat-tab label="Mis Reportes">
         <mat-card  class="shipping-card">
             <mat-card-header>
-              <mat-card-title>Mis Reportes del Proyecto <strong>{{project?.name}}</strong></mat-card-title>
+              <mat-card-title>Mis Reportes</mat-card-title>
             </mat-card-header>
             <mat-card-content>
               <div class="spinner-container" *ngIf="loading">
@@ -49,18 +49,14 @@
               <div *ngIf="!loading">
                      <div fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px">
                         <h4 fxFlex="30%">Evaluaciones Finalizadas</h4>
-                        <h4 fxFlex="30%">Relacion</h4>
                         <h4 fxFlex="10%">Acciones</h4>
                     </div>
                     <mat-list>
                     <mat-list-item *ngFor="let evaluee of completedEvaluees; let i = index; last as last">
-                        <div class="full-width" fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px" *ngIf="evaluee.user | async; let user">
+                        <div class="full-width" fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px" >
                             <div fxFlex="30%">
                                 <img class="avatar" src="/assets/images/avatar.png" alt="{{evaluee.idUser}}">
-                                {{user.username}}
-                            </div>
-                            <div fxFlex="30%">
-                                {{evaluee.relationship}}
+                                {{evaluee.username}}
                             </div>
                             <div fxFlex="10%">
                                 <button type="button" matTooltip="Descargar reporte" color="accent" mat-icon-button (click)="downloadReport(evaluee.id)">

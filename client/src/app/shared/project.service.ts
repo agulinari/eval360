@@ -8,6 +8,8 @@ import { ProjectList } from '../domain/project/project-list';
 import { CreateEvaluee } from '../domain/create-project/create-evaluee';
 import { CreateAdmin } from '../domain/create-project/create-admin';
 import { ProjectStatus } from '../domain/project-status/project-status';
+import { PendingEvaluee } from '../domain/evaluation-list/pending-evaluee';
+import { CompletedEvaluee } from '../domain/evaluation-list/completed-evaluee';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +40,18 @@ export class ProjectService {
   getStatus(id: string): Observable<ProjectStatus> {
     return this.http.get(this.PROJECTS_API + '/' + id + '/status').pipe(
       catchError(this.handleError<any>('getProjectStatus'))
+    );
+  }
+
+  getPendingEvaluees(id: string, idUser: string): Observable<PendingEvaluee[]> {
+    return this.http.get(this.PROJECTS_API + '/' + id + '/pending/' + idUser).pipe(
+      catchError(this.handleError<any>('getPendingEvaluees'))
+    );
+  }
+
+  getCompletedEvaluees(id: string, idUser: string): Observable<CompletedEvaluee[]> {
+    return this.http.get(this.PROJECTS_API + '/' + id + '/completed/' + idUser).pipe(
+      catchError(this.handleError<any>('getCompletedEvaluees'))
     );
   }
 

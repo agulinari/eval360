@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gire.eval360.projects.domain.Evaluee;
+import com.gire.eval360.projects.domain.dto.CompletedEvaluee;
+import com.gire.eval360.projects.domain.dto.PendingEvaluee;
 import com.gire.eval360.projects.domain.dto.ProjectStatus;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
@@ -70,6 +72,16 @@ public class ProjectController {
 	public ResponseEntity<ProjectStatus> getProjectStatus(@PathVariable Long id) {
 		Optional<ProjectStatus> projectStatus = this.projectService.getProjectStatus(id);
 		return projectStatus.map(p -> ResponseEntity.ok().body(p)).orElse(ResponseEntity.notFound().build());
+	}
+	
+	@GetMapping("/{id}/pending/{idFp}")
+	public List<PendingEvaluee> getPendingEvalueesForUser(@PathVariable Long id, @PathVariable Long idFp ) {
+		return this.projectService.getPendingEvalueesForUser(id, idFp);
+	}
+	
+	@GetMapping("/{id}/completed/{idReviewer}")
+	public List<CompletedEvaluee> getCompletedEvalueesForUser(@PathVariable Long id, @PathVariable Long idReviewer) {
+		return this.projectService.getCompletedEvalueesForUser(id, idReviewer);
 	}
 
 }

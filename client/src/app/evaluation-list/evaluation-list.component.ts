@@ -7,9 +7,8 @@ import { MatDialog } from '@angular/material';
 import { UserService } from '../shared/user.service';
 import { AuthenticationService } from '../shared/authentication.service';
 import { ProjectService } from '../shared/project.service';
-import { EvalueeStatus } from '../domain/project-status/evaluee-status';
-import { EvalueeItem } from '../domain/evaluation-list/Evaluee-Item';
-import { EvalueeFeedbackProvider } from '../domain/project-status/evaluee-feedback-provider';
+import { PendingEvaluee } from '../domain/evaluation-list/pending-evaluee';
+import { CompletedEvaluee } from '../domain/evaluation-list/completed-evaluee';
 
 @Component({
   selector: 'app-evaluation-list',
@@ -19,9 +18,9 @@ import { EvalueeFeedbackProvider } from '../domain/project-status/evaluee-feedba
 export class EvaluationListComponent implements OnInit, OnDestroy {
 
   sub: Subscription;
-  project: Project = undefined;
-  pendingEvaluees: EvalueeItem[] = [];
-  completedEvaluees: EvalueeItem[] = [];
+  projectId;
+  pendingEvaluees: PendingEvaluee[] = [];
+  completedEvaluees: CompletedEvaluee[] = [];
   loading = false;
 
   constructor( private route: ActivatedRoute,
@@ -34,9 +33,12 @@ export class EvaluationListComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.sub = this.route.params.subscribe(params => {
-      const id = params['id'];
-      if (id) {
-        this.getProject(id);
+      this.projectId = params['id'];
+      if (this.projectId ) {
+        const userId = this.authenticationService.getUserId();
+
+        this.getPendingEvaluees(this.projectId , userId);
+        this.getCompletedEvaluees(this.projectId , userId);
       }
     });
   }
@@ -45,48 +47,34 @@ export class EvaluationListComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  getProject(id) {
+  getPendingEvaluees(id, userId) {
     this.loading = true;
     this.pendingEvaluees = [];
-    this.completedEvaluees = [];
-    this.projectService.get(id).subscribe((project: Project) => {
 
-      if (project) {
 
-        // Chequear que el usuario sea admin del proyecto
-        const userId = this.authenticationService.getUserId();
-        const isFeedbackProvider = (project.feedbackProviders.find(fp => fp.idUser === +userId) !== undefined);
-        const isEvaluee = (project.evaluees.find(evaluee => evaluee.idUser === +userId) !== undefined);
-
-        if ((!isFeedbackProvider) && (!isEvaluee)) {
-          console.log('El usuario no es participante del proyecto, volviendo a la lista');
-          this.gotoList();
-        }
-
-        project.evaluees.forEach(evaluee => {
-          const evalFeedbackProvider = evaluee.feedbackProviders.find(efp => efp.feedbackProvider.idUser === +userId);
-          if (evalFeedbackProvider !== undefined && evalFeedbackProvider.status === 'PENDIENTE') {
-            const user = this.userService.get(evaluee.idUser.toString());
-            const evalueeItem: EvalueeItem = {
-              id: evalFeedbackProvider.id,
-              idUser: evaluee.idUser,
-              user: user,
-              relationship: evalFeedbackProvider.relationship
-            };
-            this.pendingEvaluees.push(evalueeItem);
-          }
-        });
-
-        this.project = project;
-
-       } else {
-        console.log(`Proyecto con id '${id}' no encontrado, volviendo a la lista`);
-        this.gotoList();
-      }
+    this.projectService.getPendingEvaluees(id, userId).subscribe((pendingEvaluees: PendingEvaluee[]) => {
+      this.pendingEvaluees = pendingEvaluees;
     },
     err => {
-      console.log('Error obteniendo proyecto', err);
-      this.showError('Se produjo un error al  obtener al proyecto');
+      console.log('Error obteniendo evaluaciones pendientes', err);
+      this.showError('Se produjo un error al obtener evaluaciones pendientes');
+      this.gotoList();
+    },
+    () => {
+      this.loading = false;
+    });
+  }
+
+  getCompletedEvaluees(id, userId) {
+    this.loading = true;
+    this.completedEvaluees = [];
+
+    this.projectService.getCompletedEvaluees(id, userId).subscribe((completedEvaluees: CompletedEvaluee[]) => {
+      this.completedEvaluees = completedEvaluees;
+    },
+    err => {
+      console.log('Error obteniendo evaluaciones finalizadas', err);
+      this.showError('Se produjo un error al obtener evaluaciones finalizadas');
       this.gotoList();
     },
     () => {
@@ -102,7 +90,7 @@ export class EvaluationListComponent implements OnInit, OnDestroy {
 
   goToEvaluationForm(evalueeId) {
 
-    this.router.navigate([`/main/project-tasks/${this.project.id}/evaluation/${evalueeId}`]);
+    this.router.navigate([`/main/project-tasks/${this.projectId}/evaluation/${evalueeId}`]);
   }
 
   gotoList() {
