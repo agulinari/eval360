@@ -1,14 +1,15 @@
-package com.gire.eval360.notifications.service.remote.domain;
+package com.gire.eval360.notifications.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class UserResponse {
-	
+@NoArgsConstructor
+public class UserProvider {
+
 	private String username;
 	private String mail;
-	private Boolean enabled;
 
 }
