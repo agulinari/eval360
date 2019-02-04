@@ -91,7 +91,7 @@ export class AddEvalueeDialogComponent implements OnInit {
             ))
         ).subscribe(userList => {
             this.filteredFps = userList.users.filter(user =>
-                (!this.selectedFPs.find(u => u.id === user.id) && !this.selectedReviewers.find(u => u.id === user.id)));
+                (!this.selectedFPs.find(u => u.id === user.id) ));
         });
         return feedbackProvider;
     }
@@ -110,7 +110,7 @@ export class AddEvalueeDialogComponent implements OnInit {
             ))
         ).subscribe(userList => {
             this.filteredReviewers = userList.users.filter(user =>
-                (!this.selectedFPs.find(u => u.id === user.id) && !this.selectedReviewers.find(u => u.id === user.id)));
+                (!this.selectedReviewers.find(u => u.id === user.id)));
         });
         return reviewer;
     }

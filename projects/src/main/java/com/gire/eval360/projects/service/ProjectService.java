@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import com.gire.eval360.projects.domain.Evaluee;
 import com.gire.eval360.projects.domain.Project;
+import com.gire.eval360.projects.domain.dto.CompletedEvaluee;
+import com.gire.eval360.projects.domain.dto.PendingEvaluee;
 import com.gire.eval360.projects.domain.dto.ProjectStatus;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
@@ -27,5 +29,9 @@ public interface ProjectService {
 	List<Evaluee> getEvalueesForFeedback(Long id, Long idFp);
 
 	Optional<ProjectStatus> getProjectStatus(Long id);
+
+	List<PendingEvaluee> getPendingEvalueesForUser(Long id, Long idFp);
+
+	List<CompletedEvaluee> getCompletedEvalueesForUser(Long id, Long idReviewer);
 
 }

@@ -45,6 +45,7 @@ import { EvaluationComponent } from './evaluation/evaluation.component';
 import { EvaluationService } from './shared/evaluation.service';
 import { EvaluationListComponent } from './evaluation-list/evaluation-list.component';
 import { EvaluationPreviewComponent } from './evaluation-preview/evaluation-preview.component';
+import { ReportService } from './shared/report.service';
 
 
 @NgModule({
@@ -112,6 +113,7 @@ import { EvaluationPreviewComponent } from './evaluation-preview/evaluation-prev
     TemplateService,
     ProjectService,
     EvaluationService,
+    ReportService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}
   ],
