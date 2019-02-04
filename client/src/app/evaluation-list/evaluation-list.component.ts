@@ -9,6 +9,7 @@ import { AuthenticationService } from '../shared/authentication.service';
 import { ProjectService } from '../shared/project.service';
 import { PendingEvaluee } from '../domain/evaluation-list/pending-evaluee';
 import { CompletedEvaluee } from '../domain/evaluation-list/completed-evaluee';
+import { ReportService } from '../shared/report.service';
 
 @Component({
   selector: 'app-evaluation-list',
@@ -26,8 +27,8 @@ export class EvaluationListComponent implements OnInit, OnDestroy {
   constructor( private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
-    private userService: UserService,
     private authenticationService: AuthenticationService,
+    private reportService: ReportService,
     private projectService: ProjectService) { }
 
   ngOnInit() {
@@ -79,6 +80,35 @@ export class EvaluationListComponent implements OnInit, OnDestroy {
     },
     () => {
       this.loading = false;
+    });
+  }
+
+  downloadReport(evalueeId) {
+    this.reportService.get(evalueeId).subscribe(res => {
+      console.log(res);
+      const newBlob = new Blob([res], { type: 'application/pdf' });
+
+      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveOrOpenBlob(newBlob);
+        return;
+    }
+     // For other browsers:
+            // Create a link pointing to the ObjectURL containing the blob.
+            const data = window.URL.createObjectURL(newBlob);
+
+            const link = document.createElement('a');
+            link.href = data;
+            link.download = 'report.pdf';
+            // this is necessary as link.click() does not work on the latest firefox
+            link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+
+            setTimeout(function () {
+                // For Firefox it is necessary to delay revoking the ObjectURL
+                window.URL.revokeObjectURL(data);
+            }, 100);
+
+    }, error => {
+      console.log(error);
     });
   }
 

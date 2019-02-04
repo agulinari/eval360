@@ -57,7 +57,7 @@ public class NotificationReceiver {
     	log.info(resultNotification.block(Duration.ofMillis(30000)));
     }
     
-    @KafkaListener(topics = "${app.topic.notificationRV}", containerFactory = "kafkaListenerNotificationRVContainerFactory")
+    @KafkaListener(topics = "${app.topic.notificationReport}", containerFactory = "kafkaListenerNotificationRVContainerFactory")
     public void listenTrx(@Payload NotificationReviewerDto data, @Headers MessageHeaders headers) {
     	log.info("Se ha recibido la notificacion para el reviewer con los datos: "+ data);
     	Mono<UserResponse> userResponse = this.userService.getUserById(data.getIdUser());

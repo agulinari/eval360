@@ -27,7 +27,7 @@ public class KafkaConfiguration {
     @Value("${app.topic.notificationFP}")
     private String notificationTopicFP;
     
-    @Value("${app.topic.notificationRV}")
+    @Value("${app.topic.notificationReport}")
     private String notificationTopicRV;
 
     @Bean("kafkaListenerNotificationFPContainerFactory")
