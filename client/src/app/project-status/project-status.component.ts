@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, Observable, forkJoin } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
 import { UserService } from '../shared/user.service';
 import { Project } from '../domain/project/project';
 import { ProjectService } from '../shared/project.service';
@@ -21,6 +21,7 @@ import { AuthenticationService } from '../shared/authentication.service';
 import { ReviewerStatus } from '../domain/project-status/reviewer-status';
 import { CreateReviewer } from '../domain/create-project/create-reviewer';
 import { ProjectStatus } from '../domain/project-status/project-status';
+import { WaitingDialogComponent } from '../dialog/waiting-dialog.component';
 
 @Component({
   selector: 'app-project-status',
@@ -114,6 +115,7 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
 
   addAdmin(admin: ProjectAdmin): void {
     this.loading = true;
+
     const createAdmin: CreateAdmin = {
       id: null,
       idUser: admin.user.id as number,
@@ -127,7 +129,9 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
       })
     )
     .subscribe(
-      res => console.log('Agregando admin al proyecto', res),
+      res => {
+        console.log('Agregando admin al proyecto', res);
+      },
       err => {
         console.log('Error agregando admin al proyecto', err);
         this.showError('Se produjo un error al agregar admin al proyecto');

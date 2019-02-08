@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators, FormArray} from '@angular/forms';
-import { MatDialogConfig, MatDialog } from '@angular/material';
+import { MatDialogConfig, MatDialog, MatDialogRef } from '@angular/material';
 import { AddEvalueeDialogComponent } from '../dialog/add-evaluee-dialog.component';
 import { Evaluee } from '../domain/project/evaluee';
 import { Template } from '../domain/template/template';
@@ -20,6 +20,7 @@ import { AuthenticationService } from '../shared/authentication.service';
 import { CreateAdmin } from '../domain/create-project/create-admin';
 import { EvaluationPreviewComponent } from '../evaluation-preview/evaluation-preview.component';
 import { CreateReviewer } from '../domain/create-project/create-reviewer';
+import { WaitingDialogComponent } from '../dialog/waiting-dialog.component';
 
 /**
  * @title Stepper overview
@@ -214,11 +215,20 @@ export class ProjectCreateComponent implements OnInit {
   }
 
   createProject() {
+    const dialogRef: MatDialogRef<WaitingDialogComponent> = this.dialog.open(WaitingDialogComponent,  {
+      panelClass: 'transparent',
+      disableClose: true
+    });
+
      const project = this.prepareSaveProject();
      this.projectService.createProject(project).subscribe(
-      res => console.log('Creando proyecto', res),
+      res => {
+        console.log('Creando proyecto', res);
+        dialogRef.close();
+      },
       err => {
         console.log('Error creando proyecto', err);
+        dialogRef.close();
         this.showError('Se produjo un error al crear el proyecto');
       },
       () => this.gotoList());

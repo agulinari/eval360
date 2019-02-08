@@ -46,6 +46,7 @@ import { EvaluationService } from './shared/evaluation.service';
 import { EvaluationListComponent } from './evaluation-list/evaluation-list.component';
 import { EvaluationPreviewComponent } from './evaluation-preview/evaluation-preview.component';
 import { ReportService } from './shared/report.service';
+import { WaitingDialogComponent } from './dialog/waiting-dialog.component';
 
 
 @NgModule({
@@ -62,6 +63,7 @@ import { ReportService } from './shared/report.service';
     ConfirmDialogComponent,
     AddEvalueeDialogComponent,
     AddAdminDialogComponent,
+    WaitingDialogComponent,
     EvaluationPreviewComponent,
     TemplateListComponent,
     UserProfileComponent,
@@ -118,7 +120,7 @@ import { ReportService } from './shared/report.service';
     {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorDialogComponent, ConfirmDialogComponent, AddEvalueeDialogComponent,
+  entryComponents: [ErrorDialogComponent, ConfirmDialogComponent, AddEvalueeDialogComponent, WaitingDialogComponent,
      AddAdminDialogComponent, EvaluationPreviewComponent]
 })
 export class AppModule { }
