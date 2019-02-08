@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { TemplateService } from '../shared/template.service';
 import { EvaluationService } from '../shared/evaluation.service';
 import { Template } from '../domain/template/template';
@@ -15,6 +15,7 @@ import { Section } from '../domain/evaluation/section';
 import { Item } from '../domain/evaluation/item';
 import { UserService } from '../shared/user.service';
 import { User } from '../domain/user/user';
+import { WaitingDialogComponent } from '../dialog/waiting-dialog.component';
 
 @Component({
   selector: 'app-evaluation',
@@ -230,12 +231,19 @@ export class EvaluationComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-
+    const dialogRef: MatDialogRef<WaitingDialogComponent> = this.dialog.open(WaitingDialogComponent,  {
+      panelClass: 'transparent',
+      disableClose: true
+    });
     const evaluation = this.prepareSaveEvaluation();
     this.evaluationService.save(evaluation).subscribe(
-      res => console.log('Guardando evaluacion', res),
+      res => {
+        console.log('Guardando evaluacion', res);
+        dialogRef.close();
+      },
       err => {
         console.log('Error guardando evaluacion', err);
+        dialogRef.close();
         this.showError('Se produjo un error al guardar la evaluacion');
       },
       () => this.gotoEvaluationList());

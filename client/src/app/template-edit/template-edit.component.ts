@@ -5,8 +5,9 @@ import { TemplateService } from '../shared/template.service';
 import { Template } from '../domain/template/template';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { Section } from '../domain/template/section';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { Item } from '../domain/template/item';
+import { WaitingDialogComponent } from '../dialog/waiting-dialog.component';
 
 @Component({
   selector: 'app-template-edit',
@@ -186,15 +187,25 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+
+    const dialogRef: MatDialogRef<WaitingDialogComponent> = this.dialog.open(WaitingDialogComponent,  {
+      panelClass: 'transparent',
+      disableClose: true
+    });
+
     let id = null;
     if (this.currentTemplate) {
       id = this.currentTemplate.id;
     }
     this.currentTemplate = this.prepareSaveTemplate(id);
     this.templateService.save(this.currentTemplate).subscribe(
-      res => console.log('Guardando template', res),
+      res => {
+        console.log('Guardando template', res);
+        dialogRef.close();
+      },
       err => {
         console.log('Error guardando template', err);
+        dialogRef.close();
         if (err.status === 409) {
           this.showError('El template ya existe');
         } else {

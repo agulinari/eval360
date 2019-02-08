@@ -7,9 +7,10 @@ import { Subscription ,  Subject ,  Observable } from 'rxjs';
 import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatAutocomplete, MatAutocompleteSelectedEvent, MatDialog } from '@angular/material';
+import { MatAutocomplete, MatAutocompleteSelectedEvent, MatDialog, MatDialogRef } from '@angular/material';
 import { Authority } from '../domain/user/authority';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { WaitingDialogComponent } from '../dialog/waiting-dialog.component';
 
 @Component({
   selector: 'app-user-edit',
@@ -204,15 +205,25 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onSubmit() {
+
+    const dialogRef: MatDialogRef<WaitingDialogComponent> = this.dialog.open(WaitingDialogComponent,  {
+      panelClass: 'transparent',
+      disableClose: true
+    });
+
     let id = null;
     if (this.user) {
       id = this.user.id;
     }
     this.user = this.prepareSaveUser(id);
     this.userService.save(this.user).subscribe(
-      res => console.log('Guardando usuario', res),
+      res => {
+        console.log('Guardando usuario', res);
+        dialogRef.close();
+      },
       err => {
         console.log('Error guardando usuario', err);
+        dialogRef.close();
         if (err.status === 409) {
           this.showError('El usuario ya existe');
         } else {
