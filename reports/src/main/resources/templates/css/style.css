@@ -680,14 +680,20 @@ progress[value]::-webkit-progress-value {
 }
 
 
+.tdarea {
+	width: 180px;
+}
 
-
+.tdprogressbar {
+	width: 200px;
+}
 
 .tdsmall {
 	background-color: #ebf1de;
 	color: #c5c883;
 	text-align: center;
 	padding: 2px 5px;
+	width: 89px;
 }
 
 .tdmedium {
@@ -695,6 +701,7 @@ progress[value]::-webkit-progress-value {
 	color: #f79965;
 	text-align: center;
 	padding: 2px 5px;
+	width: 89px;
 }
 
 .tdlarge {
@@ -702,6 +709,7 @@ progress[value]::-webkit-progress-value {
 	color: #cb6f6d;
 	text-align: center;
 	padding: 2px 5px;
+	width: 89px;
 }
 
 

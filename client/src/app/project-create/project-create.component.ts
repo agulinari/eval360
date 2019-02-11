@@ -158,14 +158,14 @@ export class ProjectCreateComponent implements OnInit {
     );
   }
 
-  getAdmins(): User[] {
-    const users: User[] = [];
+  getAdmins(): number[] {
+    const users: number[] = [];
     if (!this.adminsFormArray) {
       return users;
     }
     this.adminsFormArray.controls.forEach(c => {
       const user = c.get('adminInput').value.user;
-      users.push(user);
+      users.push(user.id);
     });
     return users;
   }

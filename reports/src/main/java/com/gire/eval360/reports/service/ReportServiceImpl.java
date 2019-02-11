@@ -13,6 +13,7 @@ import com.gire.eval360.reports.domain.Comment;
 import com.gire.eval360.reports.domain.Item;
 import com.gire.eval360.reports.domain.ItemScore;
 import com.gire.eval360.reports.domain.ReportData;
+import com.gire.eval360.reports.domain.Score;
 import com.gire.eval360.reports.domain.Section;
 import com.gire.eval360.reports.service.remote.EvaluationServiceRemote;
 import com.gire.eval360.reports.service.remote.TemplateServiceRemote;
@@ -190,8 +191,53 @@ public class ReportServiceImpl implements ReportService {
 		calculatedItems.sort((Item i1, Item i2) -> i1.getDesiredPerformanceByColleagues().compareTo(i2.getDesiredPerformanceByColleagues()));
 		List<Item> reverseList = Lists.reverse(calculatedItems);
 
-		List<AreaToImprove> areas = reverseList.stream().map(i -> AreaToImprove.builder().areaAssessed(i.getName()).build()).collect(Collectors.toList());
+		List<AreaToImprove> areas = reverseList.stream()
+				.map(i -> buildAreaToImprove(i)).collect(Collectors.toList());
 		return areas;
+	}
+
+	private AreaToImprove buildAreaToImprove(Item i) {
+		BigDecimal dp = i.getDesiredPerformanceByColleagues();
+		BigDecimal percentDp = dp.add(BigDecimal.valueOf(4)).multiply(BigDecimal.valueOf(12.5));
+		
+		BigDecimal dpDR = i.getDesiredPerformanceByDirectReports();
+		BigDecimal percentDpDR = dpDR.add(BigDecimal.valueOf(4)).multiply(BigDecimal.valueOf(12.5));
+		
+		BigDecimal dpManagers = i.getDesiredPerformanceByManagers();
+		BigDecimal percentDpManagers = dpManagers.add(BigDecimal.valueOf(4)).multiply(BigDecimal.valueOf(12.5));
+		
+		BigDecimal dpMe = i.getDesiredPerformanceByMe();
+		BigDecimal percentDpMe = dpMe.add(BigDecimal.valueOf(4)).multiply(BigDecimal.valueOf(12.5));
+		
+		BigDecimal dpPeers = i.getDesiredPerformanceByPeers();
+		BigDecimal percentDpPeers = dpPeers.add(BigDecimal.valueOf(4)).multiply(BigDecimal.valueOf(12.5));
+		
+		Score scoreDR = getScore(percentDpDR);
+		Score scoreManagers = getScore(percentDpManagers);
+		Score scoreMe = getScore(percentDpMe);
+		Score scorePeers = getScore(percentDpPeers);
+		
+		AreaToImprove area = AreaToImprove.builder()
+		.areaAssessed(i.getName())
+		.desiredImprovement(percentDp)
+		.ownView(scoreMe)
+		.managersView(scoreManagers)
+		.directReportsView(scoreDR)
+		.peersView(scorePeers)
+		.build();
+		
+		return area;
+	}
+
+	private Score getScore(BigDecimal dp) {
+
+		if (dp.compareTo(BigDecimal.valueOf(33))<0) {
+			return Score.SMALL;
+		}else if (dp.compareTo(BigDecimal.valueOf(66))>0) {
+			return Score.LARGE;
+		}else {
+			return Score.MEDIUM;
+		}
 	}
 
 	private List<Section> getDetailedResults(EvaluationTemplate template, List<Evaluation> evaluations) {
