@@ -35,7 +35,22 @@ export class TemplateListComponent implements AfterViewInit, OnInit {
   }
 
   editTemplate(id: number) {
-    this.router.navigate([`../template-edit/${id}`], { relativeTo: this.route });
+
+    this.projectService.findActiveProjectsByTemplate(id.toString()).subscribe(
+      res => {
+        console.log('Consultando proyectos activos del template', res);
+        if (res.length === 0) {
+          this.router.navigate([`../template-edit/${id}`], { relativeTo: this.route });
+        } else {
+          this.showError('El template está siendo utilizando en proyectos activos y no se puede editar');
+        }
+      },
+      err => {
+        console.log('Error consultando proyectos activos del template', err);
+        this.showError('Se produjo un error inesperado');
+      }
+    );
+
   }
 
   deleteTemplate(id) {
