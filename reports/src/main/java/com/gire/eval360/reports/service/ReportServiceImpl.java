@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import com.gire.eval360.reports.domain.AreaToImprove;
 import com.gire.eval360.reports.domain.Comment;
 import com.gire.eval360.reports.domain.Item;
+import com.gire.eval360.reports.domain.ItemScore;
 import com.gire.eval360.reports.domain.ReportData;
+import com.gire.eval360.reports.domain.Score;
 import com.gire.eval360.reports.domain.Section;
 import com.gire.eval360.reports.service.remote.EvaluationServiceRemote;
 import com.gire.eval360.reports.service.remote.TemplateServiceRemote;
@@ -101,23 +103,23 @@ public class ReportServiceImpl implements ReportService {
 				for (ItemTemplate itemTemplate : section.getItems()) {
 					Long itemId = itemTemplate.getId();
 					if (itemTemplate.getItemType().equals(ItemType.RATING)) {
-						BigDecimal average = calculateAverage(itemId, evaluations, "");
-						BigDecimal averageManagers = calculateAverage(itemId, evaluations, "Jefe");
-						BigDecimal averagePeers = calculateAverage(itemId, evaluations, "Par");
-						BigDecimal averageDirectReports = calculateAverage(itemId, evaluations, "Subordinado");
+						ItemScore average = calculateAverage(itemId, evaluations, "");
+						ItemScore averageManagers = calculateAverage(itemId, evaluations, "Jefe");
+						ItemScore averagePeers = calculateAverage(itemId, evaluations, "Par");
+						ItemScore averageDirectReports = calculateAverage(itemId, evaluations, "Subordinado");
 						
 						Item item = Item.builder()
 										.name(itemTemplate.getTitle())
 										.description(itemTemplate.getDescription())
-										.currentPerformanceByColleagues(average)
-										.currentPerformanceByDirectReports(averageDirectReports)
-										.currentPerformanceByManagers(averageManagers)
-										.currentPerformanceByPeers(averagePeers)
+										.currentPerformanceByColleagues(average.getCurrentPerformance())
+										.currentPerformanceByDirectReports(averageDirectReports.getCurrentPerformance())
+										.currentPerformanceByManagers(averageManagers.getCurrentPerformance())
+										.currentPerformanceByPeers(averagePeers.getCurrentPerformance())
 										.currentPerformanceByMe(BigDecimal.ZERO)
-										.desiredPerformanceByColleagues(BigDecimal.ZERO)
-										.desiredPerformanceByDirectReports(BigDecimal.ZERO)
-										.desiredPerformanceByManagers(BigDecimal.ZERO)
-										.desiredPerformanceByPeers(BigDecimal.ZERO)
+										.desiredPerformanceByColleagues(average.getDesiredPerformance())
+										.desiredPerformanceByDirectReports(averageDirectReports.getDesiredPerformance())
+										.desiredPerformanceByManagers(averageManagers.getDesiredPerformance())
+										.desiredPerformanceByPeers(averagePeers.getDesiredPerformance())
 										.desiredPerformanceByMe(BigDecimal.ZERO)
 										.build();
 						
@@ -127,14 +129,17 @@ public class ReportServiceImpl implements ReportService {
 				}
 			}
 		}
-		items.sort((Item i1, Item i2) -> i1.getCurrentPerformanceByColleagues().compareTo(i2.getCurrentPerformanceByColleagues()));
-		return items;
+		
+		items.sort((Item i1, Item i2) -> i1.getDesiredPerformanceByColleagues().compareTo(i2.getDesiredPerformanceByColleagues()));
+		List<Item> reverseList = Lists.reverse(items);
+		return reverseList;
 		
 	}
 
-	private BigDecimal calculateAverage(Long itemId, List<Evaluation> evaluations, String relationship) {
+	private ItemScore calculateAverage(Long itemId, List<Evaluation> evaluations, String relationship) {
 		
-		Integer totalScore = 0;
+		Integer totalCurrentScore = 0;
+		Integer totalDesiredScore = 0;
 		Integer evalCount = evaluations.size();
 		for (Evaluation evaluation : evaluations) {
 			
@@ -142,39 +147,97 @@ public class ReportServiceImpl implements ReportService {
 				
 				for (com.gire.eval360.reports.service.remote.dto.evaluations.Section section : evaluation.getSections()) {
 					for (com.gire.eval360.reports.service.remote.dto.evaluations.Item item :  section.getItems()) {
-						if ((item.getId() == itemId) && (item.getType().equals(ItemType.RATING))){
+						if ((item.getId().longValue() == itemId.longValue()) && (item.getType().equals(ItemType.RATING.toString()))){
 							Integer score = Integer.valueOf(item.getValue());
-							totalScore = totalScore + score;
+							Integer score1 = Integer.valueOf(item.getValue1());
+							totalCurrentScore = totalCurrentScore + score;
+							totalDesiredScore = totalDesiredScore + (score1 - score);
 						}
 					}
 				}
 				
 			}
 		}
-		BigDecimal averageScore = BigDecimal.ZERO;
+		BigDecimal currentScore = BigDecimal.ZERO;
 		if (evalCount > 0) {
-			averageScore = BigDecimal.valueOf(totalScore / evalCount);
+			currentScore = BigDecimal.valueOf(totalCurrentScore / evalCount);
 		}
-		return averageScore;
+		BigDecimal desiredScore = BigDecimal.ZERO;
+		if (evalCount > 0) {
+			desiredScore = BigDecimal.valueOf(totalDesiredScore / evalCount);
+		}
+		ItemScore itemScore = ItemScore.builder().currentPerformance(currentScore).desiredPerformance(desiredScore).build();
+		return itemScore;
 	}
 
 	private List<String> getWeaknesses(List<Item> calculatedItems) {
 		
-		List<String> weaknesses = calculatedItems.stream().map(i -> i.getName()).limit(5).collect(Collectors.toList());
+		calculatedItems.sort((Item i1, Item i2) -> i1.getDesiredPerformanceByColleagues().compareTo(i2.getDesiredPerformanceByColleagues()));
+		List<Item> reverseList = Lists.reverse(calculatedItems);
+		List<String> weaknesses = reverseList.stream().map(i -> i.getName()).limit(5).collect(Collectors.toList());
 		return weaknesses;
 	}
 
 	private List<String> getStrengths(List<Item> calculatedItems) {
 		
+		calculatedItems.sort((Item i1, Item i2) -> i1.getCurrentPerformanceByColleagues().compareTo(i2.getCurrentPerformanceByColleagues()));
+
 		List<Item> reverseList = Lists.reverse(calculatedItems);
 		List<String> strengths = reverseList.stream().map(i -> i.getName()).limit(5).collect(Collectors.toList()); 
 		return strengths;
 	}
 	
 	private List<AreaToImprove> getAreasToImprove(List<Item> calculatedItems) {
+		calculatedItems.sort((Item i1, Item i2) -> i1.getDesiredPerformanceByColleagues().compareTo(i2.getDesiredPerformanceByColleagues()));
+		List<Item> reverseList = Lists.reverse(calculatedItems);
 
-		List<AreaToImprove> areas = calculatedItems.stream().map(i -> AreaToImprove.builder().areaAssessed(i.getName()).build()).collect(Collectors.toList());
+		List<AreaToImprove> areas = reverseList.stream()
+				.map(i -> buildAreaToImprove(i)).collect(Collectors.toList());
 		return areas;
+	}
+
+	private AreaToImprove buildAreaToImprove(Item i) {
+		BigDecimal dp = i.getDesiredPerformanceByColleagues();
+		BigDecimal percentDp = dp.add(BigDecimal.valueOf(4)).multiply(BigDecimal.valueOf(12.5));
+		
+		BigDecimal dpDR = i.getDesiredPerformanceByDirectReports();
+		BigDecimal percentDpDR = dpDR.add(BigDecimal.valueOf(4)).multiply(BigDecimal.valueOf(12.5));
+		
+		BigDecimal dpManagers = i.getDesiredPerformanceByManagers();
+		BigDecimal percentDpManagers = dpManagers.add(BigDecimal.valueOf(4)).multiply(BigDecimal.valueOf(12.5));
+		
+		BigDecimal dpMe = i.getDesiredPerformanceByMe();
+		BigDecimal percentDpMe = dpMe.add(BigDecimal.valueOf(4)).multiply(BigDecimal.valueOf(12.5));
+		
+		BigDecimal dpPeers = i.getDesiredPerformanceByPeers();
+		BigDecimal percentDpPeers = dpPeers.add(BigDecimal.valueOf(4)).multiply(BigDecimal.valueOf(12.5));
+		
+		Score scoreDR = getScore(percentDpDR);
+		Score scoreManagers = getScore(percentDpManagers);
+		Score scoreMe = getScore(percentDpMe);
+		Score scorePeers = getScore(percentDpPeers);
+		
+		AreaToImprove area = AreaToImprove.builder()
+		.areaAssessed(i.getName())
+		.desiredImprovement(percentDp)
+		.ownView(scoreMe)
+		.managersView(scoreManagers)
+		.directReportsView(scoreDR)
+		.peersView(scorePeers)
+		.build();
+		
+		return area;
+	}
+
+	private Score getScore(BigDecimal dp) {
+
+		if (dp.compareTo(BigDecimal.valueOf(33))<0) {
+			return Score.SMALL;
+		}else if (dp.compareTo(BigDecimal.valueOf(66))>0) {
+			return Score.LARGE;
+		}else {
+			return Score.MEDIUM;
+		}
 	}
 
 	private List<Section> getDetailedResults(EvaluationTemplate template, List<Evaluation> evaluations) {

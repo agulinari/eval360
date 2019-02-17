@@ -24,9 +24,9 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.gire.eval360.reports.domain.ReportData;
 import com.gire.eval360.reports.repository.ReportRepository;
-import com.gire.eval360.reports.service.ReportService;
 
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
 
 
 @Slf4j
@@ -46,6 +46,10 @@ public class ReportController {
     	this.repository = repository;
     }
   
+    @GetMapping("/model/{idEvaluee}")
+    public Mono<ReportData> getModel(@PathVariable Long idEvaluee) {
+    	return repository.findByIdEvaluee(idEvaluee);
+    }
     
     @GetMapping("/{idEvaluee}")
     public void generateReport(@PathVariable Long idEvaluee, HttpServletResponse response) throws Exception {

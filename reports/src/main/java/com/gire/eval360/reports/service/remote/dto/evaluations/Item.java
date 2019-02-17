@@ -16,5 +16,5 @@ public class Item {
 	private Long id;
 	private String type;
 	private String value;
-
+	private String value1;
 }

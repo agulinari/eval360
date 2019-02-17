@@ -34,13 +34,19 @@ public class NotificationReceiver {
     @KafkaListener(topics = "${app.topic.notificationRV}", containerFactory = "kafkaListenerNotificationRVContainerFactory")
     public void listenTrx(@Payload NotificationReviewerDto data, @Headers MessageHeaders headers) {
     	log.info("Se ha recibido la notificacion para generar el reporte con los datos: "+ data);
-    	Mono<ReportData> reportData = this.reportService.generateReport(data.getIdProject(), data.getIdEvaluee(), data.getIdTemplate());
-    
-    	Mono<ReportData> savedReport = reportData.flatMap(report-> {
-    		return repository.save(report);
-		}).doOnError(e->log.error(e.getMessage()));
     	
-    	savedReport.subscribe();
+    	ReportData response = this.repository.findByIdEvaluee(data.getIdEvaluee()).block();
+    	if (response == null) {
+    		log.info("Generando reporte");
+    		Mono<ReportData> reportData = this.reportService.generateReport(data.getIdProject(), data.getIdEvaluee(), data.getIdTemplate());
+    		    
+    	    Mono<ReportData> savedReport = reportData.flatMap(report-> {
+    	    	return repository.save(report);
+    		}).doOnError(e->log.error(e.getMessage()));
+    	    
+    	    savedReport.subscribe();
+    	}	
+    		 		   	
     }
     
 }

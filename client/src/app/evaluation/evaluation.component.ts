@@ -20,7 +20,7 @@ import { WaitingDialogComponent } from '../dialog/waiting-dialog.component';
 @Component({
   selector: 'app-evaluation',
   templateUrl: './evaluation.component.html',
-  styleUrls: ['./evaluation.component.css']
+  styleUrls: ['./evaluation.component.scss']
 })
 export class EvaluationComponent implements OnInit, OnDestroy {
 
@@ -212,7 +212,8 @@ export class EvaluationComponent implements OnInit, OnDestroy {
       title: null,
       description: null,
       itemType: null,
-      value: [null, Validators.required]
+      value: [null, Validators.required],
+      value1: null
     });
   }
 
@@ -286,7 +287,8 @@ export class EvaluationComponent implements OnInit, OnDestroy {
         const item: Item = {
           id: i.value.id,
           type: i.value.itemType,
-          value: i.value.value
+          value: i.value.value,
+          value1: i.value.value1
         };
         section.items.push(item);
       });

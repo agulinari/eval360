@@ -21,14 +21,40 @@
         <div formArrayName="items" *ngFor="let item of section.get('items').controls; let j = index;">
         <div [formGroupName]="j" class="item-panel">
            
-              <p>{{item.get('description').value}}</p>
-              <mat-radio-group *ngIf="item.get('itemType').value==='RATING'" formControlName="value" fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap fxLayoutGap="5px">
+              <h3>{{item.get('description').value}}</h3>
+              <div *ngIf="item.get('itemType').value==='RATING'">
+              <p>Desempeño actual</p>
+              <mat-button-toggle-group formControlName="value">
+                <mat-button-toggle value="1">Pobre</mat-button-toggle>
+                <mat-button-toggle value="2">Regular</mat-button-toggle>
+                <mat-button-toggle value="3">Bueno</mat-button-toggle>
+                <mat-button-toggle value="4">Muy Bueno</mat-button-toggle>
+                <mat-button-toggle value="5">Excelente</mat-button-toggle>
+              </mat-button-toggle-group>
+              <p>Desempeño deseado</p>
+              <mat-button-toggle-group formControlName="value1">
+                <mat-button-toggle value="1">Pobre</mat-button-toggle>
+                <mat-button-toggle value="2">Regular</mat-button-toggle>
+                <mat-button-toggle value="3">Bueno</mat-button-toggle>
+                <mat-button-toggle value="4">Muy Bueno</mat-button-toggle>
+                <mat-button-toggle value="5">Excelente</mat-button-toggle>
+              </mat-button-toggle-group>
+              <!-- mat-radio-group formControlName="value" fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap fxLayoutGap="5px">
                 <mat-radio-button fxFlex="20%" value="1">Pobre</mat-radio-button>
                 <mat-radio-button fxFlex="20%" value="2">Regular</mat-radio-button>
                 <mat-radio-button fxFlex="20%" value="3">Bueno</mat-radio-button>
                 <mat-radio-button fxFlex="20%" value="4">Muy Bueno</mat-radio-button>
                 <mat-radio-button fxFlex="20%" value="5">Excelente</mat-radio-button>
               </mat-radio-group>
+              <p>Desempeño deseado</p>
+              <mat-radio-group formControlName="value1" fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap fxLayoutGap="5px">
+                <mat-radio-button fxFlex="20%" value="1">Pobre</mat-radio-button>
+                <mat-radio-button fxFlex="20%" value="2">Regular</mat-radio-button>
+                <mat-radio-button fxFlex="20%" value="3">Bueno</mat-radio-button>
+                <mat-radio-button fxFlex="20%" value="4">Muy Bueno</mat-radio-button>
+                <mat-radio-button fxFlex="20%" value="5">Excelente</mat-radio-button>
+              </mat-radio-group-->
+              </div>
               <mat-form-field *ngIf="item.get('itemType').value==='TEXTBOX'" class="full-width">
                 <textarea matInput rows="4" formControlName="value"></textarea>
               </mat-form-field>          

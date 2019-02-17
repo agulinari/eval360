@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule,
-  MatTabsModule, MatDialogModule, MatStepperModule } from '@angular/material';
+  MatTabsModule, MatDialogModule, MatStepperModule, MatButtonToggleModule } from '@angular/material';
 import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule, MatSelectModule } from '@angular/material';
 import { MatAutocompleteModule, MatChipsModule, MatSlideToggleModule, MatProgressBarModule, MatTooltipModule,
   MatSidenavModule, MatTableModule, MatPaginatorModule, MatExpansionModule, MatSortModule, MatRadioModule } from '@angular/material';
@@ -82,6 +82,7 @@ import { NotificationService } from './shared/notification.service'
     HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatChipsModule,
     MatCardModule,
     MatIconModule,
