@@ -6,6 +6,7 @@ export class FeedbackProviderStatus {
     id: number;
     idUser: number;
     username: string;
+    mail: string;
     avatar: string;
     status: string;
     pendingFeedbacks: number;

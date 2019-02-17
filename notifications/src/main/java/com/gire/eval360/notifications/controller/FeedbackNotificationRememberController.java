@@ -37,7 +37,7 @@ public class FeedbackNotificationRememberController {
 	@PostMapping("/providers")
 	public NotificationProvidersResponse notificateToProviders(@RequestBody NotificationProvidersRequest request) throws Exception {
 				
-		List<UserProviderNotification> usersProvidersError=request.getProviders().stream().map(p -> {
+		List<UserProviderNotification> usersProvidersNotifyStatus=request.getProviders().stream().map(p -> {
 	    	String to = p.getMail();
 			String subject="Recordatorio de Feedback pendiente";
     		String url="http://localhost:4200";
@@ -58,7 +58,7 @@ public class FeedbackNotificationRememberController {
     		return new UserProviderNotification(new UserProvider(p.getUsername(),p.getMail()),"OK - Provider Notificado",0);
 	    }).collect(Collectors.toList());
 		
-		return new NotificationProvidersResponse(usersProvidersError);
+		return new NotificationProvidersResponse(usersProvidersNotifyStatus);
 	}
 
 }

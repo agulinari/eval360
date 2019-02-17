@@ -15,7 +15,7 @@
       <div *ngIf="!loading">
         <div class="item-panel">
           <div fxLayout="row"  fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px">
-            <h4 fxFlex="30%">Evaluados</h4>
+            <h4 fxFlex="25%">Evaluados</h4>
             <h4 fxFlex="10%">Estado</h4>
             <h4 fxFlex="10%">Total Feedbacks</h4>
             <h4 fxFlex="10%">Respuestas</h4>
@@ -24,7 +24,7 @@
           <mat-list>
           <mat-list-item  *ngFor="let evaluee of projectStatus.evalueesStatus; let i = index; last as last">
             <div class="full-width" fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px">      
-                  <div  fxFlex="30%">
+                  <div  fxFlex="25%">
                     <img class="avatar" src="/assets/images/avatar.png" alt="{{evaluee.idUser}}">
                      {{evaluee.username}}
                   </div>
@@ -47,16 +47,17 @@
         </div>
         <div class="item-panel">
             <div fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px">
-                <h4 fxFlex="30%">Evaluadores</h4>
+                <h4 fxFlex="25%">Evaluadores</h4>
                 <h4 fxFlex="10%">Estado</h4>
                 <h4 fxFlex="10%">Pendientes</h4>
                 <h4 fxFlex="10%">Completados</h4>
                 <h4 fxFlex="20%">Progreso</h4>
+                <h4 fxFlex="10%" *ngIf="recordarFeedback">Recordar Feedback</h4>
             </div>
             <mat-list>
             <mat-list-item *ngFor="let fp of projectStatus.feedbackProvidersStatus; let i = index; last as last">
                 <div class="full-width" fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px">
-                        <div fxFlex="30%">
+                        <div fxFlex="25%">
                         <img class="avatar" src="/assets/images/avatar.png" alt="{{fp.idUser}}">
                             {{fp.username}}
                         </div>
@@ -72,8 +73,14 @@
                         <div fxFlex="20%">
                             <mat-progress-bar mode="determinate" [value]="fp.progress"></mat-progress-bar>
                         </div>
+                        <div fxFlex="10%">
+                            <button mat-icon-button *ngIf="recordarFeedback" (click)="notificateFeedback(fp)">
+                                <mat-icon>mail</mat-icon>
+                            </button>
+                        </div>
                 </div>
                 <mat-divider [inset]="true" *ngIf="!last"></mat-divider> 
+                <mat-row *matRowDef="let fp"></mat-row>
             </mat-list-item>
             </mat-list>
         </div>
