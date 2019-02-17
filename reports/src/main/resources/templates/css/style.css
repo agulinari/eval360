@@ -178,7 +178,7 @@ th, td {
 }
 
 #greencommentbox {
-	width: 255px;
+	width: 260px;
 	height:110px;
 	/*background-color: #ebf1de;*/
 	background-image: url(../imgs/greencommentbox.png);
@@ -197,7 +197,7 @@ th, td {
 }
 
 #redcommentbox {
-	width: 255px;
+	width: 260px;
 	height:110px;
 	/*background-color: #ebf1de;*/
 	background-image: url(../imgs/redcommentbox.png);

@@ -55,6 +55,7 @@ public class ReportServiceImpl implements ReportService {
 
 	private ReportData createReport(Long idProject, Long idEvaluee, EvaluationTemplate template, List<Evaluation> evaluations) {
 		
+		String username = (!evaluations.isEmpty()) ? evaluations.get(0).getUsername() : "User";
 		Integer managers = countRelationship(evaluations, "Jefe");
 		Integer peers = countRelationship(evaluations, "Par");
 		Integer directReports = countRelationship(evaluations, "Subordinado");
@@ -67,7 +68,7 @@ public class ReportServiceImpl implements ReportService {
 		ReportData report = ReportData.builder()
 									  .idProject(idProject)
 									  .idEvaluee(idEvaluee)
-									  .username("User")
+									  .username(username)
 									  .managers(managers)
 									  .peers(peers)
 									  .directReports(directReports)

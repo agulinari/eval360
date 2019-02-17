@@ -24,6 +24,8 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.gire.eval360.reports.domain.ReportData;
 import com.gire.eval360.reports.repository.ReportRepository;
+import com.gire.eval360.reports.service.ReportService;
+import com.itextpdf.text.DocumentException;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -39,11 +41,13 @@ public class ReportController {
     
     private final TemplateEngine templateEngine;
     private final ReportRepository repository;
+    private final ReportService service;
 
     @Autowired
-    public ReportController(TemplateEngine templateEngine, ReportRepository repository) {
+    public ReportController(TemplateEngine templateEngine, ReportRepository repository, ReportService service) {
     	this.templateEngine = templateEngine;
     	this.repository = repository;
+    	this.service = service;
     }
   
     @GetMapping("/model/{idEvaluee}")
@@ -51,8 +55,57 @@ public class ReportController {
     	return repository.findByIdEvaluee(idEvaluee);
     }
     
+    @GetMapping("/generate")
+    public void generateReport(HttpServletResponse response) throws DocumentException, IOException {
+    	   // The data in our Thymeleaf templates is not hard-coded. Instead,
+        // we use placeholders in our templates. We fill these placeholders
+        // with actual data by passing in an object. 
+        //
+        // Note that we could also read this data from a JSON file, a database
+        // a web service or whatever.
+        ReportData data = service.generateReport(Long.valueOf(1), Long.valueOf(3), Long.valueOf(1)).block();
+        
+        Context context = new Context();
+        context.setVariable("data", data);
+
+        // Flying Saucer needs XHTML - not just normal HTML. To make our life
+        // easy, we use JTidy to convert the rendered Thymeleaf template to
+        // XHTML. Note that this might no work for very complicated HTML. But
+        // it's good enough for a simple letter.
+        String renderedHtmlContent = templateEngine.process("report", context);
+        String xHtml = convertToXhtml(renderedHtmlContent);
+
+        ITextRenderer renderer = new ITextRenderer();
+        renderer.getFontResolver().addFont("Code39.ttf", IDENTITY_H, EMBEDDED);
+
+        // FlyingSaucer has a working directory. If you run this test, the working directory
+        // will be the root folder of your project. However, all files (HTML, CSS, etc.) are
+        // located under "/src/main/resources/templates". So we want to use this folder as the working
+        // directory.
+        String baseUrl = FileSystems
+                                .getDefault()
+                                .getPath("src", "main", "resources", "templates")
+                                .toUri()
+                                .toURL()
+                                .toString();
+        renderer.setDocumentFromString(xHtml, baseUrl);
+        renderer.layout();
+        
+        try {
+	        // And finally, we create the PDF:
+	       // OutputStream outputStream = new FileOutputStream(OUTPUT_FILE);
+	        OutputStream outputStream = response.getOutputStream();
+	        renderer.createPDF(outputStream);
+	        response.setContentType("application/pdf");
+	        response.flushBuffer();
+        } catch (IOException ex) {
+            log.info("Error writing file to output stream. ", ex);
+            throw new RuntimeException("IOError writing file to output stream");
+        }        
+    }
+    
     @GetMapping("/{idEvaluee}")
-    public void generateReport(@PathVariable Long idEvaluee, HttpServletResponse response) throws Exception {
+    public void downloadReport(@PathVariable Long idEvaluee, HttpServletResponse response) throws Exception {
 
         // The data in our Thymeleaf templates is not hard-coded. Instead,
         // we use placeholders in our templates. We fill these placeholders
