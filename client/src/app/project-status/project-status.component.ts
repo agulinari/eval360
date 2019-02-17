@@ -8,6 +8,7 @@ import { ProjectService } from '../shared/project.service';
 import { EvalueeStatus } from '../domain/project-status/evaluee-status';
 import { FeedbackProviderStatus } from '../domain/project-status/feedback-provider-status';
 import { Evaluee } from '../domain/project/evaluee';
+import { FeedbackProvider } from '../domain/project/feedback-provider';
 import { AddEvalueeDialogComponent } from '../dialog/add-evaluee-dialog.component';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { CreateEvaluee } from '../domain/create-project/create-evaluee';
@@ -22,6 +23,7 @@ import { ReviewerStatus } from '../domain/project-status/reviewer-status';
 import { CreateReviewer } from '../domain/create-project/create-reviewer';
 import { ProjectStatus } from '../domain/project-status/project-status';
 import { WaitingDialogComponent } from '../dialog/waiting-dialog.component';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'app-project-status',
@@ -32,6 +34,8 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
 
   sub: Subscription;
   projectStatus: ProjectStatus = undefined;
+  recordarEvaluacion: boolean = false;
+  recordarFeedback: boolean = false;
   loading = false;
 
   constructor( private route: ActivatedRoute,
@@ -39,7 +43,8 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private userService: UserService,
     private authenticationService: AuthenticationService,
-    private projectService: ProjectService) { }
+    private projectService: ProjectService,
+    private notificationService: NotificationService) { }
 
   ngOnInit() {
 
@@ -47,6 +52,8 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
       const id = params['id'];
       if (id) {
         this.getProjectStatus(id);
+        console.log('valor project status init var',this.projectStatus);
+        
       }
     });
   }
@@ -58,9 +65,9 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
   getProjectStatus(id) {
     this.loading = true;
     this.projectService.getStatus(id).subscribe((projectStatus: ProjectStatus) => {
-
+      console.log('valor project status init',projectStatus);
       if (projectStatus) {
-
+        
         this.projectStatus = projectStatus;
 
         // Chequear que el usuario sea admin del proyecto
@@ -69,6 +76,8 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
         if (!isAdmin) {
           console.log('El usuario no es admin del proyecto, volviendo a la lista');
           this.gotoList();
+        }else{
+          this.getStatusRecordatory();
         }
       } else {
         console.log(`Proyecto con id '${id}' no encontrado, volviendo a la lista`);
@@ -85,7 +94,18 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
     });
   }
 
-
+  getStatusRecordatory(){
+    
+    if(this.projectStatus){
+      const isEvaluationIncomplete = (this.projectStatus.evalueesStatus.find(item => item.status.toUpperCase() === 'PENDIENTE') !== undefined);
+      const isFeedbacksIncomplete = (this.projectStatus.feedbackProvidersStatus.find(item => item.status.toUpperCase() === 'PENDIENTE') !== undefined);
+    
+      this.recordarEvaluacion = isEvaluationIncomplete;
+      this.recordarFeedback = isFeedbacksIncomplete;
+    }
+    
+  }
+ 
   openAddAdminDialog() {
     const dialogConfig = new MatDialogConfig();
 
@@ -157,7 +177,7 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
       }
     );
   }
-
+  
   getEvaluees(): number[] {
     const users: number[] = [];
 
@@ -211,12 +231,31 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
     );
   }
 
+  notificateFeedback(feedbackProviderStatus:FeedbackProviderStatus){
+    const dialogRef: MatDialogRef<WaitingDialogComponent> = this.dialog.open(WaitingDialogComponent,  {
+      panelClass: 'transparent',
+      disableClose: true
+    });
+
+    this.notificationService.notificateToProviders(feedbackProviderStatus,this.projectStatus).subscribe(
+      res => {
+          console.log('Notificando feedback pendiente a provider',res);
+          dialogRef.close();
+      },
+      err => {
+          console.log('Error notificando feedback pendiente', err);
+          dialogRef.close();
+          this.showError('Se produjo un error al notificar al provider el feedback pendiente');
+      }   
+    );
+  }
+
   showError(error: string): void {
     this.dialog.open(ErrorDialogComponent, {
       data: {errorMsg: error}, width: '250px'
     });
   }
-
+  
   gotoList() {
     this.router.navigate(['/main/project-list']);
   }

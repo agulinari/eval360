@@ -47,6 +47,7 @@ import { EvaluationListComponent } from './evaluation-list/evaluation-list.compo
 import { EvaluationPreviewComponent } from './evaluation-preview/evaluation-preview.component';
 import { ReportService } from './shared/report.service';
 import { WaitingDialogComponent } from './dialog/waiting-dialog.component';
+import { NotificationService } from './shared/notification.service'
 
 
 @NgModule({
@@ -117,6 +118,7 @@ import { WaitingDialogComponent } from './dialog/waiting-dialog.component';
     ProjectService,
     EvaluationService,
     ReportService,
+    NotificationService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}
   ],
