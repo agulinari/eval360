@@ -22,14 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/remembers")
-public class FeedbackNotificationRememberController {
+@RequestMapping("/notifications")
+public class NotificationsController {
 	
 	private final TemplateEngine templateMail;
 	private final EmailService emailService;
 	
 	@Autowired
-	public FeedbackNotificationRememberController(final TemplateEngine templateMail,final EmailService emailService) {
+	public NotificationsController(final TemplateEngine templateMail,final EmailService emailService) {
 		this.templateMail = templateMail;
 		this.emailService = emailService;
 	}

@@ -13,7 +13,7 @@ import { FeedbackProviderStatus } from '../domain/project-status/feedback-provid
 export class NotificationService {
 
   public API = '//localhost:8762';
-  public NOTIFICATIONS_API = this.API + '/remembers';
+  public NOTIFICATIONS_API = this.API + '/notifications';
 
   constructor(private http: HttpClient) {
   }
