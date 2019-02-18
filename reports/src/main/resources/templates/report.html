@@ -75,11 +75,11 @@ compañeros, sus subordiandos y por usted mismo. Le ayudará a identificar las �
 </div>
 
 <div id="greencommentbox">
-	<p>Cada persona te dio un puntaje (de 1 a 5) para tu desempeño actual en una de las áreas evaluadas. Las 5 fortalezas principales son las áreas que, en promedio, obtuvieron las puntuaciones más altas</p>
+	<p>Cada persona le dió un puntaje (de 1 a 5) para tu desempeño actual en una de las áreas evaluadas. Las 5 fortalezas principales son las áreas que, en promedio, obtuvieron las puntuaciones más altas</p>
 </div>
 
 <div id="redcommentbox">
-	<p>Cada persona también le dio una puntuación para su rendimiento deseado. Las 5 principales áreas para mejorar son aquellas donde la brecha entre su desempeño actual y el rendimiento deseado es mayor</p>
+	<p>Cada persona también le dió una puntuación para su rendimiento deseado. Las 5 principales áreas para mejorar son aquellas donde la brecha entre su desempeño actual y el rendimiento deseado es mayor</p>
 </div>
 
 <div class="informationbox">
@@ -91,11 +91,11 @@ compañeros, sus subordiandos y por usted mismo. Le ayudará a identificar las �
 	<div class="informationcomment">
 		<h4>"¿Por qué se le pidió a cada persona que calificara mi desempeño deseado?"</h4>
 
-		<p>Su evaluación 360 utiliza una técnica llamada análisis de brechas. Al utilizar el análisis de brechas, se compara el desempeño actual de alguien con el desempeño deseado para ver qué áreas necesitan mejorar, y cuánto.</p>
+		<p>Su evaluación 360 utiliza una técnica llamada análisis de brechas. Al utilizar el análisis de brechas, se compara su desempeño actual con el desempeño deseado para ver qué áreas necesita mejorar.</p>
 
-		<p><b>A cada persona se le pidió que calificara su desempeño deseado (así como su desempeño actual) para que pueda ver cuánto cree que necesita mejorar cada persona.</b></p>
+		<p><b>A cada persona se le pidió que calificara su desempeño deseado (así como su desempeño actual) para que pueda ver cuánto cree que necesita mejorar.</b></p>
 
-		<p>Tenga en cuenta que el rendimiento que desea para cada área variará según su función y experiencia. Por ejemplo, si usted es un miembro muy nuevo de su organización, el rendimiento deseado podría ser "bueno" en "Escuchando" y "OK" en "Manejo del desacuerdo". Considerando que, las expectativas son probablemente mayores si usted se unió a la compañía hace cinco años y ahora está buscando otra promoción.</p>
+		<p>Tenga en cuenta que el rendimiento que se desea para cada área variará según su función y experiencia. Considere que, las expectativas son probablemente mayores si usted se unió a la compañía hace cinco años y son menores si usted es un miembro nuevo de la organización.</p>
 	</div>
 
 </div>
@@ -603,84 +603,49 @@ compañeros, sus subordiandos y por usted mismo. Le ayudará a identificar las �
 </div>
 
 <div class="next-page">
-<!-- PAGE 5 START -->
-<div class="page5">
-<h3>What people said about you</h3>
-<p>Respondents were asked to summarize your performance — you can see their answers below</p>
-
-<th:block th:each="comment: ${data.getComments()}">
-<h4 class="clear">[[${comment.getQuestion()}]]</h4>
-
-<div class="yourresponseleft">
-  <p>Your response</p>
-</div>
-<div class="yourresponseright">
-  <ul>
-    <li>[[${comment.getOwnResponse()}]]</li>
-  </ul>
-</div>
-
-<br class="clear">
-
-<div class="yourresponseleft">
-  <p>Other responses</p>
-</div>
-<div class="yourresponseright">
-  <ul>
-    <li th:each="response : ${comment.getOtherResponses()}">[[${response}]]</li>
-  </ul>
-</div>
-
-</th:block>
-
-</div>
-<!-- PAGE 5 END -->
-</div>
-
-<div class="next-page">
 <!-- PAGE 6 START -->
 
 <div class="page5">
 
-<h3>Your personal development plan</h3>
+<h3>Su plan de desarrollo personal</h3>
 
-<p>This personal development plan is for you to fill in. either on your own or with your lire manager. It is recommended that you focus on 3-5 areas to improve:</p>
+<p>Este plan de desarrollo personal es para que lo complete, ya sea por su cuenta o con su jefe / gerente. Se recomienda que se centre en 3-5 áreas para mejorar:</p>
 
 <ul>
-  <li>You can use the summary of results to identify the areas where improvement is most needed</li>
-  <li>The detailed results (on page 8) provide more detail where necessary</li>
-  <li>You should aim to end up with a clear list of actions that you will take to improve your performance </li>
+  <li>Puede utilizar el resúmen de resultados para identificar las áreas donde más se necesita mejorar.</li>
+  <li>Los resultados detallados en el anexo proporcionan más detalles si es necesario</li>
+  <li>Debería poder obtener una lista clara de acciones a realizar para mejorar su rendimiento.</li>
 </ul>
 
 <div class="contenedortablepage6">
 <div class="greencommentovertable1">
-  <p>The first row is filled as an example</p>
+  <p>La primer fila se completa como ejemplo</p>
 </div>
 
 <div class="greencommentovertable2">
-  <p>Fill in your own actions below</p>
+  <p>Completa tus propias acciones a continuación</p>
 </div>
 
 <table class="tablepage6">
   <tr>
-    <th>Area to improve</th>
-    <th>Current performance</th>
-    <th>Target performance</th>
-    <th>Action(s) to take</th>
-    <th>How and when i will measure success</th>
+    <th>Área a mejorar</th>
+    <th>Desempeño actual</th>
+    <th>Desempeño deseado</th>
+    <th>Acciones a tomar</th>
+    <th>Cómo y cuándo mediré el éxito.</th>
   </tr>
   <tr>
     <td><p>e.g.<br>
-    !morose my oritten communications to my direct reports (as unclear emails etc. are costing the Mote team time!)</p></td>
+    Mejorar mis comunicaciones escritas a mis subordinados (los mails poco claros, etc. están costando tiempo al equipo)</p></td>
     <td><p>e.g.<br>
-    Inconsistent-sometimes my emails are rushed and unclear.</p></td>
+    A veces mis mails son apresurados y poco claros.</p></td>
     <td><p>e.g.<br>
-    Consistently clear. concise emails (and other documents)</p></td>
+    Ser claro. Escribir mails concisos (y otros documentos)</p></td>
     <td><p>e.g.<br>
-    I mill focus on reviening my emails before sending. and Ill also take the document wiling Course our company offers</p></td>
+    Me centraré en revisar mis mails antes de enviarlos. También tomaré el curso de documentación que ofrece nuestra empresa.</p></td>
     <td><p>e.g.<br>
-    <u>In one month</u> Check that my direct reports are happier Moth my emails!<br>
-    <u>Next Year</u> Ensure that it is not highlighted as an area improvement in next year's 360!</p></td>
+    <u>En un mes</u> ¡Comprobar que mis subordinados sean más felices con mis mails!<br>
+    <u>Próximo año</u> ¡Asegurar de que no ésto no figure como una mejora de área en el 360 del próximo año!</p></td>
   </tr>
   <tr>
     <td></td>
@@ -711,42 +676,122 @@ compañeros, sus subordiandos y por usted mismo. Le ayudará a identificar las �
 </div>
 
 <div class="next-page">
+
+<th:block th:each="section : ${data.getDetailedResults()}">
 <div class="page8">
-<h3>Planning</h3>
+<h3 th:text="${section.getName()}">Section Name</h3>
 
 <table class="tablepage8">
- <caption>Favorite and Least Favorite Things</caption>
- <tr>
-  <th></th><th></th>
-  <th>Bob</th>
-  <th>Alice</th>
+ <tr class="firsttablerow">
+  <th></th>
+  <th></th>
+  <th>Current performance</th>
+  <th>Desired performance</th>
+  <th>Desires improvement</th>
  </tr>
- <tr>
-  <th rowspan="2">Favorite</th>
-  <th>Color</th>
-  <td>Blue</td>
-  <td>Purple</td>
+  <tr class="firsttablerow">
+  <th></th>
+  <th></th>
+  <th></th>
+  <th></th>
+  <th>
+    <table class="minitable">
+      <tr>
+        <td>small</td>
+        <td>medium</td>
+        <td>large</td>
+      </tr>
+      <tr class="barrasmallmediumlarge">
+        <td><div class="boxcolorsmall"></div></td>
+        <td><div class="boxcolormedium"></div></td>
+        <td><div class="boxcolorlarge"></div></td>
+      </tr>
+    </table>
+  </th>
  </tr>
- <tr>
-  <th>Flavor</th>
-  <td>Banana</td>
-  <td>Chocolate</td>
+
+    
+ <tr class="secondtablerow">
+  <th class="width200px" rowspan="2" th:inline="text">Puntajes promedio para [[${section.getName()}]]</th>
+  <td class="width100px"><b>Tu visión</b></td>
+  <td th:inline="text"><b>[[${section.getCurrentPerformanceByMe()}]]</b></td>
+  <td th:inline="text"><b>[[${section.getDesiredPerformanceByMe()}]]</b></td>
+  <td><div class="progressbar" th:style="|width:${section.getCurrentPerformanceByMe()*20}%;|">&nbsp;</div></td>
  </tr>
- <tr>
-  <th>Least Favorite</th>
-  <th>Color</th>
-  <td>Yellow</td>
-  <td>Pink</td>
+ <tr class="secondtablerow">
+  <td class="width100px"><b>Colegas</b></td>
+  <td th:inline="text"><b>[[${section.getCurrentPerformanceByColleagues()}]]</b></td>
+  <td th:inline="text"><b>[[${section.getDesiredPerformanceByColleagues()}]]</b></td>
+  <td><div class="progressbar" th:style="|width:${section.getCurrentPerformanceByColleagues()*20}%;|">&nbsp;</div></td>
  </tr>
- <tr>
-  <th>Flavor</th>
-  <td>Mint</td>
-  <td>Walnut</td>
-  <td></td>
- </tr>
+ <th:block th:each="area, i : ${section.getItems()}">
+	 <tr th:class="${i.index % 2 == 0} ? fourthtablerow : thirdtablerow">
+	  <th rowspan="5" th:inline="text"><b>[[${area.getName()}]]</b><br><i>[[${area.getDescription()}]]</i></th>
+	  <td><b>Tu visión</b></td>
+	  <td th:inline="text"><b>[[${area.getCurrentPerformanceByMe()}]]</b></td>
+	  <td th:inline="text"><b>[[${area.getDesiredPerformanceByMe()}]]</b></td>
+	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByMe()*20}%;|">&nbsp;</div></td>
+	 </tr>
+	 <tr th:class="${i.index % 2 == 0} ? fourthtablerow : thirdtablerow">
+	  <td><b>Colegas</b></td>
+	  <td th:inline="text"><b>[[${area.getCurrentPerformanceByColleagues()}]]</b></td>
+	  <td th:inline="text"><b>[[${area.getDesiredPerformanceByColleagues()}]]</b></td>
+	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByColleagues()*20}%;|">&nbsp;</div></td>
+	 </tr>
+	  <tr th:class="${i.index % 2 == 0} ? fourthtablerow : thirdtablerow">
+	  <td>Jefe / Gerente</td>
+	  <td th:inline="text">[[${area.getCurrentPerformanceByManagers()}]]</td>
+	  <td th:inline="text">[[${area.getDesiredPerformanceByManagers()}]]</td>
+	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByManagers()*20}%;|">&nbsp;</div></td>
+	 </tr>
+	  <tr th:class="${i.index % 2 == 0} ? fourthtablerow : thirdtablerow">
+	  <td>Pares</td>
+	  <td th:inline="text">[[${area.getCurrentPerformanceByPeers()}]]</td>
+	  <td th:inline="text">[[${area.getDesiredPerformanceByPeers()}]]</td>
+	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByPeers()*20}%;|">&nbsp;</div></td>
+	 </tr>
+	  <tr th:class="${i.index % 2 == 0} ? fourthtablerow : thirdtablerow">
+	  <td>Subordinados</td>
+	  <td th:inline="text">[[${area.getCurrentPerformanceByDirectReports()}]]</td>
+	  <td th:inline="text">[[${area.getDesiredPerformanceByDirectReports()}]]</td>
+	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByDirectReports()*20}%;|">&nbsp;</div></td>
+	 </tr>
+ </th:block>
 </table>
 </div>
+
+<th:block th:each="comment: ${section.getComments()}">
+
+<div class="page5">
+<h4>[[${comment.getQuestion()}]]</h4>
+
+<div class="yourresponseleft">
+  <p>Tu respuesta</p>
 </div>
+<div class="yourresponseright">
+  <ul>
+    <li>[[${comment.getOwnResponse()}]]</li>
+  </ul>
+</div>
+
+<br class="clear">
+
+<div class="yourresponseleft">
+  <p>Otras respuestas</p>
+</div>
+<div class="yourresponseright">
+  <ul>
+    <li th:each="response : ${comment.getOtherResponses()}">[[${response}]]</li>
+  </ul>
+</div>
+</div>
+
+</th:block>
+
+</th:block>
+
+</div>
+
 
 </body>
 </html>
