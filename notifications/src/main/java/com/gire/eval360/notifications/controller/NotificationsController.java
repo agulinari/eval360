@@ -22,14 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/remembers")
-public class FeedbackNotificationRememberController {
+@RequestMapping("/notifications")
+public class NotificationsController {
 	
 	private final TemplateEngine templateMail;
 	private final EmailService emailService;
 	
 	@Autowired
-	public FeedbackNotificationRememberController(final TemplateEngine templateMail,final EmailService emailService) {
+	public NotificationsController(final TemplateEngine templateMail,final EmailService emailService) {
 		this.templateMail = templateMail;
 		this.emailService = emailService;
 	}
@@ -54,7 +54,9 @@ public class FeedbackNotificationRememberController {
     		}catch (MessagingException | UnsupportedEncodingException e) {
     			log.error(e.getMessage());
     			return new UserProviderNotification(new UserProvider(p.getUsername(),p.getMail()),"NOK"+ " - "+e.getMessage(),1);
-			} 
+			} catch(Exception e) {
+				System.out.println("Error: "+e);
+			}
     		return new UserProviderNotification(new UserProvider(p.getUsername(),p.getMail()),"OK - Provider Notificado",0);
 	    }).collect(Collectors.toList());
 		

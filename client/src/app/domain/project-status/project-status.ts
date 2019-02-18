@@ -11,4 +11,5 @@ export class ProjectStatus {
     feedbackProvidersStatus: FeedbackProviderStatus[];
     reviewersStatus: ReviewerStatus[];
     adminsStatus: AdminStatus[];
+    reminder: true;
 }
