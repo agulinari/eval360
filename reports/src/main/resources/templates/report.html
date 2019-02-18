@@ -345,252 +345,252 @@ compañeros, sus subordiandos y por usted mismo. Le ayudará a identificar las �
   				<tr>
             		<td class="tdarea">[[${(data.getAreasToImprove().size() > 0) ? data.getAreasToImprove().get(0).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>0) ? data.getAreasToImprove().get(0).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 0) ? data.getAreasToImprove().get(0).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 0) ? data.getAreasToImprove().get(0).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 0) ? data.getAreasToImprove().get(0).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 0) ? data.getAreasToImprove().get(0).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>0} ? ${data.getAreasToImprove().get(0).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 0) ? data.getAreasToImprove().get(0).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>0} ? ${data.getAreasToImprove().get(0).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 0) ? data.getAreasToImprove().get(0).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>0} ? ${data.getAreasToImprove().get(0).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 0) ? data.getAreasToImprove().get(0).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>0} ? ${data.getAreasToImprove().get(0).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 0) ? data.getAreasToImprove().get(0).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   				<tr>
             		<td class="tdarea">[[${(data.getAreasToImprove().size() > 1) ? data.getAreasToImprove().get(1).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>1) ? data.getAreasToImprove().get(1).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 1) ? data.getAreasToImprove().get(1).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 1) ? data.getAreasToImprove().get(1).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 1) ? data.getAreasToImprove().get(1).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 1) ? data.getAreasToImprove().get(1).getDirectReportsView() : ""}]]</p></td>  				
+		            <td th:class="${data.getAreasToImprove().size()>1} ? ${data.getAreasToImprove().get(1).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 1) ? data.getAreasToImprove().get(1).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>1} ? ${data.getAreasToImprove().get(1).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 1) ? data.getAreasToImprove().get(1).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>1} ? ${data.getAreasToImprove().get(1).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 1) ? data.getAreasToImprove().get(1).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>1} ? ${data.getAreasToImprove().get(1).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 1) ? data.getAreasToImprove().get(1).getDirectReportsView() : ""}]]</p></td>  				
 		        </tr>
   				<tr>
             		<td class="tdarea">[[${(data.getAreasToImprove().size() > 2) ? data.getAreasToImprove().get(2).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>2) ? data.getAreasToImprove().get(2).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 2) ? data.getAreasToImprove().get(2).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 2) ? data.getAreasToImprove().get(2).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 2) ? data.getAreasToImprove().get(2).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 2) ? data.getAreasToImprove().get(2).getDirectReportsView() : ""}]]</p></td>  				
+		            <td th:class="${data.getAreasToImprove().size()>2} ? ${data.getAreasToImprove().get(2).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 2) ? data.getAreasToImprove().get(2).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>2} ? ${data.getAreasToImprove().get(2).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 2) ? data.getAreasToImprove().get(2).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>2} ? ${data.getAreasToImprove().get(2).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 2) ? data.getAreasToImprove().get(2).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>2} ? ${data.getAreasToImprove().get(2).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 2) ? data.getAreasToImprove().get(2).getDirectReportsView() : ""}]]</p></td>  				
 		        </tr>
    				<tr>
             		<td class="tdarea">[[${(data.getAreasToImprove().size() > 3) ? data.getAreasToImprove().get(3).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>3) ? data.getAreasToImprove().get(3).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 3) ? data.getAreasToImprove().get(3).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 3) ? data.getAreasToImprove().get(3).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 3) ? data.getAreasToImprove().get(3).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 3) ? data.getAreasToImprove().get(3).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>3} ? ${data.getAreasToImprove().get(3).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 3) ? data.getAreasToImprove().get(3).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>3} ? ${data.getAreasToImprove().get(3).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 3) ? data.getAreasToImprove().get(3).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>3} ? ${data.getAreasToImprove().get(3).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 3) ? data.getAreasToImprove().get(3).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>3} ? ${data.getAreasToImprove().get(3).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 3) ? data.getAreasToImprove().get(3).getDirectReportsView() : ""}]]</p></td>
 		        </tr>
   				<tr>
             		<td class="tdarea">[[${(data.getAreasToImprove().size() > 4) ? data.getAreasToImprove().get(4).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>4) ? data.getAreasToImprove().get(4).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 4) ? data.getAreasToImprove().get(4).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 4) ? data.getAreasToImprove().get(4).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 4) ? data.getAreasToImprove().get(4).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 4) ? data.getAreasToImprove().get(4).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>4} ? ${data.getAreasToImprove().get(4).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 4) ? data.getAreasToImprove().get(4).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>4} ? ${data.getAreasToImprove().get(4).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 4) ? data.getAreasToImprove().get(4).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>4} ? ${data.getAreasToImprove().get(4).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 4) ? data.getAreasToImprove().get(4).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>4} ? ${data.getAreasToImprove().get(4).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 4) ? data.getAreasToImprove().get(4).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   			</table>
   			<table class="tablebordertoplight">
   				<tr>
             		<td class="tdarea">[[${(data.getAreasToImprove().size() > 5) ? data.getAreasToImprove().get(5).getAreaAssessed() : ""}]]</td>
+            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>5) ? data.getAreasToImprove().get(5).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
+		            <td th:class="${data.getAreasToImprove().size()>5} ? ${data.getAreasToImprove().get(5).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 5) ? data.getAreasToImprove().get(5).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>5} ? ${data.getAreasToImprove().get(5).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 5) ? data.getAreasToImprove().get(5).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>5} ? ${data.getAreasToImprove().get(5).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 5) ? data.getAreasToImprove().get(5).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>5} ? ${data.getAreasToImprove().get(5).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 5) ? data.getAreasToImprove().get(5).getDirectReportsView() : ""}]]</p></td>
+  				</tr>
+  				<tr>
+            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 6) ? data.getAreasToImprove().get(6).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>6) ? data.getAreasToImprove().get(6).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 5) ? data.getAreasToImprove().get(6).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 5) ? data.getAreasToImprove().get(6).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 5) ? data.getAreasToImprove().get(6).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 5) ? data.getAreasToImprove().get(6).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>6} ? ${data.getAreasToImprove().get(6).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 6) ? data.getAreasToImprove().get(6).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>6} ? ${data.getAreasToImprove().get(6).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 6) ? data.getAreasToImprove().get(6).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>6} ? ${data.getAreasToImprove().get(6).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 6) ? data.getAreasToImprove().get(6).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>6} ? ${data.getAreasToImprove().get(6).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 6) ? data.getAreasToImprove().get(6).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   				<tr>
             		<td class="tdarea">[[${(data.getAreasToImprove().size() > 7) ? data.getAreasToImprove().get(7).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>7) ? data.getAreasToImprove().get(7).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 7) ? data.getAreasToImprove().get(7).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 7) ? data.getAreasToImprove().get(7).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 7) ? data.getAreasToImprove().get(7).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 7) ? data.getAreasToImprove().get(7).getDirectReportsView() : ""}]]</p></td>
-  				</tr>
-  				<tr>
-            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 8) ? data.getAreasToImprove().get(8).getAreaAssessed() : ""}]]</td>
-            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>8) ? data.getAreasToImprove().get(8).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 8) ? data.getAreasToImprove().get(8).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 8) ? data.getAreasToImprove().get(8).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 8) ? data.getAreasToImprove().get(8).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 8) ? data.getAreasToImprove().get(8).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>7} ? ${data.getAreasToImprove().get(7).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 7) ? data.getAreasToImprove().get(7).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>7} ? ${data.getAreasToImprove().get(7).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 7) ? data.getAreasToImprove().get(7).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>7} ? ${data.getAreasToImprove().get(7).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 7) ? data.getAreasToImprove().get(7).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>7} ? ${data.getAreasToImprove().get(7).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 7) ? data.getAreasToImprove().get(7).getDirectReportsView() : ""}]]</p></td>
   				</tr>
    				<tr>
-            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 9) ? data.getAreasToImprove().get(9).getAreaAssessed() : ""}]]</td>
-            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>9) ? data.getAreasToImprove().get(9).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 9) ? data.getAreasToImprove().get(9).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 9) ? data.getAreasToImprove().get(9).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 9) ? data.getAreasToImprove().get(9).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 9) ? data.getAreasToImprove().get(9).getDirectReportsView() : ""}]]</p></td>
+            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 8) ? data.getAreasToImprove().get(8).getAreaAssessed() : ""}]]</td>
+            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>8) ? data.getAreasToImprove().get(8).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
+		            <td th:class="${data.getAreasToImprove().size()>8} ? ${data.getAreasToImprove().get(8).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 8) ? data.getAreasToImprove().get(8).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>8} ? ${data.getAreasToImprove().get(8).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 8) ? data.getAreasToImprove().get(8).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>8} ? ${data.getAreasToImprove().get(8).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 8) ? data.getAreasToImprove().get(8).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>8} ? ${data.getAreasToImprove().get(8).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 8) ? data.getAreasToImprove().get(8).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   				<tr>
-            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 10) ? data.getAreasToImprove().get(10).getAreaAssessed() : ""}]]</td>
-            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>10) ? data.getAreasToImprove().get(10).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 10) ? data.getAreasToImprove().get(10).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 10) ? data.getAreasToImprove().get(10).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 10) ? data.getAreasToImprove().get(10).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 10) ? data.getAreasToImprove().get(10).getDirectReportsView() : ""}]]</p></td>
+            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 9) ? data.getAreasToImprove().get(9).getAreaAssessed() : ""}]]</td>
+            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>9) ? data.getAreasToImprove().get(9).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
+		            <td th:class="${data.getAreasToImprove().size()>9} ? ${data.getAreasToImprove().get(9).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 9) ? data.getAreasToImprove().get(9).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>9} ? ${data.getAreasToImprove().get(9).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 9) ? data.getAreasToImprove().get(9).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>9} ? ${data.getAreasToImprove().get(9).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 9) ? data.getAreasToImprove().get(9).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>9} ? ${data.getAreasToImprove().get(9).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 9) ? data.getAreasToImprove().get(9).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   			</table>
   			<table class="tablebordertoplight">
   				<tr>
+            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 10) ? data.getAreasToImprove().get(10).getAreaAssessed() : ""}]]</td>
+            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>10) ? data.getAreasToImprove().get(10).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
+		            <td th:class="${data.getAreasToImprove().size()>10} ? ${data.getAreasToImprove().get(10).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 10) ? data.getAreasToImprove().get(10).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>10} ? ${data.getAreasToImprove().get(10).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 10) ? data.getAreasToImprove().get(10).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>10} ? ${data.getAreasToImprove().get(10).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 10) ? data.getAreasToImprove().get(10).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>10} ? ${data.getAreasToImprove().get(10).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 10) ? data.getAreasToImprove().get(10).getDirectReportsView() : ""}]]</p></td>
+  				</tr>
+  				<tr>
             		<td class="tdarea">[[${(data.getAreasToImprove().size() > 11) ? data.getAreasToImprove().get(11).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>11) ? data.getAreasToImprove().get(11).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 11) ? data.getAreasToImprove().get(11).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 11) ? data.getAreasToImprove().get(11).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 11) ? data.getAreasToImprove().get(11).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 11) ? data.getAreasToImprove().get(11).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>11} ? ${data.getAreasToImprove().get(11).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 11) ? data.getAreasToImprove().get(11).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>11} ? ${data.getAreasToImprove().get(11).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 11) ? data.getAreasToImprove().get(11).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>11} ? ${data.getAreasToImprove().get(11).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 11) ? data.getAreasToImprove().get(11).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>11} ? ${data.getAreasToImprove().get(11).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 11) ? data.getAreasToImprove().get(11).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   				<tr>
             		<td class="tdarea">[[${(data.getAreasToImprove().size() > 12) ? data.getAreasToImprove().get(12).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>12) ? data.getAreasToImprove().get(12).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 12) ? data.getAreasToImprove().get(12).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 12) ? data.getAreasToImprove().get(12).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 12) ? data.getAreasToImprove().get(12).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 12) ? data.getAreasToImprove().get(12).getDirectReportsView() : ""}]]</p></td>
-  				</tr>
-  				<tr>
-            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 13) ? data.getAreasToImprove().get(13).getAreaAssessed() : ""}]]</td>
-            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>13) ? data.getAreasToImprove().get(13).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 13) ? data.getAreasToImprove().get(13).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 13) ? data.getAreasToImprove().get(13).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 13) ? data.getAreasToImprove().get(13).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 13) ? data.getAreasToImprove().get(13).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>12} ? ${data.getAreasToImprove().get(12).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 12) ? data.getAreasToImprove().get(12).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>12} ? ${data.getAreasToImprove().get(12).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 12) ? data.getAreasToImprove().get(12).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>12} ? ${data.getAreasToImprove().get(12).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 12) ? data.getAreasToImprove().get(12).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>12} ? ${data.getAreasToImprove().get(12).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 12) ? data.getAreasToImprove().get(12).getDirectReportsView() : ""}]]</p></td>
   				</tr>
    				<tr>
-            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 14) ? data.getAreasToImprove().get(14).getAreaAssessed() : ""}]]</td>
-            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>14) ? data.getAreasToImprove().get(14).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 14) ? data.getAreasToImprove().get(14).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 14) ? data.getAreasToImprove().get(14).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 14) ? data.getAreasToImprove().get(14).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 14) ? data.getAreasToImprove().get(14).getDirectReportsView() : ""}]]</p></td>
+            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 13) ? data.getAreasToImprove().get(13).getAreaAssessed() : ""}]]</td>
+            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>13) ? data.getAreasToImprove().get(13).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
+		            <td th:class="${data.getAreasToImprove().size()>13} ? ${data.getAreasToImprove().get(13).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 13) ? data.getAreasToImprove().get(13).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>13} ? ${data.getAreasToImprove().get(13).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 13) ? data.getAreasToImprove().get(13).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>13} ? ${data.getAreasToImprove().get(13).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 13) ? data.getAreasToImprove().get(13).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>13} ? ${data.getAreasToImprove().get(13).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 13) ? data.getAreasToImprove().get(13).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   				<tr>
-            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 15) ? data.getAreasToImprove().get(15).getAreaAssessed() : ""}]]</td>
-            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>15) ? data.getAreasToImprove().get(15).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 15) ? data.getAreasToImprove().get(15).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 15) ? data.getAreasToImprove().get(15).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 15) ? data.getAreasToImprove().get(15).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 15) ? data.getAreasToImprove().get(15).getDirectReportsView() : ""}]]</p></td>
+            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 14) ? data.getAreasToImprove().get(14).getAreaAssessed() : ""}]]</td>
+            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>14) ? data.getAreasToImprove().get(14).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
+		            <td th:class="${data.getAreasToImprove().size()>14} ? ${data.getAreasToImprove().get(14).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 14) ? data.getAreasToImprove().get(14).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>14} ? ${data.getAreasToImprove().get(14).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 14) ? data.getAreasToImprove().get(14).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>14} ? ${data.getAreasToImprove().get(14).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 14) ? data.getAreasToImprove().get(14).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>14} ? ${data.getAreasToImprove().get(14).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 14) ? data.getAreasToImprove().get(14).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   			</table>
   			<table class="tablebordertoplight">
   				<tr>
+            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 15) ? data.getAreasToImprove().get(15).getAreaAssessed() : ""}]]</td>
+            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>15) ? data.getAreasToImprove().get(15).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
+		            <td th:class="${data.getAreasToImprove().size()>15} ? ${data.getAreasToImprove().get(15).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 15) ? data.getAreasToImprove().get(15).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>15} ? ${data.getAreasToImprove().get(15).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 15) ? data.getAreasToImprove().get(15).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>15} ? ${data.getAreasToImprove().get(15).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 15) ? data.getAreasToImprove().get(15).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>15} ? ${data.getAreasToImprove().get(15).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 15) ? data.getAreasToImprove().get(15).getDirectReportsView() : ""}]]</p></td>
+  				</tr>
+  				<tr>
             		<td class="tdarea">[[${(data.getAreasToImprove().size() > 16) ? data.getAreasToImprove().get(16).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>16) ? data.getAreasToImprove().get(16).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 16) ? data.getAreasToImprove().get(16).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 16) ? data.getAreasToImprove().get(16).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 16) ? data.getAreasToImprove().get(16).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 16) ? data.getAreasToImprove().get(16).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>16} ? ${data.getAreasToImprove().get(16).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 16) ? data.getAreasToImprove().get(16).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>16} ? ${data.getAreasToImprove().get(16).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 16) ? data.getAreasToImprove().get(16).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>16} ? ${data.getAreasToImprove().get(16).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 16) ? data.getAreasToImprove().get(16).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>16} ? ${data.getAreasToImprove().get(16).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 16) ? data.getAreasToImprove().get(16).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   				<tr>
             		<td class="tdarea">[[${(data.getAreasToImprove().size() > 17) ? data.getAreasToImprove().get(17).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>17) ? data.getAreasToImprove().get(17).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 17) ? data.getAreasToImprove().get(17).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 17) ? data.getAreasToImprove().get(17).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 17) ? data.getAreasToImprove().get(17).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 17) ? data.getAreasToImprove().get(17).getDirectReportsView() : ""}]]</p></td>
-  				</tr>
-  				<tr>
-            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 18) ? data.getAreasToImprove().get(18).getAreaAssessed() : ""}]]</td>
-            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>18) ? data.getAreasToImprove().get(18).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 18) ? data.getAreasToImprove().get(18).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 18) ? data.getAreasToImprove().get(18).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 18) ? data.getAreasToImprove().get(18).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 18) ? data.getAreasToImprove().get(18).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>17} ? ${data.getAreasToImprove().get(17).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 17) ? data.getAreasToImprove().get(17).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>17} ? ${data.getAreasToImprove().get(17).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 17) ? data.getAreasToImprove().get(17).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>17} ? ${data.getAreasToImprove().get(17).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 17) ? data.getAreasToImprove().get(17).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>17} ? ${data.getAreasToImprove().get(17).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 17) ? data.getAreasToImprove().get(17).getDirectReportsView() : ""}]]</p></td>
   				</tr>
    				<tr>
-            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 19) ? data.getAreasToImprove().get(19).getAreaAssessed() : ""}]]</td>
-            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>19) ? data.getAreasToImprove().get(19).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 19) ? data.getAreasToImprove().get(19).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 19) ? data.getAreasToImprove().get(19).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 19) ? data.getAreasToImprove().get(19).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 19) ? data.getAreasToImprove().get(19).getDirectReportsView() : ""}]]</p></td>
+            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 18) ? data.getAreasToImprove().get(18).getAreaAssessed() : ""}]]</td>
+            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>18) ? data.getAreasToImprove().get(18).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
+		            <td th:class="${data.getAreasToImprove().size()>18} ? ${data.getAreasToImprove().get(18).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 18) ? data.getAreasToImprove().get(18).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>18} ? ${data.getAreasToImprove().get(18).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 18) ? data.getAreasToImprove().get(18).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>18} ? ${data.getAreasToImprove().get(18).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 18) ? data.getAreasToImprove().get(18).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>18} ? ${data.getAreasToImprove().get(18).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 18) ? data.getAreasToImprove().get(18).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   				<tr>
-            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 20) ? data.getAreasToImprove().get(20).getAreaAssessed() : ""}]]</td>
-            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>20) ? data.getAreasToImprove().get(20).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 20) ? data.getAreasToImprove().get(20).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 20) ? data.getAreasToImprove().get(20).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 20) ? data.getAreasToImprove().get(20).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 20) ? data.getAreasToImprove().get(20).getDirectReportsView() : ""}]]</p></td>
+            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 19) ? data.getAreasToImprove().get(19).getAreaAssessed() : ""}]]</td>
+            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>19) ? data.getAreasToImprove().get(19).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
+		            <td th:class="${data.getAreasToImprove().size()>19} ? ${data.getAreasToImprove().get(19).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 19) ? data.getAreasToImprove().get(19).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>19} ? ${data.getAreasToImprove().get(19).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 19) ? data.getAreasToImprove().get(19).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>19} ? ${data.getAreasToImprove().get(19).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 19) ? data.getAreasToImprove().get(19).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>19} ? ${data.getAreasToImprove().get(19).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 19) ? data.getAreasToImprove().get(19).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   			</table>
   			<table class="tablebordertoplight">
   				<tr>
+            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 20) ? data.getAreasToImprove().get(20).getAreaAssessed() : ""}]]</td>
+            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>20) ? data.getAreasToImprove().get(20).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
+		            <td th:class="${data.getAreasToImprove().size()>20} ? ${data.getAreasToImprove().get(20).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 20) ? data.getAreasToImprove().get(20).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>20} ? ${data.getAreasToImprove().get(20).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 20) ? data.getAreasToImprove().get(20).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>20} ? ${data.getAreasToImprove().get(20).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 20) ? data.getAreasToImprove().get(20).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>20} ? ${data.getAreasToImprove().get(20).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 20) ? data.getAreasToImprove().get(20).getDirectReportsView() : ""}]]</p></td>
+  				</tr>
+  				<tr>
             		<td class="tdarea">[[${(data.getAreasToImprove().size() > 21) ? data.getAreasToImprove().get(21).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>21) ? data.getAreasToImprove().get(21).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 21) ? data.getAreasToImprove().get(21).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 21) ? data.getAreasToImprove().get(21).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 21) ? data.getAreasToImprove().get(21).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 21) ? data.getAreasToImprove().get(21).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>21} ? ${data.getAreasToImprove().get(21).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 21) ? data.getAreasToImprove().get(21).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>21} ? ${data.getAreasToImprove().get(21).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 21) ? data.getAreasToImprove().get(21).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>21} ? ${data.getAreasToImprove().get(21).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 21) ? data.getAreasToImprove().get(21).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>21} ? ${data.getAreasToImprove().get(21).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 21) ? data.getAreasToImprove().get(21).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   				<tr>
             		<td class="tdarea">[[${(data.getAreasToImprove().size() > 22) ? data.getAreasToImprove().get(22).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>22) ? data.getAreasToImprove().get(22).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 22) ? data.getAreasToImprove().get(22).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 22) ? data.getAreasToImprove().get(22).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 22) ? data.getAreasToImprove().get(22).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 22) ? data.getAreasToImprove().get(22).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>22} ? ${data.getAreasToImprove().get(22).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 22) ? data.getAreasToImprove().get(22).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>22} ? ${data.getAreasToImprove().get(22).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 22) ? data.getAreasToImprove().get(22).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>22} ? ${data.getAreasToImprove().get(22).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 22) ? data.getAreasToImprove().get(22).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>22} ? ${data.getAreasToImprove().get(22).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 22) ? data.getAreasToImprove().get(22).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   				<tr>
             		<td class="tdarea">[[${(data.getAreasToImprove().size() > 23) ? data.getAreasToImprove().get(23).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>23) ? data.getAreasToImprove().get(23).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 23) ? data.getAreasToImprove().get(23).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 23) ? data.getAreasToImprove().get(23).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 23) ? data.getAreasToImprove().get(23).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 23) ? data.getAreasToImprove().get(23).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>23} ? ${data.getAreasToImprove().get(23).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 23) ? data.getAreasToImprove().get(23).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>23} ? ${data.getAreasToImprove().get(23).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 23) ? data.getAreasToImprove().get(23).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>23} ? ${data.getAreasToImprove().get(23).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 23) ? data.getAreasToImprove().get(23).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>23} ? ${data.getAreasToImprove().get(23).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 23) ? data.getAreasToImprove().get(23).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   				<tr>
-            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 24) ? data.getAreasToImprove().get(24).getAreaAssessed() : ""}]]</td>
-            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>24) ? data.getAreasToImprove().get(24).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 24) ? data.getAreasToImprove().get(24).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 24) ? data.getAreasToImprove().get(24).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 24) ? data.getAreasToImprove().get(24).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 24) ? data.getAreasToImprove().get(24).getDirectReportsView() : ""}]]</p></td>
-  				</tr>
-  				<tr>
-            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 25) ? data.getAreasToImprove().get(25).getAreaAssessed() : ""}]]</td>
+            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 24) ? data.getAreasToImprove().get(25).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>25) ? data.getAreasToImprove().get(25).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 25) ? data.getAreasToImprove().get(25).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 25) ? data.getAreasToImprove().get(25).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 25) ? data.getAreasToImprove().get(25).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 25) ? data.getAreasToImprove().get(25).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>24} ? ${data.getAreasToImprove().get(24).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 24) ? data.getAreasToImprove().get(24).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>24} ? ${data.getAreasToImprove().get(24).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 24) ? data.getAreasToImprove().get(24).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>24} ? ${data.getAreasToImprove().get(24).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 24) ? data.getAreasToImprove().get(24).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>24} ? ${data.getAreasToImprove().get(24).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 24) ? data.getAreasToImprove().get(24).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   			</table>
   			<table class="tablebordertoplight">
   				<tr>
-            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 26) ? data.getAreasToImprove().get(26).getAreaAssessed() : ""}]]</td>
+            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 25) ? data.getAreasToImprove().get(26).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>26) ? data.getAreasToImprove().get(26).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 26) ? data.getAreasToImprove().get(26).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 26) ? data.getAreasToImprove().get(26).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 26) ? data.getAreasToImprove().get(26).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 26) ? data.getAreasToImprove().get(26).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>25} ? ${data.getAreasToImprove().get(25).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 25) ? data.getAreasToImprove().get(25).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>25} ? ${data.getAreasToImprove().get(25).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 25) ? data.getAreasToImprove().get(25).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>25} ? ${data.getAreasToImprove().get(25).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 25) ? data.getAreasToImprove().get(25).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>25} ? ${data.getAreasToImprove().get(25).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 25) ? data.getAreasToImprove().get(25).getDirectReportsView() : ""}]]</p></td>
   				</tr>
    				<tr>
-            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 27) ? data.getAreasToImprove().get(27).getAreaAssessed() : ""}]]</td>
+            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 26) ? data.getAreasToImprove().get(27).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>27) ? data.getAreasToImprove().get(27).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 27) ? data.getAreasToImprove().get(27).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 27) ? data.getAreasToImprove().get(27).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 27) ? data.getAreasToImprove().get(27).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 27) ? data.getAreasToImprove().get(27).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>26} ? ${data.getAreasToImprove().get(26).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 26) ? data.getAreasToImprove().get(26).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>26} ? ${data.getAreasToImprove().get(26).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 26) ? data.getAreasToImprove().get(26).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>26} ? ${data.getAreasToImprove().get(26).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 26) ? data.getAreasToImprove().get(26).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>26} ? ${data.getAreasToImprove().get(26).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 26) ? data.getAreasToImprove().get(26).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   				<tr>
-            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 28) ? data.getAreasToImprove().get(28).getAreaAssessed() : ""}]]</td>
+            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 27) ? data.getAreasToImprove().get(28).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>28) ? data.getAreasToImprove().get(28).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 28) ? data.getAreasToImprove().get(28).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 28) ? data.getAreasToImprove().get(28).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 28) ? data.getAreasToImprove().get(28).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 28) ? data.getAreasToImprove().get(28).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>27} ? ${data.getAreasToImprove().get(27).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 27) ? data.getAreasToImprove().get(27).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>27} ? ${data.getAreasToImprove().get(27).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 27) ? data.getAreasToImprove().get(27).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>27} ? ${data.getAreasToImprove().get(27).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 27) ? data.getAreasToImprove().get(27).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>27} ? ${data.getAreasToImprove().get(27).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 27) ? data.getAreasToImprove().get(27).getDirectReportsView() : ""}]]</p></td>
+  				</tr>
+  				<tr>
+            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 28) ? data.getAreasToImprove().get(29).getAreaAssessed() : ""}]]</td>
+            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>29) ? data.getAreasToImprove().get(29).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
+		            <td th:class="${data.getAreasToImprove().size()>28} ? ${data.getAreasToImprove().get(28).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 28) ? data.getAreasToImprove().get(28).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>28} ? ${data.getAreasToImprove().get(28).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 28) ? data.getAreasToImprove().get(28).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>28} ? ${data.getAreasToImprove().get(28).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 28) ? data.getAreasToImprove().get(28).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>28} ? ${data.getAreasToImprove().get(28).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 28) ? data.getAreasToImprove().get(28).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   				<tr>
             		<td class="tdarea">[[${(data.getAreasToImprove().size() > 29) ? data.getAreasToImprove().get(29).getAreaAssessed() : ""}]]</td>
             		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>29) ? data.getAreasToImprove().get(29).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 29) ? data.getAreasToImprove().get(29).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 29) ? data.getAreasToImprove().get(29).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 29) ? data.getAreasToImprove().get(29).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 29) ? data.getAreasToImprove().get(29).getDirectReportsView() : ""}]]</p></td>
-  				</tr>
-  				<tr>
-            		<td class="tdarea">[[${(data.getAreasToImprove().size() > 30) ? data.getAreasToImprove().get(30).getAreaAssessed() : ""}]]</td>
-            		<td class="tdprogressbar"><div class="progressbar" th:style="|width:${ (data.getAreasToImprove().size()>30) ? data.getAreasToImprove().get(30).getDesiredImprovement() : 0}%;|">&nbsp;</div></td>
-		            <td class="tdsmall"><p>[[${(data.getAreasToImprove().size() > 30) ? data.getAreasToImprove().get(30).getOwnView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 30) ? data.getAreasToImprove().get(30).getManagersView() : ""}]]</p></td>
-		            <td class="tdmedium"><p>[[${(data.getAreasToImprove().size() > 30) ? data.getAreasToImprove().get(30).getPeersView() : ""}]]</p></td>
-		            <td class="tdlarge"><p>[[${(data.getAreasToImprove().size() > 30) ? data.getAreasToImprove().get(30).getDirectReportsView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>29} ? ${data.getAreasToImprove().get(29).getOwnView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 29) ? data.getAreasToImprove().get(29).getOwnView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>29} ? ${data.getAreasToImprove().get(29).getManagersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 29) ? data.getAreasToImprove().get(29).getManagersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>29} ? ${data.getAreasToImprove().get(29).getPeersView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 29) ? data.getAreasToImprove().get(29).getPeersView() : ""}]]</p></td>
+		            <td th:class="${data.getAreasToImprove().size()>29} ? ${data.getAreasToImprove().get(29).getDirectReportsView().getCssClass()} : tdsmall"><p>[[${(data.getAreasToImprove().size() > 29) ? data.getAreasToImprove().get(29).getDirectReportsView() : ""}]]</p></td>
   				</tr>
   			</table>
 
@@ -618,9 +618,9 @@ compañeros, sus subordiandos y por usted mismo. Le ayudará a identificar las �
 </ul>
 
 <div class="contenedortablepage6">
-<div class="greencommentovertable1">
+<!-- div class="greencommentovertable1">
   <p>La primer fila se completa como ejemplo</p>
-</div>
+</div-->
 
 <div class="greencommentovertable2">
   <p>Completa tus propias acciones a continuación</p>
@@ -685,9 +685,9 @@ compañeros, sus subordiandos y por usted mismo. Le ayudará a identificar las �
  <tr class="firsttablerow">
   <th></th>
   <th></th>
-  <th>Current performance</th>
-  <th>Desired performance</th>
-  <th>Desires improvement</th>
+  <th>Desempeño actual</th>
+  <th>Desempeño deseado</th>
+  <th>Mejora deseada</th>
  </tr>
   <tr class="firsttablerow">
   <th></th>
