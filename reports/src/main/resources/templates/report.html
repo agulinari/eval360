@@ -603,41 +603,6 @@ compañeros, sus subordiandos y por usted mismo. Le ayudará a identificar las �
 </div>
 
 <div class="next-page">
-<!-- PAGE 5 START -->
-<div class="page5">
-<h3>What people said about you</h3>
-<p>Respondents were asked to summarize your performance — you can see their answers below</p>
-
-<th:block th:each="comment: ${data.getComments()}">
-<h4 class="clear">[[${comment.getQuestion()}]]</h4>
-
-<div class="yourresponseleft">
-  <p>Your response</p>
-</div>
-<div class="yourresponseright">
-  <ul>
-    <li>[[${comment.getOwnResponse()}]]</li>
-  </ul>
-</div>
-
-<br class="clear">
-
-<div class="yourresponseleft">
-  <p>Other responses</p>
-</div>
-<div class="yourresponseright">
-  <ul>
-    <li th:each="response : ${comment.getOtherResponses()}">[[${response}]]</li>
-  </ul>
-</div>
-
-</th:block>
-
-</div>
-<!-- PAGE 5 END -->
-</div>
-
-<div class="next-page">
 <!-- PAGE 6 START -->
 
 <div class="page5">
@@ -711,42 +676,122 @@ compañeros, sus subordiandos y por usted mismo. Le ayudará a identificar las �
 </div>
 
 <div class="next-page">
+
+<th:block th:each="section : ${data.getDetailedResults()}">
 <div class="page8">
-<h3>Planning</h3>
+<h3 th:text="${section.getName()}">Section Name</h3>
 
 <table class="tablepage8">
- <caption>Favorite and Least Favorite Things</caption>
- <tr>
-  <th></th><th></th>
-  <th>Bob</th>
-  <th>Alice</th>
+ <tr class="firsttablerow">
+  <th></th>
+  <th></th>
+  <th>Current performance</th>
+  <th>Desired performance</th>
+  <th>Desires improvement</th>
  </tr>
- <tr>
-  <th rowspan="2">Favorite</th>
-  <th>Color</th>
-  <td>Blue</td>
-  <td>Purple</td>
+  <tr class="firsttablerow">
+  <th></th>
+  <th></th>
+  <th></th>
+  <th></th>
+  <th>
+    <table class="minitable">
+      <tr>
+        <td>small</td>
+        <td>medium</td>
+        <td>large</td>
+      </tr>
+      <tr class="barrasmallmediumlarge">
+        <td><div class="boxcolorsmall"></div></td>
+        <td><div class="boxcolormedium"></div></td>
+        <td><div class="boxcolorlarge"></div></td>
+      </tr>
+    </table>
+  </th>
  </tr>
- <tr>
-  <th>Flavor</th>
-  <td>Banana</td>
-  <td>Chocolate</td>
+
+    
+ <tr class="secondtablerow">
+  <th class="width200px" rowspan="2" th:inline="text">Puntajes promedio para [[${section.getName()}]]</th>
+  <td class="width100px"><b>Tu visión</b></td>
+  <td th:inline="text"><b>[[${section.getCurrentPerformanceByMe()}]]</b></td>
+  <td th:inline="text"><b>[[${section.getDesiredPerformanceByMe()}]]</b></td>
+  <td><div class="progressbar" th:style="|width:${section.getCurrentPerformanceByMe()*20}%;|">&nbsp;</div></td>
  </tr>
- <tr>
-  <th>Least Favorite</th>
-  <th>Color</th>
-  <td>Yellow</td>
-  <td>Pink</td>
+ <tr class="secondtablerow">
+  <td class="width100px"><b>Colegas</b></td>
+  <td th:inline="text"><b>[[${section.getCurrentPerformanceByColleagues()}]]</b></td>
+  <td th:inline="text"><b>[[${section.getDesiredPerformanceByColleagues()}]]</b></td>
+  <td><div class="progressbar" th:style="|width:${section.getCurrentPerformanceByColleagues()*20}%;|">&nbsp;</div></td>
  </tr>
- <tr>
-  <th>Flavor</th>
-  <td>Mint</td>
-  <td>Walnut</td>
-  <td></td>
- </tr>
+ <th:block th:each="area, i : ${section.getItems()}">
+	 <tr th:class="${i.index % 2 == 0} ? fourthtablerow : thirdtablerow">
+	  <th rowspan="5" th:inline="text"><b>[[${area.getName()}]]</b><br><i>[[${area.getDescription()}]]</i></th>
+	  <td><b>Tu visión</b></td>
+	  <td th:inline="text"><b>[[${area.getCurrentPerformanceByMe()}]]</b></td>
+	  <td th:inline="text"><b>[[${area.getDesiredPerformanceByMe()}]]</b></td>
+	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByMe()*20}%;|">&nbsp;</div></td>
+	 </tr>
+	 <tr th:class="${i.index % 2 == 0} ? fourthtablerow : thirdtablerow">
+	  <td><b>Colegas</b></td>
+	  <td th:inline="text"><b>[[${area.getCurrentPerformanceByColleagues()}]]</b></td>
+	  <td th:inline="text"><b>[[${area.getDesiredPerformanceByColleagues()}]]</b></td>
+	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByColleagues()*20}%;|">&nbsp;</div></td>
+	 </tr>
+	  <tr th:class="${i.index % 2 == 0} ? fourthtablerow : thirdtablerow">
+	  <td>Jefe / Gerente</td>
+	  <td th:inline="text">[[${area.getCurrentPerformanceByManagers()}]]</td>
+	  <td th:inline="text">[[${area.getDesiredPerformanceByManagers()}]]</td>
+	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByManagers()*20}%;|">&nbsp;</div></td>
+	 </tr>
+	  <tr th:class="${i.index % 2 == 0} ? fourthtablerow : thirdtablerow">
+	  <td>Pares</td>
+	  <td th:inline="text">[[${area.getCurrentPerformanceByPeers()}]]</td>
+	  <td th:inline="text">[[${area.getDesiredPerformanceByPeers()}]]</td>
+	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByPeers()*20}%;|">&nbsp;</div></td>
+	 </tr>
+	  <tr th:class="${i.index % 2 == 0} ? fourthtablerow : thirdtablerow">
+	  <td>Subordinados</td>
+	  <td th:inline="text">[[${area.getCurrentPerformanceByDirectReports()}]]</td>
+	  <td th:inline="text">[[${area.getDesiredPerformanceByDirectReports()}]]</td>
+	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByDirectReports()*20}%;|">&nbsp;</div></td>
+	 </tr>
+ </th:block>
 </table>
 </div>
+
+<th:block th:each="comment: ${section.getComments()}">
+
+<div class="page5">
+<h4>[[${comment.getQuestion()}]]</h4>
+
+<div class="yourresponseleft">
+  <p>Tu respuesta</p>
 </div>
+<div class="yourresponseright">
+  <ul>
+    <li>[[${comment.getOwnResponse()}]]</li>
+  </ul>
+</div>
+
+<br class="clear">
+
+<div class="yourresponseleft">
+  <p>Otras respuestas</p>
+</div>
+<div class="yourresponseright">
+  <ul>
+    <li th:each="response : ${comment.getOtherResponses()}">[[${response}]]</li>
+  </ul>
+</div>
+</div>
+
+</th:block>
+
+</th:block>
+
+</div>
+
 
 </body>
 </html>

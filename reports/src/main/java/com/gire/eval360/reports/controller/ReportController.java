@@ -34,7 +34,7 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @RestController
 @RequestMapping("/reports")
-public class ReportController {
+public class ReportController  {
 
     private static final String OUTPUT_FILE = "test.pdf";
     private static final String UTF_8 = "UTF-8";

@@ -18,25 +18,25 @@ export class NotificationService {
   constructor(private http: HttpClient) {
   }
 
-  notificateToProviders(feedbackProviderStatus:FeedbackProviderStatus,projectStatus:ProjectStatus): Observable<any> {
-    
+  notificateToProviders(feedbackProviderStatus: FeedbackProviderStatus, projectStatus: ProjectStatus): Observable<any> {
+
     const notifyRememberFeedback = new CreateNotificationRememberFeedback();
     const createRememberUserProvider = new CreateRememberUserProvider();
-    let listRemembers: Array<CreateRememberUserProvider> = [createRememberUserProvider];
+    const listRemembers: Array<CreateRememberUserProvider> = [createRememberUserProvider];
     projectStatus.evalueesStatus.forEach(evaluee => {
-        if(evaluee.feedbackProviders.find(fp => ((fp.id === feedbackProviderStatus.id) && (fp.status === 'PENDIENTE')) !== undefined)){
+        if (evaluee.feedbackProviders.find(fp => ((fp.id === feedbackProviderStatus.id) && (fp.status === 'PENDIENTE')) !== undefined)) {
             notifyRememberFeedback.idEvalueeFP = evaluee.id;
         }
     });
-   
-    createRememberUserProvider.mail='sivori.daniel@gmail.com';
-    createRememberUserProvider.username=feedbackProviderStatus.username;
+
+    createRememberUserProvider.mail = 'sivori.daniel@gmail.com';
+    createRememberUserProvider.username = feedbackProviderStatus.username;
     notifyRememberFeedback.idProject = projectStatus.id;
-    
-    notifyRememberFeedback.providers=listRemembers;
+
+    notifyRememberFeedback.providers = listRemembers;
 
     return this.http.post(this.NOTIFICATIONS_API + '/providers', notifyRememberFeedback);
-    
+
   }
-    
+
 }

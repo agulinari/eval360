@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 public class Section {
 
 	private String name;
+	private String description;
 	private BigDecimal currentPerformanceByMe;
 	private BigDecimal desiredPerformanceByMe;
 	private BigDecimal currentPerformanceByColleagues;

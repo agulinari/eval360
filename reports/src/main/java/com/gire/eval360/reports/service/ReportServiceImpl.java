@@ -242,8 +242,61 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 	private List<Section> getDetailedResults(EvaluationTemplate template, List<Evaluation> evaluations) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Section> sections = new ArrayList<>();
+		for (com.gire.eval360.reports.service.remote.dto.templates.Section section : template.getSections()) {
+			if (section.getSectionType().equals(SectionType.QUESTIONS)){
+				Section sec = Section.builder()
+										 .name(section.getName())
+										 .description(section.getDescription())
+										 .currentPerformanceByColleagues(BigDecimal.ZERO)
+										 .currentPerformanceByMe(BigDecimal.ZERO)
+										 .desiredPerformanceByColleagues(BigDecimal.ZERO)
+										 .desiredPerformanceByMe(BigDecimal.ZERO)
+										 .items(new ArrayList<>())
+										 .comments(new ArrayList<>())
+										 .build();
+				for (ItemTemplate itemTemplate : section.getItems()) {
+					Long itemId = itemTemplate.getId();
+
+					if (itemTemplate.getItemType().equals(ItemType.TEXTBOX)) {
+						Comment comment = Comment.builder().question(itemTemplate.getDescription()).ownResponse("N/A").build();
+						List<String> otherResponses = new ArrayList<>();
+						for (Evaluation evaluation : evaluations){
+							String response = getComment(section.getId(), itemId, evaluation);
+							otherResponses.add(response);
+							
+						}
+						comment.setOtherResponses(otherResponses);
+						sec.getComments().add(comment);
+					} else if (itemTemplate.getItemType().equals(ItemType.RATING)){
+						ItemScore average = calculateAverage(itemId, evaluations, "");
+						ItemScore averageManagers = calculateAverage(itemId, evaluations, "Jefe");
+						ItemScore averagePeers = calculateAverage(itemId, evaluations, "Par");
+						ItemScore averageDirectReports = calculateAverage(itemId, evaluations, "Subordinado");
+						
+						Item item = Item.builder()
+										.name(itemTemplate.getTitle())
+										.description(itemTemplate.getDescription())
+										.currentPerformanceByColleagues(average.getCurrentPerformance())
+										.currentPerformanceByDirectReports(averageDirectReports.getCurrentPerformance())
+										.currentPerformanceByManagers(averageManagers.getCurrentPerformance())
+										.currentPerformanceByPeers(averagePeers.getCurrentPerformance())
+										.currentPerformanceByMe(BigDecimal.ZERO)
+										.desiredPerformanceByColleagues(average.getDesiredPerformance())
+										.desiredPerformanceByDirectReports(averageDirectReports.getDesiredPerformance())
+										.desiredPerformanceByManagers(averageManagers.getDesiredPerformance())
+										.desiredPerformanceByPeers(averagePeers.getDesiredPerformance())
+										.desiredPerformanceByMe(BigDecimal.ZERO)
+										.build();
+						
+						sec.getItems().add(item);
+					}
+				}
+				sections.add(sec);
+			}
+		}
+		return sections;
 	}
 
 	private List<Comment> getComments(EvaluationTemplate template, List<Evaluation> evaluations) {
