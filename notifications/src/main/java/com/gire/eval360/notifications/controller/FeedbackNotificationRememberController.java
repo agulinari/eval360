@@ -54,7 +54,9 @@ public class FeedbackNotificationRememberController {
     		}catch (MessagingException | UnsupportedEncodingException e) {
     			log.error(e.getMessage());
     			return new UserProviderNotification(new UserProvider(p.getUsername(),p.getMail()),"NOK"+ " - "+e.getMessage(),1);
-			} 
+			} catch(Exception e) {
+				System.out.println("Error: "+e);
+			}
     		return new UserProviderNotification(new UserProvider(p.getUsername(),p.getMail()),"OK - Provider Notificado",0);
 	    }).collect(Collectors.toList());
 		

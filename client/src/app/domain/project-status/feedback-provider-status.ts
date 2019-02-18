@@ -12,5 +12,5 @@ export class FeedbackProviderStatus {
     pendingFeedbacks: number;
     completedFeedbacks: number;
     evaluees: EvalueeDetail[];
-
+    reminder: boolean;
 }

@@ -9,6 +9,7 @@
 table{
   border-collapse: none;
   border-spacing: 0px;
+  width: 100%
 }
 table tr td.header{
     background-color:#78ab46;
@@ -26,28 +27,29 @@ table tr {
     color: black;
     text-align: left;
     font-family: arial;
-    font-size: 18pt;
-    padding-left:8px;
+    font-size: 14pt;
+    margin-left: 60px;
 }
 
 .p_header2 {
     color: blue;
     text-align: left;
     font-family: arial;
-    font-size: 18pt;
+    font-size: 14pt;
+    padding-left: 6pt;
 }
 
 .p_message{
     color: black;
-    text-align: left;
+    text-align: center;
     text-indent: 50px;
     font-family: arial;
-    font-size: 16pt;
+    font-size: 14pt;
 }
 
 table tr td.header1{
   text-align: right;
-  width: 6%;
+  width: 60pt;
 }
 
 table tr td.header2{
@@ -81,8 +83,8 @@ a:hover, a:active {
   color: black;
   text-align: left;
   font-family: arial;
-  font-size: 16pt;
-  padding-left:8px;
+  font-size: 14pt;
+  margin-left: 60px;
 }
 
 img{
@@ -93,7 +95,7 @@ img{
 </style>
 </head>
 <body>
-    <table>
+	<table>
         <tr>
             <td colspan="6" class="header">
                 <center><img src="cid:logo"  /></center>
@@ -114,7 +116,7 @@ img{
         </tr>
         <tr>
           <td colspan="6" class="link">
-            <p><a href="www.google.com">Link</a></p>
+            <p><a id="linkRedirect" th:href="@{${linkRef}}">Link</a></p>
           </td>
         </tr>
         <tr>

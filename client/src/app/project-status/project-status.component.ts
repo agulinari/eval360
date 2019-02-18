@@ -24,6 +24,8 @@ import { CreateReviewer } from '../domain/create-project/create-reviewer';
 import { ProjectStatus } from '../domain/project-status/project-status';
 import { WaitingDialogComponent } from '../dialog/waiting-dialog.component';
 import { NotificationService } from '../shared/notification.service';
+import {timeout} from 'rxjs/operators';
+import { fillProperties } from '@angular/core/src/util/property';
 
 @Component({
   selector: 'app-project-status',
@@ -34,7 +36,6 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
 
   sub: Subscription;
   projectStatus: ProjectStatus = undefined;
-  recordarEvaluacion: boolean = false;
   recordarFeedback: boolean = false;
   loading = false;
 
@@ -97,11 +98,9 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
   getStatusRecordatory(){
     
     if(this.projectStatus){
-      const isEvaluationIncomplete = (this.projectStatus.evalueesStatus.find(item => item.status.toUpperCase() === 'PENDIENTE') !== undefined);
       const isFeedbacksIncomplete = (this.projectStatus.feedbackProvidersStatus.find(item => item.status.toUpperCase() === 'PENDIENTE') !== undefined);
-    
-      this.recordarEvaluacion = isEvaluationIncomplete;
       this.recordarFeedback = isFeedbacksIncomplete;
+      this.projectStatus.feedbackProvidersStatus.map(fp=>fp.reminder=this.recordarFeedback);
     }
     
   }
@@ -237,9 +236,12 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
       disableClose: true
     });
 
-    this.notificationService.notificateToProviders(feedbackProviderStatus,this.projectStatus).subscribe(
+    this.notificationService.notificateToProviders(feedbackProviderStatus,this.projectStatus).pipe(
+      timeout(60000)
+    ).subscribe(
       res => {
           console.log('Notificando feedback pendiente a provider',res);
+          feedbackProviderStatus.reminder=false;
           dialogRef.close();
       },
       err => {
