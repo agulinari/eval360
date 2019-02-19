@@ -23,11 +23,13 @@ public class NotificationReceiver {
 	
 	private final ReportService reportService;
 	private final ReportRepository repository;
+	private final NotificationSender notificationSender;
 	
 	@Autowired
-	public NotificationReceiver(final ReportService reportService, final ReportRepository repository) {
+	public NotificationReceiver(final ReportService reportService, final ReportRepository repository, final NotificationSender notificationSender) {
 		this.reportService = reportService;
 		this.repository = repository;
+		this.notificationSender = notificationSender;
 	}
 	
 
@@ -42,7 +44,9 @@ public class NotificationReceiver {
     		    
     	    Mono<ReportData> savedReport = reportData.flatMap(report-> {
     	    	return repository.save(report);
-    		}).doOnError(e->log.error(e.getMessage()));
+    		})
+    	    .doOnSuccess(report -> notificationSender.sendNotification(data))
+    	    .doOnError(e->log.error(e.getMessage()));
     	    
     	    savedReport.subscribe();
     	}	

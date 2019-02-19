@@ -55,22 +55,22 @@ compañeros, sus subordiandos y por usted mismo. Le ayudará a identificar las �
 <div id="greenbox">
 	<h5>Sus 5 fortalezas principales</h5>
 	<ol>
-		<li>[[${data.getStrengths().get(0)}]]</li>
-		<li>[[${data.getStrengths().get(1)}]]</li>
-		<li>[[${data.getStrengths().get(2)}]]</li>
-		<li>[[${data.getStrengths().get(3)}]]</li>
-		<li>[[${data.getStrengths().get(4)}]]</li>
+		<li>[[${data.getStrengths().size()>0 ? data.getStrengths().get(0) : "N/A"}]]</li>
+		<li>[[${data.getStrengths().size()>1 ? data.getStrengths().get(1) : "N/A"}]]</li>
+		<li>[[${data.getStrengths().size()>2 ? data.getStrengths().get(2) : "N/A"}]]</li>
+		<li>[[${data.getStrengths().size()>3 ? data.getStrengths().get(3) : "N/A"}]]</li>
+		<li>[[${data.getStrengths().size()>4 ? data.getStrengths().get(4) : "N/A"}]]</li>
 	</ol>
 </div>
 
 <div id="redbox">
 	<h5>Sus 5 &aacute;reas principales a mejorar</h5>
 	<ol>
-		<li>[[${data.getWeaknesses().get(0)}]]</li>
-		<li>[[${data.getWeaknesses().get(1)}]]</li>
-		<li>[[${data.getWeaknesses().get(2)}]]</li>
-		<li>[[${data.getWeaknesses().get(3)}]]</li>
-		<li>[[${data.getWeaknesses().get(4)}]]</li>
+		<li>[[${data.getWeaknesses().size()>0 ? data.getWeaknesses().get(0) : "N/A"}]]</li>
+		<li>[[${data.getWeaknesses().size()>1 ? data.getWeaknesses().get(1) : "N/A"}]]</li>
+		<li>[[${data.getWeaknesses().size()>2 ? data.getWeaknesses().get(2) : "N/A"}]]</li>
+		<li>[[${data.getWeaknesses().size()>3 ? data.getWeaknesses().get(3) : "N/A"}]]</li>
+		<li>[[${data.getWeaknesses().size()>4 ? data.getWeaknesses().get(4) : "N/A"}]]</li>
 	</ol>
 </div>
 

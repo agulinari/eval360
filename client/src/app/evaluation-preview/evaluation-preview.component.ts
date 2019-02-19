@@ -118,7 +118,8 @@ export class EvaluationPreviewComponent implements OnInit {
       title: null,
       description: null,
       itemType: null,
-      value: [null, Validators.required]
+      value: [null, Validators.required],
+      value1: null
     });
   }
 

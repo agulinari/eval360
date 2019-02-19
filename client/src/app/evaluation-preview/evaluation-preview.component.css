@@ -3,11 +3,10 @@
   }
 
   .item-panel{
-      border-radius: 25px;
-      border: 1px solid grey;
-      padding: 10px;
-      margin: 5px;
-  }
+    border-top: 1px dotted rgba(202, 202, 202, 0.3);
+    padding: 10px;
+    margin: 5px;
+}
   
   .shipping-card {
     min-width: 120px;

@@ -32,6 +32,7 @@ templates.url: http://templates-service/evaluationTemplates
  # Propiedades Kafka
 spring.kafka.bootstrap-servers: localhost:9092
 app.topic.notificationRV: notificationRV.t
+app.topic.notificationReport: notificationReport.t
 
 # Zipkin
 spring.zipkin.sender.type: kafka
