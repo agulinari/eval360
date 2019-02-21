@@ -40,6 +40,8 @@ h6 {
 	line-height:0px;
 }
 
+/* NUMERACION DE PAGINAS */
+
 div.footer {
     display: block; text-align: center;
     margin-left: 550px;
@@ -58,6 +60,16 @@ div.footer {
     counter-increment: page;
     content: counter(page);
 }
+
+/* ----- INDICE --------- */
+
+ol { 
+    counter-reset: section;
+    list-style-type: none;
+}
+		
+ol li { counter-increment: section; }
+ol li:before { content: counters(section, ".") ". "; }
 
 /*  ------ PAGE 1 ------- */
 
@@ -110,15 +122,15 @@ th, td {
 }
 
 
-#firstrow {
+.firstrow {
 	color: #e46c0a;
 }
 
-#secondrow {
+.secondrow {
 	color: #77933c;
 }
 
-#thirdrow {
+.thirdrow {
 	color: #604a7b;
 }
 

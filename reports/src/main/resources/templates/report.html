@@ -6,47 +6,17 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div class='footer' th:include="footer::footer"></div>
-<div id="main">
-	<div id="yourlogohere">
-		<p>Your logo here</p>
-	</div>
-	<div id="imagen">
-		<img src="imgs/3personas.png" alt="3 personas">
-	</div>
-	<div id="titulo">
-		<h1> [[${data.getUsername()}]]</h1>
-		<h3>Su informe de desempeño y plan de desarrollo personal</h3>
-		<h6>Febrero 2019</h6>
-	</div>
-
-<table>
-  <tr id="firstrow">
-    <td><div id="cubo1"></div>Sus resultados</td>
-    <td>P&aacute;ginas 2-5</td>
-  </tr>
-  <tr id="secondrow">
-    <td><div id="cubo2"></div>Su plan de desarrollo personal</td>
-    <td>P&aacute;ginas 6-7</td>
-  </tr>
-  <tr id="thirdrow">
-    <td><div id="cubo3"></div>Ap&eacute;ndice: Resultados detallados</td>
-    <td>P&aacute;ginas 8-16</td>
-  </tr>
-</table>
-
-
-</div>
+<div th:include="index::index"></div>
 
 <div class="next-page">
-
+<div class='footer' th:include="footer::footer"></div>
 <div class="page">
 
-<h2>Sus resultados</h2>
+<h2 id="susResultados">Sus resultados</h2>
 <p>Este res&uacute;men re&uacute;ne el feedback proporcionado sobre su desempeño por parte de su gerente de línea, sus
 compañeros, sus subordiandos y por usted mismo. Le ayudará a identificar las áreas que se desean mejorar y establecer su plan de desarrollo personal.</p>
 
-<h3>Resumen de las principales fortalezas y &aacute;reas a mejorar.</h3>
+<h3 id="resumenFortAreasMejora">Resumen de las principales fortalezas y &aacute;reas a mejorar.</h3>
 
 <p>Sus principales fortalezas y áreas para mejorar se enumeran a continuación. Se proporcionó feedback para 30 áreas diferentes. Usted puede encontrar la lista completa de áreas en la siguiente página.</p>
 
@@ -108,7 +78,7 @@ compañeros, sus subordiandos y por usted mismo. Le ayudará a identificar las �
 <!-- start page 3 -->
 
 <div class="page">
-  <h3>Tus principales áreas a mejorar</h3>
+  <h3 id="areasPrincipalesMejora">Tus principales áreas a mejorar</h3>
   <p>Todas las áreas en las que fuiste evaluado se muestran a continuación. Están ordenadas según el promedio de mejora que los demás esperan de usted.</p>
 
 
@@ -293,7 +263,7 @@ compañeros, sus subordiandos y por usted mismo. Le ayudará a identificar las �
 <div class="next-page">
 
 <div class="page">
-	<h3>Comparasión de vistas</h3>
+	<h3 id="comparaVistas">Comparación de vistas</h3>
 	<p>Usando la tabla a continuación, puede ver si las personas estuvieron de acuerdo con la cantidad promedio de mejora deseada. Vea los resultados detallados (páginas 8-16) para revisar sus respuestas con más detalle.</p>
 
 
@@ -605,7 +575,7 @@ compañeros, sus subordiandos y por usted mismo. Le ayudará a identificar las �
 
 <div class="page5">
 
-<h3>Su plan de desarrollo personal</h3>
+<h3 id="planDesarrolloPersonal">Su plan de desarrollo personal</h3>
 
 <p>Este plan de desarrollo personal es para que lo complete, ya sea por su cuenta o con su jefe / gerente. Se recomienda que se centre en 3-5 áreas para mejorar:</p>
 
@@ -677,7 +647,7 @@ compañeros, sus subordiandos y por usted mismo. Le ayudará a identificar las �
 
 <th:block th:each="section : ${data.getDetailedResults()}">
 <div class="page8">
-<h3 th:text="${section.getName()}">Section Name</h3>
+<h3 id="resultadosDetallados" th:text="${section.getName()}">Section Name</h3>
 
 <table class="tablepage8">
  <tr class="firsttablerow">

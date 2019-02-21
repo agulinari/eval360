@@ -1,0 +1,31 @@
+<div th:fragment="index">
+
+<div id="imagen">
+	<img src="imgs/3personas.png" alt="3 personas">
+</div>
+<div id="titulo">
+	<h1> [[${data.getUsername()}]]</h1>
+	<h3>Su informe de desempeño y plan de desarrollo personal</h3>
+	<h6>Febrero 2019</h6>
+</div>
+
+<ol>
+<li id="firstrow" class="firstrow">
+<div id="cubo1"></div>
+<a href="#susResultados" class="firstrow">Sus resultados</a>
+	<ol>
+	    <li><a href="#resumenFortAreasMejora" class="firstrow">Resumen de las principales fortalezas y &aacute;reas a mejorar</li>
+    	<li><a href="#areasPrincipalesMejora" class="firstrow">Tus principales &aacute;reas a mejorar</a></li>
+    	<li><a href="#comparaVistas" class="firstrow">Comparaci&oacute;n de vistas</a></li>
+    </ol>
+</li>
+<li id="secondrow" class="secondrow">
+<div id="cubo2"></div>
+<a href="#planDesarrolloPersonal" class="secondrow">Plan de desarrollo personal</a>
+</li>
+<li id="thirdrow" class="thirdrow">
+<div id="cubo3"></div>
+<a href="#resultadosDetallados" class="thirdtrow">Ap&eacute;ndice: Resultados detallados</a>
+</li>
+</ol>
+</div>
