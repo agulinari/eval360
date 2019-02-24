@@ -1,9 +1,11 @@
 package com.gire.eval360.reports.domain;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +23,8 @@ public class ReportData {
 	
 	@Id
 	private String id;
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	private LocalDate date;
 	private Long idProject;
 	private Long idEvaluee;
 	private String username;
@@ -32,6 +36,5 @@ public class ReportData {
 	private List<AreaToImprove> areasToImprove;
 	private List<Comment> comments;
 	private List<Section> detailedResults;
-	
-	
+
 }

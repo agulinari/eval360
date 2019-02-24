@@ -887,6 +887,24 @@ table   {
 }
 
 
+.page7{
+	/*width: 680px;
+	height: 800px;*/
+	/*background-color: orange;*/
+	margin:0 auto;
+	padding: 30px 30px;
+	line-height: 16px;
+	clear:both;
+
+}
+
+.page7 p{
+	font-size: 12px;
+}
+
+.page7 h2 {
+	color: #62497a;
+}
 
 /* PAGE 8 */
 
