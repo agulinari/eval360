@@ -1,6 +1,7 @@
 package com.gire.eval360.reports.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,6 +57,7 @@ public class ReportServiceImpl implements ReportService {
 	private ReportData createReport(Long idProject, Long idEvaluee, EvaluationTemplate template, List<Evaluation> evaluations) {
 		
 		String username = (!evaluations.isEmpty()) ? evaluations.get(0).getUsername() : "User";
+		LocalDate date = LocalDate.now();
 		Integer managers = countRelationship(evaluations, "Jefe");
 		Integer peers = countRelationship(evaluations, "Par");
 		Integer directReports = countRelationship(evaluations, "Subordinado");
@@ -68,6 +70,7 @@ public class ReportServiceImpl implements ReportService {
 		ReportData report = ReportData.builder()
 									  .idProject(idProject)
 									  .idEvaluee(idEvaluee)
+									  .date(date)
 									  .username(username)
 									  .managers(managers)
 									  .peers(peers)
