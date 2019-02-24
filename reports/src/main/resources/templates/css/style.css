@@ -432,7 +432,7 @@ th, td {
 
 .containertable2 {
 	width: 100%;
-	height: auto; /*ojo es mas largo que la pagina anterior!! */
+	height: 0px; /*ojo es mas largo que la pagina anterior!! */
 	/*float:left;*/
 }
 
@@ -684,31 +684,10 @@ th, td {
 
 /* PROGRESS BAR */
 .progressbar{
-	height: 20px;
+	height: 10px;
 	background-color: #8ec1e4;
 }
 
-progress[value] {
-  /* Reset the default appearance */
-	-webkit-appearance: none;
-	appearance: none;
-
-	width: 162px;
-	height: 15px;
-}
-
-progress[value]::-webkit-progress-bar {
-	background-color: rgba(0,0,0,0);
-/*background-color: #eee;
-  border-radius: 2px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;*/
-}
-
-progress[value]::-webkit-progress-value {
-	background-color: #8ec1e4;
-    border-radius: 2px; 
-    background-size: 35px 20px, 100% 100%, 100% 100%;
-}
 
 
 .tdarea {
@@ -723,7 +702,7 @@ progress[value]::-webkit-progress-value {
 	background-color: #ebf1de;
 	color: #c5c883;
 	text-align: center;
-	padding: 2px 5px;
+	padding: 0px 0px;
 	width: 89px;
 }
 
@@ -731,7 +710,7 @@ progress[value]::-webkit-progress-value {
 	background-color: #fdeada;
 	color: #f79965;
 	text-align: center;
-	padding: 2px 5px;
+	padding: 0px 0px;
 	width: 89px;
 }
 
@@ -739,7 +718,7 @@ progress[value]::-webkit-progress-value {
 	background-color: #f2dcdb;
 	color: #cb6f6d;
 	text-align: center;
-	padding: 2px 5px;
+	padding: 0px 0px;
 	width: 89px;
 }
 
