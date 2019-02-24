@@ -45,6 +45,7 @@ h6 {
 div.footer {
     display: block; text-align: center;
     margin-left: 550px;
+    counter-reset: page;
     position: running(footer);
 }
 
@@ -62,15 +63,16 @@ div.footer {
 }
 
 /* ----- INDICE --------- */
-
+/*
 ol { 
     counter-reset: section;
     list-style-type: none;
 }
-		
+*/
+/*		
 ol li { counter-increment: section; }
 ol li:before { content: counters(section, ".") ". "; }
-
+*/
 /*  ------ PAGE 1 ------- */
 
 #page1 {
