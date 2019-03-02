@@ -1,3 +1,5 @@
+spring.profiles.include: default
+
 #Propiedades H2
 spring:
   h2:
@@ -26,34 +28,6 @@ eureka:
     leaseExpirationDurationInSeconds: 90
     instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     metadataMap.instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}  
-      
-#Propiedades JWT
-jwt:
-   header: Authorization
-   secret: mySecret
-   expiration: 604800
-   route:
-     authentication:
-       path: /auth
-       refresh: /refresh
-       
        
 # Propiedades Kafka
 spring.kafka.bootstrap-servers: localhost:9092
-
-# Zipkin
-spring.zipkin.sender.type: kafka
-
-# Logging
-logging.level:
-  root: ERROR
-  org.springframework.web: ERROR
-  com.gire.eval360.users: DEBUG
-
-# Actuator
-management:
-  endpoints:
-    web.exposure.include:*
-    jmx.exposure.exclude:*
-  security: false
-       

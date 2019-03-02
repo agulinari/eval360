@@ -1,0 +1,24 @@
+server:
+  port: 0
+
+spring.profiles.include: default
+
+#Propiedades Eureka
+eureka:
+  client:
+    service-url:
+      default-zone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddess: true
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 90
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    metadataMap.instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}  
+  
+#Propiedades de MongoDb
+
+#Project service
+projects.url: http://projects-service/projects
+ 
+ # Propiedades Kafka
+spring.kafka.bootstrap-servers: localhost:9092

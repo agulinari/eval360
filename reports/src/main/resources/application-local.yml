@@ -1,3 +1,5 @@
+spring.profiles.include: default
+
 server:
   port: 0
 
@@ -13,16 +15,6 @@ eureka:
     instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     metadataMap.instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}  
   
-#Propiedades de JWT
-jwt:
-   header: Authorization
-   secret: mySecret
-   expiration: 86400
-   route:
-     authentication:
-       path: /auth
-       refresh: /refresh
- 
 #Propiedades Servicios
 projects.url: http://projects-service/projects
 users.url: http://auth-service/users
@@ -37,14 +29,3 @@ app.topic.notificationReport: notificationReport.t
 # Zipkin
 spring.zipkin.sender.type: kafka
 
-# Logging
-logging.level:
-  root: ERROR
-  org.springframework.web: ERROR
-  com.gire.eval360.reports: DEBUG
-
-# Actuator
-management:
-  endpoints:
-    web.exposure.include:*
-    jmx.exposure.exclude:*

@@ -1,3 +1,4 @@
+spring.profiles.include: default
 
 server:
   port: 0
@@ -14,25 +15,21 @@ eureka:
     instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     metadataMap.instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}  
   
-#Propiedades de MongoDb
+#Propiedades de H2
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings.web-allow-others: true
 
-#Project service
-projects.url: http://projects-service/projects
- 
- # Propiedades Kafka
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        type: trace
+
+# Propiedades Kafka
 spring.kafka.bootstrap-servers: localhost:9092
 
-# Zipkin
-spring.zipkin.sender.type: kafka
-
-# Logging
-logging.level:
-  root: INFO
-  org.springframework.web: INFO
-  com.gire.eval360.evaluations: DEBUG
-
-# Actuator
-management:
-  endpoints:
-    web.exposure.include:*
-    jmx.exposure.exclude:*
+        

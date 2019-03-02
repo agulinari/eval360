@@ -1,0 +1,16 @@
+spring.profiles.active: local
+
+# Zipkin
+spring.zipkin.sender.type: kafka
+
+# Logging
+logging.level:
+  root: INFO
+  org.springframework.web: INFO
+  com.gire.eval360.evaluations: DEBUG
+
+# Actuator
+management:
+  endpoints:
+    web.exposure.include:*
+    jmx.exposure.exclude:*

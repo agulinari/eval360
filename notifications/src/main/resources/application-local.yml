@@ -1,0 +1,27 @@
+spring.profiles.include: default
+
+server:
+  port: 0
+
+#Propiedades Eureka
+eureka:
+  client:
+    service-url:
+      default-zone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddess: true
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 90
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    metadataMap.instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}  
+  
+ 
+ # Propiedades Kafka
+spring.kafka.bootstrap-servers: localhost:9092
+app.topic.notificationFP: notificationFP.t
+app.topic.notificationReport: notificationReport.t
+
+    
+#Propiedades Servicio Users, Evaluations
+users.url: http://AUTH-SERVICE/users
+evaluations.url: http://evaluations/evaluations
