@@ -21,4 +21,5 @@
 	<module>notifications</module>
 	<module>reports</module>
   </modules>
+  
 </project>
