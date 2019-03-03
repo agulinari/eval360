@@ -13,5 +13,6 @@
   
   <modules>
 	<module>service-registry</module>
+	<module>users</module>
   </modules>
 </project>
