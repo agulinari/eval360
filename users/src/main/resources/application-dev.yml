@@ -3,6 +3,13 @@ spring.profiles.include: default
 server:
   port: 8080
 
+#Propiedades de JPA
+spring.jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        type: trace
+
 #Propiedades Postgresql
 spring.datasource:
   driverClassName: org.postgresql.Driver
