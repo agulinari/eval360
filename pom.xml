@@ -13,6 +13,12 @@
   
   <modules>
 	<module>service-registry</module>
+	<module>api-gateway</module>
 	<module>users</module>
+	<module>projects</module>
+	<module>templates</module>
+	<module>evaluations</module>
+	<module>notifications</module>
+	<module>reports</module>
   </modules>
 </project>

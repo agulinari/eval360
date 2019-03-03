@@ -1,0 +1,25 @@
+spring.profiles.include: default
+
+server:
+  port: 8080
+
+#Propiedades Eureka
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL}/eureka/
+  instance:
+    hostname: ${APP_NAME}.herokuapp.com
+    nonSecurePort: 80
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 90
+ 
+ # Propiedades Kafka
+spring.kafka.bootstrap-servers: localhost:9092
+app.topic.notificationFP: notificationFP.t
+app.topic.notificationReport: notificationReport.t
+
+    
+#Propiedades Servicio Users, Evaluations
+users.url: http://AUTH-SERVICE/users
+evaluations.url: http://evaluations/evaluations
