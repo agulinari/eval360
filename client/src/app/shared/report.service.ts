@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ReportService {
 
-  public API = '//localhost:8762';
+  public API = '//zuul-360.herokuapp.com';
   public REPORTS_API = this.API + '/reports';
 
   constructor(private http: HttpClient) {

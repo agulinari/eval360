@@ -17,7 +17,10 @@ eureka:
   
  
  # Propiedades Kafka
+spring.kafka.sslEnabled: false
+spring.kafka.properties.sasl.jaas.config: 
 spring.kafka.bootstrap-servers: localhost:9092
+spring.kafka.consumer.group-id: json
 app.topic.notificationFP: notificationFP.t
 app.topic.notificationReport: notificationReport.t
 

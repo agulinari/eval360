@@ -9,7 +9,7 @@ import * as jwt_decode from 'jwt-decode';
 
 @Injectable()
 export class AuthenticationService {
-  private authUrl = 'http://localhost:8762/auth';
+  private authUrl = 'http://zuul-360.herokuapp.com/auth';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient) {

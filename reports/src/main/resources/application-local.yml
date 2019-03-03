@@ -22,7 +22,10 @@ evaluations.url: http://evaluations-service/evaluations
 templates.url: http://templates-service/evaluationTemplates
 
  # Propiedades Kafka
+spring.kafka.sslEnabled: false
+spring.kafka.properties.sasl.jaas.config: 
 spring.kafka.bootstrap-servers: localhost:9092
+spring.kafka.consumer.group-id: reports
 app.topic.notificationRV: notificationRV.t
 app.topic.notificationReport: notificationReport.t
 

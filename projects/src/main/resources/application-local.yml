@@ -36,6 +36,8 @@ spring:
         type: trace
 
  # Propiedades Kafka
+spring.kafka.sslEnabled: false
+spring.kafka.properties.sasl.jaas.config: 
 spring.kafka.bootstrap-servers: localhost:9092
 app.topic.notificationFP: notificationFP.t
 app.topic.notificationRV: notificationRV.t

@@ -22,7 +22,13 @@ public class KafkaConfiguration {
 
 	@Value("${spring.kafka.bootstrap-servers}")
 	private String bootstrapServers;
-
+	
+    @Value("${spring.kafka.properties.sasl.jaas.config}")
+    private String saslConfig;
+    
+    @Value("${spring.kafka.sslEnabled}")
+    private boolean sslEnabled;
+    
 	@Bean
 	public Map<String, Object> producerConfig() {
 
@@ -31,7 +37,11 @@ public class KafkaConfiguration {
 		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 		props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
-
+        if (sslEnabled) {
+            props.put("security.protocol", "SASL_SSL");
+            props.put("sasl.mechanism", "SCRAM-SHA-256");
+            props.put("sasl.jaas.config", saslConfig);
+        }
 		return props;
 	}
 

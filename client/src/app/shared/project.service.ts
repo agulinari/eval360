@@ -16,7 +16,7 @@ import { CompletedEvaluee } from '../domain/evaluation-list/completed-evaluee';
 })
 export class ProjectService {
 
-  public API = '//localhost:8762';
+  public API = '//zuul-360.herokuapp.com';
   public PROJECTS_API = this.API + '/projects';
 
   constructor(private http: HttpClient) {

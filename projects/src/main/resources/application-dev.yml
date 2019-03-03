@@ -35,9 +35,13 @@ spring:
         type: trace
 
  # Propiedades Kafka
-spring.kafka.bootstrap-servers: localhost:9092
-app.topic.notificationFP: notificationFP.t
-app.topic.notificationRV: notificationRV.t
+spring.kafka.sslEnabled: true
+spring.kafka.bootstrap-servers: ${CLOUDKARAFKA_BROKERS}
+spring.kafka.properties.security.protocol: SASL_SSL
+spring.kafka.properties.sasl.mechanism: SCRAM-SHA-256
+spring.kafka.properties.sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${CLOUDKARAFKA_USERNAME}" password="${CLOUDKARAFKA_PASSWORD}";
+app.topic.notificationFP: ${CLOUDKARAFKA_USERNAME}-notificationFP.t
+app.topic.notificationReport: ${CLOUDKARAFKA_USERNAME}-notificationReport.t
 
 #Propiedades Servicio Users
 users.url: http://AUTH-SERVICE/users
