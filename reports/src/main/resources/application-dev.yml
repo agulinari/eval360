@@ -20,6 +20,11 @@ users.url: http://auth-service/users
 evaluations.url: http://evaluations-service/evaluations
 templates.url: http://templates-service/evaluationTemplates
 
+
+#Propiedades de MongoDb
+mongodb.dbname: heroku_d3qmdj3z
+spring.data.mongodb.uri: mongodb://heroku_d3qmdj3z:c041p6ipfudccu1go1rsv4h26j@ds147344.mlab.com:47344/heroku_d3qmdj3z
+
  # Propiedades Kafka
 spring.kafka.sslEnabled: true
 spring.kafka.bootstrap-servers: ${CLOUDKARAFKA_BROKERS}

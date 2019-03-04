@@ -13,10 +13,13 @@ public class MongoConfiguration extends AbstractReactiveMongoConfiguration {
 	
 	@Value("${mongodb.dbname}")
 	private String databaseName;
+	
+	@Value("${spring.data.mongodb.uri}")
+	private String mongoUri;
 
 	@Override
 	public MongoClient reactiveMongoClient() {
-		return MongoClients.create();
+		return MongoClients.create(mongoUri);
 	}
 
 	@Override

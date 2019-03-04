@@ -21,6 +21,11 @@ users.url: http://auth-service/users
 evaluations.url: http://evaluations-service/evaluations
 templates.url: http://templates-service/evaluationTemplates
 
+#Propiedades de MongoDb
+mongodb.dbname: reports
+spring.data.mongodb.uri: mongodb://localhost:27017/reports
+
+
  # Propiedades Kafka
 spring.kafka.sslEnabled: false
 spring.kafka.properties.sasl.jaas.config: 
