@@ -15,6 +15,8 @@ eureka:
     leaseExpirationDurationInSeconds: 90
   
 #Propiedades de MongoDb
+mongodb.dbname: heroku_84q7w3sl
+spring.data.mongodb.uri: mongodb://heroku_84q7w3sl:scjobarsvf2136fh81svt3efbs@ds023445.mlab.com:23445/heroku_84q7w3sl
 
 #Project service
 projects.url: http://projects-service/projects

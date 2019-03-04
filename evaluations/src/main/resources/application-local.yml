@@ -16,6 +16,7 @@ eureka:
     metadataMap.instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}  
   
 #Propiedades de MongoDb
+mongodb.dbname: evaluations
 
 #Project service
 projects.url: http://projects-service/projects

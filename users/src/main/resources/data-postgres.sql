@@ -1,12 +1,12 @@
-INSERT INTO "user" (ID, USERNAME, PASSWORD, MAIL, ENABLED, LASTPASSWORDRESETDATE, CREATED_DATE) VALUES (1, 'admin', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', 'sivori.daniel@gmail.com',  true, to_date('01-01-2016', 'dd-MM-yyyy'), to_date('01-01-2016', 'dd-MM-yyyy'));
-INSERT INTO "user" (ID, USERNAME, PASSWORD, MAIL, ENABLED, LASTPASSWORDRESETDATE, CREATED_DATE) VALUES (2, 'user', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC', 'daniel_sivori@yahoo.com.ar',  true, to_date('01-01-2016','dd-MM-yyyy'), to_date('01-01-2016', 'dd-MM-yyyy'));
-INSERT INTO "user" (ID, USERNAME, PASSWORD, MAIL, ENABLED, LASTPASSWORDRESETDATE, CREATED_DATE) VALUES (3, 'disabled', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC', 'sivori.daniel@gmail.com', false, to_date('01-01-2016','dd-MM-yyyy'), to_date('01-01-2016', 'dd-MM-yyyy'));
-INSERT INTO "user" (ID, USERNAME, PASSWORD, MAIL, ENABLED, LASTPASSWORDRESETDATE, CREATED_DATE) VALUES (4, 'alinari', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', 'agustinlinari@gmail.com',  true, to_date('01-01-2016', 'dd-MM-yyyy'), to_date('01-01-2016', 'dd-MM-yyyy'));
-INSERT INTO "user" (ID, USERNAME, PASSWORD, MAIL, ENABLED, LASTPASSWORDRESETDATE, CREATED_DATE) VALUES (5, 'psivori', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', 'sivori.daniel@gmail.com',  true, to_date('01-01-2016', 'dd-MM-yyyy'), to_date('01-01-2016', 'dd-MM-yyyy'));
+INSERT INTO "user" (USERNAME, PASSWORD, MAIL, ENABLED, LASTPASSWORDRESETDATE, CREATED_DATE) VALUES ('admin', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', 'sivori.daniel@gmail.com',  true, to_date('01-01-2016', 'dd-MM-yyyy'), to_date('01-01-2016', 'dd-MM-yyyy'));
+INSERT INTO "user" (USERNAME, PASSWORD, MAIL, ENABLED, LASTPASSWORDRESETDATE, CREATED_DATE) VALUES ('user', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC', 'daniel_sivori@yahoo.com.ar',  true, to_date('01-01-2016','dd-MM-yyyy'), to_date('01-01-2016', 'dd-MM-yyyy'));
+INSERT INTO "user" (USERNAME, PASSWORD, MAIL, ENABLED, LASTPASSWORDRESETDATE, CREATED_DATE) VALUES ('disabled', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC', 'sivori.daniel@gmail.com', false, to_date('01-01-2016','dd-MM-yyyy'), to_date('01-01-2016', 'dd-MM-yyyy'));
+INSERT INTO "user" (USERNAME, PASSWORD, MAIL, ENABLED, LASTPASSWORDRESETDATE, CREATED_DATE) VALUES ('alinari', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', 'agustinlinari@gmail.com',  true, to_date('01-01-2016', 'dd-MM-yyyy'), to_date('01-01-2016', 'dd-MM-yyyy'));
+INSERT INTO "user" (USERNAME, PASSWORD, MAIL, ENABLED, LASTPASSWORDRESETDATE, CREATED_DATE) VALUES ('psivori', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', 'sivori.daniel@gmail.com',  true, to_date('01-01-2016', 'dd-MM-yyyy'), to_date('01-01-2016', 'dd-MM-yyyy'));
 
 
-INSERT INTO AUTHORITY (ID, NAME, CREATED_DATE) VALUES (1, 'ROLE_USER', to_date('01-01-2016', 'dd-MM-yyyy'));
-INSERT INTO AUTHORITY (ID, NAME, CREATED_DATE) VALUES (2, 'ROLE_ADMIN', to_date('01-01-2016', 'dd-MM-yyyy'));
+INSERT INTO AUTHORITY (NAME, CREATED_DATE) VALUES ('ROLE_USER', to_date('01-01-2016', 'dd-MM-yyyy'));
+INSERT INTO AUTHORITY (NAME, CREATED_DATE) VALUES ('ROLE_ADMIN', to_date('01-01-2016', 'dd-MM-yyyy'));
  
 INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_ID) VALUES (1, 1);
 INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_ID) VALUES (1, 2);
