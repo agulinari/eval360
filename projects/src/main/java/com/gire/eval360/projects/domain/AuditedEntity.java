@@ -1,6 +1,5 @@
 package com.gire.eval360.projects.domain;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -19,10 +18,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @MappedSuperclass
 @Data
 @EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(of = {"id"})
 @JsonIgnoreProperties({"createdDate","modifiedDate","modifiedBy","createdBy","hibernateLazyInitializer" , "handler"})
 public abstract class AuditedEntity {
 

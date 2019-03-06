@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import javax.mail.MessagingException;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class EmailServiceTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testSendEmail() {
 		UserResponse user = new UserResponse("sivori.daniel","daniel_sivori@yahoo.com.ar", true);
 		Context context = new Context();

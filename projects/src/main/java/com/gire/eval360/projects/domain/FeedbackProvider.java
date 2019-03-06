@@ -17,11 +17,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @NoArgsConstructor
+@ToString(exclude = {"evaluees"}) 
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(of= {}, callSuper = true)
 public class FeedbackProvider extends ProjectMember{
 	
 	

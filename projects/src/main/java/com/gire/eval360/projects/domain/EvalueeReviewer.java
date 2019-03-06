@@ -13,12 +13,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
+@EqualsAndHashCode(of= {"id"})
 public class EvalueeReviewer {
 
 	@Id

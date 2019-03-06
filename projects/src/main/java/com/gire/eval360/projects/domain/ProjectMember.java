@@ -14,7 +14,7 @@ import lombok.NonNull;
 @Data
 @MappedSuperclass
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(of= {}, callSuper = true)
 public abstract class ProjectMember extends AuditedEntity{
 			
 	@Column
