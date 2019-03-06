@@ -1,8 +1,11 @@
 package com.gire.eval360.projects.service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,8 +16,12 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gire.eval360.projects.domain.EvaluationStatus;
 import com.gire.eval360.projects.domain.Evaluee;
@@ -43,11 +50,13 @@ import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
 import com.gire.eval360.projects.domain.request.CreateReviewer;
 import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
+import com.gire.eval360.projects.domain.request.validator.HeaderSheetValidation;
 import com.gire.eval360.projects.repository.EvalueeFeedbackProviderRepository;
 import com.gire.eval360.projects.repository.ProjectRepository;
 import com.gire.eval360.projects.service.remote.UserServiceRemote;
 import com.gire.eval360.projects.service.remote.dto.users.UserResponse;
 
+import fj.data.Validation;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -609,6 +618,52 @@ public class ProjectServiceImpl implements ProjectService{
 													  .username(user.getUsername())
 													  .build();
 		return completedEvaluee;
+	}
+	
+	@Override
+	public List<String> processExcelSheet(MultipartFile multipartFile){
+		try {
+			InputStream stream = multipartFile.getInputStream();
+			XSSFWorkbook workbook = new XSSFWorkbook(stream);
+			XSSFSheet sheet = workbook.getSheetAt(0);  /// this will read 1st workbook of ExcelSheet
+			processSheet(sheet);
+		} catch (IOException e) {
+			
+		}
+		
+		return Collections.emptyList();
+	}
+
+	private void processSheet(XSSFSheet sheet) {
+		int lastRowNum = sheet.getLastRowNum();
+		List<String> errors = new LinkedList<String>();
+		
+		if(lastRowNum<6) {
+			errors.add("El excel no tiene la cantidad de filas necesarias para dar de alta el proyecto.");
+		}else {		
+			//Verifico que el encabezado del proyecto venga correctamente
+			processSheetHeader(sheet,errors);
+			//Verifico que los usuarios vengan con la info correcta
+			for (int i=6; i<=sheet.getLastRowNum();i++) {
+				Row row = sheet.getRow(i);
+				processRowUser(row,errors);
+			}
+		}
+		
+	}
+
+	private void processSheetHeader(XSSFSheet sheet, List<String> errors) {
+		String nameProject = sheet.getRow(0).getCell(1).getStringCellValue();
+		String descrProyecto = sheet.getRow(1).getCell(1).getStringCellValue();
+		String nameTemplate = sheet.getRow(2).getCell(1).getStringCellValue();
+		String evaluee = sheet.getRow(3).getCell(1).getStringCellValue();
+		
+		HeaderSheetValidation.fieldIsNotBlank("Nombre de proyecto no puede ser vacio o nulo").apply(nameProject);
+		
+	}
+
+	private void processRowUser(Row user, List<String> errors) {
+				
 	}
 
 }

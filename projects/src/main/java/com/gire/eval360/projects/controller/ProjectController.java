@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gire.eval360.projects.domain.Evaluee;
 import com.gire.eval360.projects.domain.dto.CompletedEvaluee;
 import com.gire.eval360.projects.domain.dto.PendingEvaluee;
+import com.gire.eval360.projects.domain.dto.ProjectResponse;
 import com.gire.eval360.projects.domain.dto.ProjectStatus;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
@@ -84,4 +86,10 @@ public class ProjectController {
 		return this.projectService.getCompletedEvalueesForUser(id, idReviewer);
 	}
 
+	@PostMapping("/file/upload")
+    public ResponseEntity<ProjectResponse> processExcelSheet(@RequestBody MultipartFile multipartFile) {
+        List<String> result = this.projectService.processExcelSheet(multipartFile);
+        return (result.size()==1)?ResponseEntity.ok().body(ProjectResponse.builder().messages(result).build()):
+        						  ResponseEntity.badRequest().body(ProjectResponse.builder().messages(result).build());
+    }
 }
