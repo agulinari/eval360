@@ -28,16 +28,16 @@
                     <img class="avatar" src="/assets/images/avatar.png" alt="{{evaluee.idUser}}">
                      {{evaluee.username}}
                   </div>
-                  <div fxFlex="10%">
+                  <div fxFlex="10%"  fxLayoutAlign="center center">
                       {{evaluee.status}}
                   </div>
-                  <div fxFlex="10%">
+                  <div fxFlex="10%"  fxLayoutAlign="center center">
                       {{evaluee.pendingFeedbacks}}
                   </div>
-                  <div fxFlex="10%">
+                  <div fxFlex="10%"  fxLayoutAlign="center center">
                       {{evaluee.completedFeedbacks}}
                   </div>
-                  <div fxFlex="20%">
+                  <div fxFlex="20%"  fxLayoutAlign="center center">
                       <mat-progress-bar mode="determinate" [value]="0"></mat-progress-bar>
                   </div>
               </div>
@@ -61,19 +61,19 @@
                         <img class="avatar" src="/assets/images/avatar.png" alt="{{fp.idUser}}">
                             {{fp.username}}
                         </div>
-                        <div fxFlex="10%">
+                        <div fxFlex="10%" fxLayoutAlign="center center">
                             {{fp.status}}
                         </div>
-                        <div fxFlex="10%">
+                        <div fxFlex="10%" fxLayoutAlign="center center">
                             {{fp.pendingFeedbacks}}
                         </div>
-                        <div fxFlex="10%">
+                        <div fxFlex="10%" fxLayoutAlign="center center">
                             {{fp.completedFeedbacks}}
                         </div>
-                        <div fxFlex="20%">
+                        <div fxFlex="20%" fxLayoutAlign="center center">
                             <mat-progress-bar mode="determinate" [value]="fp.progress"></mat-progress-bar>
                         </div>
-                        <div fxFlex="20%" fxLayoutAlign="center">
+                        <div fxFlex="20%" fxLayoutAlign="center center">
                             <button mat-icon-button  *ngIf="recordarFeedback" [disabled]="!fp.reminder" (click)="notificateFeedback(fp)">
                                 <mat-icon *ngIf="fp.reminder">mail</mat-icon>
                                 <mat-icon *ngIf="!fp.reminder">done</mat-icon>
@@ -113,7 +113,7 @@
                         <img class="avatar" src="/assets/images/avatar.png" alt="{{admin.idUser}}">
                         {{admin.username}}
                     </div>
-                    <div fxFlex="10%">
+                    <div fxFlex="10%"  fxLayoutAlign="center center"> 
                         {{admin.creator}}
                     </div>
                 </div>
