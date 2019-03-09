@@ -47,7 +47,8 @@ import { EvaluationListComponent } from './evaluation-list/evaluation-list.compo
 import { EvaluationPreviewComponent } from './evaluation-preview/evaluation-preview.component';
 import { ReportService } from './shared/report.service';
 import { WaitingDialogComponent } from './dialog/waiting-dialog.component';
-import { NotificationService } from './shared/notification.service'
+import { NotificationService } from './shared/notification.service';
+import { StatisticsListComponent } from './statistics-list/statistics-list.component';
 
 
 @NgModule({
@@ -73,7 +74,8 @@ import { NotificationService } from './shared/notification.service'
     DashboardComponent,
     ProjectStatusComponent,
     EvaluationComponent,
-    EvaluationListComponent
+    EvaluationListComponent,
+    StatisticsListComponent
   ],
   imports: [
     BrowserModule,

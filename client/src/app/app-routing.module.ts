@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { UserListComponent } from './user-list/user-list.component';
+import { StatisticsListComponent } from './statistics-list/statistics-list.component';
 import { RoleGuardService } from './role-guard.service';
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { TemplateEditComponent } from './template-edit/template-edit.component';
@@ -125,6 +126,14 @@ const appRoutes: Routes = [
         canActivate: [RoleGuardService],
         data: {
           expectedRoles: ['ROLE_USER']
+        }
+      },
+      {
+        path: 'statistics-list',
+        component: StatisticsListComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRoles: ['ROLE_ADMIN']
         }
       }
     ]
