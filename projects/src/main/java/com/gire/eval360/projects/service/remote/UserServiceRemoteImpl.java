@@ -21,4 +21,10 @@ public class UserServiceRemoteImpl implements UserServiceRemote {
 		ResponseEntity<UserResponse> call = this.restTemplate.getForEntity("/"+idUser, UserResponse.class);
 		return call.getBody();
 	}
+	
+	@Override
+	public UserResponse getUserByUsername(String username) {
+		ResponseEntity<UserResponse> call = this.restTemplate.getForEntity("/"+username, UserResponse.class);
+		return call.getBody();
+	}
 }

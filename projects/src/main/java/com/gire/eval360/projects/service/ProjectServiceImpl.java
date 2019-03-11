@@ -50,13 +50,11 @@ import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
 import com.gire.eval360.projects.domain.request.CreateReviewer;
 import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
-import com.gire.eval360.projects.domain.request.validator.HeaderSheetValidation;
 import com.gire.eval360.projects.repository.EvalueeFeedbackProviderRepository;
 import com.gire.eval360.projects.repository.ProjectRepository;
 import com.gire.eval360.projects.service.remote.UserServiceRemote;
 import com.gire.eval360.projects.service.remote.dto.users.UserResponse;
 
-import fj.data.Validation;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -658,7 +656,7 @@ public class ProjectServiceImpl implements ProjectService{
 		String nameTemplate = sheet.getRow(2).getCell(1).getStringCellValue();
 		String evaluee = sheet.getRow(3).getCell(1).getStringCellValue();
 		
-		HeaderSheetValidation.fieldIsNotBlank("Nombre de proyecto no puede ser vacio o nulo").apply(nameProject);
+//		HeaderSheetValidator.fieldIsNotBlank("Nombre de proyecto no puede ser vacio o nulo").apply(nameProject);
 		
 	}
 
