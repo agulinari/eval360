@@ -3,4 +3,23 @@
   <groupId>eval360</groupId>
   <artifactId>eval360</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <parent>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-parent</artifactId>
+	<version>2.0.6.RELEASE</version>
+	<relativePath/> <!-- lookup parent from repository -->
+  </parent>
+  
+  <modules>
+	<module>service-registry</module>
+	<module>api-gateway</module>
+	<module>users</module>
+	<module>projects</module>
+	<module>templates</module>
+	<module>evaluations</module>
+	<module>notifications</module>
+	<module>reports</module>
+  </modules>
+ 
 </project>

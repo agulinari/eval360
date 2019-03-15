@@ -1,3 +1,5 @@
+spring.profiles.include: default
+
 server:
   port: 0
 
@@ -13,38 +15,25 @@ eureka:
     instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     metadataMap.instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}  
   
-#Propiedades de JWT
-jwt:
-   header: Authorization
-   secret: mySecret
-   expiration: 86400
-   route:
-     authentication:
-       path: /auth
-       refresh: /refresh
- 
 #Propiedades Servicios
 projects.url: http://projects-service/projects
 users.url: http://auth-service/users
 evaluations.url: http://evaluations-service/evaluations
 templates.url: http://templates-service/evaluationTemplates
 
+#Propiedades de MongoDb
+mongodb.dbname: reports
+spring.data.mongodb.uri: mongodb://localhost:27017/reports
+
+
  # Propiedades Kafka
+spring.kafka.sslEnabled: false
+spring.kafka.properties.sasl.jaas.config: 
 spring.kafka.bootstrap-servers: localhost:9092
+spring.kafka.consumer.group-id: reports
 app.topic.notificationRV: notificationRV.t
 app.topic.notificationReport: notificationReport.t
 
 # Zipkin
 spring.zipkin.sender.type: kafka
 
-# Logging
-logging.level:
-  root: ERROR
-  org.springframework.web: ERROR
-  com.gire.eval360.reports: DEBUG
-
-# Actuator
-management:
-  endpoints:
-    web.exposure.include:*
-    jmx.exposure.exclude:*

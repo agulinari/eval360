@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { TemplateList } from '../domain/template/template-list';
+import { catchError } from 'rxjs/operators';
 import { Evaluation } from '../domain/evaluation/evaluation';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EvaluationService {
-  public API = '//localhost:8762';
+  public API: string = environment.serverUrl;
   public EVALUATIONS_API = this.API + '/evaluations';
 
   constructor(private http: HttpClient) {

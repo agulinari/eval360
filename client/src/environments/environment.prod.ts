@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: false,
+  serverUrl: '//zuul-360.herokuapp.com'
 };

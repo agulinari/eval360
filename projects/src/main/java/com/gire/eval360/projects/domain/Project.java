@@ -17,9 +17,9 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Entity
-@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode(of= {}, callSuper = true)
 public class Project extends AuditedEntity{
 
 	

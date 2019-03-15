@@ -1,0 +1,23 @@
+spring.profiles.active: local
+
+#Propiedades de JWT
+jwt:
+   header: Authorization
+   secret: mySecret
+   expiration: 86400
+   route:
+     authentication:
+       path: /auth
+       refresh: /refresh
+ 
+# Logging
+logging.level:
+  root: ERROR
+  org.springframework.web: ERROR
+  com.gire.eval360.reports: DEBUG
+
+# Actuator
+management:
+  endpoints:
+    web.exposure.include:*
+    jmx.exposure.exclude:*

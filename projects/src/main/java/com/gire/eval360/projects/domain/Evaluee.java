@@ -16,12 +16,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
+@ToString(exclude = {"feedbackProviders", "reviewers"}) 
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(of= {}, callSuper = true)
 public class Evaluee extends ProjectMember{
 
 	

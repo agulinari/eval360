@@ -6,10 +6,11 @@ import { Token } from './token';
 import { map, catchError } from 'rxjs/operators';
 
 import * as jwt_decode from 'jwt-decode';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AuthenticationService {
-  private authUrl = 'http://localhost:8762/auth';
+  private authUrl: string = environment.serverUrl + '/auth';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient) {

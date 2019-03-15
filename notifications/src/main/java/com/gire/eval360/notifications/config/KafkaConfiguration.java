@@ -23,12 +23,21 @@ public class KafkaConfiguration {
 
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
+    
+    @Value("${spring.kafka.consumer.group-id}")
+    private String consumerGroupId;
 
     @Value("${app.topic.notificationFP}")
     private String notificationTopicFP;
     
     @Value("${app.topic.notificationReport}")
     private String notificationTopicRV;
+    
+    @Value("${spring.kafka.properties.sasl.jaas.config}")
+    private String saslConfig;
+    
+    @Value("${spring.kafka.sslEnabled}")
+    private boolean sslEnabled;
 
     @Bean("kafkaListenerNotificationFPContainerFactory")
     public ConcurrentKafkaListenerContainerFactory<String, NotificationFeedbackProviderDto> kafkaListenerNotificationFPContainerFactory() {
@@ -51,8 +60,13 @@ public class KafkaConfiguration {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "json");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, consumerGroupId);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        if (sslEnabled) {
+            props.put("security.protocol", "SASL_SSL");
+            props.put("sasl.mechanism", "SCRAM-SHA-256");
+            props.put("sasl.jaas.config", saslConfig);
+        }
         return props;
     }
 

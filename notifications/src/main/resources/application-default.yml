@@ -1,0 +1,35 @@
+spring.profiles.active: local
+
+
+# Zipkin
+spring.zipkin.sender.type: kafka
+
+# Logging
+logging.level:
+  root: ERROR
+  org.springframework.web: ERROR
+  com.gire.eval360.notifications: DEBUG
+
+# Actuator
+management:
+  endpoints:
+    web.exposure.include:*
+    jmx.exposure.exclude:*
+
+
+#SMTP
+spring:
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    username: notifica.eval360@gmail.com
+    password: Password3245
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: false

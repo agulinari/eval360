@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { of ,  Observable } from 'rxjs';
 import { User } from '../domain/user/user';
 import { map, catchError } from 'rxjs/operators';
-import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { UserList } from '../domain/user/user-list';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class UserService {
 
-  public API = '//localhost:8762';
+  public API: string = environment.serverUrl;
   public USERS_API = this.API + '/users';
 
   constructor(private http: HttpClient) {

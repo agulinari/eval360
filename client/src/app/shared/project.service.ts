@@ -10,13 +10,14 @@ import { CreateAdmin } from '../domain/create-project/create-admin';
 import { ProjectStatus } from '../domain/project-status/project-status';
 import { PendingEvaluee } from '../domain/evaluation-list/pending-evaluee';
 import { CompletedEvaluee } from '../domain/evaluation-list/completed-evaluee';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
 
-  public API = '//localhost:8762';
+  public API: string = environment.serverUrl;
   public PROJECTS_API = this.API + '/projects';
 
   constructor(private http: HttpClient) {

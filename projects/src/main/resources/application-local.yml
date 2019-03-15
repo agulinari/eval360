@@ -1,0 +1,46 @@
+spring.profiles.include: default
+
+server:
+  port: 0
+
+#Propiedades Eureka
+eureka:
+  client:
+    service-url:
+      default-zone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddess: true
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 90
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    metadataMap.instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}  
+  
+#Propiedades de H2
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings.web-allow-others: true
+  datasource:
+     plataform: h2
+     driverClassName: org.h2.Driver
+     url: jdbc:h2:mem:testdb
+     username: sa
+     password:
+
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        type: trace
+
+ # Propiedades Kafka
+spring.kafka.sslEnabled: false
+spring.kafka.properties.sasl.jaas.config: 
+spring.kafka.bootstrap-servers: localhost:9092
+app.topic.notificationFP: notificationFP.t
+app.topic.notificationRV: notificationRV.t
+
+#Propiedades Servicio Users
+users.url: http://AUTH-SERVICE/users

@@ -1,0 +1,30 @@
+spring.profiles.include: default
+
+server:
+  port: 8080
+
+#Propiedades Eureka
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL}/eureka/
+  instance:
+    hostname: ${APP_NAME}.herokuapp.com
+    nonSecurePort: 80
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 90
+ 
+ # Propiedades Kafka
+spring.kafka.sslEnabled: true
+spring.kafka.bootstrap-servers: ${CLOUDKARAFKA_BROKERS}
+spring.kafka.properties.security.protocol: SASL_SSL
+spring.kafka.properties.sasl.mechanism: SCRAM-SHA-256
+spring.kafka.properties.sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${CLOUDKARAFKA_USERNAME}" password="${CLOUDKARAFKA_PASSWORD}";
+spring.kafka.consumer.group-id: ${CLOUDKARAFKA_USERNAME}-notifications
+app.topic.notificationFP: ${CLOUDKARAFKA_USERNAME}-notificationFP.t
+app.topic.notificationReport: ${CLOUDKARAFKA_USERNAME}-notificationReport.t
+
+    
+#Propiedades Servicio Users, Evaluations
+users.url: http://AUTH-SERVICE/users
+evaluations.url: http://evaluations/evaluations

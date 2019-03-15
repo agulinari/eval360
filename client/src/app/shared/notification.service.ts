@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { CreateNotificationRememberFeedback } from '../domain/create-notification/create-remember-feedback';
 import { CreateRememberUserProvider } from '../domain/create-notification/create-remember-userProvider';
 import { ProjectStatus } from '../domain/project-status/project-status';
 import { FeedbackProviderStatus } from '../domain/project-status/feedback-provider-status';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
 
-  public API = '//localhost:8762';
+  public API: string = environment.serverUrl;
   public NOTIFICATIONS_API = this.API + '/notifications';
 
   constructor(private http: HttpClient) {

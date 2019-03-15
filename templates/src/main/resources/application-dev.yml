@@ -1,0 +1,35 @@
+spring.profiles.include: default
+
+server:
+  port: 8080
+
+#Propiedades Eureka
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL}/eureka/
+  instance:
+    hostname: ${APP_NAME}.herokuapp.com
+    nonSecurePort: 80
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 90
+    
+#Propiedades de JPA
+spring.jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        type: trace
+
+#Propiedades Postgresql
+spring.datasource:
+  driverClassName: org.postgresql.Driver
+  maxActive: 10
+  maxIdle: 5
+  minIdle: 2
+  initialSize: 5
+  removeAbandoned: true
+
+# Propiedades Kafka
+spring.kafka.bootstrap-servers: localhost:9092
+

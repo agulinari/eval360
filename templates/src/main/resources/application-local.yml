@@ -1,3 +1,5 @@
+spring.profiles.include: default
+
 server:
   port: 0
 
@@ -27,30 +29,7 @@ spring:
         show_sql: true
         type: trace
 
-#Propiedades de JWT
-jwt:
-   header: Authorization
-   secret: mySecret
-   expiration: 86400
-   route:
-     authentication:
-       path: /auth
-       refresh: /refresh
- 
- # Propiedades Kafka
+# Propiedades Kafka
 spring.kafka.bootstrap-servers: localhost:9092
 
-# Zipkin
-spring.zipkin.sender.type: kafka
-
-# Logging
-logging.level:
-  root: INFO
-  org.springframework.web: INFOs
-  com.gire.eval360.templates: DEBUG
-
-# Actuator
-management:
-  endpoints:
-    web.exposure.include:*
-    jmx.exposure.exclude:*
+        

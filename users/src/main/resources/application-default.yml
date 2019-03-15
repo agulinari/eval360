@@ -1,0 +1,28 @@
+spring.profiles.active: local
+      
+#Propiedades JWT
+jwt:
+   header: Authorization
+   secret: mySecret
+   expiration: 604800
+   route:
+     authentication:
+       path: /auth
+       refresh: /refresh
+       
+# Zipkin
+spring.zipkin.sender.type: kafka
+
+# Logging
+logging.level:
+  root: ERROR
+  org.springframework.web: ERROR
+  com.gire.eval360.users: DEBUG
+
+# Actuator
+management:
+  endpoints:
+    web.exposure.include:*
+    jmx.exposure.exclude:*
+  security: false
+       
