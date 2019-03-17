@@ -44,3 +44,4 @@ app.topic.notificationRV: notificationRV.t
 
 #Propiedades Servicio Users
 users.url: http://AUTH-SERVICE/users
+templates.url: http://TEMPLATES-SERVICE/evaluationTemplates

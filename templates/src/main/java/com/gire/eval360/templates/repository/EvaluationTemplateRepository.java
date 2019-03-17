@@ -16,4 +16,7 @@ public interface EvaluationTemplateRepository extends CrudRepository<EvaluationT
 	@RestResource(path="titleContains", rel="titleContains")
 	public Page<EvaluationTemplate> findByTitleContainingIgnoreCase(@Param("title") String title, Pageable p);
 	
+	@RestResource(path="title", rel="tite")
+	public EvaluationTemplate findByTitleIgnoreCase(@Param("title") String title);
+	
 }

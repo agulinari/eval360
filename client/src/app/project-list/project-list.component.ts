@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../shared/project.service';
 import { AuthenticationService } from '../shared/authentication.service';
 import { Project } from '../domain/project/project';
+import { HttpResponse, HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-project-list',
@@ -22,6 +23,10 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'name', 'actions'];
+
+  selectedFiles: FileList;
+  currentFileUpload: File;
+  progress: { percentage: number } = { percentage: 0 };
 
   constructor(private projectService: ProjectService,
     private authenticationService: AuthenticationService,
@@ -86,5 +91,24 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
   loadProjects() {
     const sortOption = this.sort.active + ',' + this.sort.direction;
     this.dataSource.loadProjects(this.input.nativeElement.value, sortOption, this.paginator.pageIndex, this.paginator.pageSize);
+  }
+
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+  }
+
+  upload() {
+    this.progress.percentage = 0;
+
+    this.currentFileUpload = this.selectedFiles.item(0);
+    this.projectService.importProject(this.currentFileUpload).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        this.progress.percentage = Math.round(100 * event.loaded / event.total);
+      } else if (event instanceof HttpResponse) {
+        console.log('File is completely uploaded!');
+      }
+    });
+
+    this.selectedFiles = undefined;
   }
 }

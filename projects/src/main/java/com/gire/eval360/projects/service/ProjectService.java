@@ -9,6 +9,7 @@ import com.gire.eval360.projects.domain.Project;
 import com.gire.eval360.projects.domain.dto.CompletedEvaluee;
 import com.gire.eval360.projects.domain.dto.PendingEvaluee;
 import com.gire.eval360.projects.domain.dto.ProjectStatus;
+import com.gire.eval360.projects.domain.excel.ProjectExcel;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
@@ -33,5 +34,7 @@ public interface ProjectService {
 	List<PendingEvaluee> getPendingEvalueesForUser(Long id, Long idFp);
 
 	List<CompletedEvaluee> getCompletedEvalueesForUser(Long id, Long idReviewer);
+
+	Project importProject(ProjectExcel projectExcel);
 
 }

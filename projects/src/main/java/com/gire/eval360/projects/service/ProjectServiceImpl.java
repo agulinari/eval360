@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,11 @@ import com.gire.eval360.projects.domain.dto.PendingEvaluee;
 import com.gire.eval360.projects.domain.dto.ProjectStatus;
 import com.gire.eval360.projects.domain.dto.ProjectStatus.ProjectStatusBuilder;
 import com.gire.eval360.projects.domain.dto.ReviewerStatus;
+import com.gire.eval360.projects.domain.excel.ProjectAdminExcel;
+import com.gire.eval360.projects.domain.excel.ProjectEvalueeExcel;
+import com.gire.eval360.projects.domain.excel.ProjectExcel;
+import com.gire.eval360.projects.domain.excel.ProjectFpExcel;
+import com.gire.eval360.projects.domain.excel.ProjectReviewerExcel;
 import com.gire.eval360.projects.domain.notifications.NotificationFeedbackProviderDto;
 import com.gire.eval360.projects.domain.notifications.NotificationReviewerDto;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
@@ -45,7 +51,10 @@ import com.gire.eval360.projects.domain.request.CreateReviewer;
 import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
 import com.gire.eval360.projects.repository.EvalueeFeedbackProviderRepository;
 import com.gire.eval360.projects.repository.ProjectRepository;
+import com.gire.eval360.projects.service.remote.TemplateServiceRemote;
 import com.gire.eval360.projects.service.remote.UserServiceRemote;
+import com.gire.eval360.projects.service.remote.dto.templates.TemplateDto;
+import com.gire.eval360.projects.service.remote.dto.users.UserDto;
 import com.gire.eval360.projects.service.remote.dto.users.UserResponse;
 
 import lombok.extern.slf4j.Slf4j;
@@ -62,15 +71,19 @@ public class ProjectServiceImpl implements ProjectService{
 	
 	private final UserServiceRemote userServiceRemote;
 	
+	private final TemplateServiceRemote templateServiceRemote;
+	
 	@Autowired
 	public ProjectServiceImpl(final ProjectRepository projectRepository,
 							  final EvalueeFeedbackProviderRepository efpRepository,
 							  final NotificationFeedBackSender notificationFeedBackSender,
-							  final UserServiceRemote userServiceRemote) {
+							  final UserServiceRemote userServiceRemote,
+							  final TemplateServiceRemote templateServiceRemote) {
 		this.projectRepository = projectRepository;
 		this.efpRepository = efpRepository;
 		this.notificationFeedBackSender = notificationFeedBackSender;
 		this.userServiceRemote = userServiceRemote;
+		this.templateServiceRemote = templateServiceRemote;
 	}
 
 	public Collection<Project> getProjects() {
@@ -609,6 +622,153 @@ public class ProjectServiceImpl implements ProjectService{
 													  .username(user.getUsername())
 													  .build();
 		return completedEvaluee;
+	}
+
+	@Override
+	public Project importProject(ProjectExcel projectExcel) {
+
+		TemplateDto templateDto = this.templateServiceRemote.getTemplateByName(projectExcel.getTemplate());
+		
+		List<String> usernames = this.getUsernames(projectExcel);
+		
+		List<UserDto> usersDto = this.userServiceRemote.getUsersByUsername(usernames);
+		
+		CreateProjectRequest createProjectRequest = this.createProjectRequest(projectExcel, templateDto, usersDto);
+		
+		Project project = this.createProject(createProjectRequest);
+		return project;
+	}
+
+	private CreateProjectRequest createProjectRequest(ProjectExcel projectExcel, TemplateDto templateDto,
+			List<UserDto> usersDto) {
+
+		List<CreateProjectAdmin> admins = createProjectAdmins(projectExcel.getAdmins(), usersDto);
+		
+		List<CreateEvaluee> evaluees = createProjectEvaluees(projectExcel.getEvaluees(), usersDto);
+		
+		CreateProjectRequest createRequest = CreateProjectRequest.builder()
+				.idTemplate(templateDto.getId())
+				.description(projectExcel.getDescription().trim())
+				.name(projectExcel.getName().trim())
+				.admins(admins)
+				.evaluees(evaluees)
+				.build();
+		return createRequest;
+	}
+
+	private List<CreateEvaluee> createProjectEvaluees(List<ProjectEvalueeExcel> evaluees, List<UserDto> usersDto) {
+		
+		List<CreateEvaluee> createEvaluees = new ArrayList<>();
+		
+		for (ProjectEvalueeExcel evaluee: evaluees) {
+			Optional<UserDto> userDto = usersDto.stream().filter(u -> u.getUsername().toUpperCase().equals(evaluee.getUsername())).findAny();
+			
+			if (!userDto.isPresent()) {
+				throw new IllegalStateException("No existe el usuario del evaluee " + evaluee.getUsername());
+			}
+
+			CreateEvaluee createEvaluee = new CreateEvaluee();
+			createEvaluee.setIdUser(userDto.get().getId());
+			
+			List<CreateFeedbackProvider> feedbackProviders = createProjectFps(evaluee.getFeedbackProviders(), usersDto);
+			List<CreateReviewer> reviewers = createProjectReviewers(evaluee.getReviewers(), usersDto);
+			
+			if (feedbackProviders.isEmpty()) {
+				throw new IllegalStateException("No hay feedback providers para el evaluee " + evaluee.getUsername());
+			}
+			
+			if (reviewers.isEmpty()) {
+				throw new IllegalStateException("No hay reviewers para el evaluee " + evaluee.getUsername());
+			}
+			
+			createEvaluee.setFeedbackProviders(feedbackProviders);
+			createEvaluee.setReviewers(reviewers);
+			createEvaluees.add(createEvaluee);
+		}
+				
+		return createEvaluees;
+	}
+
+	private List<CreateReviewer> createProjectReviewers(List<ProjectReviewerExcel> reviewers, List<UserDto> usersDto) {
+		List<CreateReviewer> createReviewers = new ArrayList<>();
+		
+		for (ProjectReviewerExcel reviewer : reviewers) {
+			Optional<UserDto> userDto = usersDto.stream().filter(u -> u.getUsername().toUpperCase().equals(reviewer.getUsername())).findAny();
+			
+			if (!userDto.isPresent()) {
+				throw new IllegalStateException("No existe el usuario del reviewer" + reviewer.getUsername());
+			}
+			
+			CreateReviewer createReviewer = new CreateReviewer();
+			createReviewer.setIdUser(userDto.get().getId());
+			createReviewers.add(createReviewer);
+		}
+		
+		return createReviewers;
+	}
+
+	private List<CreateFeedbackProvider> createProjectFps(List<ProjectFpExcel> feedbackProviders, List<UserDto> usersDto) {
+		List<CreateFeedbackProvider> createFps = new ArrayList<>();
+		
+		for (ProjectFpExcel fp : feedbackProviders) {
+			Optional<UserDto> userDto = usersDto.stream().filter(u -> u.getUsername().toUpperCase().equals(fp.getUsername())).findAny();
+			
+			if (!userDto.isPresent()) {
+				throw new IllegalStateException("No existe el usuario del feedback provider" + fp.getUsername());
+			}
+			
+			CreateFeedbackProvider createFp = new CreateFeedbackProvider();
+			createFp.setIdUser(userDto.get().getId());
+			createFp.setRelationship(fp.getRelationship());
+			createFps.add(createFp);
+		}
+		
+		return createFps;
+	}
+
+	private List<CreateProjectAdmin> createProjectAdmins(List<ProjectAdminExcel> admins, List<UserDto> usersDto) {
+		
+		List<CreateProjectAdmin> createAdmins = new ArrayList<>();
+		for (ProjectAdminExcel admin : admins) {
+			Optional<UserDto> userDto = usersDto.stream().filter(u -> u.getUsername().toUpperCase().equals(admin.getUsername())).findAny();
+			
+			if (!userDto.isPresent()) {
+				throw new IllegalStateException("No existe el usuario " + admin.getUsername());
+			}
+			
+			CreateProjectAdmin createAdmin = CreateProjectAdmin.builder()
+					.idUser(userDto.get().getId())
+					.creator(false)
+					.build();
+			
+			createAdmins.add(createAdmin);
+		}
+		return createAdmins;
+	}
+
+	private List<String> getUsernames(ProjectExcel projectExcel) {
+
+		HashSet<String> usernamesSet = new HashSet<>();
+		
+		for (ProjectEvalueeExcel evaluee : projectExcel.getEvaluees()) {
+			usernamesSet.add(evaluee.getUsername());
+			for (ProjectReviewerExcel reviewer : evaluee.getReviewers()) {
+				usernamesSet.add(reviewer.getUsername());
+			}
+			for (ProjectFpExcel fp : evaluee.getFeedbackProviders()) {
+				usernamesSet.add(fp.getUsername());
+			}
+
+		}
+		
+		for (ProjectAdminExcel admin : projectExcel.getAdmins()) {
+			usernamesSet.add(admin.getUsername());
+		}
+		
+		
+		
+		List<String> usernamesList = new ArrayList<>(usernamesSet);
+		return usernamesList;
 	}
 
 }

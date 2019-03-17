@@ -42,3 +42,4 @@ app.topic.notificationRV: ${CLOUDKARAFKA_USERNAME}-notificationRV.t
 
 #Propiedades Servicio Users
 users.url: http://AUTH-SERVICE/users
+templates.url: http://TEMPLATES-SERVICE/evaluationTemplates

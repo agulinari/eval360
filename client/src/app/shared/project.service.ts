@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Project } from '../domain/project/project';
 import { map, catchError } from 'rxjs/operators';
@@ -122,6 +122,19 @@ export class ProjectService {
           return projectList;
         })
       );
+  }
+
+  importProject(file: File): Observable<HttpEvent<{}>> {
+    const formdata: FormData = new FormData();
+
+    formdata.append('file', file);
+
+    const req = new HttpRequest('POST', this.PROJECTS_API + '/import', formdata, {
+      reportProgress: true,
+      responseType: 'text'
+    });
+
+    return this.http.request(req);
   }
 
   /**
