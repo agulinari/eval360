@@ -111,8 +111,8 @@ public class ProjectController {
 		XSSFRow rowHeader = worksheet.getRow(1);
 		
 		projectExcel.setName(rowHeader.getCell(0).getStringCellValue());
-		projectExcel.setDescription(rowHeader.getCell(0).getStringCellValue());
-		projectExcel.setTemplate(rowHeader.getCell(0).getStringCellValue());
+		projectExcel.setDescription(rowHeader.getCell(1).getStringCellValue());
+		projectExcel.setTemplate(rowHeader.getCell(2).getStringCellValue());
 		List<ProjectEvalueeExcel> evaluees = new ArrayList<>();
 		List<ProjectAdminExcel> admins = new ArrayList<>();
 		
@@ -146,7 +146,7 @@ public class ProjectController {
 
 	private void addProjectAdmin(List<ProjectAdminExcel> admins, XSSFRow row) {
 		ProjectAdminExcel admin = new ProjectAdminExcel();
-		admin.setUsername(row.getCell(0).getStringCellValue());
+		admin.setUsername(row.getCell(0).getStringCellValue().trim().toUpperCase());
 		admins.add(admin);
 	}
 

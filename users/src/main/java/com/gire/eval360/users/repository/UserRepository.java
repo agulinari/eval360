@@ -22,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	Page<User> findByUsernameContainingIgnoreCase(@Param("name") String name, Pageable p);
 	
 	@RestResource(path = "usernames", rel = "usernames")
-	@Query("select u from User u where u.username in :usernames")
+	@Query("select u from User u where upper(u.username) in :usernames")
 	List<User> findByUsernames(@Param("usernames") List<String> usernames);
 
 }

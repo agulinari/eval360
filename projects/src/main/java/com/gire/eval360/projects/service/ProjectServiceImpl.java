@@ -55,6 +55,7 @@ import com.gire.eval360.projects.service.remote.TemplateServiceRemote;
 import com.gire.eval360.projects.service.remote.UserServiceRemote;
 import com.gire.eval360.projects.service.remote.dto.templates.TemplateDto;
 import com.gire.eval360.projects.service.remote.dto.users.UserDto;
+import com.gire.eval360.projects.service.remote.dto.users.UserListDto;
 import com.gire.eval360.projects.service.remote.dto.users.UserResponse;
 
 import lombok.extern.slf4j.Slf4j;
@@ -631,9 +632,9 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		List<String> usernames = this.getUsernames(projectExcel);
 		
-		List<UserDto> usersDto = this.userServiceRemote.getUsersByUsername(usernames);
+		UserListDto usersDto = this.userServiceRemote.getUsersByUsername(usernames);
 		
-		CreateProjectRequest createProjectRequest = this.createProjectRequest(projectExcel, templateDto, usersDto);
+		CreateProjectRequest createProjectRequest = this.createProjectRequest(projectExcel, templateDto, usersDto.get_embedded().getUsers());
 		
 		Project project = this.createProject(createProjectRequest);
 		return project;
