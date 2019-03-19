@@ -11,12 +11,14 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Entity
+@AllArgsConstructor
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(of= {}, callSuper = true)

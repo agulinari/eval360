@@ -38,7 +38,14 @@ export class DashboardComponent implements OnInit{
             url: '/main/template-list',
             roles: 'ROLE_ADMIN',
             content: 'Para gestionar sus templates ingrese aquí.',
-            image: '/assets/images/evaluation.jpg', cols: 2, rows: 1 }
+            image: '/assets/images/evaluation.jpg', cols: 2, rows: 1 },
+          { title: 'Estadisticas',
+            subtitle: 'Administración de estadisticas',
+            collapse: false,
+            url: '/main/statistics-list',
+            roles: 'ROLE_ADMIN',
+            content: 'Para gestionar sus estadisticas ingrese aquí.',
+            image: '/assets/images/statistics.jpg', cols: 2, rows: 1 }
         ];
       }
 
@@ -63,7 +70,14 @@ export class DashboardComponent implements OnInit{
          url: '/main/template-list',
          roles: 'ROLE_ADMIN',
          content: 'Para gestionar sus templates ingrese aquí.',
-         image: '/assets/images/evaluation.jpg', cols: 1, rows: 1 }
+         image: '/assets/images/evaluation.jpg', cols: 1, rows: 1 },
+       { title: 'Estadisticas',
+         subtitle: 'Administración de estadisticas',
+         collapse: false,
+         url: '/main/statistics-list',
+         roles: 'ROLE_ADMIN',
+         content: 'Para gestionar sus estadisticas ingrese aquí.',
+         image: '/assets/images/statistics.jpg', cols: 2, rows: 1 }
       ];
     })
   );

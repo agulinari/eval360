@@ -624,7 +624,7 @@ public class ProjectServiceImpl implements ProjectService{
 													  .build();
 		return completedEvaluee;
 	}
-
+	
 	@Override
 	public Project importProject(ProjectExcel projectExcel) {
 

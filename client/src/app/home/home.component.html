@@ -45,4 +45,19 @@
       <a mat-button routerLink="../project-list">INGRESAR</a>
     </mat-card-actions>
   </mat-card>
+  <mat-card *ngIf="roles.includes('ROLE_ADMIN')" class="home-card">
+    <mat-card-header>
+      <mat-card-title>Estadisticas</mat-card-title>
+      <mat-card-subtitle>Administración de estadisticas</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="/assets/images/statistics.jpg" width="80px" height="80px" alt="Estadisticas">
+    <mat-card-content>
+      <p>
+        Para gestionar sus estadisticas ingrese aquí.
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-button routerLink="../statistics-list">INGRESAR</a>
+    </mat-card-actions>
+  </mat-card>
 </div>

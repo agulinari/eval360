@@ -30,7 +30,6 @@ public class UserServiceRemoteImpl implements UserServiceRemote {
 		String userList = String.join(",", usernames);
 		
 		ResponseEntity<UserListDto> call = this.restTemplate.getForEntity("/search/usernames?usernames="+userList, UserListDto.class);
-
 		return call.getBody();
 	}
 }
