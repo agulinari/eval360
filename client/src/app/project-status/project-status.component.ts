@@ -53,8 +53,7 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
       const id = params['id'];
       if (id) {
         this.getProjectStatus(id);
-        console.log('valor project status init var',this.projectStatus);
-        
+        console.log('valor project status init var', this.projectStatus);
       }
     });
   }
@@ -66,9 +65,9 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
   getProjectStatus(id) {
     this.loading = true;
     this.projectService.getStatus(id).subscribe((projectStatus: ProjectStatus) => {
-      console.log('valor project status init',projectStatus);
+      console.log('valor project status init', projectStatus);
       if (projectStatus) {
-        
+
         this.projectStatus = projectStatus;
 
         // Chequear que el usuario sea admin del proyecto
@@ -77,7 +76,7 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
         if (!isAdmin) {
           console.log('El usuario no es admin del proyecto, volviendo a la lista');
           this.gotoList();
-        }else{
+        } else {
           this.getStatusRecordatory();
         }
       } else {
@@ -95,16 +94,17 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
     });
   }
 
-  getStatusRecordatory(){
-    
-    if(this.projectStatus){
-      const isFeedbacksIncomplete = (this.projectStatus.feedbackProvidersStatus.find(item => item.status.toUpperCase() === 'PENDIENTE') !== undefined);
+  getStatusRecordatory() {
+
+    if (this.projectStatus) {
+      const isFeedbacksIncomplete =
+      (this.projectStatus.feedbackProvidersStatus.find(item => item.status.toUpperCase() === 'PENDIENTE') !== undefined);
       this.recordarFeedback = isFeedbacksIncomplete;
-      this.projectStatus.feedbackProvidersStatus.map(fp=>fp.reminder=this.recordarFeedback);
+      this.projectStatus.feedbackProvidersStatus.map(fp => fp.reminder = this.recordarFeedback);
     }
-    
+
   }
- 
+
   openAddAdminDialog() {
     const dialogConfig = new MatDialogConfig();
 
@@ -176,7 +176,7 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
       }
     );
   }
-  
+
   getEvaluees(): number[] {
     const users: number[] = [];
 
@@ -230,25 +230,25 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
     );
   }
 
-  notificateFeedback(feedbackProviderStatus:FeedbackProviderStatus){
+  notificateFeedback(feedbackProviderStatus:FeedbackProviderStatus) {
     const dialogRef: MatDialogRef<WaitingDialogComponent> = this.dialog.open(WaitingDialogComponent,  {
       panelClass: 'transparent',
       disableClose: true
     });
 
-    this.notificationService.notificateToProviders(feedbackProviderStatus,this.projectStatus).pipe(
+    this.notificationService.notificateToProviders(feedbackProviderStatus, this.projectStatus).pipe(
       timeout(60000)
     ).subscribe(
       res => {
-          console.log('Notificando feedback pendiente a provider',res);
-          feedbackProviderStatus.reminder=false;
+          console.log('Notificando feedback pendiente a provider', res);
+          feedbackProviderStatus.reminder = false;
           dialogRef.close();
       },
       err => {
           console.log('Error notificando feedback pendiente', err);
           dialogRef.close();
           this.showError('Se produjo un error al notificar al provider el feedback pendiente');
-      }   
+      }
     );
   }
 
@@ -257,7 +257,7 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
       data: {errorMsg: error}, width: '250px'
     });
   }
-  
+
   gotoList() {
     this.router.navigate(['/main/project-list']);
   }

@@ -49,6 +49,7 @@ import { ReportService } from './shared/report.service';
 import { WaitingDialogComponent } from './dialog/waiting-dialog.component';
 import { NotificationService } from './shared/notification.service';
 import { StatisticsListComponent } from './statistics-list/statistics-list.component';
+import { CreateProjectDialogComponent } from './dialog/create-project-dialog.component';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { StatisticsListComponent } from './statistics-list/statistics-list.compo
     AddEvalueeDialogComponent,
     AddAdminDialogComponent,
     WaitingDialogComponent,
+    CreateProjectDialogComponent,
     EvaluationPreviewComponent,
     TemplateListComponent,
     UserProfileComponent,
@@ -126,6 +128,6 @@ import { StatisticsListComponent } from './statistics-list/statistics-list.compo
   ],
   bootstrap: [AppComponent],
   entryComponents: [ErrorDialogComponent, ConfirmDialogComponent, AddEvalueeDialogComponent, WaitingDialogComponent,
-     AddAdminDialogComponent, EvaluationPreviewComponent]
+     AddAdminDialogComponent, CreateProjectDialogComponent, EvaluationPreviewComponent]
 })
 export class AppModule { }

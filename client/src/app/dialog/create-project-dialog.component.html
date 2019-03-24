@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Crear Proyecto</h2>
+<mat-dialog-content>
+
+    <!--
+        <div *ngIf="currentFileUpload" class="progress">
+            <div class="progress-bar progress-bar-info progress-bar-striped"
+                  role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
+                  aria-valuemin="0" aria-valuemax="100"
+                  [ngStyle]="{width:progress.percentage+'%'}">
+                  {{progress.percentage}}%    
+            </div>
+            <span id="file-label">
+                    {{currentFileUpload.name}}
+            </span>
+        </div>
+
+        <button type="button" mat-raised-button (click)="fileInput.click()">Elige archivo</button>
+        <input hidden (change)="selectFile($event)" #fileInput type="file" id="file">
+
+        <button mat-raised-button [disabled]="!selectedFiles" (click)="upload()">Importar</button>
+    -->
+    <p>Importe un nuevo proyecto</p>
+
+        <div *ngIf="currentFileUpload" class="progress">
+                <div class="progress-bar progress-bar-info progress-bar-striped"
+                  role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
+                  aria-valuemin="0" aria-valuemax="100"
+                  [ngStyle]="{width:progress.percentage+'%'}">
+                  {{progress.percentage}}%</div>
+              </div>
+              
+              <label class="btn btn-default">
+                <input type="file" (change)="selectFile($event)">
+              </label>
+              
+              <button mat-raised-button [disabled]="!selectedFiles"
+                (click)="upload()">
+                <mat-icon>file_upload</mat-icon>
+                Importar
+              </button>
+  
+        <p>Si prefiere cargar el proyecto manualmente utilice el Asistente de Creación</p>
+  
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button (click)="manual()">Usar Asistente de Creación</button>
+    <button mat-raised-button (click)="cancel()">Cancelar</button>
+</mat-dialog-actions>

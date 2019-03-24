@@ -25,6 +25,7 @@ import com.gire.eval360.projects.domain.Evaluee;
 import com.gire.eval360.projects.domain.Relationship;
 import com.gire.eval360.projects.domain.dto.CompletedEvaluee;
 import com.gire.eval360.projects.domain.dto.PendingEvaluee;
+import com.gire.eval360.projects.domain.dto.ProjectResponse;
 import com.gire.eval360.projects.domain.dto.ProjectStatus;
 import com.gire.eval360.projects.domain.excel.ProjectAdminExcel;
 import com.gire.eval360.projects.domain.excel.ProjectEvalueeExcel;
@@ -101,45 +102,64 @@ public class ProjectController {
 	}
 
 	@PostMapping("/import")
-	public ResponseEntity<?> importProject(@RequestParam("file") MultipartFile excelFile) throws IOException {
+	public ResponseEntity<ProjectResponse> importProject(@RequestParam("file") MultipartFile excelFile) throws IOException {
 		
-		ProjectExcel projectExcel = new ProjectExcel();
-		
-		XSSFWorkbook workbook = new XSSFWorkbook(excelFile.getInputStream());
-		XSSFSheet worksheet = workbook.getSheetAt(0);
-		
-		XSSFRow rowHeader = worksheet.getRow(1);
-		
-		projectExcel.setName(rowHeader.getCell(0).getStringCellValue());
-		projectExcel.setDescription(rowHeader.getCell(1).getStringCellValue());
-		projectExcel.setTemplate(rowHeader.getCell(2).getStringCellValue());
-		List<ProjectEvalueeExcel> evaluees = new ArrayList<>();
-		List<ProjectAdminExcel> admins = new ArrayList<>();
-		
-		for (int i=3; i<worksheet.getPhysicalNumberOfRows(); i++) {
-			XSSFRow row = worksheet.getRow(i);
-			String rol = row.getCell(1).getStringCellValue();
+		XSSFWorkbook workbook = null;
+		try {
+			ProjectExcel projectExcel = new ProjectExcel();
 			
-			switch(rol) {
-			case "Feedback Provider": 
-				addEvalueeWithFP(evaluees, i, row);
-				break;
-			case "Reviewer":
-				addEvalueeWithReviewer(evaluees, i, row);
-				break;
-			case "Project Admin":
-				addProjectAdmin(admins, row);
-				break;
-			default:
-				log.warn("No se pudo determinar el rol del usuario en posicion {}", i);
+			workbook = new XSSFWorkbook(excelFile.getInputStream());
+			XSSFSheet worksheet = workbook.getSheetAt(0);
+			
+			XSSFRow rowHeader = worksheet.getRow(1);
+			
+			projectExcel.setName(rowHeader.getCell(0).getStringCellValue());
+			projectExcel.setDescription(rowHeader.getCell(1).getStringCellValue());
+			projectExcel.setTemplate(rowHeader.getCell(2).getStringCellValue());
+			List<ProjectEvalueeExcel> evaluees = new ArrayList<>();
+			List<ProjectAdminExcel> admins = new ArrayList<>();
+			
+			for (int i=3; i<worksheet.getPhysicalNumberOfRows(); i++) {
+				XSSFRow row = worksheet.getRow(i);
+				String rol = row.getCell(1).getStringCellValue();
+				
+				switch(rol) {
+				case "Feedback Provider": 
+					addEvalueeWithFP(evaluees, i, row);
+					break;
+				case "Reviewer":
+					addEvalueeWithReviewer(evaluees, i, row);
+					break;
+				case "Project Admin":
+					addProjectAdmin(admins, row);
+					break;
+				default:
+					log.warn("No se pudo determinar el rol del usuario en posicion {}", i);
+					throw new IllegalStateException("No se pudo determinar el rol del usuario en la fila " + i);
+				}
+				
+			}
+			projectExcel.setEvaluees(evaluees);
+			projectExcel.setAdmins(admins);
+			this.projectService.importProject(projectExcel);
+		}
+		catch (IllegalStateException e) {
+			ProjectResponse response = ProjectResponse.builder().message(e.getMessage()).build();
+			return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+		}
+		catch (Exception e) {
+			ProjectResponse response = ProjectResponse.builder().message("Se produjo un error importando proyecto").build();
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		finally {
+			
+			if (workbook != null) {
+				workbook.close();
 			}
 			
 		}
-		projectExcel.setEvaluees(evaluees);
-		projectExcel.setAdmins(admins);
-		this.projectService.importProject(projectExcel);
-		workbook.close();
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		ProjectResponse response = ProjectResponse.builder().message("Proyecto importado exitosamente").build();
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 
 	}
 
