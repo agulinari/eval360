@@ -48,8 +48,10 @@ public class EvalueeFeedbackProvider {
     @Column
     private EvaluationStatus status;
     
+	@Enumerated(EnumType.STRING)
+	@NonNull
 	@Column
-	private String relationship;
+	private Relationship relationship;
 
 	@Column(name = "created_on")
 	private Date createdOn = new Date();

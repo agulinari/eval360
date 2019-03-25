@@ -58,9 +58,9 @@ public class ReportServiceImpl implements ReportService {
 		
 		String username = (!evaluations.isEmpty()) ? evaluations.get(0).getUsername() : "User";
 		LocalDate date = LocalDate.now();
-		Integer managers = countRelationship(evaluations, "Jefe");
-		Integer peers = countRelationship(evaluations, "Par");
-		Integer directReports = countRelationship(evaluations, "Subordinado");
+		Integer managers = countRelationship(evaluations, "JEFE");
+		Integer peers = countRelationship(evaluations, "PAR");
+		Integer directReports = countRelationship(evaluations, "SUBORDINADO");
 		List<Item> items = calculateEvaluatedItems(template, evaluations);
 		List<String> strengths = getStrengths(items);
 		List<String> weaknesses = getWeaknesses(items);
@@ -108,9 +108,9 @@ public class ReportServiceImpl implements ReportService {
 					Long itemId = itemTemplate.getId();
 					if (itemTemplate.getItemType().equals(ItemType.RATING)) {
 						ItemScore average = calculateAverage(itemId, evaluations, "");
-						ItemScore averageManagers = calculateAverage(itemId, evaluations, "Jefe");
-						ItemScore averagePeers = calculateAverage(itemId, evaluations, "Par");
-						ItemScore averageDirectReports = calculateAverage(itemId, evaluations, "Subordinado");
+						ItemScore averageManagers = calculateAverage(itemId, evaluations, "JEFE");
+						ItemScore averagePeers = calculateAverage(itemId, evaluations, "PAR");
+						ItemScore averageDirectReports = calculateAverage(itemId, evaluations, "SUBORDINADO");
 						
 						Item item = Item.builder()
 										.name(itemTemplate.getTitle())
@@ -274,9 +274,9 @@ public class ReportServiceImpl implements ReportService {
 						sec.getComments().add(comment);
 					} else if (itemTemplate.getItemType().equals(ItemType.RATING)){
 						ItemScore average = calculateAverage(itemId, evaluations, "");
-						ItemScore averageManagers = calculateAverage(itemId, evaluations, "Jefe");
-						ItemScore averagePeers = calculateAverage(itemId, evaluations, "Par");
-						ItemScore averageDirectReports = calculateAverage(itemId, evaluations, "Subordinado");
+						ItemScore averageManagers = calculateAverage(itemId, evaluations, "JEFE");
+						ItemScore averagePeers = calculateAverage(itemId, evaluations, "PAR");
+						ItemScore averageDirectReports = calculateAverage(itemId, evaluations, "SUBORDINADO");
 						
 						Item item = Item.builder()
 										.name(itemTemplate.getTitle())

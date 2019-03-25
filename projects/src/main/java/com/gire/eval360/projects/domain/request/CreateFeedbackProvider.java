@@ -1,5 +1,7 @@
 package com.gire.eval360.projects.domain.request;
 
+import com.gire.eval360.projects.domain.Relationship;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +17,6 @@ public class CreateFeedbackProvider {
 
 	private Long id;
 	private Long idUser;
-	private String relationship;
+	private Relationship relationship;
 	
 }

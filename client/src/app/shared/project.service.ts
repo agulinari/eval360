@@ -137,6 +137,12 @@ export class ProjectService {
     return this.http.request(req);
   }
 
+  exportProject(id: number): Observable<Blob> {
+    return this.http.get(this.PROJECTS_API + '/' + id + '/export', {responseType: 'blob'}).pipe(
+      catchError(this.handleError<any>('exportProject'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.

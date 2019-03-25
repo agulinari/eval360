@@ -21,6 +21,7 @@ import com.gire.eval360.projects.domain.EvalueeReviewer;
 import com.gire.eval360.projects.domain.FeedbackProvider;
 import com.gire.eval360.projects.domain.Project;
 import com.gire.eval360.projects.domain.ProjectAdmin;
+import com.gire.eval360.projects.domain.Relationship;
 import com.gire.eval360.projects.domain.Reviewer;
 import com.gire.eval360.projects.domain.Status;
 import com.gire.eval360.projects.domain.dto.CompletedEvaluee;
@@ -69,7 +70,7 @@ public class ProjectServiceTest {
 	public void testCreateProject() {
 		
 	   	CreateReviewer reviewer = CreateReviewer.builder().id(1L).idUser(2L).build();
-    	CreateFeedbackProvider feedbackProvider = CreateFeedbackProvider.builder().id(1L).idUser(2L).build();
+    	CreateFeedbackProvider feedbackProvider = CreateFeedbackProvider.builder().id(1L).idUser(2L).relationship(Relationship.JEFE).build();
     	CreateEvaluee evaluee = CreateEvaluee.builder().id(1L).idUser(1L).feedbackProvider(feedbackProvider).reviewer(reviewer).build();
     	CreateProjectAdmin admin = CreateProjectAdmin.builder().creator(true).id(1L).idUser(3L).build();
     	CreateProjectRequest request = CreateProjectRequest.builder().name("Test").description("Test").evaluee(evaluee).admin(admin).build();
@@ -116,7 +117,7 @@ public class ProjectServiceTest {
 		efp.setEvaluee(evaluee);
 		efp.setFeedbackProvider(new FeedbackProvider());
 		efp.setId(1L);
-		efp.setRelationship("Jefe");
+		efp.setRelationship(Relationship.JEFE);
 		efp.setStatus(EvaluationStatus.PENDIENTE);
 		
 		List<EvalueeFeedbackProvider> efps = new ArrayList<>();
@@ -147,14 +148,14 @@ public class ProjectServiceTest {
 		efp.setEvaluee(evaluee);
 		efp.setFeedbackProvider(new FeedbackProvider());
 		efp.setId(1L);
-		efp.setRelationship("Jefe");
+		efp.setRelationship(Relationship.JEFE);
 		efp.setStatus(EvaluationStatus.PENDIENTE);
 		
 		EvalueeFeedbackProvider efp1 = new EvalueeFeedbackProvider();
 		efp1.setEvaluee(evaluee);
 		efp1.setFeedbackProvider(new FeedbackProvider());
 		efp1.setId(2L);
-		efp1.setRelationship("Par");
+		efp1.setRelationship(Relationship.PAR);
 		efp1.setStatus(EvaluationStatus.PENDIENTE);
 		
 		List<EvalueeFeedbackProvider> efps = new ArrayList<>();
@@ -174,7 +175,7 @@ public class ProjectServiceTest {
 	@Test
 	public void testAddEvaluee() {
 	   	CreateReviewer reviewer = CreateReviewer.builder().id(2L).idUser(2L).build();
-    	CreateFeedbackProvider feedbackProvider = CreateFeedbackProvider.builder().id(2L).idUser(2L).build();
+    	CreateFeedbackProvider feedbackProvider = CreateFeedbackProvider.builder().id(2L).idUser(2L).relationship(Relationship.JEFE).build();
 		CreateEvaluee evaluee = CreateEvaluee.builder().id(2L).idUser(1L).feedbackProvider(feedbackProvider).reviewer(reviewer).build();
 
 		Project project = mockProject();
@@ -218,7 +219,7 @@ public class ProjectServiceTest {
 		EvalueeFeedbackProvider efp = new EvalueeFeedbackProvider();
 		efp.setEvaluee(evaluee);
 		efp.setFeedbackProvider(fp);
-		efp.setRelationship("Jefe");
+		efp.setRelationship(Relationship.JEFE);
 		efp.setStatus(EvaluationStatus.PENDIENTE);
 		List<EvalueeFeedbackProvider> efps = new ArrayList<>();
 		efps.add(efp);

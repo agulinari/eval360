@@ -1,5 +1,7 @@
 package com.gire.eval360.projects.domain.excel;
 
+import com.gire.eval360.projects.domain.Relationship;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -7,6 +9,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class ProjectFpExcel extends ProjectMemberExcel {
 	
-	private String relationship;
+	private Relationship relationship;
 	
 }

@@ -24,6 +24,7 @@ import com.gire.eval360.projects.domain.EvalueeReviewer;
 import com.gire.eval360.projects.domain.FeedbackProvider;
 import com.gire.eval360.projects.domain.Project;
 import com.gire.eval360.projects.domain.ProjectAdmin;
+import com.gire.eval360.projects.domain.Relationship;
 import com.gire.eval360.projects.domain.Reviewer;
 import com.gire.eval360.projects.domain.Status;
 import com.gire.eval360.projects.domain.dto.AdminStatus;
@@ -496,14 +497,15 @@ public class ProjectServiceImpl implements ProjectService{
 
 
 	private EvalueeDetail buildEvalueeDetail(EvalueeFeedbackProvider efp) {
-		UserResponse user = this.userServiceRemote.getUserById(efp.getFeedbackProvider().getIdUser());
+		UserResponse user = this.userServiceRemote.getUserById(efp.getEvaluee().getIdUser());
 
 		
-		EvalueeDetail evalueeDetail = EvalueeDetail.builder().id(efp.getFeedbackProvider().getId())
+		EvalueeDetail evalueeDetail = EvalueeDetail.builder().id(efp.getEvaluee().getId())
 																		  .avatar("")
-																		  .idUser(efp.getFeedbackProvider().getIdUser())
+																		  .idUser(efp.getEvaluee().getIdUser())
 																		  .username(user.getUsername())
 																		  .status(efp.getStatus())
+																		  .relationship(efp.getRelationship())
 																		  .build();
 																		  
 		return evalueeDetail;
@@ -521,13 +523,24 @@ public class ProjectServiceImpl implements ProjectService{
 															 .pendingReports(0)
 															 .build();
 		
+		List<EvalueeDetail> evalueeDetails = r.getEvaluees().stream().map(er -> buildEvalueeReviewerDetail(er)).collect(Collectors.toList());
+		
+		reviewerStatus.setEvaluees(evalueeDetails);
 		
 		return reviewerStatus;
 	}
 
 	private EvalueeDetail buildEvalueeReviewerDetail(EvalueeReviewer er) {
-		// TODO Auto-generated method stub
-		return null;
+		UserResponse user = this.userServiceRemote.getUserById(er.getEvaluee().getIdUser());
+
+		
+		EvalueeDetail evalueeDetail = EvalueeDetail.builder().id(er.getEvaluee().getId())
+																		  .avatar("")
+																		  .idUser(er.getEvaluee().getIdUser())
+																		  .username(user.getUsername())
+																		  .build();
+																		  
+		return evalueeDetail;
 	}
 
 	private AdminStatus buildAdminStatus(ProjectAdmin a) {
@@ -565,7 +578,7 @@ public class ProjectServiceImpl implements ProjectService{
 		}
 	}
 
-	private PendingEvaluee buildPendingEvaluee(Evaluee evaluee, Long efpId, String relationship) {
+	private PendingEvaluee buildPendingEvaluee(Evaluee evaluee, Long efpId, Relationship relationship) {
 		UserResponse user = this.userServiceRemote.getUserById(evaluee.getIdUser());
 		
 		PendingEvaluee pendingEvaluee = PendingEvaluee.builder()

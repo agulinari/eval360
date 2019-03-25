@@ -230,7 +230,7 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
     );
   }
 
-  notificateFeedback(feedbackProviderStatus:FeedbackProviderStatus) {
+  notificateFeedback(feedbackProviderStatus: FeedbackProviderStatus) {
     const dialogRef: MatDialogRef<WaitingDialogComponent> = this.dialog.open(WaitingDialogComponent,  {
       panelClass: 'transparent',
       disableClose: true
@@ -250,6 +250,35 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
           this.showError('Se produjo un error al notificar al provider el feedback pendiente');
       }
     );
+  }
+
+  exportProject() {
+    this.projectService.exportProject(this.projectStatus.id).subscribe(res => {
+      console.log(res);
+      const newBlob = new Blob([res], { type: 'application/vnd.ms-excel' });
+
+      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveOrOpenBlob(newBlob);
+        return;
+    }
+     // For other browsers:
+            // Create a link pointing to the ObjectURL containing the blob.
+            const data = window.URL.createObjectURL(newBlob);
+
+            const link = document.createElement('a');
+            link.href = data;
+            link.download = 'project.xlsx';
+            // this is necessary as link.click() does not work on the latest firefox
+            link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+
+            setTimeout(function () {
+                // For Firefox it is necessary to delay revoking the ObjectURL
+                window.URL.revokeObjectURL(data);
+            }, 100);
+
+    }, error => {
+      console.log(error);
+    });
   }
 
   showError(error: string): void {

@@ -1,5 +1,6 @@
 package com.gire.eval360.projects.controller;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,8 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +39,7 @@ import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
 import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
+import com.gire.eval360.projects.service.ExcelGenerator;
 import com.gire.eval360.projects.service.ProjectService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -162,6 +166,27 @@ public class ProjectController {
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 
 	}
+	
+	@GetMapping("/{id}/export")
+	public ResponseEntity<InputStreamResource> exportProject(@PathVariable Long id) throws IOException {
+		
+		Optional<ProjectStatus> oProject = this.projectService.getProjectStatus(id);
+		
+		if (oProject.isPresent()) {
+		    ByteArrayInputStream in = ExcelGenerator.projectToExcel(oProject.get());
+		    
+		    HttpHeaders headers = new HttpHeaders();
+		        headers.add("Content-Disposition", "attachment; filename=project.xlsx");
+		    
+		     return ResponseEntity
+		                  .ok()
+		                  .headers(headers)
+		                  .body(new InputStreamResource(in));
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	 
+	}
 
 
 	private void addProjectAdmin(List<ProjectAdminExcel> admins, XSSFRow row) {
@@ -242,7 +267,7 @@ public class ProjectController {
 					}
 				}
 				ProjectFpExcel fp = new ProjectFpExcel();
-				fp.setRelationship(relationship);
+				fp.setRelationship(Relationship.valueOf(relationship));
 				fp.setUsername(fpName);
 				evaluee.getFeedbackProviders().add(fp);
 				break;
@@ -255,7 +280,7 @@ public class ProjectController {
 			List<ProjectFpExcel> feedbackProviders = new ArrayList<>();
 			List<ProjectReviewerExcel> reviewers = new ArrayList<>();
 			ProjectFpExcel fp = new ProjectFpExcel();
-			fp.setRelationship(relationship);
+			fp.setRelationship(Relationship.valueOf(relationship));
 			fp.setUsername(fpName);
 			feedbackProviders.add(fp);
 			evaluee.setFeedbackProviders(feedbackProviders);
