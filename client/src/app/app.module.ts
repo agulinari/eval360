@@ -48,7 +48,7 @@ import { EvaluationPreviewComponent } from './evaluation-preview/evaluation-prev
 import { ReportService } from './shared/report.service';
 import { WaitingDialogComponent } from './dialog/waiting-dialog.component';
 import { NotificationService } from './shared/notification.service';
-import { StatisticsListComponent } from './statistics-list/statistics-list.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 import { CreateProjectDialogComponent } from './dialog/create-project-dialog.component';
 
 
@@ -77,7 +77,7 @@ import { CreateProjectDialogComponent } from './dialog/create-project-dialog.com
     ProjectStatusComponent,
     EvaluationComponent,
     EvaluationListComponent,
-    StatisticsListComponent
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,

@@ -12,8 +12,10 @@
   }
 
   .item-panel{
-    border-radius: 25px;
-    border: 1px solid grey;
-    padding: 10px;
-    margin: 5px;
+    border-radius: 10px; 
+  /*  border: 1px solid grey; */
+  background-color: rgb(70, 70, 70);
+  box-shadow: 0 5px 10px rgba(0,0,0,.3);
+    padding: 10px 0px 10px 20px;
+    margin: 5px 5px 10px 5px;
 }
