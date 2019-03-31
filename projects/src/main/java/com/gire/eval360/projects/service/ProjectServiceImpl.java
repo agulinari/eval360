@@ -1,5 +1,6 @@
 package com.gire.eval360.projects.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +43,8 @@ import com.gire.eval360.projects.domain.excel.ProjectEvalueeExcel;
 import com.gire.eval360.projects.domain.excel.ProjectExcel;
 import com.gire.eval360.projects.domain.excel.ProjectFpExcel;
 import com.gire.eval360.projects.domain.excel.ProjectReviewerExcel;
+import com.gire.eval360.projects.domain.history.EvaluationInstance;
+import com.gire.eval360.projects.domain.history.UserHistory;
 import com.gire.eval360.projects.domain.notifications.NotificationFeedbackProviderDto;
 import com.gire.eval360.projects.domain.notifications.NotificationReviewerDto;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
@@ -103,6 +106,7 @@ public class ProjectServiceImpl implements ProjectService{
 		project.setName(request.getName());
 		project.setDescription(request.getDescription());
 		project.setIdEvaluationTemplate(request.getIdTemplate());
+		project.setStartDate(LocalDate.now());
 		project.setStatus(Status.PENDIENTE);
 		
 		List<CreateEvaluee> createEvaluees = request.getEvaluees();
@@ -783,6 +787,43 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		List<String> usernamesList = new ArrayList<>(usernamesSet);
 		return usernamesList;
+	}
+
+	@Override
+	public UserHistory getUserHistory(Long idUser) {
+		List<Project> projects = projectRepository.findEvalueeHistory(idUser);
+		
+		List<EvaluationInstance> evalInstances = new ArrayList<>();
+		for (Project project : projects) {
+			EvaluationInstance evalInstance = createEvaluationInstance(project, idUser);
+			evalInstances.add(evalInstance);
+		}
+		UserHistory userHistory = UserHistory.builder().idUser(idUser).evaluationInstances(evalInstances).build();
+		
+		return userHistory;
+	}
+
+	private EvaluationInstance createEvaluationInstance(Project project, Long idUser) {
+				
+		Optional<Evaluee> evaluee = project.getEvaluees().stream().filter(e -> e.getIdUser().longValue() == idUser.longValue()).findFirst();
+		// Siempre existe el evaluee
+		List<EvalueeFeedbackProvider> efps = evaluee.get().getFeedbackProviders();
+
+		List<Long> feedbackProvidersIds = efps.stream().map(efp -> efp.getFeedbackProvider().getIdUser()).collect(Collectors.toList());
+		
+		LocalDate endDate = LocalDate.now();
+		if (project.getEndDate() != null) {
+			endDate = project.getEndDate();
+		}
+		
+		EvaluationInstance instance = EvaluationInstance.builder()
+				.idProject(project.getId())
+				.projectName(project.getName())
+				.startDate(project.getStartDate())
+				.endDate(endDate)
+				.feedbackProvidersIds(feedbackProvidersIds)
+				.build();
+		return instance;
 	}
 
 }

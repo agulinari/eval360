@@ -11,6 +11,7 @@ import { ProjectStatus } from '../domain/project-status/project-status';
 import { PendingEvaluee } from '../domain/evaluation-list/pending-evaluee';
 import { CompletedEvaluee } from '../domain/evaluation-list/completed-evaluee';
 import { environment } from '../../environments/environment';
+import { UserHistory } from '../domain/statistics/user-history';
 
 @Injectable({
   providedIn: 'root'
@@ -140,6 +141,12 @@ export class ProjectService {
   exportProject(id: number): Observable<Blob> {
     return this.http.get(this.PROJECTS_API + '/' + id + '/export', {responseType: 'blob'}).pipe(
       catchError(this.handleError<any>('exportProject'))
+    );
+  }
+
+  getUserHistory(idUser: number): Observable<UserHistory> {
+    return this.http.get(this.PROJECTS_API + '/history/' + idUser).pipe(
+      catchError(this.handleError<any>('getUserHistory'))
     );
   }
 

@@ -42,4 +42,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpec
 	List<Project> findActiveProjectsByTemplate(@Param("idTemplate") Long idTemplate);
 	
 	
+	@Query("select p from Project p where p.id in ( select m.project.id from Evaluee m where m.idUser=:idUser ) order by p.startDate asc")
+	List<Project> findEvalueeHistory(@Param("idUser") Long idUser);
+	
 }

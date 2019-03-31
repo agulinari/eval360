@@ -4,12 +4,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
+
 import com.gire.eval360.projects.domain.Evaluee;
 import com.gire.eval360.projects.domain.Project;
 import com.gire.eval360.projects.domain.dto.CompletedEvaluee;
 import com.gire.eval360.projects.domain.dto.PendingEvaluee;
 import com.gire.eval360.projects.domain.dto.ProjectStatus;
 import com.gire.eval360.projects.domain.excel.ProjectExcel;
+import com.gire.eval360.projects.domain.history.UserHistory;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
@@ -36,6 +39,8 @@ public interface ProjectService {
 	List<CompletedEvaluee> getCompletedEvalueesForUser(Long id, Long idReviewer);
 
 	Project importProject(ProjectExcel projectExcel);
+
+	UserHistory getUserHistory(Long idUser);
 
 
 }

@@ -1,7 +1,15 @@
-import { Component, NgZone, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, NgZone, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
+import { ProjectService } from '../shared/project.service';
+import { UserService } from '../shared/user.service';
+import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
+import { User } from '../domain/user/user';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { UserHistory } from '../domain/statistics/user-history';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
 am4core.useTheme(am4themes_animated);
 
@@ -11,15 +19,43 @@ am4core.useTheme(am4themes_animated);
   styleUrls: ['./statistics.component.css']
 })
 
-export class StatisticsComponent implements AfterViewInit, OnDestroy {
+export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
   private chart: am4charts.XYChart;
+  private colorSet = new am4core.ColorSet();
 
-  private items;
-  private index = 0;
+  filteredUsers: User[] = [];
+  usersForm: FormGroup;
+  isLoading = false;
+  selectedUser: User;
 
-  constructor(private zone: NgZone) {}
+  constructor(private zone: NgZone,
+    private dialog: MatDialog,
+    private fb: FormBuilder,
+    private projectService: ProjectService,
+    private userService: UserService) {}
+
+  ngOnInit() {
+    this.selectedUser = null;
+
+    this.usersForm = this.fb.group({
+        userInput: ['']
+    });
+
+    this.usersForm.get('userInput')
+    .valueChanges
+    .pipe(
+        debounceTime(300),
+        tap(() => this.isLoading = true),
+        switchMap(value => this.userService.find(value, 'username,asc', 0, 10).pipe(
+            finalize(() => this.isLoading = false)
+        ))
+    ).subscribe(userList => this.filteredUsers = userList.users);
+ }
+
 
   ngAfterViewInit() {
+
+    this.colorSet.saturation = 0.4;
 
     this.zone.runOutsideAngular(() => {
 
@@ -28,131 +64,6 @@ export class StatisticsComponent implements AfterViewInit, OnDestroy {
 
     chart.paddingRight = 30;
     chart.dateFormatter.inputDateFormat = 'yyyy-MM-dd HH:mm';
-
-    const colorSet = new am4core.ColorSet();
-    colorSet.saturation = 0.4;
-
-    this.items = [{
-      'category': 'Module #1',
-      'start': '2016-01-01',
-      'end': '2016-01-18',
-      'color': colorSet.getIndex(0).brighten(0),
-      'task': 'Gathering requirements'
-    }, {
-      'category': 'Module #1',
-      'start': '2016-01-16',
-      'end': '2016-01-27',
-      'color': colorSet.getIndex(0).brighten(0.4),
-      'task': 'Producing specifications'
-    }, {
-      'category': 'Module #1',
-      'start': '2016-02-05',
-      'end': '2016-04-18',
-      'color': colorSet.getIndex(0).brighten(0.8),
-      'task': 'Development'
-    }, {
-      'category': 'Module #1',
-      'start': '2016-04-18',
-      'end': '2016-04-30',
-      'color': colorSet.getIndex(0).brighten(1.2),
-      'task': 'Testing and QA'
-    }, {
-      'category': 'Module #2',
-      'start': '2016-01-08',
-      'end': '2016-01-10',
-      'color': colorSet.getIndex(2).brighten(0),
-      'task': 'Gathering requirements'
-    }, {
-      'category': 'Module #2',
-      'start': '2016-01-12',
-      'end': '2016-01-15',
-      'color': colorSet.getIndex(2).brighten(0.4),
-      'task': 'Producing specifications'
-    }, {
-      'category': 'Module #2',
-      'start': '2016-01-16',
-      'end': '2016-02-05',
-      'color': colorSet.getIndex(2).brighten(0.8),
-      'task': 'Development'
-    }, {
-      'category': 'Module #2',
-      'start': '2016-02-10',
-      'end': '2016-02-18',
-      'color': colorSet.getIndex(2).brighten(1.2),
-      'task': 'Testing and QA'
-    }, {
-      'category': 'Module #3',
-      'start': '2016-01-02',
-      'end': '2016-01-08',
-      'color': colorSet.getIndex(4).brighten(0),
-      'task': 'Gathering requirements'
-    }, {
-      'category': 'Module #3',
-      'start': '2016-01-08',
-      'end': '2016-01-16',
-      'color': colorSet.getIndex(4).brighten(0.4),
-      'task': 'Producing specifications'
-    }, {
-      'category': 'Module #3',
-      'start': '2016-01-19',
-      'end': '2016-03-01',
-      'color': colorSet.getIndex(4).brighten(0.8),
-      'task': 'Development'
-    }, {
-      'category': 'Module #3',
-      'start': '2016-03-12',
-      'end': '2016-04-05',
-      'color': colorSet.getIndex(4).brighten(1.2),
-      'task': 'Testing and QA'
-    }, {
-      'category': 'Module #4',
-      'start': '2016-01-01',
-      'end': '2016-01-19',
-      'color': colorSet.getIndex(6).brighten(0),
-      'task': 'Gathering requirements'
-    }, {
-      'category': 'Module #4',
-      'start': '2016-01-19',
-      'end': '2016-02-03',
-      'color': colorSet.getIndex(6).brighten(0.4),
-      'task': 'Producing specifications'
-    }, {
-      'category': 'Module #4',
-      'start': '2016-03-20',
-      'end': '2016-04-25',
-      'color': colorSet.getIndex(6).brighten(0.8),
-      'task': 'Development'
-    }, {
-      'category': 'Module #4',
-      'start': '2016-04-27',
-      'end': '2016-05-15',
-      'color': colorSet.getIndex(6).brighten(1.2),
-      'task': 'Testing and QA'
-    }, {
-      'category': 'Module #5',
-      'start': '2016-01-01',
-      'end': '2016-01-12',
-      'color': colorSet.getIndex(8).brighten(0),
-      'task': 'Gathering requirements'
-    }, {
-      'category': 'Module #5',
-      'start': '2016-01-12',
-      'end': '2016-01-19',
-      'color': colorSet.getIndex(8).brighten(0.4),
-      'task': 'Producing specifications'
-    }, {
-      'category': 'Module #5',
-      'start': '2016-01-19',
-      'end': '2016-03-01',
-      'color': colorSet.getIndex(8).brighten(0.8),
-      'task': 'Development'
-    }, {
-      'category': 'Module #5',
-      'start': '2016-03-08',
-      'end': '2016-03-30',
-      'color': colorSet.getIndex(8).brighten(1.2),
-      'task': 'Testing and QA'
-    }];
 
     chart.data = [ ];
 
@@ -184,7 +95,7 @@ export class StatisticsComponent implements AfterViewInit, OnDestroy {
 
     chart.scrollbarX = new am4core.Scrollbar();
 
-  this.chart = chart;
+    this.chart = chart;
 });
   }
 
@@ -197,14 +108,61 @@ export class StatisticsComponent implements AfterViewInit, OnDestroy {
   }
 
   addUser() {
-    console.log('Se llamo addUser');
-    this.zone.runOutsideAngular(() =>  {
-      const colorSet = new am4core.ColorSet();
-      colorSet.saturation = 0.4;
 
-      this.chart.data.push(this.items[this.index]);
+    this.projectService.getUserHistory(this.selectedUser.id).subscribe(
+      res => {
+        console.log('Obteniendo historia de usuario', res);
+        this.updateChart(this.selectedUser.username, res);
+      },
+      err => {
+        console.log('Error obteniendo historia de usuario', err);
+        this.showError('Se produjo un error al obtener historial del usuario');
+      }
+    );
+
+  }
+
+  updateChart(username: string, userHistory: UserHistory) {
+
+    this.zone.runOutsideAngular(() =>  {
+
+      // let index = 0;
+      userHistory.evaluationInstances.forEach(instance => {
+
+        const item = {
+          'category': username,
+          'start': instance.startDate,
+          'end': instance.endDate,
+          'color': this.colorSet.next().brighten(0.4),
+          'task': instance.projectName
+        };
+        this.chart.data.push(item);
+      });
       this.chart.validateData();
-      this.index++;
+
+    });
+  }
+
+  displayFn(user: User) {
+    if (user) {
+        return user.username;
+    }
+  }
+
+  userClick(event: any) {
+    this.selectedUser = event.option.value;
+  }
+
+  checkUser() {
+      if (!this.selectedUser || this.selectedUser !== this.usersForm.controls['userInput'].value) {
+        this.usersForm.controls['userInput'].setValue(null);
+        this.selectedUser = null;
+      }
+  }
+
+  showError(error: string): void {
+    this.dialog.open(ErrorDialogComponent, {
+      data: {errorMsg: error}, width: '250px'
     });
   }
 }
