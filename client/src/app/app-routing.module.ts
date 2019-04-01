@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { UserListComponent } from './user-list/user-list.component';
-import { StatisticsListComponent } from './statistics-list/statistics-list.component';
+import { StatisticsListItemComponent } from './statistics-list-item/statistics-list-item.component';
 import { RoleGuardService } from './role-guard.service';
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { TemplateEditComponent } from './template-edit/template-edit.component';
@@ -12,9 +12,10 @@ import { TemplateListComponent } from './template-list/template-list.component';
 import { MainComponent } from './main/main.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ProjectListComponent } from './project-list/project-list.component';
+import { ProjectStatusComponent } from './project-status/project-status.component';
 import { ProjectCreateComponent } from './project-create/project-create.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ProjectStatusComponent } from './project-status/project-status.component';
+import { ProjectStatusItemComponent } from './project-status-item/project-status-item.component';
 import { EvaluationComponent } from './evaluation/evaluation.component';
 import { EvaluationListComponent } from './evaluation-list/evaluation-list.component';
 
@@ -93,23 +94,7 @@ const appRoutes: Routes = [
         component: ProjectListComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRoles: ['ROLE_USER']
-        }
-      },
-      {
-        path: 'project-create',
-        component: ProjectCreateComponent,
-        canActivate: [RoleGuardService],
-        data: {
-          expectedRoles: ['ROLE_USER']
-        }
-      },
-      {
-        path: 'project-status/:id',
-        component: ProjectStatusComponent,
-        canActivate: [RoleGuardService],
-        data: {
-          expectedRoles: ['ROLE_USER']
+          expectedRoles: ['ROLE_USER','ROLE_ADMIN']
         }
       },
       {
@@ -129,8 +114,42 @@ const appRoutes: Routes = [
         }
       },
       {
-        path: 'statistics-list',
-        component: StatisticsListComponent,
+        path: 'project-status/:id',
+        component: ProjectStatusComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRoles: ['ROLE_USER','ROLE_ADMIN']
+        },
+        children:[
+          {
+            path: 'project-status-item/:id',
+            component: ProjectStatusItemComponent,
+            canActivate: [RoleGuardService],
+            data: {
+              expectedRoles: ['ROLE_USER','ROLE_ADMIN']
+            }
+          },
+          {
+            path: 'statistics-list-item/:id',
+            component: StatisticsListItemComponent,
+            canActivate: [RoleGuardService],
+            data: {
+              expectedRoles: ['ROLE_USER','ROLE_ADMIN']
+            }
+          }
+        ]
+      },
+      {
+        path: 'project-create',
+        component: ProjectCreateComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRoles: ['ROLE_USER']
+        }
+      },
+      {
+        path: 'statistics-list-item',
+        component: StatisticsListItemComponent,
         canActivate: [RoleGuardService],
         data: {
           expectedRoles: ['ROLE_ADMIN']

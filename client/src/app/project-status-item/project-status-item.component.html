@@ -1,0 +1,127 @@
+<mat-card  class="shipping-card">
+    <mat-card-header>
+      <mat-card-title>Estado del Proyecto <strong>{{project?.name}}</strong></mat-card-title>
+    </mat-card-header>
+    <mat-card-actions align="right">
+        <button mat-raised-button type="button" color="primary" [disabled]="loading" (click)="openAddEvalueeDialog()">+ Evaluado</button>
+        <button mat-raised-button type="button" color="primary" [disabled]="loading" (click)="openAddAdminDialog()">+ Admin</button>
+        <button type="button" matTooltip="Exportar proyecto" color="accent" mat-icon-button (click)="exportProject()">
+                <mat-icon aria-label="Export project">save_alt</mat-icon>
+        </button>
+    </mat-card-actions>
+<mat-card-content>
+<div class="spinner-container" *ngIf="loading">
+    <mat-spinner [diameter]='70'></mat-spinner>
+</div>
+<div *ngIf="!loading">
+  <div class="item-panel">
+    <div fxLayout="row"   fxLayoutWrap fxLayoutGap="10px">
+      <h4 fxFlex="25%">Evaluados</h4>
+      <h4 fxFlex="10%">Estado</h4>
+      <h4 fxFlex="10%">Total Feedbacks</h4>
+      <h4 fxFlex="10%">Respuestas</h4>
+      <h4 fxFlex="20%">Progreso</h4>
+    </div>
+    <mat-list>
+    <mat-list-item *ngFor="let evaluee of projectStatus.evalueesStatus; let i = index; last as last">
+      <div class="full-width" fxLayout="row"  fxLayoutWrap fxLayoutGap="10px">      
+            <div  fxFlex="25%">
+              <img class="avatar" src="/assets/images/avatar.png" alt="{{evaluee.idUser}}">
+               {{evaluee.username}}
+            </div>
+            <div fxFlex="10%"  fxLayoutAlign="center center">
+                {{evaluee.status}}
+            </div>
+            <div fxFlex="10%"  fxLayoutAlign="center center">
+                {{evaluee.pendingFeedbacks}}
+            </div>
+            <div fxFlex="10%"  fxLayoutAlign="center center">
+                {{evaluee.completedFeedbacks}}
+            </div>
+            <div fxFlex="20%"  fxLayoutAlign="center center">
+                <mat-progress-bar mode="determinate" [value]="0"></mat-progress-bar>
+            </div>
+        </div>
+      <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+    </mat-list-item>
+    </mat-list>
+  </div>
+  <div class="item-panel">
+      <div fxLayout="row"  fxLayoutWrap fxLayoutGap="10px">
+          <h4 fxFlex="25%">Evaluadores</h4>
+          <h4 fxFlex="10%">Estado</h4>
+          <h4 fxFlex="10%">Pendientes</h4>
+          <h4 fxFlex="10%">Completados</h4>
+          <h4 fxFlex="20%">Progreso</h4>
+          <h4 fxFlex="20%" *ngIf="recordarFeedback" fxLayoutAlign="center">Recordar Feedback</h4>
+      </div>
+      <mat-list>
+      <mat-list-item *ngFor="let fp of projectStatus.feedbackProvidersStatus; let i = index; last as last">
+          <div class="full-width" fxLayout="row"  fxLayoutWrap fxLayoutGap="10px">
+                  <div fxFlex="25%">
+                  <img class="avatar" src="/assets/images/avatar.png" alt="{{fp.idUser}}">
+                      {{fp.username}}
+                  </div>
+                  <div fxFlex="10%" fxLayoutAlign="center center">
+                      {{fp.status}}
+                  </div>
+                  <div fxFlex="10%" fxLayoutAlign="center center">
+                      {{fp.pendingFeedbacks}}
+                  </div>
+                  <div fxFlex="10%" fxLayoutAlign="center center">
+                      {{fp.completedFeedbacks}}
+                  </div>
+                  <div fxFlex="20%" fxLayoutAlign="center center">
+                      <mat-progress-bar mode="determinate" [value]="fp.progress"></mat-progress-bar>
+                  </div>
+                  <div fxFlex="20%" fxLayoutAlign="center center">
+                      <button mat-icon-button  *ngIf="recordarFeedback" [disabled]="!fp.reminder" (click)="notificateFeedback(fp)">
+                          <mat-icon *ngIf="fp.reminder">mail</mat-icon>
+                          <mat-icon *ngIf="!fp.reminder">done</mat-icon>
+                      </button>
+                  </div>
+          </div>
+          <mat-divider [inset]="true" *ngIf="!last"></mat-divider> 
+          <mat-row *matRowDef="let fp"></mat-row>
+      </mat-list-item>
+      </mat-list>
+  </div>
+  <div class="item-panel">
+      <div fxLayout="row"  fxLayoutWrap fxLayoutGap="10px">
+          <h4 fxFlex="30%">Reviewers</h4>
+      </div>
+      <mat-list>
+      <mat-list-item *ngFor="let reviewer of projectStatus.reviewersStatus; let i = index; last as last">
+          <div class="full-width" fxLayout="row"  fxLayoutWrap fxLayoutGap="10px">
+                  <div fxFlex="30%">
+                  <img class="avatar" src="/assets/images/avatar.png" alt="{{reviewer.idUser}}">
+                  {{reviewer.username}}
+                  </div>
+          </div>
+          <mat-divider [inset]="true" *ngIf="!last"></mat-divider> 
+      </mat-list-item>
+      </mat-list>
+  </div>
+      <div class="item-panel">    
+      <div fxLayout="row"  fxLayoutWrap fxLayoutGap="10px">
+          <h4 fxFlex="30%">Administradores</h4>
+          <h4 fxFlex="10%">Creador</h4>
+      </div>
+      <mat-list>
+      <mat-list-item *ngFor="let admin of projectStatus.adminsStatus; let i = index; last as last">
+          <div class="full-width" fxLayout="row"  fxLayoutWrap fxLayoutGap="10px">
+              <div fxFlex="30%">
+                  <img class="avatar" src="/assets/images/avatar.png" alt="{{admin.idUser}}">
+                  {{admin.username}}
+              </div>
+              <div fxFlex="10%"  fxLayoutAlign="center center"> 
+                  {{admin.creator}}
+              </div>
+          </div>
+          <mat-divider [inset]="true" *ngIf="!last"></mat-divider> 
+      </mat-list-item>
+      </mat-list>
+  </div>   
+</div>
+</mat-card-content>
+</mat-card>

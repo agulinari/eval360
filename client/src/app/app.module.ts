@@ -40,6 +40,7 @@ import { ProjectCreateComponent } from './project-create/project-create.componen
 import { AddEvalueeDialogComponent } from './dialog/add-evaluee-dialog.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AddAdminDialogComponent } from './dialog/add-admin-dialog.component';
+import { ProjectStatusItemComponent } from './project-status-item/project-status-item.component';
 import { ProjectStatusComponent } from './project-status/project-status.component';
 import { EvaluationComponent } from './evaluation/evaluation.component';
 import { EvaluationService } from './shared/evaluation.service';
@@ -48,7 +49,8 @@ import { EvaluationPreviewComponent } from './evaluation-preview/evaluation-prev
 import { ReportService } from './shared/report.service';
 import { WaitingDialogComponent } from './dialog/waiting-dialog.component';
 import { NotificationService } from './shared/notification.service';
-import { StatisticsListComponent } from './statistics-list/statistics-list.component';
+import { StatisticsListItemComponent } from './statistics-list-item/statistics-list-item.component';
+import { StatisticService } from "./shared/statistic.service"
 import { CreateProjectDialogComponent } from './dialog/create-project-dialog.component';
 
 
@@ -74,10 +76,11 @@ import { CreateProjectDialogComponent } from './dialog/create-project-dialog.com
     ProjectListComponent,
     ProjectCreateComponent,
     DashboardComponent,
+    ProjectStatusItemComponent,
     ProjectStatusComponent,
     EvaluationComponent,
     EvaluationListComponent,
-    StatisticsListComponent
+    StatisticsListItemComponent
   ],
   imports: [
     BrowserModule,
@@ -123,6 +126,7 @@ import { CreateProjectDialogComponent } from './dialog/create-project-dialog.com
     EvaluationService,
     ReportService,
     NotificationService,
+    StatisticService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}
   ],
