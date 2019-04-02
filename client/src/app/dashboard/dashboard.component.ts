@@ -74,7 +74,7 @@ export class DashboardComponent implements OnInit{
        { title: 'Estadisticas',
          subtitle: 'Administración de estadisticas',
          collapse: false,
-         url: '/main/statistics-list',
+         url: '/main/statistics',
          roles: 'ROLE_ADMIN',
          content: 'Para gestionar sus estadisticas ingrese aquí.',
          image: '/assets/images/statistics.jpg', cols: 2, rows: 1 }

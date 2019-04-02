@@ -1,7 +1,6 @@
 package com.gire.eval360.projects.domain;
 
 
-import java.time.LocalDate;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -32,12 +31,6 @@ public class Project extends AuditedEntity{
 	
 	@Column
 	private String description;
-	
-	@Column
-	private LocalDate startDate;
-	
-	@Column
-	private LocalDate endDate;
 
 	@Column
 	@NonNull

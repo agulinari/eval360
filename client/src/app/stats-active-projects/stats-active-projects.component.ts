@@ -29,31 +29,31 @@ export class StatsActiveProjectsComponent implements AfterViewInit, OnInit, OnDe
       // Set data
       let selected;
       const types = [{
-        type: 'Fossil Energy',
+        type: 'Proyecto Evaluacion 2018',
         percent: 70,
         color: chart.colors.getIndex(0),
         subs: [{
-          type: 'Oil',
+          type: 'Jefe',
           percent: 15
         }, {
-          type: 'Coal',
+          type: 'Par',
           percent: 35
         }, {
-          type: 'Nuclear',
+          type: 'Dependiente',
           percent: 20
         }]
       }, {
-        type: 'Green Energy',
+        type: 'Proyecto Evaluacion 2019',
         percent: 30,
         color: chart.colors.getIndex(1),
         subs: [{
-          type: 'Hydro',
+          type: 'Jefe',
           percent: 15
         }, {
-          type: 'Wind',
+          type: 'Par',
           percent: 10
         }, {
-          type: 'Other',
+          type: 'Dependiente',
           percent: 5
         }]
       }];

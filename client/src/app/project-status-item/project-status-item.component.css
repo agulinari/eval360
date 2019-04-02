@@ -1,0 +1,19 @@
+.full-width {
+    width: 100%;
+  }
+  
+.shipping-card {
+    min-width: 120px;
+    margin: 20px auto;
+  }
+
+  .mat-list .mat-list-item {
+    height: 60px; /* default is 72px */
+  }
+
+  .item-panel{
+    border-radius: 25px;
+    border: 1px solid grey;
+    padding: 10px;
+    margin: 5px;
+}
