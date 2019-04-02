@@ -35,6 +35,7 @@ import com.gire.eval360.projects.domain.excel.ProjectEvalueeExcel;
 import com.gire.eval360.projects.domain.excel.ProjectExcel;
 import com.gire.eval360.projects.domain.excel.ProjectFpExcel;
 import com.gire.eval360.projects.domain.excel.ProjectReviewerExcel;
+import com.gire.eval360.projects.domain.history.UserHistory;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
@@ -103,6 +104,11 @@ public class ProjectController {
 	@GetMapping("/{id}/completed/{idReviewer}")
 	public List<CompletedEvaluee> getCompletedEvalueesForUser(@PathVariable Long id, @PathVariable Long idReviewer) {
 		return this.projectService.getCompletedEvalueesForUser(id, idReviewer);
+	}
+
+	@GetMapping("/history/{idUser}")
+	public ResponseEntity<UserHistory> getUserHistory(@PathVariable Long idUser) {
+		return ResponseEntity.ok(this.projectService.getUserHistory(idUser));
 	}
 
 	@PostMapping("/import")
