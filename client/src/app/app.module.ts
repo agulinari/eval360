@@ -50,6 +50,7 @@ import { WaitingDialogComponent } from './dialog/waiting-dialog.component';
 import { NotificationService } from './shared/notification.service';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { CreateProjectDialogComponent } from './dialog/create-project-dialog.component';
+import { StatsActiveProjectsComponent } from './stats-active-projects/stats-active-projects.component';
 
 
 @NgModule({
@@ -77,7 +78,8 @@ import { CreateProjectDialogComponent } from './dialog/create-project-dialog.com
     ProjectStatusComponent,
     EvaluationComponent,
     EvaluationListComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    StatsActiveProjectsComponent
   ],
   imports: [
     BrowserModule,

@@ -17,6 +17,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProjectStatusComponent } from './project-status/project-status.component';
 import { EvaluationComponent } from './evaluation/evaluation.component';
 import { EvaluationListComponent } from './evaluation-list/evaluation-list.component';
+import { StatsActiveProjectsComponent } from './stats-active-projects/stats-active-projects.component';
 
 
 const appRoutes: Routes = [
@@ -130,7 +131,7 @@ const appRoutes: Routes = [
       },
       {
         path: 'statistics',
-        component: StatisticsComponent,
+        component: StatsActiveProjectsComponent,
         canActivate: [RoleGuardService],
         data: {
           expectedRoles: ['ROLE_ADMIN']
