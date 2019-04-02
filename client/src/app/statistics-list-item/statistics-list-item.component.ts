@@ -83,7 +83,7 @@ chart.rightAxesContainer.layout = "vertical";
 chart.rightAxesContainer.padding(120, 20, 120, 20);
 
 // category axis
-let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis<am4charts.AxisRendererCircular>());
 categoryAxis.renderer.grid.template.location = 0;
 categoryAxis.dataFields.category = "area";
 
@@ -106,7 +106,7 @@ categoryAxisRenderer.tooltipLocation = 0.5;
 categoryAxis.tooltip.defaultState.properties.opacity = 0;
 
 // value axis
-let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+let valueAxis = chart.yAxes.push(new am4charts.ValueAxis<am4charts.AxisRendererRadial>());
 valueAxis.min = -8;
 valueAxis.max = 8;
 valueAxis.strictMinMax = true;
@@ -210,7 +210,7 @@ function createRange(name:string, seccionData:Array<StatisticSpItem>, index:numb
     axisRange.grid.disabled = true;
     axisRange.label.interactionsEnabled = false;
 
-    let axisFill = axisRange.axisFill;
+    let axisFill = axisRange.axisFill as any;
     axisFill.innerRadius = -0.001; // almost the same as 100%, we set it in pixels as later we animate this property to some pixel value
     axisFill.radius = -20; // negative radius means it is calculated from max radius
     axisFill.disabled = false; // as regular fills are disabled, we need to enable this one
@@ -236,7 +236,7 @@ function createRange(name:string, seccionData:Array<StatisticSpItem>, index:numb
     hoverState.properties.innerRadius = -20;
     hoverState.properties.radius = -35;
 
-    let axisLabel = axisRange.label;
+    let axisLabel = axisRange.label as any;
     axisLabel.location = 0.5;
     axisLabel.fill = am4core.color("#ffffff");
     axisLabel.radius = 0;
