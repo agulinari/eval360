@@ -3,11 +3,11 @@
         <mat-spinner [diameter]='70'></mat-spinner>
     </div>
     <div *ngIf="!loading">
-  <mat-card  class="shipping-card">
-    <mat-card-header>
-      <mat-card-title>Evaluación {{evaluationForm.get('title').value}} a {{evaluationForm.get('username').value}}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
+<!--  <mat-card  class="shipping-card">
+    <mat-card-header> -->
+      <h3>Evaluación {{evaluationForm.get('title').value}} a {{evaluationForm.get('username').value}}</h3>
+<!--    </mat-card-header>
+    <mat-card-content> -->
 
     <div formArrayName="sections" *ngFor="let section of evaluationForm.get('sections').controls; let i = index;">
     <div [formGroupName]="i">
@@ -65,12 +65,12 @@
     </mat-card>
     </div>
     </div>
-  </mat-card-content>
-    <mat-card-actions  align="center">
+<!--  </mat-card-content>
+    <mat-card-actions  align="center"> -->
       <button mat-raised-button type="button" color="primary" (click)="gotoEvaluationList()">Ir a Evaluaciones Pendientes</button>
       <button mat-raised-button type="submit" [disabled]="evaluationForm.invalid" color="primary">Guardar</button>
-    </mat-card-actions>
-  </mat-card> 
+ <!--   </mat-card-actions>
+  </mat-card>  -->
   </div>
   </form>
   

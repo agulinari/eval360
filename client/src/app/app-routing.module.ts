@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { UserListComponent } from './user-list/user-list.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 import { StatisticsListItemComponent } from './statistics-list-item/statistics-list-item.component';
 import { RoleGuardService } from './role-guard.service';
 import { UserEditComponent } from './user-edit/user-edit.component';
@@ -94,12 +95,12 @@ const appRoutes: Routes = [
         component: ProjectListComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRoles: ['ROLE_USER','ROLE_ADMIN']
+          expectedRoles: ['ROLE_USER']
         }
       },
       {
-        path: 'project-tasks/:id',
-        component: EvaluationListComponent,
+        path: 'project-create',
+        component: ProjectCreateComponent,
         canActivate: [RoleGuardService],
         data: {
           expectedRoles: ['ROLE_USER']
@@ -113,12 +114,12 @@ const appRoutes: Routes = [
           expectedRoles: ['ROLE_USER']
         }
       },
-      {
+       {
         path: 'project-status/:id',
         component: ProjectStatusComponent,
         canActivate: [RoleGuardService],
         data: {
-          expectedRoles: ['ROLE_USER','ROLE_ADMIN']
+          expectedRoles: ['ROLE_USER']
         },
         children:[
           {
@@ -126,7 +127,7 @@ const appRoutes: Routes = [
             component: ProjectStatusItemComponent,
             canActivate: [RoleGuardService],
             data: {
-              expectedRoles: ['ROLE_USER','ROLE_ADMIN']
+              expectedRoles: ['ROLE_USER']
             }
           },
           {
@@ -134,14 +135,14 @@ const appRoutes: Routes = [
             component: StatisticsListItemComponent,
             canActivate: [RoleGuardService],
             data: {
-              expectedRoles: ['ROLE_USER','ROLE_ADMIN']
+              expectedRoles: ['ROLE_USER']
             }
           }
         ]
       },
       {
-        path: 'project-create',
-        component: ProjectCreateComponent,
+        path: 'project-tasks/:id',
+        component: EvaluationListComponent,
         canActivate: [RoleGuardService],
         data: {
           expectedRoles: ['ROLE_USER']
@@ -150,6 +151,14 @@ const appRoutes: Routes = [
       {
         path: 'statistics-list-item',
         component: StatisticsListItemComponent,
+        canActivate: [RoleGuardService],
+        data: {
+          expectedRoles: ['ROLE_ADMIN']
+        }
+      },
+      {
+        path: 'statistics',
+        component: StatisticsComponent,
         canActivate: [RoleGuardService],
         data: {
           expectedRoles: ['ROLE_ADMIN']

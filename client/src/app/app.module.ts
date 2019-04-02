@@ -50,7 +50,8 @@ import { ReportService } from './shared/report.service';
 import { WaitingDialogComponent } from './dialog/waiting-dialog.component';
 import { NotificationService } from './shared/notification.service';
 import { StatisticsListItemComponent } from './statistics-list-item/statistics-list-item.component';
-import { StatisticService } from "./shared/statistic.service"
+import { StatisticService } from "./shared/statistic.service";
+import { StatisticsComponent } from './statistics/statistics.component';
 import { CreateProjectDialogComponent } from './dialog/create-project-dialog.component';
 
 
@@ -80,7 +81,8 @@ import { CreateProjectDialogComponent } from './dialog/create-project-dialog.com
     ProjectStatusComponent,
     EvaluationComponent,
     EvaluationListComponent,
-    StatisticsListItemComponent
+    StatisticsListItemComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,

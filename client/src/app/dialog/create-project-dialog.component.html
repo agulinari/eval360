@@ -30,7 +30,7 @@
               </div>
               
               <label class="btn btn-default">
-                <input type="file" (change)="selectFile($event)">
+                <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" (change)="selectFile($event)">
               </label>
               
               <button mat-raised-button [disabled]="!selectedFiles"

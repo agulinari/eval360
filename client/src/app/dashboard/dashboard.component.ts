@@ -5,7 +5,7 @@ import { AuthenticationService } from '../shared/authentication.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'dashboard',
+  selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit{
           { title: 'Estadisticas',
             subtitle: 'Administración de estadisticas',
             collapse: false,
-            url: '/main/statistics-list-item',
+            url: '/main/statistics',
             roles: 'ROLE_ADMIN',
             content: 'Para gestionar sus estadisticas ingrese aquí.',
             image: '/assets/images/statistics.jpg', cols: 2, rows: 1 }
@@ -74,7 +74,7 @@ export class DashboardComponent implements OnInit{
        { title: 'Estadisticas',
          subtitle: 'Administración de estadisticas',
          collapse: false,
-         url: '/main/statistics-list-item',
+         url: '/main/statistics',
          roles: 'ROLE_ADMIN',
          content: 'Para gestionar sus estadisticas ingrese aquí.',
          image: '/assets/images/statistics.jpg', cols: 2, rows: 1 }
