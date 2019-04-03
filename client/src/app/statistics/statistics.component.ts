@@ -126,16 +126,18 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 
     this.zone.runOutsideAngular(() =>  {
 
-      // let index = 0;
+      let index = 0;
       userHistory.evaluationInstances.forEach(instance => {
 
         const item = {
           'category': username,
           'start': instance.startDate,
           'end': instance.endDate,
-          'color': this.colorSet.next().brighten(0.4),
+          'color': this.colorSet.next().brighten(index),
           'task': instance.projectName
         };
+
+        index = index + 0.2;
         this.chart.data.push(item);
       });
       this.chart.validateData();

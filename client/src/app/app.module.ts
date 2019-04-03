@@ -52,6 +52,8 @@ import { NotificationService } from './shared/notification.service';
 import { StatisticsListItemComponent } from './statistics-list-item/statistics-list-item.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { CreateProjectDialogComponent } from './dialog/create-project-dialog.component';
+import { StatsActiveProjectsComponent } from './stats-active-projects/stats-active-projects.component';
+import { StatisticsGeneralComponent } from './statistics-general/statistics-general.component';
 
 
 @NgModule({
@@ -80,8 +82,10 @@ import { CreateProjectDialogComponent } from './dialog/create-project-dialog.com
     ProjectStatusComponent,
     EvaluationComponent,
     EvaluationListComponent,
+    StatsActiveProjectsComponent,
     StatisticsListItemComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    StatisticsGeneralComponent
   ],
   imports: [
     BrowserModule,

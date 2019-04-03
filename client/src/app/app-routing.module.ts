@@ -19,6 +19,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProjectStatusItemComponent } from './project-status-item/project-status-item.component';
 import { EvaluationComponent } from './evaluation/evaluation.component';
 import { EvaluationListComponent } from './evaluation-list/evaluation-list.component';
+import { StatsActiveProjectsComponent } from './stats-active-projects/stats-active-projects.component';
+import { StatisticsGeneralComponent } from './statistics-general/statistics-general.component';
 
 
 const appRoutes: Routes = [
@@ -121,7 +123,7 @@ const appRoutes: Routes = [
         data: {
           expectedRoles: ['ROLE_USER']
         },
-        children:[
+        children: [
           {
             path: 'project-status-item/:id',
             component: ProjectStatusItemComponent,
@@ -149,20 +151,30 @@ const appRoutes: Routes = [
         }
       },
       {
-        path: 'statistics-list-item',
-        component: StatisticsListItemComponent,
-        canActivate: [RoleGuardService],
-        data: {
-          expectedRoles: ['ROLE_ADMIN']
-        }
-      },
-      {
         path: 'statistics',
-        component: StatisticsComponent,
+        component: StatisticsGeneralComponent,
         canActivate: [RoleGuardService],
         data: {
           expectedRoles: ['ROLE_ADMIN']
-        }
+        },
+        children: [
+          {
+            path: 'user-history',
+            component: StatisticsComponent,
+            canActivate: [RoleGuardService],
+            data: {
+              expectedRoles: ['ROLE_ADMIN']
+            }
+          },
+          {
+            path: 'active-projects',
+            component: StatsActiveProjectsComponent,
+            canActivate: [RoleGuardService],
+            data: {
+              expectedRoles: ['ROLE_ADMIN']
+            }
+          }
+        ]
       }
     ]
   },
