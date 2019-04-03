@@ -53,6 +53,7 @@ import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
 import com.gire.eval360.projects.domain.request.CreateReviewer;
 import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
+import com.gire.eval360.projects.domain.stats.ActiveProjectStats;
 import com.gire.eval360.projects.repository.EvalueeFeedbackProviderRepository;
 import com.gire.eval360.projects.repository.ProjectRepository;
 import com.gire.eval360.projects.service.remote.TemplateServiceRemote;
@@ -798,4 +799,67 @@ public class ProjectServiceImpl implements ProjectService {
 		return instance;
 	}
 
+	@Override
+	public List<ActiveProjectStats> getActiveProjectsStats() {
+		List<Project> projects = projectRepository.findByStatus(Status.PENDIENTE);
+		
+		List<ActiveProjectStats> stats = projects.stream().map(this::getActiveProjectStats).collect(Collectors.toList());
+		return stats;
+	}
+	
+	private ActiveProjectStats getActiveProjectStats(Project p) {
+		Integer evalueesCount = p.getEvaluees().size();
+
+		ActiveProjectStats noStats = ActiveProjectStats.builder()
+							.evaluationsByManagers(0)
+							.evaluationsByPeers(0)
+							.evaluationsBySubordiantes(0)
+							.build();
+		
+		
+		Optional<ActiveProjectStats> oStats = p.getEvaluees().stream().map(this::getEvalueeStats).reduce(this::acumulateStats);
+		
+		ActiveProjectStats stats = oStats.orElse(noStats);
+		
+		stats.setProjectName(p.getName());
+		stats.setEvaluees(evalueesCount);
+		return stats;
+	}
+
+	
+	
+	private ActiveProjectStats getEvalueeStats(Evaluee e) {
+		
+		Integer evalByManagers = 0;
+		Integer evalByPeers = 0;
+		Integer evalBySubordinates = 0;
+		
+		for (EvalueeFeedbackProvider efp : e.getFeedbackProviders()) {
+			if (efp.getRelationship().equals(Relationship.JEFE)) {
+				evalByManagers++;
+			}
+			if (efp.getRelationship().equals(Relationship.PAR)) {
+				evalByPeers++;
+			}
+			if (efp.getRelationship().equals(Relationship.SUBORDINADO)) {
+				evalBySubordinates++;
+			}
+		}
+		
+		return ActiveProjectStats.builder()
+		.evaluationsByManagers(evalByManagers)
+		.evaluationsByPeers(evalByPeers)
+		.evaluationsBySubordiantes(evalBySubordinates)
+		.build();
+		
+	}
+	
+	private ActiveProjectStats acumulateStats(ActiveProjectStats s1, ActiveProjectStats s2) {
+		return ActiveProjectStats.builder()
+			.evaluationsByManagers(s1.getEvaluationsByManagers() + s2.getEvaluationsByManagers())
+			.evaluationsByPeers(s1.getEvaluationsByPeers() + s2.getEvaluationsByPeers())
+			.evaluationsBySubordiantes(s1.getEvaluationsBySubordiantes() + s2.getEvaluationsBySubordiantes())
+			.build();
+		
+	}
 }

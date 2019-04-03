@@ -15,6 +15,7 @@ import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
 import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
+import com.gire.eval360.projects.domain.stats.ActiveProjectStats;
 
 public interface ProjectService {
 	
@@ -39,6 +40,8 @@ public interface ProjectService {
 	Project importProject(ProjectExcel projectExcel);
 	
 	UserHistory getUserHistory(Long idUser);
+
+	List<ActiveProjectStats> getActiveProjectsStats();
 
 
 }

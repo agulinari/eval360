@@ -40,6 +40,7 @@ import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
 import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
+import com.gire.eval360.projects.domain.stats.ActiveProjectStats;
 import com.gire.eval360.projects.service.ExcelGenerator;
 import com.gire.eval360.projects.service.ProjectService;
 
@@ -109,6 +110,11 @@ public class ProjectController {
 	@GetMapping("/history/{idUser}")
 	public ResponseEntity<UserHistory> getUserHistory(@PathVariable Long idUser) {
 		return ResponseEntity.ok(this.projectService.getUserHistory(idUser));
+	}
+	
+	@GetMapping("/stats/active")
+	public List<ActiveProjectStats> getActiveProjectsStats() {
+		return this.projectService.getActiveProjectsStats();
 	}
 
 	@PostMapping("/import")

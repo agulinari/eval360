@@ -2,6 +2,10 @@ import { Component, OnInit, AfterViewInit, OnDestroy, NgZone } from '@angular/co
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
+import { ProjectService } from '../shared/project.service';
+import { ActiveProjectStats } from '../domain/statistics/active-project-stats';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { MatDialog } from '@angular/material';
 
 
 am4core.useTheme(am4themes_animated);
@@ -11,16 +15,29 @@ am4core.useTheme(am4themes_animated);
   templateUrl: './stats-active-projects.component.html',
   styleUrls: ['./stats-active-projects.component.css']
 })
-export class StatsActiveProjectsComponent implements AfterViewInit, OnInit, OnDestroy {
+export class StatsActiveProjectsComponent implements AfterViewInit, OnDestroy {
 
   private chart: am4charts.PieChart;
 
-  constructor(private zone: NgZone) { }
+  constructor(private zone: NgZone,
+    private dialog: MatDialog,
+    private projectService: ProjectService) { }
 
-  ngOnInit() {
-  }
 
   ngAfterViewInit() {
+    this.projectService.getActiveProjectsStats().subscribe(
+      res => {
+        console.log('Obteniendo historia de usuario', res);
+        this.createChart(res);
+      },
+      err => {
+        console.log('Error obteniendo historia de usuario', err);
+        this.showError('Se produjo un error al obtener historial del usuario');
+      }
+    );
+  }
+
+  createChart(stats: ActiveProjectStats[]) {
 
     this.zone.runOutsideAngular(() => {
 
@@ -28,35 +45,39 @@ export class StatsActiveProjectsComponent implements AfterViewInit, OnInit, OnDe
       const chart = am4core.create('chartdiv', am4charts.PieChart);
       // Set data
       let selected;
-      const types = [{
-        type: 'Proyecto Evaluacion 2018',
-        percent: 70,
-        color: chart.colors.getIndex(0),
-        subs: [{
-          type: 'Jefe',
-          percent: 15
-        }, {
-          type: 'Par',
-          percent: 35
-        }, {
-          type: 'Dependiente',
-          percent: 20
-        }]
-      }, {
-        type: 'Proyecto Evaluacion 2019',
-        percent: 30,
-        color: chart.colors.getIndex(1),
-        subs: [{
-          type: 'Jefe',
-          percent: 15
-        }, {
-          type: 'Par',
-          percent: 10
-        }, {
-          type: 'Dependiente',
-          percent: 5
-        }]
-      }];
+      const types = [];
+
+      let totalEvaluations = 0;
+      stats.forEach(stat => {
+        totalEvaluations += stat.evaluationsByManagers + stat.evaluationsByPeers + stat.evaluationsBySubordiantes;
+      });
+
+      stats.forEach(stat => {
+        const totalEvals = stat.evaluationsByManagers + stat.evaluationsByPeers + stat.evaluationsBySubordiantes;
+        const managerPercent = (stat.evaluationsByManagers !== 0 ) ? stat.evaluationsByManagers / totalEvaluations * 100 : 0;
+        const peerPercent = (stat.evaluationsByPeers !== 0 ) ? stat.evaluationsByPeers / totalEvaluations * 100 : 0;
+        const subordPercent = (stat.evaluationsBySubordiantes !== 0 ) ? stat.evaluationsBySubordiantes / totalEvaluations * 100 : 0;
+        const totalPercent = (totalEvals !== 0) ? totalEvals / totalEvaluations * 100 : 0;
+
+        const type = {
+          type: stat.projectName,
+          percent: totalPercent,
+          color: chart.colors.next(),
+          subs: [
+            {
+              type: 'Jefe',
+              percent: managerPercent
+            }, {
+              type: 'Par',
+              percent: peerPercent
+            }, {
+              type: 'Dependiente',
+              percent: subordPercent
+            }
+          ]
+        };
+        types.push(type);
+      });
 
       // Add data
       chart.data = generateChartData();
@@ -111,6 +132,12 @@ export class StatsActiveProjectsComponent implements AfterViewInit, OnInit, OnDe
       if (this.chart) {
         this.chart.dispose();
       }
+    });
+  }
+
+  showError(error: string): void {
+    this.dialog.open(ErrorDialogComponent, {
+      data: {errorMsg: error}, width: '250px'
     });
   }
 
