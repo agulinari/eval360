@@ -7,5 +7,7 @@ import reactor.core.publisher.Flux;
 public interface EvaluationServiceRemote {
 
 	Flux<Evaluation> getEvaluationsByProjectAndEvaluee(Long projectId, Long evalueeId);
+	
+	Flux<Evaluation> getEvaluationsByProject(Long idProject);
 		
 }

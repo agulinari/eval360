@@ -3,7 +3,11 @@ package com.gire.eval360.reports.service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,11 @@ import com.gire.eval360.reports.domain.ItemScore;
 import com.gire.eval360.reports.domain.ReportData;
 import com.gire.eval360.reports.domain.Score;
 import com.gire.eval360.reports.domain.Section;
+import com.gire.eval360.reports.service.dto.statistics.StatisticsSp;
+import com.gire.eval360.reports.service.dto.statistics.StatisticsSpEvaluee;
+import com.gire.eval360.reports.service.dto.statistics.StatisticsSpItem;
+import com.gire.eval360.reports.service.dto.statistics.StatisticsSpPoint;
+import com.gire.eval360.reports.service.dto.statistics.StatisticsSpSection;
 import com.gire.eval360.reports.service.remote.EvaluationServiceRemote;
 import com.gire.eval360.reports.service.remote.TemplateServiceRemote;
 import com.gire.eval360.reports.service.remote.dto.evaluations.Evaluation;
@@ -32,6 +41,7 @@ public class ReportServiceImpl implements ReportService {
 
 	private final EvaluationServiceRemote evaluationServiceRemote;
 	private final TemplateServiceRemote templateServiceRemote;
+	private Map<Long,EvaluationTemplate> mapTemplates = new HashMap<Long,EvaluationTemplate>();
 	
 	@Autowired
 	public ReportServiceImpl(EvaluationServiceRemote evaluationServiceRemote,
@@ -41,6 +51,70 @@ public class ReportServiceImpl implements ReportService {
 		this.templateServiceRemote = templateServiceRemote;
 	}
 	
+	@Override
+	public Mono<StatisticsSp> getInfoProjectForStatistics(Long idProject, Long idEvaluationTemplate) {
+		
+		EvaluationTemplate evalTemp = mapTemplates.get(idEvaluationTemplate);
+		Mono<StatisticsSp> statisticsSp = Mono.empty();
+		
+		if(evalTemp==null) {
+			statisticsSp = templateServiceRemote.getTemplateById(idEvaluationTemplate).flatMap(template -> {
+				mapTemplates.put(template.getId(), template);
+				Mono<List<Evaluation>> evaluations = evaluationServiceRemote.getEvaluationsByProject(idProject).collectList();
+				return evaluations.map(es -> createStatisticsSp(template, es));
+			});
+		}else {
+			Mono<List<Evaluation>> evaluations = evaluationServiceRemote.getEvaluationsByProject(idProject).collectList();
+			statisticsSp = evaluations.map(es -> createStatisticsSp(evalTemp, es));
+		}
+		
+		return statisticsSp;
+	}
+	
+	private StatisticsSp createStatisticsSp(EvaluationTemplate template, List<Evaluation> evaluations){
+		
+		List<StatisticsSp> lstSps = new LinkedList<StatisticsSp>();
+		StatisticsSp stSpBuilder = StatisticsSp.builder().build();
+			
+		evaluations.stream().forEach(ev->{
+			List<com.gire.eval360.reports.service.remote.dto.evaluations.Section> sections = ev.getSections();
+			StatisticsSpEvaluee stSpEval = StatisticsSpEvaluee.builder().name(ev.getUsername()).id(ev.getIdEvaluee().toString()).build();
+			List<StatisticsSpSection> stSpSects = getStatisticsSpSection(stSpEval,sections,template);
+			StatisticsSp stSp = stSpBuilder.toBuilder().statisticsSpSections(stSpSects).statisticsSpEvaluee(stSpEval).build();
+			lstSps.add(stSp);
+		});
+					
+		StatisticsSp stSpRet = (!lstSps.isEmpty())?lstSps.get(lstSps.size()-1):stSpBuilder;
+		return stSpRet;
+	}
+	
+	private List<StatisticsSpSection> getStatisticsSpSection(StatisticsSpEvaluee stSpEval, List<com.gire.eval360.reports.service.remote.dto.evaluations.Section> sections, 
+															 EvaluationTemplate template) {
+		
+		List<StatisticsSpSection> stSpSects = sections.stream().map(s->{ 
+		
+			Optional<com.gire.eval360.reports.service.remote.dto.templates.Section> osectTemp = template.getSections().stream().filter(st->st.getId().equals(s.getId())).findFirst();
+			com.gire.eval360.reports.service.remote.dto.templates.Section sectTemp = osectTemp.isPresent()?osectTemp.get():com.gire.eval360.reports.service.remote.dto.templates.Section.builder().build();
+			
+			List<StatisticsSpItem> stSpIts = s.getItems().stream().filter(it->it.getType().equalsIgnoreCase("RATING"))
+														.map(it->{
+																Optional<ItemTemplate> oitT = sectTemp.getItems().stream().filter(itTemp-> itTemp.getId().equals(it.getId())).findFirst();
+																ItemTemplate itT=(oitT.isPresent())?oitT.get():ItemTemplate.builder().build();
+																
+																StatisticsSpPoint stSpPoint = StatisticsSpPoint.builder().point(new BigDecimal(it.getValue())).statisticSpEvaluee(stSpEval).build();
+																StatisticsSpItem stSpIt = StatisticsSpItem.builder().
+																										             description(itT.getDescription()).id(itT.getId()).
+																										             title(itT.getTitle()).point(stSpPoint).build();
+																return stSpIt;
+														}).collect(Collectors.toList());
+			StatisticsSpSection stSpSect=StatisticsSpSection.builder().name(sectTemp.getName()).statisticSpItems(stSpIts).build();
+			return stSpSect;
+		}).collect(Collectors.toList());
+		
+		return stSpSects;
+	
+	}
+
 	@Override
 	public Mono<ReportData> generateReport(Long idProject, Long idEvaluee, Long idTemplate) {
 

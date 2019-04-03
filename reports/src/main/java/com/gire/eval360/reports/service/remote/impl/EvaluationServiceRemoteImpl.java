@@ -23,4 +23,10 @@ public class EvaluationServiceRemoteImpl implements EvaluationServiceRemote {
 		return call;
 	}
 	
+	@Override
+	public Flux<Evaluation> getEvaluationsByProject(Long idProject){
+		Flux<Evaluation> call = this.webClient.get().uri("/project/"+idProject).retrieve().bodyToFlux(Evaluation.class);		
+		return call;
+	}
+	
 }

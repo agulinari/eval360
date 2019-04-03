@@ -13,6 +13,7 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
   navLinks: any[];
   activeLinkIndex = -1;
   idProject: number;
+  idTemplate: number;
 
   constructor(private router: Router,
               private route: ActivatedRoute) {
@@ -23,9 +24,11 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
    
     this.sub = this.route.params.subscribe(params => {
       const id = params['id'];
-      console.log('Entro a project status con id'+id);
+      const idTemp = params['idEvTemp'];
+      console.log('idTemplate: '+idTemp);
       if (id) {
         this.idProject = id;
+        this.idTemplate = idTemp;
         this.inicializarNavLinks();
       }
     });
@@ -33,18 +36,21 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
   }
 
   inicializarNavLinks(){
+    
     this.navLinks = [
       {
         label: 'Estado',
-        link: '/main/project-status/'+ this.idProject +'/project-status-item/'+ this.idProject,
+        link: '/main/project/'+ this.idProject+'/template/'+this.idTemplate +
+              '/project-status-item/'+this.idProject,
         index: 0
       }, {
         label: 'Estadisticas',
-        link: '/main/project-status/'+this.idProject+'/statistics-list-item/'+ this.idProject,
+        link: '/main/project/'+ this.idProject +'/template/'+this.idTemplate + '/statistics-list-item/'+this.idProject+
+              '/template/'+ this.idTemplate,
         index: 1
       }
     ];
-    
+  
     this.router.events.subscribe((res) => {
        this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === this.router.url));
     });
@@ -53,7 +59,8 @@ export class ProjectStatusComponent implements OnInit, OnDestroy {
   }
 
   gotoProjectStatusDefault() {
-    this.router.navigate(['/main/project-status/'+ this.idProject +'/project-status-item/'+ this.idProject]);
+    this.router.navigate(['/main/project/'+ this.idProject+'/template/'+this.idTemplate +
+                          '/project-status-item/'+this.idProject]);
   }
 
   ngOnDestroy() {

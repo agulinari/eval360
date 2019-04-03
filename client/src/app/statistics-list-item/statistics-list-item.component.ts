@@ -2,9 +2,15 @@ import { Component, NgZone } from "@angular/core";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import {StatisticService} from "../shared/statistic.service"
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import {ReportService} from "../shared/report.service"
 import {StatisticSp} from "../domain/statistics-status-project/statistics-sp"
+import {StatisticSpEvaluee} from "../domain/statistics-status-project/statistics-sp-evaluee"
+import {StatisticSpSection} from "../domain/statistics-status-project/statistics-sp-section"
 import {StatisticSpItem} from "../domain/statistics-status-project/statistics-sp-item"
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { StatisticSpPoint } from "../domain/statistics-status-project/statistics-sp-point";
 
 am4core.useTheme(am4themes_animated);
 
@@ -16,35 +22,59 @@ am4core.useTheme(am4themes_animated);
 
 export class StatisticsListItemComponent {
   
-private chart: am4charts.RadarChart;
-private statisticSpStatus: StatisticSp;
+  private chart: am4charts.RadarChart;
+  private statisticSpStatus: StatisticSp;
    
- // private series:am4charts.RadarColumnSeries;
- // private yearLabel:am4core.Label;
- // private categoryAxis: am4charts.CategoryAxis;
- // private evaluados:Array<string>;
- // private result_evaluaciones:any;
-  //private colorSet: am4core.ColorSet;
-  //private startIdxEval: number;
-  //private endIdxEval: number;
-  //private currentIdxEval: number;
+  private startIdxEval: number;
+  private endIdxEval: number;
 
+  private idProject: number;
+  private idEvalTemp: number;
+  loading = false;
+ 
   constructor(private zone: NgZone, 
-              private statisticService: StatisticService) {}
+              private route: ActivatedRoute,
+              private router: Router,
+              public dialog: MatDialog,
+              private reportService: ReportService) {}
 
-  ngAfterViewInit() {
-
-  this.zone.runOutsideAngular(() => {
+  ngOnInit(){
     
-this.statisticSpStatus = this.statisticService.get("1");
+    this.route.params.subscribe(params => {
+        const id = params['idProject'];
+        const idTemp = params['idTemplate'];
+    
+        this.idProject = id;
+        this.idEvalTemp = idTemp;
+        
+        this.reportService.getStatisticProject(id,idTemp).subscribe((statisticSp:StatisticSp) => {
+            if(statisticSp){
+                this.statisticSpStatus = statisticSp;
+                this.loadGraphicRadarTimeline();
+            }else{
+                console.log(`No se encontro informacion`);
+            }
+        },
+        err => {
+            console.log('Error obteniendo estadisticas de proyecto', err);
+            this.showError('Se produjo un error al obtener las estadisticas');
+        },
+          () => {
+            this.loading = false;
+          });
+        });
+}
+   
+ loadGraphicRadarTimeline():void {
 
-let evaluados = this.statisticSpStatus.statisticsSpEvaluees;
-
-let result_evaluaciones= this.statisticSpStatus.statisticsSpSections;
+this.zone.runOutsideAngular(() => {
+let evaluados : Array<StatisticSpEvaluee> = this.statisticSpStatus.statisticsSpEvaluees;
+console.log("Evaluados: "+evaluados[0].name);
+let result_evaluaciones : Array<StatisticSpSection> = this.statisticSpStatus.statisticsSpSections;
 
 let startIdxEval = 0;
 let endIdxEval = evaluados.length - 1;
-let currentIdxEval = 2;
+let currentIdxEval = 0;
 let colorSet = new am4core.ColorSet();
 
 let chart = am4core.create("chartdiv", am4charts.RadarChart);
@@ -166,14 +196,15 @@ function generateRadarData() {
     let data = [];
     let i = 0;
     for (var seccion in result_evaluaciones) {
-        let nombreSeccion = result_evaluaciones[seccion].name;
-        let seccionData = result_evaluaciones[seccion].statisticSpItems;
+        let nombreSeccion: string = result_evaluaciones[seccion].name;
+        let seccionData : Array<StatisticSpItem> = result_evaluaciones[seccion].statisticSpItems;
 
         seccionData.forEach(function (area) {
             let rawDataItem = { "area": area.description }
-
-            for (var y = 0;  y < area.points.length; y++) {
-                rawDataItem["value" + (startIdxEval + y)] = area.points[y].point;
+            let points : Array<StatisticSpPoint> = area.points;
+            for (var y = 0;  y < points.length; y++) {
+                console.log("Puntaje:"+points[y].point);
+                rawDataItem["value" + (startIdxEval + y)] = points[y].point;
             }
 
             data.push(rawDataItem);
@@ -202,9 +233,9 @@ function createRange(name:string, seccionData:Array<StatisticSpItem>, index:numb
     axisRange.axisFill.interactionsEnabled = true;
     axisRange.text = name;
     // first area
-    axisRange.category = seccionData[0].title;
+    axisRange.category = seccionData[0].description;
     // last area
-    axisRange.endCategory = seccionData[seccionData.length - 1].title;
+    axisRange.endCategory = seccionData[seccionData.length - 1].description;
     // every 3rd color for a bigger contrast
     axisRange.axisFill.fill = colorSet.getIndex(index * 3);
     axisRange.grid.disabled = true;
@@ -256,6 +287,12 @@ slider.events.on("rangechanged", function () {
 this.chart = chart;
     });
 }
+
+  showError(error: string): void {
+    this.dialog.open(ErrorDialogComponent, {
+      data: {errorMsg: error}, width: '250px'
+    });
+  }
 
   ngOnDestroy() {
     this.zone.runOutsideAngular(() => {

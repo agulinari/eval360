@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -25,6 +26,7 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import com.gire.eval360.reports.domain.ReportData;
 import com.gire.eval360.reports.repository.ReportRepository;
 import com.gire.eval360.reports.service.ReportService;
+import com.gire.eval360.reports.service.dto.statistics.StatisticsSp;
 import com.itextpdf.text.DocumentException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +55,11 @@ public class ReportController  {
     @GetMapping("/model/{idEvaluee}")
     public Mono<ReportData> getModel(@PathVariable Long idEvaluee) {
     	return repository.findByIdEvaluee(idEvaluee);
+    }
+
+    @GetMapping("/statistics-project")
+    public Mono<StatisticsSp> getInfoProjectForStatistics(@RequestParam Long idProject,@RequestParam Long idEvaluationTemplate){
+    	return service.getInfoProjectForStatistics(idProject, idEvaluationTemplate);    	
     }
     
     @GetMapping("/generate")

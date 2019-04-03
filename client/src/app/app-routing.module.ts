@@ -115,7 +115,7 @@ const appRoutes: Routes = [
         }
       },
        {
-        path: 'project-status/:id',
+        path: 'project/:id/template/:idEvTemp',
         component: ProjectStatusComponent,
         canActivate: [RoleGuardService],
         data: {
@@ -131,7 +131,7 @@ const appRoutes: Routes = [
             }
           },
           {
-            path: 'statistics-list-item/:id',
+            path: 'statistics-list-item/:idProject/template/:idTemplate',
             component: StatisticsListItemComponent,
             canActivate: [RoleGuardService],
             data: {

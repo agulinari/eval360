@@ -1,22 +1,23 @@
-package com.gire.eval360.reports.service.remote.dto.templates;
+package com.gire.eval360.reports.service.dto.statistics;
+
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Singular;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Builder
-@EqualsAndHashCode(of = "id")
-public class ItemTemplate {
-	
+public class StatisticsSpItem {
+
 	private Long id;
 	private String title;
 	private String description;
-	private ItemType itemType;
-	private Integer position;
-	
+	private @Singular List<StatisticsSpPoint> points;
 }

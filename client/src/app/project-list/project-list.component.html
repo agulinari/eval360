@@ -32,7 +32,7 @@
       <ng-container matColumnDef="actions">
           <mat-header-cell fxFlex="30%"  *matHeaderCellDef>Acciones</mat-header-cell>
           <mat-cell fxFlex="30%" *matCellDef="let row">
-              <button *ngIf="userIsAdmin(row)" type="button" matTooltip="Administrar el proyecto" color="accent" mat-icon-button (click)="goToProjectStatus(row.id)">
+              <button *ngIf="userIsAdmin(row)" type="button" matTooltip="Administrar el proyecto" color="accent" mat-icon-button (click)="goToProjectStatus(row.id,row.idEvaluationTemplate)">
                   <mat-icon aria-label="Go to project status button">settings</mat-icon>
               </button>
               <button type="button" matTooltip="Mis Evaluaciones" color="accent" mat-icon-button (click)="goToProjectTasks(row.id)">
