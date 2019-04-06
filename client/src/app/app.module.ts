@@ -54,6 +54,9 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { CreateProjectDialogComponent } from './dialog/create-project-dialog.component';
 import { StatsActiveProjectsComponent } from './stats-active-projects/stats-active-projects.component';
 import { StatisticsGeneralComponent } from './statistics-general/statistics-general.component';
+import { EvalueeDetailDialogComponent } from './dialog/evaluee-detail-dialog.component';
+import { FpDetailDialogComponent } from './dialog/fp-detail-dialog.component';
+import { ReviewerDetailDialogComponent } from './dialog/reviewer-detail-dialog.component';
 
 
 @NgModule({
@@ -72,6 +75,9 @@ import { StatisticsGeneralComponent } from './statistics-general/statistics-gene
     AddAdminDialogComponent,
     WaitingDialogComponent,
     CreateProjectDialogComponent,
+    EvalueeDetailDialogComponent,
+    FpDetailDialogComponent,
+    ReviewerDetailDialogComponent,
     EvaluationPreviewComponent,
     TemplateListComponent,
     UserProfileComponent,
@@ -136,6 +142,7 @@ import { StatisticsGeneralComponent } from './statistics-general/statistics-gene
   ],
   bootstrap: [AppComponent],
   entryComponents: [ErrorDialogComponent, ConfirmDialogComponent, AddEvalueeDialogComponent, WaitingDialogComponent,
-     AddAdminDialogComponent, CreateProjectDialogComponent, EvaluationPreviewComponent]
+     AddAdminDialogComponent, CreateProjectDialogComponent, EvaluationPreviewComponent, EvalueeDetailDialogComponent,
+    FpDetailDialogComponent, ReviewerDetailDialogComponent]
 })
 export class AppModule { }

@@ -26,9 +26,12 @@ import { WaitingDialogComponent } from '../dialog/waiting-dialog.component';
 import { NotificationService } from '../shared/notification.service';
 import {timeout} from 'rxjs/operators';
 import { fillProperties } from '@angular/core/src/util/property';
+import { EvalueeDetailDialogComponent } from '../dialog/evaluee-detail-dialog.component';
+import { FpDetailDialogComponent } from '../dialog/fp-detail-dialog.component';
+import { ReviewerDetailDialogComponent } from '../dialog/reviewer-detail-dialog.component';
 
 @Component({
-  selector: 'project-status-item',
+  selector: 'app-project-status-item',
   templateUrl: './project-status-item.component.html',
   styleUrls: ['./project-status-item.component.css']
 })
@@ -36,7 +39,7 @@ export class ProjectStatusItemComponent implements OnInit, OnDestroy {
 
   sub: Subscription;
   projectStatus: ProjectStatus = undefined;
-  recordarFeedback: boolean = false;
+  recordarFeedback = false;
   loading = false;
 
   constructor( private route: ActivatedRoute,
@@ -278,6 +281,24 @@ export class ProjectStatusItemComponent implements OnInit, OnDestroy {
 
     }, error => {
       console.log(error);
+    });
+  }
+
+  onEvalueeClick(evaluee: EvalueeStatus): void {
+    this.dialog.open(EvalueeDetailDialogComponent, {
+      data: evaluee, width: '500px'
+    });
+  }
+
+  onFpClick(fp: FeedbackProviderStatus): void {
+    this.dialog.open(FpDetailDialogComponent, {
+      data: fp, width: '500px'
+    });
+  }
+
+  onReviewerClick(reviewer: ReviewerStatus): void {
+    this.dialog.open(ReviewerDetailDialogComponent, {
+      data: reviewer, width: '500px'
     });
   }
 

@@ -23,7 +23,7 @@
       <h4 fxFlex="20%">Progreso</h4>
     </div>
     <mat-list>
-    <mat-list-item *ngFor="let evaluee of projectStatus.evalueesStatus; let i = index; last as last">
+    <mat-list-item *ngFor="let evaluee of projectStatus.evalueesStatus; let i = index; last as last" (click)="onEvalueeClick(evaluee)">
       <div class="full-width" fxLayout="row"  fxLayoutWrap fxLayoutGap="10px">      
             <div  fxFlex="25%">
               <img class="avatar" src="/assets/images/avatar.png" alt="{{evaluee.idUser}}">
@@ -56,7 +56,7 @@
           <h4 fxFlex="20%" *ngIf="recordarFeedback" fxLayoutAlign="center">Recordar Feedback</h4>
       </div>
       <mat-list>
-      <mat-list-item *ngFor="let fp of projectStatus.feedbackProvidersStatus; let i = index; last as last">
+      <mat-list-item *ngFor="let fp of projectStatus.feedbackProvidersStatus; let i = index; last as last" (click)="onFpClick(fp)">
           <div class="full-width" fxLayout="row"  fxLayoutWrap fxLayoutGap="10px">
                   <div fxFlex="25%">
                   <img class="avatar" src="/assets/images/avatar.png" alt="{{fp.idUser}}">
@@ -91,7 +91,7 @@
           <h4 fxFlex="30%">Reviewers</h4>
       </div>
       <mat-list>
-      <mat-list-item *ngFor="let reviewer of projectStatus.reviewersStatus; let i = index; last as last">
+      <mat-list-item *ngFor="let reviewer of projectStatus.reviewersStatus; let i = index; last as last" (click)="onReviewerClick(reviewer)">
           <div class="full-width" fxLayout="row"  fxLayoutWrap fxLayoutGap="10px">
                   <div fxFlex="30%">
                   <img class="avatar" src="/assets/images/avatar.png" alt="{{reviewer.idUser}}">
