@@ -156,7 +156,7 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
   createForm() {
     this.userForm = this.fb.group({
       username: ['', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(30)])],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(30)])],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(60)])],
       mail: ['', Validators.compose([Validators.required, Validators.email])],
       enabled: true,
       authorities: this.fb.array([])
@@ -237,10 +237,13 @@ export class UserEditComponent implements OnInit, OnDestroy, OnChanges {
     const formModel = this.userForm.value;
     const authorities = this.userForm.get('authorities') as FormArray;
 
+    const passwordReset = ((this.user) && (this.user.password !== formModel.password));
+
     const saveUser: User = {
       id: id,
       username: formModel.username as string,
       password: formModel.password as string,
+      passwordReset: passwordReset,
       mail: formModel.mail as string,
       enabled: formModel.enabled as boolean,
       authorities: []
