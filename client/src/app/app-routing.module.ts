@@ -21,6 +21,8 @@ import { EvaluationComponent } from './evaluation/evaluation.component';
 import { EvaluationListComponent } from './evaluation-list/evaluation-list.component';
 import { StatsActiveProjectsComponent } from './stats-active-projects/stats-active-projects.component';
 import { StatisticsGeneralComponent } from './statistics-general/statistics-general.component';
+import { ReportListComponent } from './report-list/report-list.component';
+import { ProjectTasksComponent } from './project-tasks/project-tasks.component';
 
 
 const appRoutes: Routes = [
@@ -144,11 +146,29 @@ const appRoutes: Routes = [
       },
       {
         path: 'project-tasks/:id',
-        component: EvaluationListComponent,
+        component: ProjectTasksComponent,
         canActivate: [RoleGuardService],
         data: {
           expectedRoles: ['ROLE_USER']
-        }
+        },
+        children: [
+          {
+            path: 'my-evaluations',
+            component: EvaluationListComponent,
+            canActivate: [RoleGuardService],
+            data: {
+              expectedRoles: ['ROLE_USER']
+            }
+          },
+          {
+            path: 'my-reports',
+            component: ReportListComponent,
+            canActivate: [RoleGuardService],
+            data: {
+              expectedRoles: ['ROLE_USER']
+            }
+          }
+        ]
       },
       {
         path: 'statistics',
@@ -158,6 +178,11 @@ const appRoutes: Routes = [
           expectedRoles: ['ROLE_ADMIN']
         },
         children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: 'user-history'
+          },
           {
             path: 'user-history',
             component: StatisticsComponent,

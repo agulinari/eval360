@@ -24,7 +24,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
   dataSource: ProjectListDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name', 'actions'];
+  displayedColumns = ['id', 'name', 'startDate', 'actions'];
 
   constructor(private projectService: ProjectService,
     private authenticationService: AuthenticationService,

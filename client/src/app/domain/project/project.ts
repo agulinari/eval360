@@ -9,6 +9,7 @@ export class Project {
     status: string;
     name: string;
     description: string;
+    startDate: string;
     idEvaluationTemplate: number;
     reviewers: ReviewerProject[];
     feedbackProviders: FeedbackProviderProject[];

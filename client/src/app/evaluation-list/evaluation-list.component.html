@@ -1,5 +1,4 @@
-<mat-tab-group>
-    <mat-tab label="Mis Evaluaciones">
+
     <mat-card  class="shipping-card">
         <mat-card-header>
           <mat-card-title>Mis Evaluaciones</mat-card-title>
@@ -36,39 +35,3 @@
             </div>   
         </mat-card-content>
     </mat-card>
-    </mat-tab>
-    <mat-tab label="Mis Reportes">
-        <mat-card  class="shipping-card">
-            <mat-card-header>
-              <mat-card-title>Mis Reportes</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <div class="spinner-container" *ngIf="loading">
-                  <mat-spinner [diameter]='70'></mat-spinner>
-              </div>
-              <div *ngIf="!loading">
-                     <div fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px">
-                        <h4 fxFlex="30%">Evaluaciones Finalizadas</h4>
-                        <h4 fxFlex="10%">Acciones</h4>
-                    </div>
-                    <mat-list>
-                    <mat-list-item *ngFor="let evaluee of completedEvaluees; let i = index; last as last">
-                        <div class="full-width" fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="10px" >
-                            <div fxFlex="30%">
-                                <img class="avatar" src="/assets/images/avatar.png" alt="{{evaluee.idUser}}">
-                                {{evaluee.username}}
-                            </div>
-                            <div fxFlex="10%">
-                                <button type="button" matTooltip="Descargar reporte" color="accent" mat-icon-button (click)="downloadReport(evaluee.id)">
-                                    <mat-icon aria-label="Download report">save_alt</mat-icon>
-                                </button>
-                            </div>
-                        </div>
-                        <mat-divider [inset]="true" *ngIf="!last"></mat-divider> 
-                    </mat-list-item>
-                    </mat-list>
-                </div>   
-            </mat-card-content>
-        </mat-card>
-    </mat-tab>
-    </mat-tab-group>

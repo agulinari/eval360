@@ -1,17 +1,14 @@
 <h2 mat-dialog-title>Evaluados de {{data.username}}</h2>
 <mat-dialog-content>
-    <div fxLayout="row"  fxLayoutWrap fxLayoutGap="10px">
-        <h4 fxFlex="50%">Evaluados</h4>
-        <h4 fxFlex="50%">Estado</h4>
-    </div>
+
     <mat-list>
     <mat-list-item *ngFor="let evaluee of data.evaluees; let i = index; last as last">
         <div fxLayout="row"  fxLayoutWrap fxLayoutGap="10px">
-                <div fxFlex="50%">
+                <div fxFlex="70%">
                 <img class="avatar" src="/assets/images/avatar.png" alt="{{evaluee.idUser}}">
                     {{evaluee.username}}
                 </div>
-                <div fxFlex="50%" fxLayoutAlign="center center">
+                <div fxFlex="30%" fxLayoutAlign="center center">
                     {{evaluee.status}}
                 </div>
         </div>

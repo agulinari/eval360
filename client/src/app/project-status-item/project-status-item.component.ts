@@ -286,19 +286,19 @@ export class ProjectStatusItemComponent implements OnInit, OnDestroy {
 
   onEvalueeClick(evaluee: EvalueeStatus): void {
     this.dialog.open(EvalueeDetailDialogComponent, {
-      data: evaluee, width: '500px'
+      data: evaluee
     });
   }
 
   onFpClick(fp: FeedbackProviderStatus): void {
     this.dialog.open(FpDetailDialogComponent, {
-      data: fp, width: '500px'
+      data: fp
     });
   }
 
   onReviewerClick(reviewer: ReviewerStatus): void {
     this.dialog.open(ReviewerDetailDialogComponent, {
-      data: reviewer, width: '500px'
+      data: reviewer
     });
   }
 

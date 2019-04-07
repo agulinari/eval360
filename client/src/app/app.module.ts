@@ -57,6 +57,8 @@ import { StatisticsGeneralComponent } from './statistics-general/statistics-gene
 import { EvalueeDetailDialogComponent } from './dialog/evaluee-detail-dialog.component';
 import { FpDetailDialogComponent } from './dialog/fp-detail-dialog.component';
 import { ReviewerDetailDialogComponent } from './dialog/reviewer-detail-dialog.component';
+import { ProjectTasksComponent } from './project-tasks/project-tasks.component';
+import { ReportListComponent } from './report-list/report-list.component';
 
 
 @NgModule({
@@ -91,7 +93,9 @@ import { ReviewerDetailDialogComponent } from './dialog/reviewer-detail-dialog.c
     StatsActiveProjectsComponent,
     StatisticsListItemComponent,
     StatisticsComponent,
-    StatisticsGeneralComponent
+    StatisticsGeneralComponent,
+    ProjectTasksComponent,
+    ReportListComponent
   ],
   imports: [
     BrowserModule,

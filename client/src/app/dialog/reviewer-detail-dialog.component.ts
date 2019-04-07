@@ -4,7 +4,8 @@ import { Component, Inject } from '@angular/core';
 
 @Component({
     selector: 'app-reviewer-detail-dialog',
-    templateUrl: 'reviewer-detail-dialog.component.html'
+    templateUrl: 'reviewer-detail-dialog.component.html',
+    styleUrls: ['reviewer-detail-dialog.component.css']
 })
 export class ReviewerDetailDialogComponent {
 
