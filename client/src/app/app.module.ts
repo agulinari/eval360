@@ -60,6 +60,8 @@ import { FpDetailDialogComponent } from './dialog/fp-detail-dialog.component';
 import { ReviewerDetailDialogComponent } from './dialog/reviewer-detail-dialog.component';
 import { LocalStorageService } from './shared/local_storage.service';
 import { StorageServiceModule } from 'angular-webstorage-service';
+import { ProjectTasksComponent } from './project-tasks/project-tasks.component';
+import { ReportListComponent } from './report-list/report-list.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +96,9 @@ import { StorageServiceModule } from 'angular-webstorage-service';
     StatisticsListItemComponent,
     StatisticsComponent,
     StatisticsItemRelationComponent,
-    StatisticsGeneralComponent
+    StatisticsGeneralComponent,
+    ProjectTasksComponent,
+    ReportListComponent
   ],
   imports: [
     BrowserModule,

@@ -4,7 +4,8 @@ import { Component, Inject } from '@angular/core';
 
 @Component({
     selector: 'app-fp-detail-dialog',
-    templateUrl: 'fp-detail-dialog.component.html'
+    templateUrl: 'fp-detail-dialog.component.html',
+    styleUrls: ['fp-detail-dialog.component.css']
 })
 export class FpDetailDialogComponent {
 

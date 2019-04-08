@@ -12,8 +12,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,6 +40,10 @@ public class User extends AuditedEntity {
 	@Size(min = 4, max = 100)
 	private String password;
 	
+	@JsonIgnore
+	@Transient
+	private boolean passwordReset;
+	
 	@Column(length = 100)
 	@NotNull
 	private String mail;
@@ -54,5 +62,13 @@ public class User extends AuditedEntity {
 					@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID") })
 	private List<Authority> authorities;
 
-
+	@JsonIgnore
+	public boolean isPasswordReset() {
+	    return passwordReset;
+	}
+	
+	@JsonProperty
+	public void setPasswordReset(boolean passwordReset) {
+	    this.passwordReset = passwordReset;
+	}
 }

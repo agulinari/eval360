@@ -7,13 +7,15 @@ import { map, catchError } from 'rxjs/operators';
 
 import * as jwt_decode from 'jwt-decode';
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthenticationService {
   private authUrl: string = environment.serverUrl + '/auth';
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  public redirectUrl: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   login(username: string, password: string): Observable<boolean> {

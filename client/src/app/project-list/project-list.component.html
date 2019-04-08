@@ -16,16 +16,22 @@
   
       <!-- Id Column -->
       <ng-container matColumnDef="id">
-        <mat-header-cell fxFlex="20%" *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-        <mat-cell fxFlex="20%" *matCellDef="let row">
+        <mat-header-cell fxFlex="10%" *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+        <mat-cell fxFlex="10%" *matCellDef="let row">
             {{row.id}}
         </mat-cell>
       </ng-container>
 
       <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <mat-header-cell fxFlex="50%" *matHeaderCellDef mat-sort-header>Proyecto</mat-header-cell>
-        <mat-cell fxFlex="50%" *matCellDef="let row">{{row.name}}</mat-cell>
+        <mat-header-cell fxFlex="30%" *matHeaderCellDef mat-sort-header>Proyecto</mat-header-cell>
+        <mat-cell fxFlex="30%" *matCellDef="let row">{{row.name}}</mat-cell>
+      </ng-container>
+
+      <!-- Start Date Column -->
+      <ng-container matColumnDef="startDate">
+          <mat-header-cell fxFlex="30%" *matHeaderCellDef mat-sort-header>Fecha inicio</mat-header-cell>
+          <mat-cell fxFlex="30%" *matCellDef="let row">{{row.startDate}}</mat-cell>
       </ng-container>
 
       <!-- Actions Column-->

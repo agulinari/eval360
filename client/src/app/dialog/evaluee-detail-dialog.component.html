@@ -1,17 +1,14 @@
 <h2 mat-dialog-title>Evaluadores de {{data.username}}</h2>
 <mat-dialog-content>
-    <div fxLayout="row"  fxLayoutWrap fxLayoutGap="10px">
-        <h4 fxFlex="50%">Evaluadores</h4>
-        <h4 fxFlex="50%">Estado</h4>
-    </div>
+
     <mat-list>
     <mat-list-item *ngFor="let fp of data.feedbackProviders; let i = index; last as last">
         <div fxLayout="row"  fxLayoutWrap fxLayoutGap="10px">
-                <div fxFlex="50%">
+                <div fxFlex="70%" fxLayoutAlign="left center">
                 <img class="avatar" src="/assets/images/avatar.png" alt="{{fp.idUser}}">
                     {{fp.username}}
                 </div>
-                <div fxFlex="50%" fxLayoutAlign="center center">
+                <div fxFlex="30%" fxLayoutAlign="left center">
                     {{fp.status}}
                 </div>
         </div>
@@ -19,6 +16,7 @@
         <mat-row *matRowDef="let fp"></mat-row>
     </mat-list-item>
     </mat-list>
+
 </mat-dialog-content>
 <mat-dialog-actions>
     <button mat-raised-button (click)="close()">Cerrar</button>
