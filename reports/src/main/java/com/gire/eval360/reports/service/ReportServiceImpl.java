@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import com.gire.eval360.reports.domain.AreaToImprove;
@@ -56,7 +57,7 @@ public class ReportServiceImpl implements ReportService {
 		
 		EvaluationTemplate evalTemp = mapTemplates.get(idEvaluationTemplate);
 		Mono<StatisticsSp> statisticsSp = Mono.empty();
-		
+		try {
 		if(evalTemp==null) {
 			statisticsSp = templateServiceRemote.getTemplateById(idEvaluationTemplate).flatMap(template -> {
 				mapTemplates.put(template.getId(), template);
@@ -67,29 +68,33 @@ public class ReportServiceImpl implements ReportService {
 			Mono<List<Evaluation>> evaluations = evaluationServiceRemote.getEvaluationsByProject(idProject).collectList();
 			statisticsSp = evaluations.map(es -> createStatisticsSp(evalTemp, es));
 		}
-		
+		}catch(Exception e) {
+			System.out.println(e);
+		}
 		return statisticsSp;
 	}
 	
 	private StatisticsSp createStatisticsSp(EvaluationTemplate template, List<Evaluation> evaluations){
-		
-		List<StatisticsSp> lstSps = new LinkedList<StatisticsSp>();
+					
 		StatisticsSp stSpBuilder = StatisticsSp.builder().build();
 			
-		evaluations.stream().forEach(ev->{
+		List<StatisticsSp> lstSps = evaluations.stream().map(ev->{
 			List<com.gire.eval360.reports.service.remote.dto.evaluations.Section> sections = ev.getSections();
-			StatisticsSpEvaluee stSpEval = StatisticsSpEvaluee.builder().name(ev.getUsername()).id(ev.getIdEvaluee().toString()).build();
-			List<StatisticsSpSection> stSpSects = getStatisticsSpSection(stSpEval,sections,template);
+			return Pair.of(StatisticsSpEvaluee.builder().name(ev.getUsername()).id(ev.getIdEvaluee().toString()).build(),sections);
+		}).collect(Collectors.toList()).stream().map(peval->{
+			StatisticsSpEvaluee stSpEval = peval.getFirst();
+			List<com.gire.eval360.reports.service.remote.dto.evaluations.Section> sections=peval.getSecond();
+			List<StatisticsSpSection> stSpSects = getStatisticsSpSection(stSpEval,sections,template,evaluations);
 			StatisticsSp stSp = stSpBuilder.toBuilder().statisticsSpSections(stSpSects).statisticsSpEvaluee(stSpEval).build();
-			lstSps.add(stSp);
-		});
+			return stSp;
+		}).collect(Collectors.toList());
 					
 		StatisticsSp stSpRet = (!lstSps.isEmpty())?lstSps.get(lstSps.size()-1):stSpBuilder;
 		return stSpRet;
 	}
 	
 	private List<StatisticsSpSection> getStatisticsSpSection(StatisticsSpEvaluee stSpEval, List<com.gire.eval360.reports.service.remote.dto.evaluations.Section> sections, 
-															 EvaluationTemplate template) {
+															 EvaluationTemplate template,List<Evaluation> evaluations) {
 		
 		List<StatisticsSpSection> stSpSects = sections.stream().map(s->{ 
 		
@@ -98,10 +103,16 @@ public class ReportServiceImpl implements ReportService {
 			
 			List<StatisticsSpItem> stSpIts = s.getItems().stream().filter(it->it.getType().equalsIgnoreCase("RATING"))
 														.map(it->{
+																ItemScore average = calculateAverage(it.getId(), evaluations, "");
+																ItemScore averageManagers = calculateAverage(it.getId(), evaluations, "JEFE");
+																ItemScore averagePeers = calculateAverage(it.getId(), evaluations, "PAR");
+																ItemScore averageDirectReports = calculateAverage(it.getId(), evaluations, "SUBORDINADO");
 																Optional<ItemTemplate> oitT = sectTemp.getItems().stream().filter(itTemp-> itTemp.getId().equals(it.getId())).findFirst();
 																ItemTemplate itT=(oitT.isPresent())?oitT.get():ItemTemplate.builder().build();
 																
-																StatisticsSpPoint stSpPoint = StatisticsSpPoint.builder().point(new BigDecimal(it.getValue())).statisticSpEvaluee(stSpEval).build();
+																StatisticsSpPoint stSpPoint = StatisticsSpPoint.builder().point(average.getCurrentPerformance()).pointManagers(averageManagers.getCurrentPerformance()).
+																							  pointPeers(averagePeers.getCurrentPerformance()).pointDirectReports(averageDirectReports.getCurrentPerformance()).
+																							  statisticSpEvaluee(stSpEval).build();
 																StatisticsSpItem stSpIt = StatisticsSpItem.builder().
 																										             description(itT.getDescription()).id(itT.getId()).
 																										             title(itT.getTitle()).point(stSpPoint).build();

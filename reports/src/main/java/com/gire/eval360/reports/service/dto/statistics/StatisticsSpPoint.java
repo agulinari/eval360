@@ -16,6 +16,9 @@ import lombok.NoArgsConstructor;
 public class StatisticsSpPoint {
 
 	private StatisticsSpEvaluee statisticSpEvaluee;
+	private BigDecimal pointManagers;
+	private BigDecimal pointPeers;
+	private BigDecimal pointDirectReports;
 	private BigDecimal point;
 
 }

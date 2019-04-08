@@ -50,6 +50,7 @@ import { ReportService } from './shared/report.service';
 import { WaitingDialogComponent } from './dialog/waiting-dialog.component';
 import { NotificationService } from './shared/notification.service';
 import { StatisticsListItemComponent } from './statistics-list-item/statistics-list-item.component';
+import { StatisticsItemRelationComponent } from './statistics-item-relation/statistics-item-relation.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { CreateProjectDialogComponent } from './dialog/create-project-dialog.component';
 import { StatsActiveProjectsComponent } from './stats-active-projects/stats-active-projects.component';
@@ -57,9 +58,10 @@ import { StatisticsGeneralComponent } from './statistics-general/statistics-gene
 import { EvalueeDetailDialogComponent } from './dialog/evaluee-detail-dialog.component';
 import { FpDetailDialogComponent } from './dialog/fp-detail-dialog.component';
 import { ReviewerDetailDialogComponent } from './dialog/reviewer-detail-dialog.component';
+import { LocalStorageService } from './shared/local_storage.service';
+import { StorageServiceModule } from 'angular-webstorage-service';
 import { ProjectTasksComponent } from './project-tasks/project-tasks.component';
 import { ReportListComponent } from './report-list/report-list.component';
-
 
 @NgModule({
   declarations: [
@@ -93,6 +95,7 @@ import { ReportListComponent } from './report-list/report-list.component';
     StatsActiveProjectsComponent,
     StatisticsListItemComponent,
     StatisticsComponent,
+    StatisticsItemRelationComponent,
     StatisticsGeneralComponent,
     ProjectTasksComponent,
     ReportListComponent
@@ -130,7 +133,8 @@ import { ReportListComponent } from './report-list/report-list.component';
     MatTabsModule,
     MatExpansionModule,
     MatTooltipModule,
-    FlexModule
+    FlexModule,
+    StorageServiceModule
   ],
   providers: [
     UserService,
@@ -141,6 +145,7 @@ import { ReportListComponent } from './report-list/report-list.component';
     EvaluationService,
     ReportService,
     NotificationService,
+    LocalStorageService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true}
   ],
