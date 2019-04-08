@@ -50,16 +50,18 @@ export class StatisticsListItemComponent {
         this.idEvalTemp = idTemp;
         
         this.reportService.getStatisticProject(id,idTemp).subscribe((statisticSp:StatisticSp) => {
-            if(statisticSp){
+            if(statisticSp && statisticSp.statisticsSpEvaluees.length!=0){
                 this.statisticSpStatus = statisticSp;
                 this.loadGraphicRadarTimeline();
             }else{
-                console.log(`No se encontro informacion`);
+                this.showError('No se encontro información para generar la estadistica.');
+                this.gotoProjectStatus();
             }
         },
         err => {
             console.log('Error obteniendo estadisticas de proyecto', err);
             this.showError('Se produjo un error al obtener las estadisticas');
+            this.gotoProjectStatus();
         },
           () => {
             this.loading = false;
@@ -138,7 +140,6 @@ categoryAxisLabel.relativeRotation = 90;
 categoryAxisLabel.truncate = true;
 categoryAxisLabel.maxWidth = 120;
 categoryAxisLabel.tooltipText = "{category}";
-categoryAxisLabel.inside=true;
 
 categoryAxisRenderer.minGridDistance = 13;
 categoryAxisRenderer.grid.template.radius = -35;
@@ -309,6 +310,10 @@ this.chart = chart;
 this.currentIdxEval = currentIdxEval;
   //  });
 }
+  gotoProjectStatus() {
+    this.router.navigate(['/main/project/'+ this.idProject+'/template/'+this.idEvalTemp +
+                          '/project-status-item/'+this.idProject]);
+  }
 
   showError(error: string): void {
     this.dialog.open(ErrorDialogComponent, {
