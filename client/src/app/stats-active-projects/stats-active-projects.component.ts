@@ -54,10 +54,6 @@ export class StatsActiveProjectsComponent implements AfterViewInit, OnDestroy {
 
       stats.forEach(stat => {
         const totalEvals = stat.evaluationsByManagers + stat.evaluationsByPeers + stat.evaluationsBySubordiantes;
-        const managerPercent = (stat.evaluationsByManagers !== 0 ) ? stat.evaluationsByManagers / totalEvaluations * 100 : 0;
-        const peerPercent = (stat.evaluationsByPeers !== 0 ) ? stat.evaluationsByPeers / totalEvaluations * 100 : 0;
-        const subordPercent = (stat.evaluationsBySubordiantes !== 0 ) ? stat.evaluationsBySubordiantes / totalEvaluations * 100 : 0;
-        const totalPercent = (totalEvals !== 0) ? totalEvals / totalEvaluations * 100 : 0;
 
         const type = {
           type: stat.projectName,
