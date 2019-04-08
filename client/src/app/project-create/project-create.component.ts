@@ -5,7 +5,7 @@ import { AddEvalueeDialogComponent } from '../dialog/add-evaluee-dialog.componen
 import { Evaluee } from '../domain/project/evaluee';
 import { Template } from '../domain/template/template';
 import { TemplateService } from '../shared/template.service';
-import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
+import { debounceTime, tap, switchMap, finalize, timeout } from 'rxjs/operators';
 import { User } from '../domain/user/user';
 import { ProjectService } from '../shared/project.service';
 import { CreateProject } from '../domain/create-project/create-project';
@@ -215,6 +215,7 @@ export class ProjectCreateComponent implements OnInit {
   }
 
   createProject() {
+    
     const dialogRef: MatDialogRef<WaitingDialogComponent> = this.dialog.open(WaitingDialogComponent,  {
       panelClass: 'transparent',
       disableClose: true
