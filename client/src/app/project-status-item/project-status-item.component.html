@@ -29,8 +29,11 @@
               <img class="avatar" src="/assets/images/avatar.png" alt="{{evaluee.idUser}}">
                {{evaluee.username}}
             </div>
-            <div fxFlex="10%"  fxLayoutAlign="center center">
-                {{evaluee.status}}
+            <div *ngIf="evaluee.status === 'PENDIENTE'" fxFlex="10%"  fxLayoutAlign="center center">
+                <mat-icon matTooltip="Con Feedbacks Pendientes">schedule</mat-icon>
+            </div>
+            <div *ngIf="evaluee.status === 'RESUELTO'" fxFlex="10%"  fxLayoutAlign="center center">
+                <mat-icon matTooltip="Evaluación Completa">check_circle</mat-icon>
             </div>
             <div fxFlex="10%"  fxLayoutAlign="center center">
                 {{evaluee.pendingFeedbacks}}
@@ -62,8 +65,11 @@
                   <img class="avatar" src="/assets/images/avatar.png" alt="{{fp.idUser}}">
                       {{fp.username}}
                   </div>
-                  <div fxFlex="10%" fxLayoutAlign="center center">
-                      {{fp.status}}
+                  <div *ngIf="fp.status === 'PENDIENTE'" fxFlex="10%"  fxLayoutAlign="center center">
+                    <mat-icon matTooltip="Con Evaluaciones Pendientes">schedule</mat-icon>
+                  </div>
+                  <div *ngIf="fp.status === 'RESUELTO'" fxFlex="10%"  fxLayoutAlign="center center">
+                    <mat-icon matTooltip="Sin Evaluaciones Pendientes">check_circle</mat-icon>
                   </div>
                   <div fxFlex="10%" fxLayoutAlign="center center">
                       {{fp.pendingFeedbacks}}
@@ -105,7 +111,6 @@
       <div class="item-panel">    
       <div fxLayout="row"  fxLayoutWrap fxLayoutGap="10px">
           <h4 fxFlex="30%">Administradores</h4>
-          <h4 fxFlex="10%">Creador</h4>
       </div>
       <mat-list>
       <mat-list-item *ngFor="let admin of projectStatus.adminsStatus; let i = index; last as last">
@@ -114,8 +119,8 @@
                   <img class="avatar" src="/assets/images/avatar.png" alt="{{admin.idUser}}">
                   {{admin.username}}
               </div>
-              <div fxFlex="10%"  fxLayoutAlign="center center"> 
-                  {{admin.creator}}
+              <div *ngIf="admin.creator === true" fxFlex="10%"  fxLayoutAlign="center center">
+                    <mat-icon matTooltip="Creador del Proyecto">grade</mat-icon>
               </div>
           </div>
           <mat-divider [inset]="true" *ngIf="!last"></mat-divider> 

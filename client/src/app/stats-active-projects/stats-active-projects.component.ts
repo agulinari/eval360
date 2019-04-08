@@ -61,18 +61,18 @@ export class StatsActiveProjectsComponent implements AfterViewInit, OnDestroy {
 
         const type = {
           type: stat.projectName,
-          percent: totalPercent,
+          evaluations: totalEvals,
           color: chart.colors.next(),
           subs: [
             {
               type: 'Jefe',
-              percent: managerPercent
+              evaluations: stat.evaluationsByManagers
             }, {
               type: 'Par',
-              percent: peerPercent
+              evaluations: stat.evaluationsByPeers
             }, {
               type: 'Dependiente',
-              percent: subordPercent
+              evaluations: stat.evaluationsBySubordiantes
             }
           ]
         };
@@ -84,7 +84,7 @@ export class StatsActiveProjectsComponent implements AfterViewInit, OnDestroy {
 
       // Add and configure Series
       const pieSeries = chart.series.push(new am4charts.PieSeries());
-      pieSeries.dataFields.value = 'percent';
+      pieSeries.dataFields.value = 'evaluations';
       pieSeries.dataFields.category = 'type';
       pieSeries.slices.template.propertyFields.fill = 'color';
       pieSeries.slices.template.propertyFields['isActive'] = 'pulled';
@@ -97,7 +97,7 @@ export class StatsActiveProjectsComponent implements AfterViewInit, OnDestroy {
             for (let x = 0; x < types[i].subs.length; x++) {
               chartData.push({
                 type: types[i].subs[x].type,
-                percent: types[i].subs[x].percent,
+                evaluations: types[i].subs[x].evaluations,
                 color: types[i].color,
                 pulled: true
               });
@@ -105,7 +105,7 @@ export class StatsActiveProjectsComponent implements AfterViewInit, OnDestroy {
           } else {
             chartData.push({
               type: types[i].type,
-              percent: types[i].percent,
+              evaluations: types[i].evaluations,
               color: types[i].color,
               id: i
             });

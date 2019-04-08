@@ -3,13 +3,10 @@
 
     <mat-list>
     <mat-list-item *ngFor="let evaluee of data.evaluees; let i = index; last as last">
-        <div fxLayout="row"  fxLayoutWrap fxLayoutGap="10px">
-                <div fxFlex="70%">
+        <div fxLayout="row"  fxLayoutWrap fxLayoutGap="40px">
+                <div fxFlex="100%">
                 <img class="avatar" src="/assets/images/avatar.png" alt="{{evaluee.idUser}}">
                     {{evaluee.username}}
-                </div>
-                <div fxFlex="30%" fxLayoutAlign="center center">
-                    {{evaluee.status}}
                 </div>
         </div>
         <mat-divider [inset]="true" *ngIf="!last"></mat-divider> 

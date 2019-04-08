@@ -12,8 +12,8 @@ jwt:
  
 # Logging
 logging.level:
-  root: ERROR
-  org.springframework.web: ERROR
+  root: INFO
+  org.springframework.web: INFO
   com.gire.eval360.reports: DEBUG
 
 # Actuator
