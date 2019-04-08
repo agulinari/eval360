@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { StatisticsListItemComponent } from './statistics-list-item/statistics-list-item.component';
+import { StatisticsItemRelationComponent } from './statistics-item-relation/statistics-item-relation.component';
 import { RoleGuardService } from './role-guard.service';
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { TemplateEditComponent } from './template-edit/template-edit.component';
@@ -139,7 +140,15 @@ const appRoutes: Routes = [
             data: {
               expectedRoles: ['ROLE_USER']
             }
-          }
+          },
+          {
+            path: 'statistics-list-item/:idProject/template/:idTemplate/relation/:idUser',
+            component: StatisticsItemRelationComponent,
+            canActivate: [RoleGuardService],
+            data: {
+               expectedRoles: ['ROLE_USER']
+            }   
+          },
         ]
       },
       {

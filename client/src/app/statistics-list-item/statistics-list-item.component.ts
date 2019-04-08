@@ -11,11 +11,12 @@ import {StatisticSpSection} from "../domain/statistics-status-project/statistics
 import {StatisticSpItem} from "../domain/statistics-status-project/statistics-sp-item"
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { StatisticSpPoint } from "../domain/statistics-status-project/statistics-sp-point";
+import { LocalStorageService } from "../shared/local_storage.service";
 
 am4core.useTheme(am4themes_animated);
 
 @Component({
-  selector: "app-root",
+  selector: "app-statistics-list-item",
   templateUrl: "./statistics-list-item.component.html",
   styleUrls: ["./statistics-list-item.component.css"]
 })
@@ -23,19 +24,20 @@ am4core.useTheme(am4themes_animated);
 export class StatisticsListItemComponent {
   
   private chart: am4charts.RadarChart;
+  private currentIdxEval: number;
+  
   private statisticSpStatus: StatisticSp;
-   
-  private startIdxEval: number;
-  private endIdxEval: number;
 
   private idProject: number;
   private idEvalTemp: number;
+  
   loading = false;
  
   constructor(private zone: NgZone, 
               private route: ActivatedRoute,
               private router: Router,
               public dialog: MatDialog,
+              private localStorageService: LocalStorageService,
               private reportService: ReportService) {}
 
   ngOnInit(){
@@ -67,7 +69,7 @@ export class StatisticsListItemComponent {
    
  loadGraphicRadarTimeline():void {
 
-this.zone.runOutsideAngular(() => {
+//this.zone.runOutsideAngular(() => {
 let evaluados : Array<StatisticSpEvaluee> = this.statisticSpStatus.statisticsSpEvaluees;
 console.log("Evaluados: "+evaluados[0].name);
 let result_evaluaciones : Array<StatisticSpSection> = this.statisticSpStatus.statisticsSpSections;
@@ -77,7 +79,7 @@ let endIdxEval = evaluados.length - 1;
 let currentIdxEval = 0;
 let colorSet = new am4core.ColorSet();
 
-let chart = am4core.create("chartdiv", am4charts.RadarChart);
+let chart = am4core.create("chartdivRadar", am4charts.RadarChart);
 chart.numberFormatter.numberFormat = "#.##";
 chart.hiddenState.properties.opacity = 0;
 
@@ -94,6 +96,17 @@ yearLabel.verticalCenter = "middle";
 yearLabel.fill = am4core.color("#673AB7");
 yearLabel.fontSize = 12;
 yearLabel.text = evaluados[currentIdxEval].name;
+yearLabel.clickable = true;
+yearLabel.truncate = true;
+yearLabel.maxWidth = 120;
+yearLabel.tooltipText = evaluados[currentIdxEval].name;
+
+yearLabel.events.on("hit", function () {
+  let urlRelationItem = '/main/project/'+ this.idProject+'/template/'+this.idEvalTemp +
+                        '/statistics-list-item/'+this.idProject+'/template/'+this.idEvalTemp+'/relation/'+this.currentIdxEval;
+  this.localStorageService.setItem("statisticSpStatus",this.statisticSpStatus);
+  this.router.navigate([urlRelationItem]);
+},this);
 
 // zoomout button
 let zoomOutButton = chart.zoomOutButton;
@@ -122,6 +135,10 @@ let categoryAxisLabel = categoryAxisRenderer.labels.template;
 categoryAxisLabel.location = 0.5;
 categoryAxisLabel.radius = 38;
 categoryAxisLabel.relativeRotation = 90;
+categoryAxisLabel.truncate = true;
+categoryAxisLabel.maxWidth = 120;
+categoryAxisLabel.tooltipText = "{category}";
+categoryAxisLabel.inside=true;
 
 categoryAxisRenderer.minGridDistance = 13;
 categoryAxisRenderer.grid.template.radius = -35;
@@ -146,10 +163,14 @@ valueAxis.cursorTooltipEnabled = true;
 valueAxis.zIndex = 10;
 
 let valueAxisRenderer = valueAxis.renderer;
+let valueAxisLabel = valueAxisRenderer.labels.template;
 valueAxisRenderer.axisFills.template.disabled = true;
 valueAxisRenderer.ticks.template.disabled = true;
 valueAxisRenderer.minGridDistance = 30;
 valueAxisRenderer.grid.template.strokeOpacity = 0.05;
+valueAxisLabel.truncate = true;
+valueAxisLabel.maxWidth = 120;
+valueAxisLabel.tooltipText = "{valueY.value}";
 
 
 // series
@@ -285,7 +306,8 @@ slider.events.on("rangechanged", function () {
     valueAxis.renderer.axisAngle = chart.startAngle;
 });
 this.chart = chart;
-    });
+this.currentIdxEval = currentIdxEval;
+  //  });
 }
 
   showError(error: string): void {
@@ -295,10 +317,10 @@ this.chart = chart;
   }
 
   ngOnDestroy() {
-    this.zone.runOutsideAngular(() => {
+   // this.zone.runOutsideAngular(() => {
       if (this.chart) {
         this.chart.dispose();
       }
-    });
+  //  });
   }
 }

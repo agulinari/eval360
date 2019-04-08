@@ -26,6 +26,7 @@
     "@angular/platform-browser-dynamic": "7.0.2",
     "@angular/router": "7.0.2",
     "acorn": "^6.0.0",
+    "angular-webstorage-service": "^1.0.2",
     "angular2-jwt": "^0.2.3",
     "core-js": "^2.5.7",
     "jwt-decode": "^2.2.0",
