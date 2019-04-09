@@ -37,6 +37,7 @@ import com.gire.eval360.projects.domain.request.CreateProjectRequest;
 import com.gire.eval360.projects.domain.request.CreateReviewer;
 import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
 import com.gire.eval360.projects.service.ProjectService;
+import com.gire.eval360.projects.service.remote.TemplateServiceRemote;
 
 
 @RunWith(SpringRunner.class)
@@ -48,6 +49,9 @@ public class ProjectControllerTest {
 	
 	@MockBean
 	private ProjectService projectService;
+	
+	@MockBean
+	private TemplateServiceRemote templateServiceRemote;
 	
     @Test
     public void testCreateProject() throws Exception {

@@ -419,7 +419,7 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	private ProjectStatus buildProjectStatus(Project p) {
-		ProjectStatusBuilder builder = ProjectStatus.builder().id(p.getId()).name(p.getName())
+		ProjectStatusBuilder builder = ProjectStatus.builder().id(p.getId()).name(p.getName()).idTemplate(p.getIdEvaluationTemplate())
 				.description(p.getDescription());
 
 		List<EvalueeStatus> evalueesStatus = p.getEvaluees().stream().map(e -> buildEvalueeStatus(e))

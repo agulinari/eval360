@@ -23,7 +23,7 @@ import com.gire.eval360.projects.domain.dto.ReviewerStatus;
 
 public class ExcelGenerator {
 	  
-	  public static ByteArrayInputStream projectToExcel(ProjectStatus project) throws IOException {
+	  public static ByteArrayInputStream projectToExcel(ProjectStatus project, String template) throws IOException {
 	    
 		String[] columnsProject = {"Nombre", "Descripción", "Template"};
 	    String[] columnsUsers = {"Usuario", "Rol", "Relación", "Evaluado"};
@@ -56,7 +56,7 @@ public class ExcelGenerator {
 	     Row projectRow = sheet.createRow(1);
 	     projectRow.createCell(0).setCellValue(project.getName());
 	     projectRow.createCell(1).setCellValue(project.getDescription());
-	     projectRow.createCell(2).setCellValue("TODO"); //TODO: agregar template
+	     projectRow.createCell(2).setCellValue(template);
 	     
 	      // Row for Users Header
 	      Row headerUsersRow = sheet.createRow(2);

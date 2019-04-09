@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class ProjectStatus {
 
 	private Long id;
+	private Long idTemplate;
 	private String name;
 	private String description;
 	private List<EvalueeStatus> evalueesStatus;

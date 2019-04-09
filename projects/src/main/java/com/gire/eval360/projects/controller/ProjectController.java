@@ -43,6 +43,8 @@ import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
 import com.gire.eval360.projects.domain.stats.ActiveProjectStats;
 import com.gire.eval360.projects.service.ExcelGenerator;
 import com.gire.eval360.projects.service.ProjectService;
+import com.gire.eval360.projects.service.remote.TemplateServiceRemote;
+import com.gire.eval360.projects.service.remote.dto.templates.TemplateDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,10 +54,12 @@ import lombok.extern.slf4j.Slf4j;
 public class ProjectController {
 
 	private final ProjectService projectService;
+	private final TemplateServiceRemote templateServiceRemote;
 	
 	@Autowired
-	public ProjectController(final ProjectService projectService) {
+	public ProjectController(final ProjectService projectService, final TemplateServiceRemote templateServiceRemote) {
 		this.projectService= projectService;
+		this.templateServiceRemote = templateServiceRemote;
 	}
 	
 	
@@ -182,10 +186,13 @@ public class ProjectController {
 	@GetMapping("/{id}/export")
 	public ResponseEntity<InputStreamResource> exportProject(@PathVariable Long id) throws IOException {
 		
+		
 		Optional<ProjectStatus> oProject = this.projectService.getProjectStatus(id);
 		
 		if (oProject.isPresent()) {
-		    ByteArrayInputStream in = ExcelGenerator.projectToExcel(oProject.get());
+			TemplateDto templateDto = this.templateServiceRemote.getTemplateById(oProject.get().getIdTemplate());
+
+		    ByteArrayInputStream in = ExcelGenerator.projectToExcel(oProject.get(), templateDto.getTitle());
 		    
 		    HttpHeaders headers = new HttpHeaders();
 		        headers.add("Content-Disposition", "attachment; filename=project.xlsx");

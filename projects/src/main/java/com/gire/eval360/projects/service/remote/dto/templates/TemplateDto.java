@@ -1,7 +1,5 @@
 package com.gire.eval360.projects.service.remote.dto.templates;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -24,4 +24,10 @@ public class TemplateServiceRemoteImpl implements TemplateServiceRemote {
 		
 	}
 
+	@Override
+	public TemplateDto getTemplateById(Long idTemplate) {
+		
+		ResponseEntity<TemplateDto> call = this.restTemplate.getForEntity("/"+idTemplate, TemplateDto.class);		
+		return call.getBody();
+	}
 }
