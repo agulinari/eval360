@@ -12,6 +12,8 @@ import {StatisticSpItem} from "../domain/statistics-status-project/statistics-sp
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 import { StatisticSpPoint } from "../domain/statistics-status-project/statistics-sp-point";
 import { LocalStorageService } from "../shared/local_storage.service";
+import { WaitingDialogComponent } from '../dialog/waiting-dialog.component';
+import { debounceTime, tap, switchMap, finalize, timeout } from 'rxjs/operators';
 
 am4core.useTheme(am4themes_animated);
 
@@ -31,16 +33,19 @@ export class StatisticsListItemComponent {
   private idProject: number;
   private idEvalTemp: number;
   
-  loading = false;
- 
   constructor(private zone: NgZone, 
               private route: ActivatedRoute,
               private router: Router,
-              public dialog: MatDialog,
+              private dialog: MatDialog,
               private localStorageService: LocalStorageService,
               private reportService: ReportService) {}
 
   ngOnInit(){
+    setTimeout(()=>{const dialogRef = this.dialog.open(WaitingDialogComponent,  {
+      id: 'matdialog-statistics',
+      panelClass: 'transparent',
+      disableClose: true     
+    });
     
     this.route.params.subscribe(params => {
         const id = params['idProject'];
@@ -48,24 +53,27 @@ export class StatisticsListItemComponent {
     
         this.idProject = id;
         this.idEvalTemp = idTemp;
-        
+                
         this.reportService.getStatisticProject(id,idTemp).subscribe((statisticSp:StatisticSp) => {
-            if(statisticSp){
+            if(statisticSp && statisticSp.statisticsSpEvaluees.length!=0){
                 this.statisticSpStatus = statisticSp;
+                dialogRef.close();
                 this.loadGraphicRadarTimeline();
             }else{
-                console.log(`No se encontro informacion`);
+                this.showError('No se encontro información para generar la estadistica.');
+                dialogRef.close();
+                this.gotoProjectStatus();
             }
         },
         err => {
             console.log('Error obteniendo estadisticas de proyecto', err);
             this.showError('Se produjo un error al obtener las estadisticas');
-        },
-          () => {
-            this.loading = false;
-          });
+            dialogRef.close();
+            this.gotoProjectStatus();
         });
-}
+        });
+      });
+  }
    
  loadGraphicRadarTimeline():void {
 
@@ -138,7 +146,6 @@ categoryAxisLabel.relativeRotation = 90;
 categoryAxisLabel.truncate = true;
 categoryAxisLabel.maxWidth = 120;
 categoryAxisLabel.tooltipText = "{category}";
-categoryAxisLabel.inside=true;
 
 categoryAxisRenderer.minGridDistance = 13;
 categoryAxisRenderer.grid.template.radius = -35;
@@ -309,6 +316,10 @@ this.chart = chart;
 this.currentIdxEval = currentIdxEval;
   //  });
 }
+  gotoProjectStatus() {
+    this.router.navigate(['/main/project/'+ this.idProject+'/template/'+this.idEvalTemp +
+                          '/project-status-item/'+this.idProject]);
+  }
 
   showError(error: string): void {
     this.dialog.open(ErrorDialogComponent, {
