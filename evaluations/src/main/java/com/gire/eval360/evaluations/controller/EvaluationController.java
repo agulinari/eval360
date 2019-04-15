@@ -14,17 +14,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.gire.eval360.evaluations.domain.Evaluation;
-import com.gire.eval360.evaluations.domain.ReportFeedbackRequest;
+import com.gire.eval360.evaluations.domain.notifications.NotificationReviewerDto;
 import com.gire.eval360.evaluations.repository.EvaluationRepository;
+import com.gire.eval360.evaluations.service.NotificationSender;
 
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @RestController
 public class EvaluationController {
 
@@ -35,6 +36,9 @@ public class EvaluationController {
 	@Qualifier("projectsClient")
 	private WebClient webClient;
 	
+	@Autowired
+	private NotificationSender notificationSender;
+	
 
 	@GetMapping("/evaluations")
 	public Flux<Evaluation> getAllEvaluations() {
@@ -44,20 +48,14 @@ public class EvaluationController {
 	@PostMapping("/evaluations")
 	public Mono<Evaluation> createEvaluation(@Valid @RequestBody Evaluation evaluation) {
 		
-		ReportFeedbackRequest request = new ReportFeedbackRequest();
-		request.setIdEvaluee(evaluation.getIdEvaluee());
-		request.setIdFeedbackProvider(evaluation.getIdFeedbackProvider());
-		Mono<ClientResponse> call = this.webClient.put()
-						.uri("/reportFeedback")
-						.body(BodyInserters.fromObject(request))
-						.exchange();
-
-		return call.flatMap(clientResponse -> {
-			if (clientResponse.statusCode().is2xxSuccessful()) {
-				return repository.save(evaluation);
-			} else {
-				throw new RuntimeException();
-			}
+		return repository.save(evaluation)
+		.doOnSuccess(e -> {
+			NotificationReviewerDto data = new NotificationReviewerDto();
+			data.setIdFeedbackProvider(e.getIdFeedbackProvider());
+			data.setIdEvaluee(e.getIdEvaluee());
+			data.setIdProject(e.getIdProject());
+			data.setIdTemplate(e.getIdTemplate());
+			notificationSender.sendNotificationReviewer(data).subscribe();
 		});
 	}
 

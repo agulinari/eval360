@@ -35,7 +35,12 @@ public class NotificationReceiver {
 
     @KafkaListener(topics = "${app.topic.notificationRV}", containerFactory = "kafkaListenerNotificationRVContainerFactory")
     public void listenTrx(@Payload NotificationReviewerDto data, @Headers MessageHeaders headers) {
-    	log.info("Se ha recibido la notificacion para generar el reporte con los datos: "+ data);
+    	log.info("Se ha recibido la notificacion de una evaluacion finalizada con los datos: "+ data);
+    	
+    	if (data.getIdFeedbackProvider().longValue() != 0L) {
+    		log.info("No se genera el reporte, aun quedan evaluaciones por terminar para el idEvaluee {}", data.getIdEvaluee());
+    		return;
+    	}
     	
     	ReportData response = this.repository.findByIdEvaluee(data.getIdEvaluee()).block();
     	if (response == null) {

@@ -5,6 +5,7 @@ export class Evaluation {
     idProject: number;
     idEvaluee: number;
     idFeedbackProvider: number;
+    idTemplate: number;
     username: string;
     relationship: string;
     sections: Section[];

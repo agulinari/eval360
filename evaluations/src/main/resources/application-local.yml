@@ -23,4 +23,7 @@ spring.data.mongodb.uri: mongodb://localhost:27017/evaluations
 projects.url: http://projects-service/projects
  
  # Propiedades Kafka
+spring.kafka.sslEnabled: false
+spring.kafka.properties.sasl.jaas.config: 
 spring.kafka.bootstrap-servers: localhost:9092
+app.topic.notificationRV: notificationRV.t

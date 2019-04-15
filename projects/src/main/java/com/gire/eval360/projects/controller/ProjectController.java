@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.gire.eval360.projects.domain.Evaluee;
 import com.gire.eval360.projects.domain.Relationship;
+import com.gire.eval360.projects.domain.Reviewer;
 import com.gire.eval360.projects.domain.dto.CompletedEvaluee;
 import com.gire.eval360.projects.domain.dto.PendingEvaluee;
 import com.gire.eval360.projects.domain.dto.ProjectResponse;
@@ -119,6 +120,11 @@ public class ProjectController {
 	@GetMapping("/stats/active")
 	public List<ActiveProjectStats> getActiveProjectsStats() {
 		return this.projectService.getActiveProjectsStats();
+	}
+	
+	@GetMapping("/{id}/reviewers/{idEvaluee}")
+	public List<Reviewer> getReviewersForEvaluee(@PathVariable Long id, @PathVariable Long idEvaluee) {
+		return this.projectService.getReviewers(id, idEvaluee);
 	}
 
 	@PostMapping("/import")

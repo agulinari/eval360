@@ -271,6 +271,7 @@ export class EvaluationComponent implements OnInit, OnDestroy {
       idProject: this.project.id,
       idEvaluee: this.getEvaluee(),
       idFeedbackProvider: this.getFeedbackProvider(),
+      idTemplate: this.template.id,
       username: formModel.username,
       relationship: formModel.relationship,
       sections: []

@@ -155,7 +155,7 @@ public class ProjectServiceImpl implements ProjectService {
 		if (!fpPendiente.isPresent()) {
 			Evaluee evaluee = efp.getEvaluee();
 			Project project = evaluee.getProject();
-			sendNotificationEvaluationCompleteToReviewer(evaluee.getIdUser(), evaluee.getId(), project.getId(),
+			sendNotificationEvaluationCompleteToReviewer(0L, evaluee.getId(), project.getId(),
 					project.getIdEvaluationTemplate());
 		}
 	}
@@ -861,5 +861,14 @@ public class ProjectServiceImpl implements ProjectService {
 			.evaluationsBySubordiantes(s1.getEvaluationsBySubordiantes() + s2.getEvaluationsBySubordiantes())
 			.build();
 		
+	}
+
+	@Override
+	public List<Reviewer> getReviewers(Long id, Long idEvaluee) {
+		Optional<Project> oProject = this.projectRepository.findById(id);
+		return oProject.map(project -> {
+			Optional<Evaluee> oEvaluee = project.getEvaluees().stream().filter(e -> e.getId() == idEvaluee.longValue()).findFirst();
+			return oEvaluee.map(evaluee -> evaluee.getReviewers().stream().map(r -> r.getReviewer()).collect(Collectors.toList())).orElse(new ArrayList<>());
+		}).orElse(new ArrayList<>());
 	}
 }

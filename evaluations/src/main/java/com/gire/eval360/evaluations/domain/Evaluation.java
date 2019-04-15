@@ -27,6 +27,7 @@ public class Evaluation {
 	private Long idProject;
 	private Long idFeedbackProvider;
 	private Long idEvaluee;
+	private Long idTemplate;
 	private String username;
 	private String relationship;
 	@CreatedDate

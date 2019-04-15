@@ -1,4 +1,4 @@
-package com.gire.eval360.reports.service.remote.dto.notifications;
+package com.gire.eval360.evaluations.domain.notifications;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

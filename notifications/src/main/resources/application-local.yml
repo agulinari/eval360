@@ -28,3 +28,8 @@ app.topic.notificationReport: notificationReport.t
 #Propiedades Servicio Users, Evaluations
 users.url: http://AUTH-SERVICE/users
 evaluations.url: http://evaluations/evaluations
+projects.url: http://projects-service/projects
+
+
+# Misc
+application.url: http://localhost:4200

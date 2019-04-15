@@ -39,6 +39,8 @@ spring.kafka.properties.sasl.mechanism: SCRAM-SHA-256
 spring.kafka.properties.sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${CLOUDKARAFKA_USERNAME}" password="${CLOUDKARAFKA_PASSWORD}";
 app.topic.notificationFP: ${CLOUDKARAFKA_USERNAME}-notificationFP.t
 app.topic.notificationRV: ${CLOUDKARAFKA_USERNAME}-notificationRV.t
+spring.kafka.consumer.group-id: ${CLOUDKARAFKA_USERNAME}-projects
+
 
 #Propiedades Servicio Users
 users.url: http://AUTH-SERVICE/users

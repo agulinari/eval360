@@ -12,6 +12,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import com.gire.eval360.projects.domain.Project;
+import com.gire.eval360.projects.domain.Reviewer;
 import com.gire.eval360.projects.domain.Status;
 
 @RepositoryRestResource
@@ -43,6 +44,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpec
 	
 	@Query("select p from Project p where p.id in ( select m.project.id from Evaluee m where m.idUser=:idUser ) order by p.startDate asc")
 	List<Project> findEvalueeHistory(@Param("idUser") Long idUser);
-
 	
 }
