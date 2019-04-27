@@ -35,6 +35,7 @@ import com.gire.eval360.projects.domain.request.CreateReviewer;
 import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
 import com.gire.eval360.projects.repository.EvalueeFeedbackProviderRepository;
 import com.gire.eval360.projects.repository.ProjectRepository;
+import com.gire.eval360.projects.service.remote.EvaluationServiceRemote;
 import com.gire.eval360.projects.service.remote.TemplateServiceRemote;
 import com.gire.eval360.projects.service.remote.UserServiceRemote;
 import com.gire.eval360.projects.service.remote.dto.users.UserResponse;
@@ -57,13 +58,17 @@ public class ProjectServiceTest {
 
 	@MockBean
 	private TemplateServiceRemote templateServiceRemote;
+	
+	@MockBean
+	private EvaluationServiceRemote evaluationServiceRemote;
 
 	private ProjectService projectService;
 	
 
     @Before
     public void setUp() {
-    	this.projectService = new ProjectServiceImpl(projectRepository, efpRepository, notificationFeedBackSender, userServiceRemote, templateServiceRemote);
+    	this.projectService = new ProjectServiceImpl(projectRepository, efpRepository, 
+    			notificationFeedBackSender, userServiceRemote, templateServiceRemote, evaluationServiceRemote);
     }
 	
 	@Test
