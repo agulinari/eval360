@@ -15,5 +15,8 @@ public class ServicesProperties {
 	@Value("${templates.url}")
 	private String templatesUrl;
 
+	@Value("${evaluations.url}")
+	public String evaluationsUrl;
+
 	
 }

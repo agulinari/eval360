@@ -56,8 +56,10 @@ import com.gire.eval360.projects.domain.request.ReportFeedbackRequest;
 import com.gire.eval360.projects.domain.stats.ActiveProjectStats;
 import com.gire.eval360.projects.repository.EvalueeFeedbackProviderRepository;
 import com.gire.eval360.projects.repository.ProjectRepository;
+import com.gire.eval360.projects.service.remote.EvaluationServiceRemote;
 import com.gire.eval360.projects.service.remote.TemplateServiceRemote;
 import com.gire.eval360.projects.service.remote.UserServiceRemote;
+import com.gire.eval360.projects.service.remote.dto.evaluations.EvaluatedsRequest;
 import com.gire.eval360.projects.service.remote.dto.templates.TemplateDto;
 import com.gire.eval360.projects.service.remote.dto.users.UserDto;
 import com.gire.eval360.projects.service.remote.dto.users.UserListDto;
@@ -78,17 +80,21 @@ public class ProjectServiceImpl implements ProjectService {
 	private final UserServiceRemote userServiceRemote;
 
 	private final TemplateServiceRemote templateServiceRemote;
+	
+	private final EvaluationServiceRemote evaluationServiceRemote;
 
 	@Autowired
 	public ProjectServiceImpl(final ProjectRepository projectRepository,
 			final EvalueeFeedbackProviderRepository efpRepository,
 			final NotificationFeedBackSender notificationFeedBackSender, final UserServiceRemote userServiceRemote,
-			final TemplateServiceRemote templateServiceRemote) {
+			final TemplateServiceRemote templateServiceRemote,
+			final EvaluationServiceRemote evaluationServiceRemote) {
 		this.projectRepository = projectRepository;
 		this.efpRepository = efpRepository;
 		this.notificationFeedBackSender = notificationFeedBackSender;
 		this.userServiceRemote = userServiceRemote;
 		this.templateServiceRemote = templateServiceRemote;
+		this.evaluationServiceRemote = evaluationServiceRemote;
 	}
 
 	public Collection<Project> getProjects() {
@@ -561,11 +567,34 @@ public class ProjectServiceImpl implements ProjectService {
 					}
 				}
 			}
+			
+			List<Long> completedEvaluees = new ArrayList<>();
+			for (FeedbackProvider fp : project.getFeedbackProviders()) {
+				if (fp.getIdUser().longValue() == idUser) {
+					EvaluatedsRequest request = new EvaluatedsRequest(project.getId(), fp.getId());
+					completedEvaluees = this.evaluationServiceRemote.getCompletedEvaluees(request);
+					break;
+				}
+			}
+			
+			pendingEvaluees = filterCompletedEvaluees(pendingEvaluees, completedEvaluees);
 			return pendingEvaluees;
+			
 		} else {
 			log.warn("Proyecto con id {} inexistente", id);
 			return pendingEvaluees;
 		}
+	}
+
+	private List<PendingEvaluee> filterCompletedEvaluees(List<PendingEvaluee> pendingEvaluees,
+			List<Long> completedEvaluees) {
+		
+		List<PendingEvaluee> filteredList = pendingEvaluees.stream()
+				.filter(e -> !completedEvaluees.contains(e.getId()) )
+				.collect(Collectors.toList());
+		
+		return filteredList;
+		
 	}
 
 	private PendingEvaluee buildPendingEvaluee(Evaluee evaluee, Long efpId, Relationship relationship) {

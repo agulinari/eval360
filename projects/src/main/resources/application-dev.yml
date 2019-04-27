@@ -45,3 +45,4 @@ spring.kafka.consumer.group-id: ${CLOUDKARAFKA_USERNAME}-projects
 #Propiedades Servicio Users
 users.url: http://AUTH-SERVICE/users
 templates.url: http://TEMPLATES-SERVICE/evaluationTemplates
+evaluations.url: http://evaluations-service/evaluations

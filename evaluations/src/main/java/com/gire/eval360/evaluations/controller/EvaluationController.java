@@ -18,6 +18,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.gire.eval360.evaluations.domain.Evaluation;
 import com.gire.eval360.evaluations.domain.notifications.NotificationReviewerDto;
+import com.gire.eval360.evaluations.domain.projects.EvaluatedsRequest;
 import com.gire.eval360.evaluations.repository.EvaluationRepository;
 import com.gire.eval360.evaluations.service.NotificationSender;
 
@@ -108,4 +109,12 @@ public class EvaluationController {
 		return repository.findAll();
 	}
 
+	@PostMapping("/evaluations/completed")
+	public Flux<Long> getCompletedEvaluees(@RequestBody EvaluatedsRequest request) {
+
+		Flux<Evaluation> evaluations = repository.findByIdProjectAndIdFeedbackProvider(request.getIdProject(), request.getIdFeedbackProvider());
+		
+		return evaluations.map(eval -> eval.getIdEvaluee());
+		
+	}
 }
