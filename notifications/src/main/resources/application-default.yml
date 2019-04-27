@@ -21,9 +21,9 @@ management:
 spring:
   mail:
     default-encoding: UTF-8
-    host: smtp.gmail.com
-    username: notifica.eval360@gmail.com
-    password: Password3245
+    host: smtp.sendgrid.net
+    username: NotificationApi
+    password: SG.FmgRPxuYRUW2BakVwQPlPQ.D7Up8bSs7Vl - tLjnMoIoSmRidmoaYLXe8QKpAVcFek
     port: 587
     properties:
       mail:
