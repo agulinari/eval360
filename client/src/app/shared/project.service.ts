@@ -69,6 +69,14 @@ export class ProjectService {
     return result;
   }
 
+  closeProject(id: number): Observable<any> {
+    const request = {
+      'idProject': id
+    };
+    const result = this.http.post(this.PROJECTS_API + '/close', request);
+    return result;
+  }
+
   save(project: any): Observable<any> {
     let result: Observable<Object>;
     if (project.id) {

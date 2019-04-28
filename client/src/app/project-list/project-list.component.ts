@@ -36,7 +36,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
 
   }
 
-  goToProjectStatus(id: number,idEvTemp: number) {
+  goToProjectStatus(id: number, idEvTemp: number) {
     this.router.navigate([`../project/${id}/template/${idEvTemp}`], {relativeTo: this.route});
   }
 

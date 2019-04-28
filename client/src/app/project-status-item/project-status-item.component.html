@@ -8,6 +8,9 @@
         <button type="button" matTooltip="Exportar proyecto" color="accent" mat-icon-button (click)="exportProject()">
                 <mat-icon aria-label="Export project">save_alt</mat-icon>
         </button>
+        <button type="button" matTooltip="Cerrar proyecto" color="accent" mat-icon-button (click)="closeProject()">
+            <mat-icon aria-label="Close project">close</mat-icon>
+        </button>
     </mat-card-actions>
 <mat-card-content>
 <div class="spinner-container" *ngIf="loading">

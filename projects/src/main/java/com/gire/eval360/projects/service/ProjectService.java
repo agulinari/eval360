@@ -12,6 +12,7 @@ import com.gire.eval360.projects.domain.dto.PendingEvaluee;
 import com.gire.eval360.projects.domain.dto.ProjectStatus;
 import com.gire.eval360.projects.domain.excel.ProjectExcel;
 import com.gire.eval360.projects.domain.history.UserHistory;
+import com.gire.eval360.projects.domain.request.CloseProjectRequest;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
@@ -45,6 +46,8 @@ public interface ProjectService {
 	UserHistory getUserHistory(Long idUser);
 
 	List<ActiveProjectStats> getActiveProjectsStats();
+
+	boolean closeProject(CloseProjectRequest request);
 
 
 }

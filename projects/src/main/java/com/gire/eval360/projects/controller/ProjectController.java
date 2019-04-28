@@ -37,6 +37,7 @@ import com.gire.eval360.projects.domain.excel.ProjectExcel;
 import com.gire.eval360.projects.domain.excel.ProjectFpExcel;
 import com.gire.eval360.projects.domain.excel.ProjectReviewerExcel;
 import com.gire.eval360.projects.domain.history.UserHistory;
+import com.gire.eval360.projects.domain.request.CloseProjectRequest;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
 import com.gire.eval360.projects.domain.request.CreateProjectRequest;
@@ -69,6 +70,17 @@ public class ProjectController {
 		// TODO: validate request
 		this.projectService.createProject(request);
 		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/close")
+	public ResponseEntity<?> closeProject(@RequestBody CloseProjectRequest request) {
+		
+		boolean ok = this.projectService.closeProject(request);
+		if (ok) {
+			return new ResponseEntity<>(HttpStatus.ACCEPTED);
+		} else {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
 	}
 	
 	@PutMapping("/reportFeedback")
