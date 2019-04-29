@@ -215,7 +215,7 @@ export class ProjectCreateComponent implements OnInit {
   }
 
   createProject() {
-    
+
     const dialogRef: MatDialogRef<WaitingDialogComponent> = this.dialog.open(WaitingDialogComponent,  {
       panelClass: 'transparent',
       disableClose: true

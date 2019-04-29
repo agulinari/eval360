@@ -29,6 +29,7 @@ import { fillProperties } from '@angular/core/src/util/property';
 import { EvalueeDetailDialogComponent } from '../dialog/evaluee-detail-dialog.component';
 import { FpDetailDialogComponent } from '../dialog/fp-detail-dialog.component';
 import { ReviewerDetailDialogComponent } from '../dialog/reviewer-detail-dialog.component';
+import { ConfirmDialogComponent } from '../dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-project-status-item',
@@ -282,6 +283,34 @@ export class ProjectStatusItemComponent implements OnInit, OnDestroy {
     }, error => {
       console.log(error);
     });
+  }
+
+  closeProject() {
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {message: '¿Está seguro que desea cerrar el proyecto?'}, width: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data === 1) {
+          this.confirmCloseProject();
+        }
+      }
+    );
+
+  }
+
+  confirmCloseProject() {
+    this.projectService.closeProject(this.projectStatus.id).subscribe(
+      res => {
+        console.log('Cerrando proyecto', res);
+      },
+      err => {
+        console.log('Error cerrando proyecto', err);
+        this.showError('Se produjo un error al cerrar el proyecto');
+      },
+      () => this.gotoList());
   }
 
   onEvalueeClick(evaluee: EvalueeStatus): void {

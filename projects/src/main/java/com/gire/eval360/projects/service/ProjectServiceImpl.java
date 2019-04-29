@@ -47,6 +47,7 @@ import com.gire.eval360.projects.domain.history.EvaluationInstance;
 import com.gire.eval360.projects.domain.history.UserHistory;
 import com.gire.eval360.projects.domain.notifications.NotificationFeedbackProviderDto;
 import com.gire.eval360.projects.domain.notifications.NotificationReviewerDto;
+import com.gire.eval360.projects.domain.request.CloseProjectRequest;
 import com.gire.eval360.projects.domain.request.CreateEvaluee;
 import com.gire.eval360.projects.domain.request.CreateFeedbackProvider;
 import com.gire.eval360.projects.domain.request.CreateProjectAdmin;
@@ -899,5 +900,19 @@ public class ProjectServiceImpl implements ProjectService {
 			Optional<Evaluee> oEvaluee = project.getEvaluees().stream().filter(e -> e.getId() == idEvaluee.longValue()).findFirst();
 			return oEvaluee.map(evaluee -> evaluee.getReviewers().stream().map(r -> r.getReviewer()).collect(Collectors.toList())).orElse(new ArrayList<>());
 		}).orElse(new ArrayList<>());
+	}
+
+	@Transactional
+	@Override
+	public boolean closeProject(CloseProjectRequest request) {
+		Optional<Project> oProject = this.projectRepository.findById(request.getIdProject());
+		return oProject.map(project -> {
+			if (project.getStatus().equals(Status.RESUELTO)) {
+				return false;
+			}
+			project.setEndDate(LocalDate.now());
+			project.setStatus(Status.RESUELTO);
+			return true;
+		}).orElse(false);
 	}
 }
