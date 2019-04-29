@@ -17,13 +17,13 @@ management:
     jmx.exposure.exclude:*
 
 
-#SMTP
+#Spring mail SMTP
 spring:
   mail:
     default-encoding: UTF-8
     host: smtp.sendgrid.net
-    username: NotificationApi
-    password: SG.FmgRPxuYRUW2BakVwQPlPQ.D7Up8bSs7Vl - tLjnMoIoSmRidmoaYLXe8QKpAVcFek
+    username: apikey
+    password: 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
     port: 587
     properties:
       mail:
