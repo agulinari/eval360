@@ -2,7 +2,7 @@ package com.gire.eval360.reports.domain;
 
 public enum Score {
 	
-	SMALL("tdsmall"), MEDIUM("tdmedium"), LARGE("tdlarge");
+	NONE("tdnone"), SMALL("tdsmall"), MEDIUM("tdmedium"), LARGE("tdlarge");
 	
 	private final String cssClass;
 	

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.gire.eval360.users.domain.User;
@@ -14,7 +14,7 @@ import com.gire.eval360.users.domain.User;
 public class UserEventHandler {
 
   @Autowired 
-  private BCryptPasswordEncoder passwordEncoder;
+  private PasswordEncoder passwordEncoder;
 
 
   @HandleBeforeCreate     
