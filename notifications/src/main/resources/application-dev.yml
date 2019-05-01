@@ -13,8 +13,8 @@ eureka:
     nonSecurePort: 80
     leaseRenewalIntervalInSeconds: 30
     leaseExpirationDurationInSeconds: 90
- 
- # Propiedades Kafka
+
+# Propiedades Kafka
 spring.kafka.sslEnabled: true
 spring.kafka.bootstrap-servers: ${CLOUDKARAFKA_BROKERS}
 spring.kafka.properties.security.protocol: SASL_SSL

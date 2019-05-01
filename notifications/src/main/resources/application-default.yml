@@ -17,13 +17,13 @@ management:
     jmx.exposure.exclude:*
 
 
-#SMTP
+#Spring mail SMTP
 spring:
   mail:
     default-encoding: UTF-8
-    host: smtp.gmail.com
-    username: notifica.eval360@gmail.com
-    password: Password3245
+    host: smtp.sendgrid.net
+    username: apikey
+    password: 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
     port: 587
     properties:
       mail:
