@@ -7,7 +7,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 
 @Configuration
-@EnableWebMvc
+//@EnableWebMvc
 public class ThymeleafConfiguration {
 
     @Bean
