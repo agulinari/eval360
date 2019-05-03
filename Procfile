@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dserver.port=$PORT -Dspring.profiles.active=dev -jar $PATH_TO_JAR 
+web: cd $APP_DIR && java $JAVA_OPTS -Dserver.port=$PORT -Dspring.profiles.active=dev -jar $PATH_TO_JAR 
