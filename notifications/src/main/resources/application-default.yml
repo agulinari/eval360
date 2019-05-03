@@ -23,7 +23,7 @@ spring:
     default-encoding: UTF-8
     host: smtp.sendgrid.net
     username: apikey
-    password: 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
+    password: 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
     port: 587
     properties:
       mail:
