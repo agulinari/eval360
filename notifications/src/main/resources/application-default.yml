@@ -21,9 +21,9 @@ management:
 spring:
   mail:
     default-encoding: UTF-8
-    host: smtp.sendgrid.net
-    username: apikey
-    password: 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
+    host: smtp.mailgun.org
+    username: postmaster@sandbox2a7f9db68c014c3b8dd54a51f5bbc233.mailgun.org
+    password: 463cab47055a8a7ec4961108179447b2-7bce17e5-2740b733
     port: 587
     properties:
       mail:
