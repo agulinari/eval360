@@ -1,6 +1,8 @@
 package com.gire.eval360.notifications.service;
 
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import javax.mail.MessagingException;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -33,7 +35,7 @@ public class EmailServiceTest {
 	}
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void testSendEmail() {
 		UserResponse user = new UserResponse("sivori.daniel","daniel_sivori@yahoo.com.ar", true);
 		Context context = new Context();
@@ -44,9 +46,12 @@ public class EmailServiceTest {
         String renderedHtmlContent = templateMail.process("NotificationMail", context);
 		try {
 			emailService.sendSimpleMessage("sivori.daniel@gmail.com", "Eval 360",renderedHtmlContent);
-		} catch (IOException e) {
+		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			log.error(e.getMessage());
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
