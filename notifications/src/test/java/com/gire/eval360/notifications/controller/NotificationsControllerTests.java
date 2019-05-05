@@ -1,5 +1,6 @@
 package com.gire.eval360.notifications.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import javax.mail.MessagingException;
@@ -38,7 +39,7 @@ public class NotificationsControllerTests {
     }
     
     @Test
-    public void testNotificateToProviders() throws UnsupportedEncodingException, MessagingException {
+    public void testNotificateToProviders() throws IOException {
   
     	UserProvider provider = UserProvider.builder().username("alinari").mail("agustinlinari@gmail.com").build();
     	NotificationProvidersRequest request = NotificationProvidersRequest.builder().idEvalueeFP(Long.valueOf(1)).idProject(Long.valueOf(1)).provider(provider).build();
@@ -58,7 +59,7 @@ public class NotificationsControllerTests {
     }
     
     @Test
-    public void testNotificationToProvidersMessagingException() throws UnsupportedEncodingException, MessagingException {
+    public void testNotificationToProvidersMessagingException() throws IOException {
     	UserProvider provider = UserProvider.builder().username("alinari").mail("agustinlinari@gmail.com").build();
     	NotificationProvidersRequest request = NotificationProvidersRequest.builder().idEvalueeFP(Long.valueOf(1)).idProject(Long.valueOf(1)).provider(provider).build();
     	

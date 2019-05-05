@@ -1,5 +1,6 @@
 package com.gire.eval360.notifications.service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 
@@ -63,7 +64,7 @@ public class NotificationReceiver {
     		try {
     			emailService.sendSimpleMessage(to,subject,renderedHtmlContent);
     			return Mono.just("Se envio la notificación a "+to);
-    		} catch (MessagingException | UnsupportedEncodingException e) {
+    		} catch (IOException e) {
 				log.error(e.getMessage());
 			}
     		
@@ -102,7 +103,7 @@ public class NotificationReceiver {
 		try {
 			emailService.sendSimpleMessage(to,subject,renderedHtmlContent);
 			return Mono.just("Se envio la notificación a "+to);
-		} catch (MessagingException | UnsupportedEncodingException e) {
+		} catch (IOException e) {
 			log.error(e.getMessage());
 		}
 		
