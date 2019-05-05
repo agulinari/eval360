@@ -29,7 +29,7 @@ export class NotificationService {
         }
     });
 
-    createRememberUserProvider.mail = 'sivori.daniel@gmail.com';
+    createRememberUserProvider.mail = feedbackProviderStatus.mail;
     createRememberUserProvider.username = feedbackProviderStatus.username;
     notifyRememberFeedback.idProject = projectStatus.id;
 
