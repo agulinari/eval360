@@ -20,7 +20,7 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender emailSender;
      
     public void sendSimpleMessage(String to, String subject, String html) throws MessagingException, UnsupportedEncodingException {
-       
+           	    	
     	MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message,MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,StandardCharsets.UTF_8.name());
         helper.setText(html,true);

@@ -20,6 +20,7 @@ public class FeedbackProviderStatus {
 	private Long id;
 	private Long idUser;
 	private String username;
+	private String mail;
 	private String avatar;
 	private Status status;
 	private Integer pendingFeedbacks;

@@ -485,7 +485,7 @@ public class ProjectServiceImpl implements ProjectService {
 		UserResponse user = this.userServiceRemote.getUserById(fp.getIdUser());
 
 		FeedbackProviderStatus fpStatus = FeedbackProviderStatus.builder().id(fp.getId()).idUser(fp.getIdUser())
-				.username(user.getUsername()).avatar("").status(Status.PENDIENTE).completedFeedbacks(0)
+				.username(user.getUsername()).mail(user.getMail()).avatar("").status(Status.PENDIENTE).completedFeedbacks(0)
 				.pendingFeedbacks(0).build();
 
 		List<EvalueeDetail> evalueeDetails = fp.getEvaluees().stream().map(efp -> buildEvalueeDetail(efp))

@@ -6,6 +6,7 @@ import { CreateRememberUserProvider } from '../domain/create-notification/create
 import { ProjectStatus } from '../domain/project-status/project-status';
 import { FeedbackProviderStatus } from '../domain/project-status/feedback-provider-status';
 import { environment } from '../../environments/environment';
+import { FeedbackProviderDetail } from '../domain/project-status/feedback-provider-detail';
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +25,12 @@ export class NotificationService {
     const createRememberUserProvider = new CreateRememberUserProvider();
     const listRemembers: Array<CreateRememberUserProvider> = [createRememberUserProvider];
     projectStatus.evalueesStatus.forEach(evaluee => {
-        if (evaluee.feedbackProviders.find(fp => ((fp.id === feedbackProviderStatus.id) && (fp.status === 'PENDIENTE')) !== undefined)) {
-            notifyRememberFeedback.idEvalueeFP = evaluee.id;
-        }
+            let fpd = evaluee.feedbackProviders.find(fp => ((fp.id === feedbackProviderStatus.id) && (fp.status === 'PENDIENTE')) !== undefined);
+            if(fpd!=undefined){
+              notifyRememberFeedback.idEvalueeFP = evaluee.id;
+            }
     });
-
+    
     createRememberUserProvider.mail = feedbackProviderStatus.mail;
     createRememberUserProvider.username = feedbackProviderStatus.username;
     notifyRememberFeedback.idProject = projectStatus.id;
