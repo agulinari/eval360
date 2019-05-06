@@ -183,6 +183,9 @@ export class AddEvalueeDialogComponent implements OnInit {
 
     fpClick(event: any, index: number) {
         this.selectedFPs[index] = event.option.value;
+        if (this.selectedFPs[index].username === this.selectedEvaluee.username) {
+            this.feedbackProviders.controls[index].get('relationship').setValue('AUTO');
+        }
     }
 
     checkFp(index: number) {

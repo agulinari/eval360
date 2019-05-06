@@ -700,6 +700,14 @@ th, td {
 	width: 200px;
 }
 
+.tdnone {
+	background-color: #ffffff;
+	color: #ffffff;
+	text-align: center;
+	padding: 0px 0px;
+	width: 89px;
+}
+
 .tdsmall {
 	background-color: #ebf1de;
 	color: #c5c883;

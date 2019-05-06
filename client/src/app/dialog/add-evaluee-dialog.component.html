@@ -39,8 +39,7 @@
                                 </mat-option>
                             </ng-container>
                       </mat-autocomplete>
-
-                      <mat-form-field class="full-width" fxFlex="50%">
+                      <mat-form-field *ngIf="selectedFPs[i] && selectedEvaluee ? selectedFPs[i].username !== selectedEvaluee.username : false" class="full-width" fxFlex="50%">
                         <mat-select formControlName="relationship" placeholder="Relacion" required>
                             <mat-option value="JEFE">Jefe</mat-option>
                             <mat-option value="PAR">Par</mat-option>

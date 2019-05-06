@@ -77,7 +77,7 @@ public class MongoInitConfiguration {
 										.idProject(Long.valueOf(1))
 										.idFeedbackProvider(Long.valueOf(4))
 										.username("admin")
-										.relationship("Par")
+										.relationship("AUTO")
 										.section(section1)
 										.section(section2)
 										.section(section3)

@@ -690,47 +690,47 @@ compañeros, sus subordiandos y por usted mismo. Le ayudará a identificar las �
  <tr class="secondtablerow">
   <th class="width200px" rowspan="2" th:inline="text">Puntajes promedio para [[${section.getName()}]]</th>
   <td class="width100px"><b>Tu visión</b></td>
-  <td th:inline="text"><b>[[${section.getCurrentPerformanceByMe()}]]</b></td>
-  <td th:inline="text"><b>[[${section.getDesiredPerformanceByMe()}]]</b></td>
-  <td><div class="progressbar" th:style="|width:${section.getCurrentPerformanceByMe()*20}%;|">&nbsp;</div></td>
+  <td th:inline="text"><b>[[${section.getCurrentPerformanceByMe() != null ? section.getCurrentPerformanceByMe() : "-"}]]</b></td>
+  <td th:inline="text"><b>[[${section.getDesiredPerformanceByMe() != null ? section.getDesiredPerformanceByMe() : "-"}]]</b></td>
+  <td><div class="progressbar" th:style="|width:${section.getCurrentPerformanceByMe() != null ? section.getCurrentPerformanceByMe()*20 : 0}%;|">&nbsp;</div></td>
  </tr>
  <tr class="secondtablerow">
   <td class="width100px"><b>Colegas</b></td>
-  <td th:inline="text"><b>[[${section.getCurrentPerformanceByColleagues()}]]</b></td>
-  <td th:inline="text"><b>[[${section.getDesiredPerformanceByColleagues()}]]</b></td>
-  <td><div class="progressbar" th:style="|width:${section.getCurrentPerformanceByColleagues()*20}%;|">&nbsp;</div></td>
+  <td th:inline="text"><b>[[${section.getCurrentPerformanceByColleagues() != null ? section.getCurrentPerformanceByColleagues() : "-"}]]</b></td>
+  <td th:inline="text"><b>[[${section.getDesiredPerformanceByColleagues() != null ? section.getDesiredPerformanceByColleagues() : "-"}]]</b></td>
+  <td><div class="progressbar" th:style="|width:${section.getCurrentPerformanceByColleagues() != null ? section.getCurrentPerformanceByColleagues()*20 : 0}%;|">&nbsp;</div></td>
  </tr>
  <th:block th:each="area, i : ${section.getItems()}">
 	 <tr th:class="${i.index % 2 == 0} ? fourthtablerow : thirdtablerow">
 	  <th rowspan="5" th:inline="text"><b>[[${area.getName()}]]</b><br><i>[[${area.getDescription()}]]</i></th>
 	  <td><b>Tu visión</b></td>
-	  <td th:inline="text"><b>[[${area.getCurrentPerformanceByMe()}]]</b></td>
-	  <td th:inline="text"><b>[[${area.getDesiredPerformanceByMe()}]]</b></td>
-	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByMe()*20}%;|">&nbsp;</div></td>
+	  <td th:inline="text"><b>[[${area.getCurrentPerformanceByMe() != null ? area.getCurrentPerformanceByMe() : "-"}]]</b></td>
+	  <td th:inline="text"><b>[[${area.getDesiredPerformanceByMe() != null ? area.getDesiredPerformanceByMe() : "-"}]]</b></td>
+	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByMe() != null ? area.getCurrentPerformanceByMe()*20 : 0}%;|">&nbsp;</div></td>
 	 </tr>
 	 <tr th:class="${i.index % 2 == 0} ? fourthtablerow : thirdtablerow">
 	  <td><b>Colegas</b></td>
-	  <td th:inline="text"><b>[[${area.getCurrentPerformanceByColleagues()}]]</b></td>
-	  <td th:inline="text"><b>[[${area.getDesiredPerformanceByColleagues()}]]</b></td>
-	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByColleagues()*20}%;|">&nbsp;</div></td>
+	  <td th:inline="text"><b>[[${area.getCurrentPerformanceByColleagues() != null ? area.getCurrentPerformanceByColleagues() : "-"}]]</b></td>
+	  <td th:inline="text"><b>[[${area.getDesiredPerformanceByColleagues() != null ? area.getDesiredPerformanceByColleagues() : "-"}]]</b></td>
+	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByColleagues() != null ? area.getCurrentPerformanceByColleagues()*20 : 0}%;|">&nbsp;</div></td>
 	 </tr>
 	  <tr th:class="${i.index % 2 == 0} ? fourthtablerow : thirdtablerow">
 	  <td>Jefe / Gerente</td>
-	  <td th:inline="text">[[${area.getCurrentPerformanceByManagers()}]]</td>
-	  <td th:inline="text">[[${area.getDesiredPerformanceByManagers()}]]</td>
-	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByManagers()*20}%;|">&nbsp;</div></td>
+	  <td th:inline="text">[[${area.getCurrentPerformanceByManagers() != null ? area.getCurrentPerformanceByManagers() : "-"}]]</td>
+	  <td th:inline="text">[[${area.getDesiredPerformanceByManagers() != null ? area.getDesiredPerformanceByManagers() : "-"}]]</td>
+	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByManagers() != null ? area.getCurrentPerformanceByManagers()*20 : 0}%;|">&nbsp;</div></td>
 	 </tr>
 	  <tr th:class="${i.index % 2 == 0} ? fourthtablerow : thirdtablerow">
 	  <td>Pares</td>
-	  <td th:inline="text">[[${area.getCurrentPerformanceByPeers()}]]</td>
-	  <td th:inline="text">[[${area.getDesiredPerformanceByPeers()}]]</td>
-	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByPeers()*20}%;|">&nbsp;</div></td>
+	  <td th:inline="text">[[${area.getCurrentPerformanceByPeers() != null ? area.getCurrentPerformanceByPeers() : "-"}]]</td>
+	  <td th:inline="text">[[${area.getDesiredPerformanceByPeers() != null ? area.getDesiredPerformanceByPeers() : "-"}]]</td>
+	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByPeers() != null ? area.getCurrentPerformanceByPeers()*20 : 0}%;|">&nbsp;</div></td>
 	 </tr>
 	  <tr th:class="${i.index % 2 == 0} ? fourthtablerow : thirdtablerow">
 	  <td>Subordinados</td>
-	  <td th:inline="text">[[${area.getCurrentPerformanceByDirectReports()}]]</td>
-	  <td th:inline="text">[[${area.getDesiredPerformanceByDirectReports()}]]</td>
-	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByDirectReports()*20}%;|">&nbsp;</div></td>
+	  <td th:inline="text">[[${area.getCurrentPerformanceByDirectReports() != null ? area.getCurrentPerformanceByDirectReports() : "-"}]]</td>
+	  <td th:inline="text">[[${area.getDesiredPerformanceByDirectReports() != null ? area.getDesiredPerformanceByDirectReports() : "-"}]]</td>
+	  <td><div class="progressbar" th:style="|width:${area.getCurrentPerformanceByDirectReports() != null ? area.getCurrentPerformanceByDirectReports()*20 : 0}%;|">&nbsp;</div></td>
 	 </tr>
  </th:block>
 </table>

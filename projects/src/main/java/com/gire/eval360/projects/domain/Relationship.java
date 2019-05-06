@@ -2,7 +2,7 @@ package com.gire.eval360.projects.domain;
 
 public enum Relationship {
 	
-	JEFE, PAR, SUBORDINADO;
+	AUTO, JEFE, PAR, SUBORDINADO;
 	
 	public static boolean contains(String test) {
 
