@@ -16,15 +16,14 @@ management:
     web.exposure.include:*
     jmx.exposure.exclude:*
 
-
-#Spring mail SMTP
+# Spring mail SMTP
 spring:
   mail:
     default-encoding: UTF-8
-    host: smtp.sendgrid.net
-    username: apikey
-    password: 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
-    port: 587
+    host: ${SENDGRID_HOST}
+    username: ${SENDGRID_USERNAME}
+    password: ${SENDGRID_PASSWORD}
+    port: ${SENDGRID_PORT}
     properties:
       mail:
         smtp:

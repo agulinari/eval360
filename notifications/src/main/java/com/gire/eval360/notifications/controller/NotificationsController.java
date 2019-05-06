@@ -1,5 +1,6 @@
 package com.gire.eval360.notifications.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,7 +52,7 @@ public class NotificationsController {
             
     		try {
     			emailService.sendSimpleMessage(to,subject,renderedHtmlContent);
-    		}catch (MessagingException | UnsupportedEncodingException e) {
+    		}catch (IOException e) {
     			log.error(e.getMessage());
     			return new UserProviderNotification(new UserProvider(p.getUsername(),p.getMail()),"NOK"+ " - "+e.getMessage(),1);
 			} catch(Exception e) {

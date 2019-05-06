@@ -35,7 +35,7 @@ public class EmailServiceTest {
 	}
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void testSendEmail() {
 		UserResponse user = new UserResponse("sivori.daniel","daniel_sivori@yahoo.com.ar", true);
 		Context context = new Context();
