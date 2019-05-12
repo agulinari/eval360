@@ -42,7 +42,7 @@
                   <mat-icon aria-label="Go to project status button">settings</mat-icon>
               </button>
               <button type="button" matTooltip="Mis Evaluaciones" color="accent" mat-icon-button (click)="goToProjectTasks(row.id)">
-                <mat-icon aria-label="Go to project tasks button">assignment</mat-icon>
+                <mat-icon [matBadge]="showBadge(row)" [matBadgeHidden]="showBadge(row)===0"  aria-label="Go to project tasks button">assignment</mat-icon>
               </button>
           </mat-cell>
       </ng-container>

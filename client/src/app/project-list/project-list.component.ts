@@ -22,6 +22,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
   @ViewChild('input') input: ElementRef;
 
   dataSource: ProjectListDataSource;
+  userId: string;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'name', 'startDate', 'actions'];
@@ -31,10 +32,6 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
     public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute) { }
-
-  deleteProject(id: number) {
-
-  }
 
   goToProjectStatus(id: number, idEvTemp: number) {
     this.router.navigate([`../project/${id}/template/${idEvTemp}`], {relativeTo: this.route});
@@ -49,6 +46,7 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.userId = this.authenticationService.getUserId();
     this.dataSource = new ProjectListDataSource(this.paginator, this.sort, this.authenticationService, this.projectService);
     this.dataSource.loadProjects();
   }
@@ -112,6 +110,19 @@ export class ProjectListComponent implements OnInit, AfterViewInit {
     this.dialog.open(ErrorDialogComponent, {
       data: {errorMsg: error}, width: '250px'
     });
+  }
+
+  showBadge(project: Project): number {
+
+    let pending = 0;
+    project.evaluees.forEach(evaluee => {
+        evaluee.feedbackProviders.forEach(efp => {
+            if (efp.feedbackProvider.idUser === +this.userId && efp.status === 'PENDIENTE') {
+                pending++;
+            }
+        });
+    });
+    return pending;
   }
 
 }
