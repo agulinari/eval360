@@ -104,7 +104,7 @@ export class ProjectStatusItemComponent implements OnInit, OnDestroy {
       const isFeedbacksIncomplete =
       (this.projectStatus.feedbackProvidersStatus.find(item => item.status.toUpperCase() === 'PENDIENTE') !== undefined);
       this.recordarFeedback = isFeedbacksIncomplete;
-      this.projectStatus.feedbackProvidersStatus.map(fp => fp.reminder = this.recordarFeedback);
+      this.projectStatus.feedbackProvidersStatus.map(fp => fp.reminder = (this.recordarFeedback && fp.pendingFeedbacks!=0));
     }
 
   }
