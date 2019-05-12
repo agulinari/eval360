@@ -5,4 +5,5 @@ export class FeedbackProviderDetail {
     username: string;
     avatar: string;
     status: string;
+    relationship: string;
 }

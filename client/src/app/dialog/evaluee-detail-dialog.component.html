@@ -10,10 +10,11 @@
                 <div *ngIf="fp.status === 'RESUELTO'" fxFlex="30%" fxLayoutAlign="center center">
                     <mat-icon>check_circle</mat-icon> Resuelto
                 </div>
-                <div fxFlex="70%" fxLayoutAlign="left center">
+                <div fxFlex="40%" fxLayoutAlign="left center">
                 <img class="avatar" src="/assets/images/avatar.png" alt="{{fp.idUser}}">
                     {{fp.username}}
                 </div>
+                <p fxFlex="30%" fxLayoutAlign="center center">{{fp.relationship}}</p>
         </div>
         <mat-divider [inset]="true" *ngIf="!last"></mat-divider> 
         <mat-row *matRowDef="let fp"></mat-row>

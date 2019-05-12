@@ -476,6 +476,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 		FeedbackProviderDetail fpDetail = FeedbackProviderDetail.builder().id(efp.getFeedbackProvider().getId())
 				.avatar("").idUser(efp.getFeedbackProvider().getIdUser()).username(user.getUsername())
+				.relationship(efp.getRelationship())
 				.status(efp.getStatus()).build();
 
 		return fpDetail;
