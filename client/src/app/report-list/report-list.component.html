@@ -2,6 +2,9 @@
     <mat-card-header>
       <mat-card-title>Mis Reportes</mat-card-title>
     </mat-card-header>
+    <mat-card-actions>
+        <button mat-raised-button type="button" color="primary" (click)="gotoList()">Volver</button>
+    </mat-card-actions>
     <mat-card-content>
       <div class="spinner-container" *ngIf="loading">
           <mat-spinner [diameter]='70'></mat-spinner>
