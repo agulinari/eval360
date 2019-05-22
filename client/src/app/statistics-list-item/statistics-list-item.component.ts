@@ -79,13 +79,14 @@ export class StatisticsListItemComponent {
 
 //this.zone.runOutsideAngular(() => {
 let evaluados : Array<StatisticSpEvaluee> = this.statisticSpStatus.statisticsSpEvaluees;
-console.log("Evaluados: "+evaluados[0].name);
+console.log("Evaluados: "+evaluados);
 console.log("Cantidad de evaluados: "+evaluados.length);
 let result_evaluaciones : Array<StatisticSpSection> = this.statisticSpStatus.statisticsSpSections;
 
 let startIdxEval = 0;
 let endIdxEval = evaluados.length - 1;
 let currentIdxEval = 0;
+this.currentIdxEval = 0;
 let colorSet = new am4core.ColorSet();
 
 let chart = am4core.create("chartdivRadar", am4charts.RadarChart);
@@ -104,11 +105,11 @@ yearLabel.horizontalCenter = "middle";
 yearLabel.verticalCenter = "middle";
 yearLabel.fill = am4core.color("#673AB7");
 yearLabel.fontSize = 12;
-yearLabel.text = evaluados[currentIdxEval].name;
+yearLabel.text = evaluados[this.currentIdxEval].name;
 yearLabel.clickable = true;
 yearLabel.truncate = true;
 yearLabel.maxWidth = 120;
-yearLabel.tooltipText = evaluados[currentIdxEval].name;
+yearLabel.tooltipText = evaluados[this.currentIdxEval].name;
 
 yearLabel.events.on("hit", function () {
   let urlRelationItem = '/main/project/'+ this.idProject+'/template/'+this.idEvalTemp +
@@ -185,7 +186,7 @@ valueAxisLabel.tooltipText = "{valueY.value}";
 let series = chart.series.push(new am4charts.RadarColumnSeries());
 series.columns.template.width = am4core.percent(90);
 series.columns.template.strokeOpacity = 0;
-series.dataFields.valueY = "value" + currentIdxEval;
+series.dataFields.valueY = "value" + this.currentIdxEval;
 series.dataFields.categoryX = "area";
 series.tooltipText = "{categoryX}:{valueY.value}";
 
@@ -248,10 +249,10 @@ function generateRadarData() {
 
 
 function updateRadarData(idxEval:number) {
-    if (this.currentIdxEval != idxEval) {
-        this.currentIdxEval = idxEval;
-        yearLabel.text = evaluados[this.currentIdxEval].name;
-        series.dataFields.valueY = "value" + this.currentIdxEval;
+    if (idxEval != currentIdxEval) {
+        currentIdxEval = idxEval;
+        yearLabel.text = evaluados[currentIdxEval].name;
+        series.dataFields.valueY = "value" + currentIdxEval;
         chart.invalidateRawData();
     }
 }
