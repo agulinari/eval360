@@ -80,6 +80,7 @@ export class StatisticsListItemComponent {
 //this.zone.runOutsideAngular(() => {
 let evaluados : Array<StatisticSpEvaluee> = this.statisticSpStatus.statisticsSpEvaluees;
 console.log("Evaluados: "+evaluados[0].name);
+console.log("Cantidad de evaluados: "+evaluados.length);
 let result_evaluaciones : Array<StatisticSpSection> = this.statisticSpStatus.statisticsSpSections;
 
 let startIdxEval = 0;
@@ -247,10 +248,10 @@ function generateRadarData() {
 
 
 function updateRadarData(idxEval:number) {
-    if (currentIdxEval != idxEval) {
-        currentIdxEval = idxEval;
-        yearLabel.text = evaluados[currentIdxEval].name;
-        series.dataFields.valueY = "value" + currentIdxEval;
+    if (this.currentIdxEval != idxEval) {
+        this.currentIdxEval = idxEval;
+        yearLabel.text = evaluados[this.currentIdxEval].name;
+        series.dataFields.valueY = "value" + this.currentIdxEval;
         chart.invalidateRawData();
     }
 }
