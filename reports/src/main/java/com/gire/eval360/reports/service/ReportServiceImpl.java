@@ -1,10 +1,10 @@
 package com.gire.eval360.reports.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -103,10 +103,10 @@ public class ReportServiceImpl implements ReportService {
 			
 			List<StatisticsSpItem> stSpIts = s.getItems().stream().filter(it->it.getType().equalsIgnoreCase("RATING"))
 														.map(it->{
-																ItemScore average = calculateAverage(it.getId(), evaluations, "");
-																ItemScore averageManagers = calculateAverage(it.getId(), evaluations, "JEFE");
-																ItemScore averagePeers = calculateAverage(it.getId(), evaluations, "PAR");
-																ItemScore averageDirectReports = calculateAverage(it.getId(), evaluations, "SUBORDINADO");
+																ItemScore average = calculateAverage(it.getId(), evaluations, "", true);
+																ItemScore averageManagers = calculateAverage(it.getId(), evaluations, "JEFE", true);
+																ItemScore averagePeers = calculateAverage(it.getId(), evaluations, "PAR", true);
+																ItemScore averageDirectReports = calculateAverage(it.getId(), evaluations, "SUBORDINADO", true);
 																Optional<ItemTemplate> oitT = sectTemp.getItems().stream().filter(itTemp-> itTemp.getId().equals(it.getId())).findFirst();
 																ItemTemplate itT=(oitT.isPresent())?oitT.get():ItemTemplate.builder().build();
 																
@@ -192,11 +192,11 @@ public class ReportServiceImpl implements ReportService {
 				for (ItemTemplate itemTemplate : section.getItems()) {
 					Long itemId = itemTemplate.getId();
 					if (itemTemplate.getItemType().equals(ItemType.RATING)) {
-						ItemScore average = calculateAverage(itemId, evaluations, "");
-						ItemScore averageManagers = calculateAverage(itemId, evaluations, "JEFE");
-						ItemScore averagePeers = calculateAverage(itemId, evaluations, "PAR");
-						ItemScore averageDirectReports = calculateAverage(itemId, evaluations, "SUBORDINADO");
-						ItemScore averageMe = calculateAverage(itemId, evaluations, "AUTO");
+						ItemScore average = calculateAverage(itemId, evaluations, "", true);
+						ItemScore averageManagers = calculateAverage(itemId, evaluations, "JEFE", true);
+						ItemScore averagePeers = calculateAverage(itemId, evaluations, "PAR", true);
+						ItemScore averageDirectReports = calculateAverage(itemId, evaluations, "SUBORDINADO", true);
+						ItemScore averageMe = calculateAverage(itemId, evaluations, "AUTO", true);
 						
 						Item item = Item.builder()
 										.name(itemTemplate.getTitle())
@@ -226,7 +226,7 @@ public class ReportServiceImpl implements ReportService {
 		
 	}
 
-	private ItemScore calculateAverage(Long itemId, List<Evaluation> evaluations, String relationship) {
+	private ItemScore calculateAverage(Long itemId, List<Evaluation> evaluations, String relationship, boolean diff) {
 		
 		Integer totalCurrentScore = 0;
 		Integer totalDesiredScore = 0;
@@ -241,7 +241,11 @@ public class ReportServiceImpl implements ReportService {
 							Integer score = Integer.valueOf(item.getValue());
 							Integer score1 = Integer.valueOf(item.getValue1());
 							totalCurrentScore = totalCurrentScore + score;
-							totalDesiredScore = totalDesiredScore + (score1 - score);
+							if (diff) {
+								totalDesiredScore = totalDesiredScore + (score1 - score);
+							} else {
+								totalDesiredScore = totalDesiredScore + score1;
+							}
 							evalCount++;
 						}
 					}
@@ -252,12 +256,12 @@ public class ReportServiceImpl implements ReportService {
 		BigDecimal currentScore = BigDecimal.ZERO;
 		if (evalCount.intValue() != 0) {
 			double cs = totalCurrentScore.doubleValue() / evalCount.doubleValue();
-			currentScore = BigDecimal.valueOf(cs);
+			currentScore = BigDecimal.valueOf(cs).setScale(2, BigDecimal.ROUND_HALF_UP);
 		}
 		BigDecimal desiredScore = BigDecimal.ZERO;
 		if (evalCount.intValue() !=  0) {
 			double ds = totalDesiredScore.doubleValue() / evalCount.doubleValue();
-			desiredScore = BigDecimal.valueOf(ds);
+			desiredScore = BigDecimal.valueOf(ds).setScale(2, BigDecimal.ROUND_HALF_UP);
 		}
 		ItemScore itemScore = ItemScore.builder().currentPerformance(currentScore).desiredPerformance(desiredScore).build();
 		return itemScore;
@@ -352,15 +356,28 @@ public class ReportServiceImpl implements ReportService {
 										 .items(new ArrayList<>())
 										 .comments(new ArrayList<>())
 										 .build();
+				
+				BigDecimal sectionCurrentPerformanceByMe = BigDecimal.ZERO;
+				BigDecimal sectionCurrentPerformanceByColleagues = BigDecimal.ZERO;
+				BigDecimal sectionDesiredPerformanceByMe = BigDecimal.ZERO;
+				BigDecimal sectionDesiredPerformanceByColleagues = BigDecimal.ZERO;
+				
 				for (ItemTemplate itemTemplate : section.getItems()) {
 					Long itemId = itemTemplate.getId();
 
 					if (itemTemplate.getItemType().equals(ItemType.TEXTBOX)) {
+						
 						Comment comment = Comment.builder().question(itemTemplate.getDescription()).ownResponse("N/A").build();
 						List<String> otherResponses = new ArrayList<>();
 						for (Evaluation evaluation : evaluations){
+							
 							String response = getComment(section.getId(), itemId, evaluation);
-							otherResponses.add(response);
+
+							if (evaluation.getRelationship().equals("AUTO")) {
+								comment.setOwnResponse(response);
+							} else {
+								otherResponses.add(response);
+							}
 							
 						}
 						comment.setOtherResponses(otherResponses);
@@ -371,25 +388,25 @@ public class ReportServiceImpl implements ReportService {
 						if (autoEval.intValue() == 0) {
 							averageMe = ItemScore.builder().currentPerformance(null).desiredPerformance(null).build();
 						} else {
-							averageMe = calculateAverage(itemId, evaluations, "AUTO");
+							averageMe = calculateAverage(itemId, evaluations, "AUTO", false);
 						}
 						ItemScore averageManagers = null;
 						if (managers.intValue() == 0) {
 							averageManagers = ItemScore.builder().currentPerformance(null).desiredPerformance(null).build();						
 						} else {
-							averageManagers = calculateAverage(itemId, evaluations, "JEFE");
+							averageManagers = calculateAverage(itemId, evaluations, "JEFE", false);
 						}
 						ItemScore averagePeers = null;
 						if (peers.intValue() == 0) {
 							averagePeers = ItemScore.builder().currentPerformance(null).desiredPerformance(null).build();						
 						} else {
-							averagePeers = calculateAverage(itemId, evaluations, "PAR");
+							averagePeers = calculateAverage(itemId, evaluations, "PAR", false);
 						}
 						ItemScore averageDirectReports = null;
 						if (directReports.intValue() == 0) {
 							averageDirectReports = ItemScore.builder().currentPerformance(null).desiredPerformance(null).build();						
 						} else {
-							averageDirectReports = calculateAverage(itemId, evaluations, "SUBORDINADO");
+							averageDirectReports = calculateAverage(itemId, evaluations, "SUBORDINADO", false);
 						}
 						ItemScore averageColleagues = calculateAverageColleagues(averageManagers, averagePeers, averageDirectReports, managers, peers, directReports);
 						
@@ -409,8 +426,21 @@ public class ReportServiceImpl implements ReportService {
 										.desiredPerformanceByMe(averageMe.getDesiredPerformance())
 										.build();
 						
+						sectionCurrentPerformanceByMe = sectionCurrentPerformanceByMe.add(averageMe.getCurrentPerformance());
+						sectionCurrentPerformanceByColleagues = sectionCurrentPerformanceByColleagues.add(averageColleagues.getCurrentPerformance());
+						sectionDesiredPerformanceByMe = sectionDesiredPerformanceByMe.add(averageMe.getDesiredPerformance());
+						sectionDesiredPerformanceByColleagues = sectionDesiredPerformanceByColleagues.add(averageColleagues.getDesiredPerformance());
+						
 						sec.getItems().add(item);
 					}
+				}
+				
+				if (!sec.getItems().isEmpty()) {
+					BigDecimal totalItems = BigDecimal.valueOf(sec.getItems().size());
+					sec.setCurrentPerformanceByColleagues(sectionCurrentPerformanceByColleagues.divide(totalItems, 2, RoundingMode.HALF_UP));
+					sec.setCurrentPerformanceByMe(sectionCurrentPerformanceByMe.divide(totalItems, 2, RoundingMode.HALF_UP));
+					sec.setDesiredPerformanceByColleagues(sectionDesiredPerformanceByColleagues.divide(totalItems, 2, RoundingMode.HALF_UP));
+					sec.setDesiredPerformanceByMe(sectionDesiredPerformanceByMe.divide(totalItems, 2, RoundingMode.HALF_UP));
 				}
 				sections.add(sec);
 			}

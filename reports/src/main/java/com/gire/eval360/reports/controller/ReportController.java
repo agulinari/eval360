@@ -71,7 +71,7 @@ public class ReportController  {
         // Note that we could also read this data from a JSON file, a database
         // a web service or whatever.
         ReportData data = service.generateReport(Long.valueOf(1), Long.valueOf(3), Long.valueOf(1)).block();
-        
+       
         Context context = new Context();
         context.setVariable("data", data);
 
@@ -212,5 +212,5 @@ public class ReportController  {
         return outputStream.toString(UTF_8);
     }
 	
-	
+
 }

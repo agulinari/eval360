@@ -1,87 +1,29 @@
 <div th:fragment="index">
 
 <div id="imagen">
-	<img src="imgs/3personas.png" alt="3 personas">
+	<img src="imgs/logo.png" alt="logo">
 </div>
 <div id="titulo">
 	<h1> [[${data.getUsername()}]]</h1>
 	<h3>Su informe de desempeño y plan de desarrollo personal</h3>
 	<h6>[[${data.getDate()}]]</h6>
 </div>
-
-<!-- 
-<ol>
-<ul style="display:flex">
-<div id="firstrow" class="firstrow" style="width:20px;border: none;">
-<div id="cubo1"></div>
-</div>
-<li id="firstrow" class="firstrow" style="width:200px;border: none;">
-<a href="#susResultados" class="firstrow"><b>Sus resultados</b></a>
-</li>
-<div id="firstrow" class="firstrow" style="width:200px;border: none;">
-<div class="firstrow" style="text-align:right">Pagina 2</div>
-</div>
-</ul>
-	<ol>	
-		<ul style="display:flex">
-		<li style="width:300px;border: none;">
-	    <a href="#resumenFortAreasMejora" class="firstrow"><b>Resumen de las principales fortalezas y &aacute;reas a mejorar</b>
-	    </a>
-	    </li>
-	    <div style="width:300px;border: none;">
-	    <div class="firstrow" style="text-align:right">Pagina 2</div>
-	    </li>
-	    </ul>
-	    <ul style="display:flex">	    
-	    <li style="width:300px;border: none;">
-	    <a href="#areasPrincipalesMejora" class="firstrow"><b>Tus principales &aacute;reas a mejorar</b></a>
-	    </li>
-	    <div style="width:300px;border: none;">
-	    <div class="firstrow" style="text-align:right">Pagina 3</div>
-	    </div>
-	    </ul>
-	    <ul style="display:flex">
-    	<li style="width:300px;border: none;">
-    	<a href="#comparaVistas" class="firstrow"><b>Comparaci&oacute;n de vistas</b></a>
-    	</li>
-    	<div style="width:300px;border: none;">
-    	<div class="firstrow" style="text-align:right">Pagina 4</div>
-    	</div>
-    	</ul>
- </ol>	
-<ul style="display:flex">	
-<div id="secondrow" class="secondrow" style="width:20px;border: none;">
-<div id="cubo2"></div>
-</div>
-<li id="secondrow" class="secondrow" style="width:200px;border: none;">
-<a href="#planDesarrolloPersonal" class="secondrow"><b>Plan de desarrollo personal</b></a>
-</li>
-<div id="secondrow" class="secondrow" style="width:200px;border: none;">
-<div class="secondrow" style="text-align:right">Pagina 5</div>
-</div>
-</ul>
-<ul style="display:flex">
-<div id="thirdrow" class="thirdrow" style="width:20px;border: none;">
-<div id="cubo3"></div>
-</div>
-<li id="thirdrow" class="thirdrow" style="width:200px;border: none;">
-<a href="#resultadosDetallados" class="thirdtrow"><b>Ap&eacute;ndice: Resultados detallados</b></a>
-</li>
-<div id="thirdrow" class="thirdrow" style="width:200px;border: none;">
-<div class="thirdrow" style="text-align:right">Pagina 14</div>
-</div>
-</ul>
-<ol>
-
- -->
  
- <div class="indexItem">
- 	<div class="indexTitle">
- 		<div id="cubo1"></div>
-		<a href="#susResultados" class="firstrow"><b>Sus resultados</b></a>
- 	</div>
- 	<div class="indexPage">
- 		Pagina 2
- 	</div>
- </div>
+ <table>
+	<tr id="firstrow">
+	<td>
+	<div id="cubo3"></div><a href="#susResultados" class="firstrow"><b>Sus resultados</b></a></td>
+	<td><a href="#susResultados" class="firstrow">P&aacute;gina 2</a></td>
+	</tr>
+	<tr id="secondrow">
+	<td>
+	<div id="cubo3"></div><a href="#planDesarrolloPersonal" class="secondrow"><b>Plan de desarrollo personal</b></a></td>
+	<td><a href="#planDesarrolloPersonal" class="secondrow">P&aacute;gina 5</a></td>
+	</tr>
+	<tr id="thirdrow">
+	<td>
+	<div id="cubo3"></div><a href="#resultadosDetallados" class="thirdrow"><b>Ap&eacute;ndice: Resultados detallados</b></a></td>
+	<td><a href="#planDesarrolloPersonal" class="thirdrow">P&aacute;gina 6</a></td>
+	</tr>
+</table>
 </div>

@@ -27,5 +27,55 @@ public class Item {
 	private BigDecimal desiredPerformanceByPeers;
 	private BigDecimal currentPerformanceByDirectReports;
 	private BigDecimal desiredPerformanceByDirectReports;
+	
+	public BigDecimal getDesiredImprovementByMe() {
+		BigDecimal dif = this.getDesiredPerformanceByMe().subtract(this.getCurrentPerformanceByMe());
+		
+		if (dif.compareTo(BigDecimal.ZERO) <= 0) {
+			return BigDecimal.ZERO;
+		} else {
+			return dif.multiply(BigDecimal.valueOf(20));
+		}
+	}
 
+	public BigDecimal getDesiredImprovementByColleagues() {
+		BigDecimal dif = this.getDesiredPerformanceByColleagues().subtract(this.getCurrentPerformanceByColleagues());
+		
+		if (dif.compareTo(BigDecimal.ZERO) <= 0) {
+			return BigDecimal.ZERO;
+		} else {
+			return dif.multiply(BigDecimal.valueOf(20));
+		}
+	}
+	
+	public BigDecimal getDesiredImprovementByManagers() {
+		BigDecimal dif = this.getDesiredPerformanceByManagers().subtract(this.getCurrentPerformanceByManagers());
+		
+		if (dif.compareTo(BigDecimal.ZERO) <= 0) {
+			return BigDecimal.ZERO;
+		} else {
+			return dif.multiply(BigDecimal.valueOf(20));
+		}
+	}
+
+	public BigDecimal getDesiredImprovementByPeers() {
+		BigDecimal dif = this.getDesiredPerformanceByPeers().subtract(this.getCurrentPerformanceByPeers());
+		
+		if (dif.compareTo(BigDecimal.ZERO) <= 0) {
+			return BigDecimal.ZERO;
+		} else {
+			return dif.multiply(BigDecimal.valueOf(20));
+		}
+	}
+	
+	public BigDecimal getDesiredImprovementByDirectReports() {
+		BigDecimal dif = this.getDesiredPerformanceByDirectReports().subtract(this.getCurrentPerformanceByDirectReports());
+		
+		if (dif.compareTo(BigDecimal.ZERO) <= 0) {
+			return BigDecimal.ZERO;
+		} else {
+			return dif.multiply(BigDecimal.valueOf(20));
+		}
+	}
+	
 }

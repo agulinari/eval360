@@ -24,4 +24,24 @@ public class Section {
 	private BigDecimal desiredPerformanceByColleagues;
 	private List<Item> items;
 	private List<Comment> comments;
+	
+	public BigDecimal getDesiredImprovementByMe() {
+		BigDecimal dif = this.getDesiredPerformanceByMe().subtract(this.getCurrentPerformanceByMe());
+		
+		if (dif.compareTo(BigDecimal.ZERO) <= 0) {
+			return BigDecimal.ZERO;
+		} else {
+			return dif.multiply(BigDecimal.valueOf(20));
+		}
+	}
+
+	public BigDecimal getDesiredImprovementByColleagues() {
+		BigDecimal dif = this.getDesiredPerformanceByColleagues().subtract(this.getCurrentPerformanceByColleagues());
+		
+		if (dif.compareTo(BigDecimal.ZERO) <= 0) {
+			return BigDecimal.ZERO;
+		} else {
+			return dif.multiply(BigDecimal.valueOf(20));
+		}
+	}
 }
