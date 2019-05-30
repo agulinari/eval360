@@ -76,21 +76,22 @@ public class ReportServiceImpl implements ReportService {
 	
 	private StatisticsSp createStatisticsSp(EvaluationTemplate template, List<Evaluation> evaluations){
 					
-		StatisticsSp stSpBuilder = StatisticsSp.builder().build();
-			
-		List<StatisticsSp> lstSps = evaluations.stream().map(ev->{
+		List<StatisticsSpSection> stSpSects=new ArrayList<StatisticsSpSection>();
+		List<StatisticsSpEvaluee> stSpEvals=new ArrayList<StatisticsSpEvaluee>();
+		
+		evaluations.stream().map(ev->{
 			List<com.gire.eval360.reports.service.remote.dto.evaluations.Section> sections = ev.getSections();
 			return Pair.of(StatisticsSpEvaluee.builder().name(ev.getUsername()).id(ev.getIdEvaluee().toString()).build(),sections);
-		}).collect(Collectors.toList()).stream().map(peval->{
+		}).collect(Collectors.toList()).forEach(peval->{
 			StatisticsSpEvaluee stSpEval = peval.getFirst();
 			List<com.gire.eval360.reports.service.remote.dto.evaluations.Section> sections=peval.getSecond();
-			List<StatisticsSpSection> stSpSects = getStatisticsSpSection(stSpEval,sections,template,evaluations);
-			StatisticsSp stSp = stSpBuilder.toBuilder().statisticsSpSections(stSpSects).statisticsSpEvaluee(stSpEval).build();
-			return stSp;
-		}).collect(Collectors.toList());
-					
-		StatisticsSp stSpRet = (!lstSps.isEmpty())?lstSps.get(lstSps.size()-1):stSpBuilder;
-		return stSpRet;
+			stSpSects.addAll(getStatisticsSpSection(stSpEval,sections,template,evaluations));
+			stSpEvals.add(stSpEval);
+		});
+		
+		StatisticsSp stSp = StatisticsSp.builder().statisticsSpSections(stSpSects).statisticsSpEvaluees(stSpEvals).build();
+				
+		return stSp;
 	}
 	
 	private List<StatisticsSpSection> getStatisticsSpSection(StatisticsSpEvaluee stSpEval, List<com.gire.eval360.reports.service.remote.dto.evaluations.Section> sections, 
