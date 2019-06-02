@@ -7,7 +7,7 @@ import net.serenitybdd.cucumber.CucumberWithSerenity;
 
 
 @RunWith(CucumberWithSerenity.class)
-@CucumberOptions(features="src/test/resources/features",glue="com/gire/eval360/projects/cucumber/runner/stepsDefinitions")
+@CucumberOptions(features="src/test/resources/features",glue="com/gire/eval360/automation/stepsDefinitions")
 public class RunTest {
 
 }

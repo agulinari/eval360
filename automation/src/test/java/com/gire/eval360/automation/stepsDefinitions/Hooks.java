@@ -16,7 +16,7 @@ public class Hooks {
 	WebDriver driver = null;
 	
 	private void setup() {
-		System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", "src/test/driver/chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
 	    options.addArguments("-incognito");
 		driver = new ChromeDriver(options); 
