@@ -10,3 +10,8 @@
   .mat-list .mat-list-item {
     height: 60px; /* default is 72px */
   }
+
+  .page-container {
+    margin: 20px;
+  }
+  

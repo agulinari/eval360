@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
             url: '/main/statistics',
             roles: 'ROLE_ADMIN',
             content: 'Para gestionar sus estadisticas ingrese aquí.',
-            image: '/assets/images/statistics.jpg', cols: 2, rows: 1 }
+            image: '/assets/images/stats.jpg', cols: 2, rows: 1 }
         ];
       }
 
@@ -56,7 +56,7 @@ export class DashboardComponent implements OnInit {
           url: '/main/project-list',
           roles: 'ROLE_USER',
           content: 'Para gestionar sus proyectos acceda aquí.',
-          image: '/assets/images/report.jpg', cols: 2, rows: 1 },
+          image: '/assets/images/report.jpg', cols: 1, rows: 1 },
        { title: 'Usuarios',
           subtitle: 'Administración de usuarios',
           content: 'Administre los usuarios del sistema aquí.',
@@ -77,7 +77,7 @@ export class DashboardComponent implements OnInit {
          url: '/main/statistics',
          roles: 'ROLE_ADMIN',
          content: 'Para gestionar sus estadisticas ingrese aquí.',
-         image: '/assets/images/statistics.jpg', cols: 2, rows: 1 }
+         image: '/assets/images/stats.jpg', cols: 1, rows: 1 }
       ];
     })
   );

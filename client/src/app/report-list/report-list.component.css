@@ -2,8 +2,13 @@
     width: 100%;
   }
   
-  .shipping-card {
+.shipping-card {
     min-width: 120px;
     margin: 20px auto;
-  }
+}
+
+.page-container {
+  margin: 20px;
+}
+
   

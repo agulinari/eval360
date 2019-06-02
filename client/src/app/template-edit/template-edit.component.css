@@ -25,3 +25,7 @@
 .col:last-child {
   margin-right: 0;
 }
+
+.page-container {
+  margin: 20px;
+}

@@ -1,5 +1,6 @@
-<div class="mat-elevation-z8">
+<div class="page-container">
 
+    <h1 class="mat-h1">Proyectos</h1>
     <div class="padding-container" fxLayout="row" fxLayoutWrap  fxLayoutGap="10px">
       <mat-form-field fxFlex="70%">
         <input matInput type="search" placeHolder="Buscar Proyectos" #input>
@@ -15,17 +16,17 @@
     <mat-table class="full-width-table" [dataSource]="dataSource" matSort aria-label="Elements">
   
       <!-- Id Column -->
-      <ng-container matColumnDef="id">
+      <!-- ng-container matColumnDef="id">
         <mat-header-cell fxFlex="10%" *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
         <mat-cell fxFlex="10%" *matCellDef="let row">
             {{row.id}}
         </mat-cell>
-      </ng-container>
+      </ng-container -->
 
       <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <mat-header-cell fxFlex="30%" *matHeaderCellDef mat-sort-header>Proyecto</mat-header-cell>
-        <mat-cell fxFlex="30%" *matCellDef="let row">{{row.name}}</mat-cell>
+        <mat-header-cell fxFlex="40%" *matHeaderCellDef mat-sort-header>Proyecto</mat-header-cell>
+        <mat-cell fxFlex="40%" *matCellDef="let row">{{row.name}}</mat-cell>
       </ng-container>
 
       <!-- Start Date Column -->

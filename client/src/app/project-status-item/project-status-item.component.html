@@ -22,8 +22,8 @@
     <div fxLayout="row"   fxLayoutWrap fxLayoutGap="10px">
       <h4 fxFlex="25%">Evaluados</h4>
       <h4 fxFlex="10%">Estado</h4>
-      <h4 fxFlex="10%">Total Feedbacks</h4>
-      <h4 fxFlex="10%">Respuestas</h4>
+      <h4 fxFlex="10%">Pendientes</h4>
+      <h4 fxFlex="10%">Completados</h4>
       <h4 fxFlex="20%">Progreso</h4>
     </div>
     <mat-list>
@@ -46,7 +46,7 @@
                 {{evaluee.completedFeedbacks}}
             </div>
             <div fxFlex="20%"  fxLayoutAlign="center center">
-                <mat-progress-bar mode="determinate" [value]="0"></mat-progress-bar>
+                <mat-progress-bar mode="determinate" [value]="evaluee.completedFeedbacks*100 / (evaluee.pendingFeedbacks + evaluee.completedFeedbacks)"></mat-progress-bar>
             </div>
         </div>
       <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
@@ -82,7 +82,7 @@
                       {{fp.completedFeedbacks}}
                   </div>
                   <div fxFlex="20%" fxLayoutAlign="center center">
-                      <mat-progress-bar mode="determinate" [value]="fp.progress"></mat-progress-bar>
+                      <mat-progress-bar mode="determinate" [value]="fp.completedFeedbacks*100 / (fp.pendingFeedbacks + fp.completedFeedbacks)"></mat-progress-bar>
                   </div>
                   <div fxFlex="20%" fxLayoutAlign="center center">
                       <button mat-icon-button  *ngIf="recordarFeedback" [disabled]="!fp.reminder" (click)="notificateFeedback(fp)">
