@@ -294,6 +294,10 @@ public class ProjectController {
 			throw new IllegalStateException("Formato excel invalido. Tipo de relación inválido. Fila:"+i);
 		}
 		
+		if (evalueeName.equals(fpName) && !relationship.equals(Relationship.AUTO.name())) {
+			throw new IllegalStateException("Formato excel invalido. La relación debe ser AUTO para un autoevaluado. Fila:"+i);			
+		}
+		
 		boolean evalueeExists = false;
 		for (ProjectEvalueeExcel evaluee : evaluees) {
 			if (evaluee.getUsername().equals(evalueeName)) {
