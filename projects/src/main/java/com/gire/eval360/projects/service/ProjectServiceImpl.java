@@ -511,10 +511,17 @@ public class ProjectServiceImpl implements ProjectService {
 
 	private EvalueeDetail buildEvalueeDetail(EvalueeFeedbackProvider efp) {
 		UserResponse user = this.userServiceRemote.getUserById(efp.getEvaluee().getIdUser());
+		
+		Relationship relationship = efp.getRelationship();
+		if (relationship.equals(Relationship.JEFE)) {
+			relationship = Relationship.SUBORDINADO;
+		} else if (relationship.equals(Relationship.SUBORDINADO)) {
+			relationship = Relationship.JEFE;
+		}
 
 		EvalueeDetail evalueeDetail = EvalueeDetail.builder().id(efp.getEvaluee().getId()).avatar("")
 				.idUser(efp.getEvaluee().getIdUser()).username(user.getUsername()).status(efp.getStatus())
-				.relationship(efp.getRelationship()).build();
+				.relationship(relationship).build();
 
 		return evalueeDetail;
 	}
