@@ -92,7 +92,7 @@
               </div>
               <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
                 <button mat-raised-button color="primary" matStepperPrevious>Atras</button>
-                <button mat-raised-button color="primary" [disabled]="evalueeFormGroup.invalid" matStepperNext>Siguiente</button>
+                <button id="nextStepOne" mat-raised-button color="primary" [disabled]="evalueeFormGroup.invalid" matStepperNext>Siguiente</button>
               </div>
             </form>
           </mat-step>
@@ -119,7 +119,7 @@
               <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
                 <button mat-raised-button color="primary" matStepperPrevious>Atras</button>
                 <button mat-raised-button color="primary" [disabled]="templateFormGroup.invalid" (click)="previewTemplate()">Previsualizar</button>
-                <button mat-raised-button color="primary" [disabled]="templateFormGroup.invalid" matStepperNext>Siguiente</button>
+                <button id="nextStepTwo" mat-raised-button color="primary" [disabled]="templateFormGroup.invalid" matStepperNext>Siguiente</button>
               </div>
             </form>
           </mat-step>
@@ -128,7 +128,7 @@
             Al finalizar se enviarán las notificaciones a los miembros del proyecto.
             <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
               <button mat-raised-button color="primary" matStepperPrevious>Atras</button>
-              <button mat-raised-button color="primary" (click)="createProject()">Finalizar</button>
+              <button id="stepFin" mat-raised-button color="primary" (click)="createProject()">Finalizar</button>
             </div>
           </mat-step>
         </mat-horizontal-stepper>

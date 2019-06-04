@@ -1,8 +1,11 @@
 package com.gire.eval360.automation.stepsDefinitions;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Arrays;
 import java.util.List;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 import com.gire.eval360.automation.domain.Admin;
@@ -49,97 +52,137 @@ public class CreacionProyectoSteps {
 	@When("^El usuario selecciona del menú del dashboard el botón proyectos$")
 	public void el_usuario_selecciona_del_menú_del_dashboard_el_botón_proyectos() {
 		WebChromeDriver.getDriver().navigate().to("http://localhost:4200/main/project-list");
-		waitingForView();
-		WebElement buttonAdd = WebChromeDriver.getDriver().findElement(By.xpath("//button[contains(.,'add')]"));
-		buttonAdd.click();
-		waitingForView();
-		WebElement buttonCreate = WebChromeDriver.getDriver().findElement(By.xpath("//button[contains(.,'Usar Asistente')]"));
-		buttonCreate.click();
-		waitingForView();
+		waitingForView();		
 	}
 	
 	@When("^El usuario selecciona el botón para dar de alta un nuevo proyecto$")
 	public void el_usuario_selecciona_el_botón_para_dar_de_alta_un_nuevo_proyecto() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		WebElement buttonAdd = WebChromeDriver.getDriver().findElement(By.xpath("//button[contains(.,'add')]"));
+		buttonAdd.click();
+		waitingForView();
 	}
 
 	@When("^El usuario selecciona el asistente de creación del proyecto$")
 	public void el_usuario_selecciona_el_asistente_de_creación_del_proyecto() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		WebElement buttonCreate = WebChromeDriver.getDriver().findElement(By.xpath("//button[contains(.,'Usar Asistente')]"));
+		buttonCreate.click();
+		waitingForView();
 	}
 
 	@When("^El usuario ingresa el nombre del proyecto \"([^\"]*)\" y la descripción \"([^\"]*)\", y deja como único administrador a \"([^\"]*)\"$")
 	public void el_usuario_ingresa_el_nombre_del_proyecto_y_la_descripción_y_deja_como_único_administrador_a(String arg1, String arg2, String arg3) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		WebElement nombreProyecto = WebChromeDriver.getDriver().findElement(By.xpath("//input[@placeholder='Nombre del Proyecto']"));
+	    WebElement descripcionProyecto = WebChromeDriver.getDriver().findElement(By.xpath("//input[@placeholder='Descripción']"));
+	    String nameAdmin = WebChromeDriver.getDriver().findElement(By.className("avatar")).getAttribute("alt");
+	    
+	    nombreProyecto.sendKeys(arg1);
+	    descripcionProyecto.sendKeys(arg2);
+	    assertEquals(arg3, nameAdmin);
+	    
+	    waitingForView();
 	}
 
 	@When("^El usuario hace click en siguiente$")
 	public void el_usuario_hace_click_en_siguiente() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		WebElement buttonSiguiente = WebChromeDriver.getDriver().findElement(By.xpath("//button[contains(.,'Siguiente')]"));
+		buttonSiguiente.click();
+		waitingForView();
 	}
 
 	@When("^El usuario selecciona el botón de agregar evaluado$")
 	public void el_usuario_selecciona_el_botón_de_agregar_evaluado() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		WebElement buttonAgregarEval = WebChromeDriver.getDriver().findElement(By.xpath("//button[contains(.,'Agregar Evaluado')]"));
+		buttonAgregarEval.click();
+		waitingForView();
 	}
 
 	@When("^El usuario ingresa el nombre del evaluado \"([^\"]*)\" y lo selecciona$")
 	public void el_usuario_ingresa_el_nombre_del_evaluado_y_lo_selecciona(String arg1) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		WebElement evaluadoProy = WebChromeDriver.getDriver().findElement(By.xpath("//input[@placeholder='Selecciona una persona a evaluar']"));
+	    evaluadoProy.sendKeys(arg1);
+	    waitingForView();
+	    evaluadoProy.sendKeys(Keys.ARROW_DOWN);
+	    evaluadoProy.sendKeys(Keys.ENTER);
+	    waitingForView();
 	}
 
 	@When("^El usuario selecciona el botón de agregar evaluador$")
 	public void el_usuario_selecciona_el_botón_de_agregar_evaluador() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		WebElement buttonAgregarEvaluador = WebChromeDriver.getDriver().findElement(By.xpath("//button[contains(.,'Agregar Evaluador')]"));
+		buttonAgregarEvaluador.click();
+		waitingForView();
 	}
 
 	@When("^El usuario ingresa el nombre del evaluador \"([^\"]*)\" y lo selecciona$")
 	public void el_usuario_ingresa_el_nombre_del_evaluador_y_lo_selecciona(String arg1) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		WebElement evaluadorProy = WebChromeDriver.getDriver().findElement(By.xpath("//input[@placeholder='Selecciona un evaluador']"));
+	    evaluadorProy.sendKeys(arg1);
+	    waitingForView();
+	    evaluadorProy.sendKeys(Keys.ARROW_DOWN);
+	    evaluadorProy.sendKeys(Keys.ENTER);
+	    waitingForView();
 	}
 
 	@When("^El usuario selecciona la relación de \"([^\"]*)\" que tiene el evaluador con el evaluado$")
 	public void el_usuario_selecciona_la_relación_de_que_tiene_el_evaluador_con_el_evaluado(String arg1) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		WebElement relacionEvaluadorConEvaluado = WebChromeDriver.getDriver().findElement(By.xpath("//mat-select[@placeholder='Relacion']"));
+		relacionEvaluadorConEvaluado.sendKeys(arg1);
+	    waitingForView();
 	}
 
 	@When("^El usuario selecciona el botón de agregar reviewer$")
 	public void el_usuario_selecciona_el_botón_de_agregar_reviewer() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		WebElement buttonAgregarReviewer = WebChromeDriver.getDriver().findElement(By.xpath("//button[contains(.,'Agregar Reviewer')]"));
+		buttonAgregarReviewer.click();
+		waitingForView();
 	}
 
 	@When("^El usuario ingresa el nombre del reviewer \"([^\"]*)\" y lo selecciona$")
 	public void el_usuario_ingresa_el_nombre_del_reviewer_y_lo_selecciona(String arg1) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		WebElement reviewerProy = WebChromeDriver.getDriver().findElement(By.xpath("//input[@placeholder='Selecciona un reviewer']"));
+		reviewerProy.sendKeys(arg1);
+	    waitingForView();
+	    reviewerProy.sendKeys(Keys.ARROW_DOWN);
+	    reviewerProy.sendKeys(Keys.ENTER);
+	    waitingForView();
 	}
 
 	@When("^El usuario hace click en el botón Ok$")
 	public void el_usuario_hace_click_en_el_botón_Ok() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		WebElement buttonOk = WebChromeDriver.getDriver().findElement(By.xpath("//button[contains(.,'Ok')]"));
+		buttonOk.click();
+		waitingForView();
 	}
 
+	@When("^El usuario hace click en siguiente para elegir el template$")
+	public void el_usuario_hace_click_en_siguiente_para_elegir_el_template() {
+		WebElement buttonSiguiente = WebChromeDriver.getDriver().findElement(By.id("nextStepOne"));
+		buttonSiguiente.click();
+		waitingForView();
+	}
+	 
 	@When("^El usuario ingresa el nombre del template \"([^\"]*)\" para la evaluación y lo selecciona$")
 	public void el_usuario_ingresa_el_nombre_del_template_para_la_evaluación_y_lo_selecciona(String arg1) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		WebElement templateProy = WebChromeDriver.getDriver().findElement(By.xpath("//input[@placeholder='Selecciona un template de evaluación']"));
+		templateProy.sendKeys(arg1);
+	    waitingForView();
+	    templateProy.sendKeys(Keys.ARROW_DOWN);
+	    templateProy.sendKeys(Keys.ENTER);
+	    waitingForView();
+	}
+	 
+	@When("^El usuario hace click en siguiente para finalizar la creación del proyecto$")
+	public void el_usuario_hace_click_en_siguiente_para_finalizar_la_creación_del_proyecto() {
+		WebElement buttonSiguiente = WebChromeDriver.getDriver().findElement(By.id("nextStepTwo"));
+		buttonSiguiente.click();
+		waitingForView();
 	}
 
 	@When("^El usuario hace click en el botón finalizar$")
 	public void el_usuario_hace_click_en_el_botón_finalizar() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		WebElement buttonFinalizar = WebChromeDriver.getDriver().findElement(By.id("stepFin"));
+		buttonFinalizar.click();
+		waitingForView();
 	}
 
 	@Then("^Verifico que el proyecto creado este en estado \"([^\"]*)\"$")

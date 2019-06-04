@@ -36,9 +36,9 @@ Feature: Creacion de proyecto
 	And El usuario selecciona el botón de agregar reviewer
 	And El usuario ingresa el nombre del reviewer "<nombre_reviewer>" y lo selecciona
 	And El usuario hace click en el botón Ok
-	And El usuario hace click en siguiente
+	And El usuario hace click en siguiente para elegir el template
 	And El usuario ingresa el nombre del template "<nombre_template>" para la evaluación y lo selecciona
-	And El usuario hace click en siguiente
+	And El usuario hace click en siguiente para finalizar la creación del proyecto
 	And El usuario hace click en el botón finalizar
     Then Verifico que el proyecto creado este en estado "<estado_proyecto>"
     And El proyecto tenga asignado el nombre "<nombre_proyecto>", la descripcion "<descripcion_proyecto>" y el único administrador "<nombre_administrador>" 
