@@ -8,7 +8,7 @@ import { AuthenticationService } from '../shared/authentication.service';
 })
 export class HomeComponent implements OnInit {
 
-  private roles: String[];
+  roles: String[];
 
   constructor(private authenticationService: AuthenticationService) { }
 

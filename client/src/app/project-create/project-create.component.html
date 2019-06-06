@@ -23,7 +23,7 @@
                   <h3 fxFlex="20%">Acciones</h3>
                 </div>
                 <mat-list>
-                <mat-list-item formArrayName="adminsFormArray" *ngFor="let admin of projectFormGroup.get('adminsFormArray').controls; let i = index; last as last">    
+                <mat-list-item formArrayName="adminsFormArray" *ngFor="let admin of projectFormGroup.get('adminsFormArray')['controls']; let i = index; last as last">    
                   
                   <div class="full-width" fxLayout="row" fxLayoutAlign=" center" fxLayoutWrap fxLayoutGap="5px" [formGroupName]="i">
                    
@@ -59,7 +59,7 @@
                 <h3 fxFlex="30%">Reviewers</h3>
                 <h3 fxFlex="10%">Acciones</h3>
               </div>
-              <div formArrayName="evaluees" *ngFor="let evaluee of evalueeFormGroup.get('evaluees').controls; let i = index;">
+              <div formArrayName="evaluees" *ngFor="let evaluee of evalueeFormGroup.get('evaluees')['controls']; let i = index;">
                 <mat-divider [inset]="true"></mat-divider>
                 <div [formGroupName]="i">
                     <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">

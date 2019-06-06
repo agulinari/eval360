@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>Vista Previa</h2>
-<mat-dialog-content [formGroup]="evaluationForm" novalidate (ngSubmit)="onSubmit()">
+<mat-dialog-content [formGroup]="evaluationForm" novalidate >
     <div class="spinner-container" *ngIf="loading">
         <mat-spinner [diameter]='70'></mat-spinner>
     </div>

@@ -8,7 +8,7 @@ import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolb
 import { MatProgressSpinnerModule, MatIconModule, MatMenuModule, MatGridListModule, MatSelectModule } from '@angular/material';
 import { MatAutocompleteModule, MatChipsModule, MatSlideToggleModule, MatProgressBarModule, MatTooltipModule,
   MatSidenavModule, MatTableModule, MatPaginatorModule, MatExpansionModule, MatSortModule, MatRadioModule } from '@angular/material';
-import { FlexModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -134,7 +134,7 @@ import { ReportListComponent } from './report-list/report-list.component';
     MatTabsModule,
     MatExpansionModule,
     MatTooltipModule,
-    FlexModule,
+    FlexLayoutModule,
     StorageServiceModule
   ],
   providers: [

@@ -19,7 +19,7 @@
         </ng-container>
     </mat-autocomplete>
 
-    <div formArrayName="feedbackProviders" *ngFor="let fp of evalueesForm.get('feedbackProviders').controls; let i = index;">
+    <div formArrayName="feedbackProviders" *ngFor="let fp of evalueesForm.get('feedbackProviders')['controls']; let i = index;">
             <div [formGroupName]="i">
                 <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
                       <mat-form-field class="full-width" fxFlex="50%">
@@ -61,7 +61,7 @@
         <button mat-button type="button" (click)="addFeedbackProvider()">Agregar Evaluador</button>
     </div>
 
-    <div formArrayName="reviewers" *ngFor="let reviewer of evalueesForm.get('reviewers').controls; let i = index;">
+    <div formArrayName="reviewers" *ngFor="let reviewer of evalueesForm.get('reviewers')['controls']; let i = index;">
         <div [formGroupName]="i">
             <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">
                   <mat-form-field class="full-width" fxFlex="50%">

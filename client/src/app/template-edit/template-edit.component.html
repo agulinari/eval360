@@ -15,7 +15,7 @@
             </mat-form-field>
           </div>
         </div>
-  <div formArrayName="sections" *ngFor="let section of templateForm.get('sections').controls; let i = index;">
+  <div formArrayName="sections" *ngFor="let section of templateForm.get('sections')['controls']; let i = index;">
   <div [formGroupName]="i">
   <mat-card class="shipping-card">
     <mat-card-header>

@@ -14,7 +14,7 @@ export class NavigationComponent implements OnInit {
 
   title = 'EVAL 360';
   version = '1.0.0';
-  private roles: String[];
+  roles: String[];
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
