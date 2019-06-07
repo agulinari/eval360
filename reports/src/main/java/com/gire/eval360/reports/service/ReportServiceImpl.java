@@ -390,6 +390,8 @@ public class ReportServiceImpl implements ReportService {
 							averageMe = ItemScore.builder().currentPerformance(null).desiredPerformance(null).build();
 						} else {
 							averageMe = calculateAverage(itemId, evaluations, "AUTO", false);
+							sectionCurrentPerformanceByMe = sectionCurrentPerformanceByMe.add(averageMe.getCurrentPerformance());
+							sectionDesiredPerformanceByMe = sectionDesiredPerformanceByMe.add(averageMe.getDesiredPerformance());
 						}
 						ItemScore averageManagers = null;
 						if (managers.intValue() == 0) {
@@ -410,7 +412,8 @@ public class ReportServiceImpl implements ReportService {
 							averageDirectReports = calculateAverage(itemId, evaluations, "SUBORDINADO", false);
 						}
 						ItemScore averageColleagues = calculateAverageColleagues(averageManagers, averagePeers, averageDirectReports, managers, peers, directReports);
-						
+						sectionCurrentPerformanceByColleagues = sectionCurrentPerformanceByColleagues.add(averageColleagues.getCurrentPerformance());
+						sectionDesiredPerformanceByColleagues = sectionDesiredPerformanceByColleagues.add(averageColleagues.getDesiredPerformance());
 						
 						Item item = Item.builder()
 										.name(itemTemplate.getTitle())
@@ -427,10 +430,6 @@ public class ReportServiceImpl implements ReportService {
 										.desiredPerformanceByMe(averageMe.getDesiredPerformance())
 										.build();
 						
-						sectionCurrentPerformanceByMe = sectionCurrentPerformanceByMe.add(averageMe.getCurrentPerformance());
-						sectionCurrentPerformanceByColleagues = sectionCurrentPerformanceByColleagues.add(averageColleagues.getCurrentPerformance());
-						sectionDesiredPerformanceByMe = sectionDesiredPerformanceByMe.add(averageMe.getDesiredPerformance());
-						sectionDesiredPerformanceByColleagues = sectionDesiredPerformanceByColleagues.add(averageColleagues.getDesiredPerformance());
 						
 						sec.getItems().add(item);
 					}
