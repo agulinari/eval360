@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.context.Context;
 
+import com.gire.eval360.notifications.config.ServicesProperties;
 import com.gire.eval360.notifications.dto.NotificationProvidersRequest;
 import com.gire.eval360.notifications.dto.UserProvider;
 import com.gire.eval360.notifications.service.EmailService;
@@ -28,11 +29,13 @@ public class NotificationsController {
 	
 	private final ITemplateEngine  templateMail;
 	private final EmailService emailService;
+	private final ServicesProperties servicesProperties;
 	
 	@Autowired
-	public NotificationsController(final ITemplateEngine  templateMail,final EmailService emailService) {
+	public NotificationsController(final ITemplateEngine  templateMail,final EmailService emailService, final ServicesProperties servicesProperties) {
 		this.templateMail = templateMail;
 		this.emailService = emailService;
+		this.servicesProperties = servicesProperties;
 	}
 
 	@PostMapping("/providers")
@@ -40,10 +43,10 @@ public class NotificationsController {
 				
 		List<UserProviderNotification> usersProvidersNotifyStatus=request.getProviders().stream().map(p -> {
 	    	String to = p.getMail();
-			String subject="Recordatorio de Feedback pendiente";
-    		String url="http://localhost:4200";
-    		String link=url+"/main/project-tasks/"+request.getIdProject()+"/evaluation/"+request.getIdEvalueeFP();
-    		String message="Se recuerda que ud tiene un feedback pendiente. Por favor ingrese al siguiente link para completarlo.";
+			String subject = "Recordatorio de Feedback pendiente";
+    		String url = servicesProperties.getNotificationsUrl();
+    		String link = url+"/main/project-tasks/"+request.getIdProject()+"/evaluation/"+request.getIdEvalueeFP();
+    		String message = "Se recuerda que ud tiene un feedback pendiente. Por favor ingrese al siguiente link para completarlo.";
     		Context context = new Context();
             context.setVariable("data", p);
             context.setVariable("message", message);
