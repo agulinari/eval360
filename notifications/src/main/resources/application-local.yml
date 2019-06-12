@@ -29,7 +29,7 @@ app.topic.notificationReport: notificationReport.t
 users.url: http://AUTH-SERVICE/users
 evaluations.url: http://evaluations/evaluations
 projects.url: http://projects-service/projects
-
+notifications.url: http://localhost:4200
 
 # Misc
 application.url: http://localhost:4200

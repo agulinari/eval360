@@ -15,6 +15,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.thymeleaf.ITemplateEngine;
 
+import com.gire.eval360.notifications.config.ServicesProperties;
 import com.gire.eval360.notifications.dto.NotificationProvidersRequest;
 import com.gire.eval360.notifications.dto.UserProvider;
 import com.gire.eval360.notifications.service.EmailService;
@@ -30,10 +31,13 @@ public class NotificationsControllerTests {
     @MockBean
     private EmailService emailService;
     
+    @MockBean
+    private ServicesProperties servicesProperties;
+    
     @Before
     public void setUp() {
         client = WebTestClient.bindToController(
-                new NotificationsController(templateMail, emailService))
+                new NotificationsController(templateMail, emailService, servicesProperties))
                 .build();
     }
     
