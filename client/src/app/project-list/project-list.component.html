@@ -3,10 +3,10 @@
     <h1 class="mat-h1">Proyectos</h1>
     <div class="padding-container" fxLayout="row" fxLayoutWrap  fxLayoutGap="10px">
       <mat-form-field fxFlex="70%">
-        <input matInput type="search" placeHolder="Buscar Proyectos" #input>
+        <input matInput type="search" placeholder="Buscar Proyectos" #input>
       </mat-form-field>
-      <button matTooltip="Crear nuevo proyecto" mat-fab color="accent">
-        <mat-icon aria-label="New Project Button" (click)="createProject()">add</mat-icon>
+      <button matTooltip="Crear nuevo proyecto" mat-fab color="accent" (click)="createProject()">
+        <mat-icon aria-label="New Project Button">add</mat-icon>
       </button>
       <div class="spinner-container" *ngIf="dataSource.loading$ | async">
         <mat-spinner [diameter]='70'></mat-spinner>

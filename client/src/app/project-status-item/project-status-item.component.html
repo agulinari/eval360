@@ -3,6 +3,7 @@
       <mat-card-title>Estado del Proyecto <strong>{{projectStatus?.name}}</strong></mat-card-title>
     </mat-card-header>
     <mat-card-actions>
+        <button mat-raised-button type="button" color="primary" (click)="gotoList()">Volver</button>
         <button mat-raised-button type="button" color="primary" [disabled]="loading" (click)="openAddEvalueeDialog()">+ Evaluado</button>
         <button mat-raised-button type="button" color="primary" [disabled]="loading" (click)="openAddAdminDialog()">+ Admin</button>
         <button mat-raised-button type="button" matTooltip="Exportar proyecto" color="primary" [disabled]="loading" (click)="exportProject()">
@@ -11,7 +12,6 @@
         <button mat-raised-button type="button" matTooltip="Cerrar proyecto" color="accent" [disabled]="loading" (click)="closeProject()">
             <mat-icon aria-label="Close project">close</mat-icon> Cerrar Proyecto
         </button>
-        <button mat-raised-button type="button" color="primary" (click)="gotoList()">Volver</button>
     </mat-card-actions>
 <mat-card-content>
 <div class="spinner-container" *ngIf="loading">

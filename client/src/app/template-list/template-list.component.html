@@ -3,10 +3,10 @@
   <h1 class="mat-h1">Templates</h1>
   <div class="padding-container" fxLayout="row" fxLayoutWrap  fxLayoutGap="10px">
       <mat-form-field fxFlex="70%">
-        <input matInput type="search" placeHolder="Buscar Templates" #input>
+        <input matInput type="search" placeholder="Buscar Templates" #input>
       </mat-form-field>
-      <button matTooltip="Crear nuevo template" mat-fab color="accent">
-        <mat-icon aria-label="Add Template Button" (click)="addTemplate()">add</mat-icon>
+      <button matTooltip="Crear nuevo template" mat-fab color="accent" (click)="addTemplate()">
+        <mat-icon aria-label="Add Template Button">add</mat-icon>
       </button> 
       <div class="spinner-container" *ngIf="dataSource.loading$ | async">
         <mat-spinner [diameter]='70'></mat-spinner>
