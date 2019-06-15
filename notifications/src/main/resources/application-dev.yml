@@ -32,7 +32,7 @@ projects.url: http://projects-service/projects
 notifications.url: http://eval-360.cfapps.io
 
 # Misc
-application.url: http://localhost:4200
+application.url: http://eval-360.cfapps.io
 
 # Spring mail SMTP
 spring:
