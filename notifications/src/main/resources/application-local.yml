@@ -33,3 +33,20 @@ notifications.url: http://localhost:4200
 
 # Misc
 application.url: http://localhost:4200
+
+# Spring mail SMTP
+spring:
+  mail:
+    default-encoding: UTF-8
+    host: smtp.sendgrid.net
+    username: apikey
+    password: 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
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: false
