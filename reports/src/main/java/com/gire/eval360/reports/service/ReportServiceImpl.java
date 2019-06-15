@@ -465,12 +465,14 @@ public class ReportServiceImpl implements ReportService {
 		
 		BigDecimal currentColleagues = BigDecimal.ZERO;
 		if (totalColleagues != 0) {
-			currentColleagues = BigDecimal.valueOf(sumColleagues / totalColleagues);
+			double cc = sumColleagues / totalColleagues;
+			currentColleagues = BigDecimal.valueOf(cc).setScale(2, BigDecimal.ROUND_HALF_UP);
 		}
 		
 		BigDecimal desiredColleagues = BigDecimal.ZERO;
 		if (totalColleagues != 0) {
-			desiredColleagues = BigDecimal.valueOf(sumDesiredColleagues / totalColleagues);
+			double cc = sumDesiredColleagues / totalColleagues;
+			desiredColleagues = BigDecimal.valueOf(cc).setScale(2, BigDecimal.ROUND_HALF_UP);
 		}
 		
 		ItemScore averageColleagues = ItemScore.builder().currentPerformance(currentColleagues)
