@@ -1,8 +1,6 @@
 spring.profiles.active: local
 
 
-# Zipkin
-spring.zipkin.sender.type: kafka
 
 # Logging
 logging.level:
