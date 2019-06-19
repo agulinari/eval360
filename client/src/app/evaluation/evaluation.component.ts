@@ -31,6 +31,7 @@ export class EvaluationComponent implements OnInit, OnDestroy {
   idEvalueeFeedbackProvider: number;
   sections: FormArray;
   loading = false;
+  submitted = false;
 
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -179,6 +180,11 @@ export class EvaluationComponent implements OnInit, OnDestroy {
           description: i.description,
           itemType: i.itemType
         });
+        if (i.itemType === 'TEXTBOX') {
+          item.patchValue({
+            value1: '-'
+          });
+        }
       });
     });
   }
@@ -213,7 +219,7 @@ export class EvaluationComponent implements OnInit, OnDestroy {
       description: null,
       itemType: null,
       value: [null, Validators.required],
-      value1: null
+      value1: [null, Validators.required]
     });
   }
 
@@ -232,6 +238,13 @@ export class EvaluationComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+
+    this.submitted = true;
+
+    if (this.evaluationForm.invalid) {
+      return;
+    }
+
     const dialogRef: MatDialogRef<WaitingDialogComponent> = this.dialog.open(WaitingDialogComponent,  {
       panelClass: 'transparent',
       disableClose: true

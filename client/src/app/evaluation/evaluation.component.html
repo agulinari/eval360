@@ -25,39 +25,29 @@
               <h3>{{item.get('description').value}}</h3>
               <div *ngIf="item.get('itemType').value==='RATING'">
               <p>Desempeño actual</p>
-              <mat-button-toggle-group formControlName="value">
+              <mat-button-toggle-group formControlName="value" [ngClass]="{ 'required-button-group': submitted && item.get('value').errors }" >
                 <mat-button-toggle value="1">Pobre</mat-button-toggle>
                 <mat-button-toggle value="2">Regular</mat-button-toggle>
                 <mat-button-toggle value="3">Bueno</mat-button-toggle>
                 <mat-button-toggle value="4">Muy Bueno</mat-button-toggle>
                 <mat-button-toggle value="5">Excelente</mat-button-toggle>
               </mat-button-toggle-group>
+              <mat-error *ngIf="submitted && item.get('value').errors">Seleccione una opción</mat-error>
+
               <p>Desempeño deseado</p>
-              <mat-button-toggle-group formControlName="value1">
+              <mat-button-toggle-group formControlName="value1" [ngClass]="{ 'required-button-group': submitted &&  item.get('value1').errors }" >
                 <mat-button-toggle value="1">Pobre</mat-button-toggle>
                 <mat-button-toggle value="2">Regular</mat-button-toggle>
                 <mat-button-toggle value="3">Bueno</mat-button-toggle>
                 <mat-button-toggle value="4">Muy Bueno</mat-button-toggle>
                 <mat-button-toggle value="5">Excelente</mat-button-toggle>
               </mat-button-toggle-group>
-              <!-- mat-radio-group formControlName="value" fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap fxLayoutGap="5px">
-                <mat-radio-button fxFlex="20%" value="1">Pobre</mat-radio-button>
-                <mat-radio-button fxFlex="20%" value="2">Regular</mat-radio-button>
-                <mat-radio-button fxFlex="20%" value="3">Bueno</mat-radio-button>
-                <mat-radio-button fxFlex="20%" value="4">Muy Bueno</mat-radio-button>
-                <mat-radio-button fxFlex="20%" value="5">Excelente</mat-radio-button>
-              </mat-radio-group>
-              <p>Desempeño deseado</p>
-              <mat-radio-group formControlName="value1" fxLayout="row" fxLayoutAlign="center center" fxLayoutWrap fxLayoutGap="5px">
-                <mat-radio-button fxFlex="20%" value="1">Pobre</mat-radio-button>
-                <mat-radio-button fxFlex="20%" value="2">Regular</mat-radio-button>
-                <mat-radio-button fxFlex="20%" value="3">Bueno</mat-radio-button>
-                <mat-radio-button fxFlex="20%" value="4">Muy Bueno</mat-radio-button>
-                <mat-radio-button fxFlex="20%" value="5">Excelente</mat-radio-button>
-              </mat-radio-group-->
+              <mat-error *ngIf="submitted && item.get('value1').errors">Seleccione una opción</mat-error>
+
               </div>
               <mat-form-field *ngIf="item.get('itemType').value==='TEXTBOX'" class="full-width">
                 <textarea matInput rows="4" formControlName="value"></textarea>
+                <mat-error *ngIf="item.get('value').hasError('required')">El Comentario es requerido</mat-error>
               </mat-form-field>          
         </div> 
         </div>
@@ -69,7 +59,7 @@
 <!--  </mat-card-content>
     <mat-card-actions  align="center"> -->
       <button mat-raised-button type="button" color="primary" (click)="gotoEvaluationList()">Ir a Evaluaciones Pendientes</button>
-      <button mat-raised-button type="submit" [disabled]="evaluationForm.invalid" color="primary">Guardar</button>
+      <button mat-raised-button type="submit"  color="primary">Guardar</button>
  <!--   </mat-card-actions>
   </mat-card>  -->
   </div>
