@@ -14,7 +14,7 @@ import lombok.Singular;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of={"id"})
-@Builder
+@Builder(toBuilder=true)
 public class Evaluation {
 	
 	private String id;

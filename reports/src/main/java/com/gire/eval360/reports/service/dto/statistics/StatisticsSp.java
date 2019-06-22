@@ -8,12 +8,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Singular;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Builder(toBuilder=true)
+@ToString(includeFieldNames=true)
 public class StatisticsSp {
 	
 	private String nameProject;

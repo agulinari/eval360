@@ -4,10 +4,12 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import com.gire.eval360.reports.domain.Score;
 import com.gire.eval360.reports.domain.Section;
 import com.gire.eval360.reports.service.dto.statistics.StatisticsSp;
 import com.gire.eval360.reports.service.dto.statistics.StatisticsSpEvaluee;
+import com.gire.eval360.reports.service.dto.statistics.StatisticsSpEvaluee.StatisticsSpEvalueeBuilder;
 import com.gire.eval360.reports.service.dto.statistics.StatisticsSpItem;
 import com.gire.eval360.reports.service.dto.statistics.StatisticsSpPoint;
 import com.gire.eval360.reports.service.dto.statistics.StatisticsSpSection;
@@ -35,6 +38,7 @@ import com.gire.eval360.reports.service.remote.dto.templates.ItemType;
 import com.gire.eval360.reports.service.remote.dto.templates.SectionType;
 import com.google.common.collect.Lists;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -79,52 +83,56 @@ public class ReportServiceImpl implements ReportService {
 		List<StatisticsSpSection> stSpSects=new ArrayList<StatisticsSpSection>();
 		List<StatisticsSpEvaluee> stSpEvals=new ArrayList<StatisticsSpEvaluee>();
 		
-		evaluations.stream().map(ev->{
-			List<com.gire.eval360.reports.service.remote.dto.evaluations.Section> sections = ev.getSections();
-			return Pair.of(StatisticsSpEvaluee.builder().name(ev.getUsername()).id(ev.getIdEvaluee().toString()).build(),sections);
-		}).collect(Collectors.toList()).forEach(peval->{
-			StatisticsSpEvaluee stSpEval = peval.getFirst();
-			List<com.gire.eval360.reports.service.remote.dto.evaluations.Section> sections=peval.getSecond();
-			stSpSects.addAll(getStatisticsSpSection(stSpEval,sections,template,evaluations));
-			stSpEvals.add(stSpEval);
+		Map<Long, List<Evaluation>> mapEvaluations = evaluations.stream().collect(Collectors.groupingBy(Evaluation::getIdEvaluee));
+		
+		mapEvaluations.values().forEach(evals->{
+			Evaluation eval = evals.get(0);
+			StatisticsSpEvaluee spEvaluee = StatisticsSpEvaluee.builder().id(eval.getIdEvaluee().toString()).name(eval.getUsername()).build();
+			List<StatisticsSpSection> statisticsSpSection = getStatisticsSpSection(spEvaluee,template,evals);
+			stSpSects.addAll(statisticsSpSection);
+			stSpEvals.add(spEvaluee);
 		});
 		
 		StatisticsSp stSp = StatisticsSp.builder().statisticsSpSections(stSpSects).statisticsSpEvaluees(stSpEvals).build();
-				
 		return stSp;
 	}
 	
-	private List<StatisticsSpSection> getStatisticsSpSection(StatisticsSpEvaluee stSpEval, List<com.gire.eval360.reports.service.remote.dto.evaluations.Section> sections, 
-															 EvaluationTemplate template,List<Evaluation> evaluations) {
+	private List<StatisticsSpSection> getStatisticsSpSection(StatisticsSpEvaluee spEvaluee, EvaluationTemplate template,
+															 List<Evaluation> evaluations) {
 		
-		List<StatisticsSpSection> stSpSects = sections.stream().map(s->{ 
-		
-			Optional<com.gire.eval360.reports.service.remote.dto.templates.Section> osectTemp = template.getSections().stream().filter(st->st.getId().equals(s.getId())).findFirst();
-			com.gire.eval360.reports.service.remote.dto.templates.Section sectTemp = osectTemp.isPresent()?osectTemp.get():com.gire.eval360.reports.service.remote.dto.templates.Section.builder().build();
+			Set<com.gire.eval360.reports.service.remote.dto.evaluations.Section> sections = evaluations.stream().map(ev->ev.getSections()).flatMap(List::stream).collect(Collectors.toSet());
 			
-			List<StatisticsSpItem> stSpIts = s.getItems().stream().filter(it->it.getType().equalsIgnoreCase("RATING"))
-														.map(it->{
-																ItemScore average = calculateAverage(it.getId(), evaluations, "", true);
-																ItemScore averageManagers = calculateAverage(it.getId(), evaluations, "JEFE", true);
-																ItemScore averagePeers = calculateAverage(it.getId(), evaluations, "PAR", true);
-																ItemScore averageDirectReports = calculateAverage(it.getId(), evaluations, "SUBORDINADO", true);
-																Optional<ItemTemplate> oitT = sectTemp.getItems().stream().filter(itTemp-> itTemp.getId().equals(it.getId())).findFirst();
-																ItemTemplate itT=(oitT.isPresent())?oitT.get():ItemTemplate.builder().build();
-																
-																StatisticsSpPoint stSpPoint = StatisticsSpPoint.builder().point(average.getCurrentPerformance()).pointManagers(averageManagers.getCurrentPerformance()).
-																							  pointPeers(averagePeers.getCurrentPerformance()).pointDirectReports(averageDirectReports.getCurrentPerformance()).
-																							  statisticSpEvaluee(stSpEval).build();
-																StatisticsSpItem stSpIt = StatisticsSpItem.builder().
-																										             description(itT.getDescription()).id(itT.getId()).
-																										             title(itT.getTitle()).point(stSpPoint).build();
-																return stSpIt;
-														}).collect(Collectors.toList());
-			StatisticsSpSection stSpSect=StatisticsSpSection.builder().name(sectTemp.getName()).statisticSpItems(stSpIts).build();
-			return stSpSect;
-		}).collect(Collectors.toList());
-		
-		return stSpSects;
-	
+			List<StatisticsSpSection> stSps = sections.stream().map(s->{
+				Optional<com.gire.eval360.reports.service.remote.dto.templates.Section> osectTemp = template.getSections().stream().filter(st->st.getId().equals(s.getId())).findFirst();
+				com.gire.eval360.reports.service.remote.dto.templates.Section sectTemp = osectTemp.isPresent()?osectTemp.get():com.gire.eval360.reports.service.remote.dto.templates.Section.builder().build();
+				
+				List<Evaluation> evaluationsForAverage = evaluations.stream().map(e->{
+					List<com.gire.eval360.reports.service.remote.dto.evaluations.Section> sectionsForAverage = e.getSections().stream().filter(sect->sect.getId().equals(s.getId())).collect(Collectors.toList());
+					Evaluation evalForAverage = e.toBuilder().clearSections().sections(sectionsForAverage).build();
+					return evalForAverage;
+				}).collect(Collectors.toList());
+				
+				List<StatisticsSpItem> stSpIts = sectTemp.getItems().stream().filter(it->it.getItemType().equals(ItemType.RATING))
+						.map(it->{
+							ItemScore average = calculateAverage(it.getId(), evaluationsForAverage, "", true);
+							ItemScore averageManagers = calculateAverage(it.getId(), evaluationsForAverage, "JEFE", true);
+							ItemScore averagePeers = calculateAverage(it.getId(), evaluationsForAverage, "PAR", true);
+							ItemScore averageDirectReports = calculateAverage(it.getId(), evaluationsForAverage, "SUBORDINADO", true);
+							Optional<ItemTemplate> oitT = sectTemp.getItems().stream().filter(itTemp-> itTemp.getId().equals(it.getId())).findFirst();
+							ItemTemplate itT = (oitT.isPresent())?oitT.get():ItemTemplate.builder().build();
+
+							StatisticsSpPoint stSpPoint = StatisticsSpPoint.builder().point(average.getCurrentPerformance()).pointManagers(averageManagers.getCurrentPerformance()).
+									pointPeers(averagePeers.getCurrentPerformance()).pointDirectReports(averageDirectReports.getCurrentPerformance()).
+									statisticSpEvaluee(spEvaluee).build();
+							StatisticsSpItem stSpIt = StatisticsSpItem.builder().
+									description(itT.getDescription()).id(itT.getId()).
+									title(itT.getTitle()).point(stSpPoint).build();
+							return stSpIt;
+						}).collect(Collectors.toList());
+				StatisticsSpSection stSpSect=StatisticsSpSection.builder().name(sectTemp.getName()).statisticSpItems(stSpIts).build();
+				return stSpSect;
+			}).collect(Collectors.toList());
+			return stSps;
 	}
 
 	@Override
