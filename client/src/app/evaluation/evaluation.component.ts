@@ -84,9 +84,10 @@ export class EvaluationComponent implements OnInit, OnDestroy {
       console.log('Error obteniendo usuario', err);
       this.showError('Se produjo un error al  obtener el usuario');
       this.gotoProjectList();
+      this.loading = false;
     },
     () => {
-      this.loading = false;
+     // this.loading = false;
     });
   }
 
@@ -104,9 +105,10 @@ export class EvaluationComponent implements OnInit, OnDestroy {
       console.log('Error obteniendo template', err);
       this.showError('Se produjo un error al  obtener el template');
       this.gotoProjectList();
+      this.loading = false;
     },
     () => {
-      this.loading = false;
+    //  this.loading = false;
     });
   }
 

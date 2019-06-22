@@ -4,11 +4,8 @@
         <mat-spinner [diameter]='70'></mat-spinner>
     </div>
     <div *ngIf="!loading">
-  <mat-card  class="shipping-card">
-    <mat-card-header>
-      <mat-card-title>Evaluación {{evaluationForm.get('title').value}}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
+    <h3>Evaluación {{evaluationForm.get('title').value}}</h3>
+    
 
     <div formArrayName="sections" *ngFor="let section of evaluationForm.get('sections').controls; let i = index;">
     <div [formGroupName]="i">
@@ -49,8 +46,6 @@
     </mat-card>
     </div>
     </div>
-  </mat-card-content>
-  </mat-card> 
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
