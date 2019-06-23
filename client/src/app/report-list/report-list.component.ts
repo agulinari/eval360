@@ -19,6 +19,7 @@ export class ReportListComponent implements OnInit, OnDestroy {
   projectId;
   completedEvaluees: CompletedEvaluee[] = [];
   loading = false;
+  downloading = new Map();
 
   constructor( private route: ActivatedRoute,
     private router: Router,
@@ -60,6 +61,7 @@ export class ReportListComponent implements OnInit, OnDestroy {
   }
 
   downloadReport(evalueeId) {
+    this.downloading.set(evalueeId, true);
     this.reportService.get(evalueeId).subscribe(res => {
       console.log(res);
       const newBlob = new Blob([res], { type: 'application/pdf' });
@@ -85,6 +87,9 @@ export class ReportListComponent implements OnInit, OnDestroy {
 
     }, error => {
       console.log(error);
+    },
+    () => {
+      this.downloading.set(evalueeId, false);
     });
   }
 

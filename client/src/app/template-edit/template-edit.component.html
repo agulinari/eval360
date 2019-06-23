@@ -42,7 +42,7 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="row">
+      <!-- div class="row">
         <div class="col">
             <mat-form-field class="full-width">
               <mat-select placeholder="Tipo de Sección" formControlName="sectionType">
@@ -55,7 +55,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-      </div>
+      </div -->
       <div formArrayName="items" *ngFor="let item of section.get('items').controls; let j = index;">
       <div [formGroupName]="j">
           <div fxLayout="row" fxLayoutWrap fxLayoutGap="5px">

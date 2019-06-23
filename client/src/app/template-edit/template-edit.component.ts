@@ -146,7 +146,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
     return this.fb.group({
       name: [null, Validators.required],
       description: [null, Validators.required],
-      sectionType: [null, Validators.required],
+      sectionType: ['QUESTIONS', Validators.required],
       items: this.fb.array([], Validators.required)
     });
   }

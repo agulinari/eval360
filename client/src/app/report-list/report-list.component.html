@@ -23,9 +23,12 @@
                         {{evaluee.username}}
                     </div>
                     <div fxFlex="10%">
-                        <button type="button" matTooltip="Descargar reporte" color="accent" mat-icon-button (click)="downloadReport(evaluee.id)">
+                        <button *ngIf="downloading.get(evaluee.id) === undefined || downloading.get(evaluee.id) === false" type="button" matTooltip="Descargar reporte" color="accent" mat-icon-button (click)="downloadReport(evaluee.id)">
                             <mat-icon aria-label="Download report">save_alt</mat-icon>
                         </button>
+                        <div class="spinner-container" *ngIf="downloading.get(evaluee.id) === true">
+                            <mat-spinner [diameter]='40'></mat-spinner>
+                        </div>
                     </div>
                 </div>
                 <mat-divider [inset]="true" *ngIf="!last"></mat-divider> 
