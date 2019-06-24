@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import com.gire.eval360.reports.domain.AreaToImprove;
@@ -25,7 +23,6 @@ import com.gire.eval360.reports.domain.Score;
 import com.gire.eval360.reports.domain.Section;
 import com.gire.eval360.reports.service.dto.statistics.StatisticsSp;
 import com.gire.eval360.reports.service.dto.statistics.StatisticsSpEvaluee;
-import com.gire.eval360.reports.service.dto.statistics.StatisticsSpEvaluee.StatisticsSpEvalueeBuilder;
 import com.gire.eval360.reports.service.dto.statistics.StatisticsSpItem;
 import com.gire.eval360.reports.service.dto.statistics.StatisticsSpPoint;
 import com.gire.eval360.reports.service.dto.statistics.StatisticsSpSection;
@@ -38,7 +35,6 @@ import com.gire.eval360.reports.service.remote.dto.templates.ItemType;
 import com.gire.eval360.reports.service.remote.dto.templates.SectionType;
 import com.google.common.collect.Lists;
 
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -121,8 +117,8 @@ public class ReportServiceImpl implements ReportService {
 							Optional<ItemTemplate> oitT = sectTemp.getItems().stream().filter(itTemp-> itTemp.getId().equals(it.getId())).findFirst();
 							ItemTemplate itT = (oitT.isPresent())?oitT.get():ItemTemplate.builder().build();
 
-							StatisticsSpPoint stSpPoint = StatisticsSpPoint.builder().point(average.getCurrentPerformance()).pointManagers(averageManagers.getCurrentPerformance()).
-									pointPeers(averagePeers.getCurrentPerformance()).pointDirectReports(averageDirectReports.getCurrentPerformance()).
+							StatisticsSpPoint stSpPoint = StatisticsSpPoint.builder().point(getPointAverage(average)).pointManagers(getPointAverage(averageManagers)).
+									pointPeers(getPointAverage(averagePeers)).pointDirectReports(getPointAverage(averageDirectReports)).
 									statisticSpEvaluee(spEvaluee).build();
 							StatisticsSpItem stSpIt = StatisticsSpItem.builder().
 									description(itT.getDescription()).id(itT.getId()).
@@ -133,6 +129,13 @@ public class ReportServiceImpl implements ReportService {
 				return stSpSect;
 			}).collect(Collectors.toList());
 			return stSps;
+	}
+
+	private BigDecimal getPointAverage(ItemScore average) {
+		BigDecimal averageDifference =  average.getDesiredPerformance().subtract(average.getCurrentPerformance());
+		if(averageDifference.compareTo(BigDecimal.ZERO)<0)
+			return BigDecimal.ZERO;
+		return averageDifference;
 	}
 
 	@Override

@@ -55,19 +55,25 @@ export class StatisticsItemRelationComponent {
         let pointsJefes:number = 0;
         let pointsPares:number = 0;
         let pointsSubordinados:number = 0;
+        let count = ssps.statisticSpItems.length;
         ssps.statisticSpItems.forEach(sspi=>{let point:StatisticSpPoint = sspi.points[this.idCurrentUser];
           pointsJefes+=point.pointManagers; 
           pointsPares+=point.pointPeers; 
           pointsSubordinados+=point.pointDirectReports; 
         });
+        pointsJefes = (pointsJefes/count);
+        pointsPares = (pointsPares/count);
+        pointsSubordinados = (pointsSubordinados/count);
         let statisticSpRelation:StatisticSpRelation = new StatisticSpRelation();
         statisticSpRelation.seccion=nameSection;
         statisticSpRelation.jefes=pointsJefes;
         statisticSpRelation.pares=pointsPares;
         statisticSpRelation.subordinados=pointsSubordinados;
         chart.data.push(statisticSpRelation);
+
+        console.log('Puntajes: '+pointsJefes+", "+pointsPares+", "+pointsSubordinados);
       });
-      
+            
       // Create axes
       let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       categoryAxis.dataFields.category = "seccion";
