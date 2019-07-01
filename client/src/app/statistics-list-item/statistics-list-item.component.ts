@@ -103,17 +103,17 @@ chart.innerRadius = am4core.percent(40);
 let yearLabel = chart.radarContainer.createChild(am4core.Label);
 yearLabel.horizontalCenter = "middle";
 yearLabel.verticalCenter = "middle";
-yearLabel.fill = am4core.color("#673AB7");
-yearLabel.fontSize = 12;
-yearLabel.text = evaluados[this.currentIdxEval].name;
+yearLabel.fill = am4core.color("white").lighten(-0.25);
+yearLabel.fontSize = 18;
+yearLabel.text = evaluados[currentIdxEval].name;
 yearLabel.clickable = true;
 yearLabel.truncate = true;
 yearLabel.maxWidth = 120;
-yearLabel.tooltipText = evaluados[this.currentIdxEval].name;
+yearLabel.tooltipText = "Haz click aquí";
 
 yearLabel.events.on("hit", function () {
   let urlRelationItem = '/main/project/'+ this.idProject+'/template/'+this.idEvalTemp +
-                        '/statistics-list-item/'+this.idProject+'/template/'+this.idEvalTemp+'/relation/'+this.currentIdxEval;
+                        '/statistics-list-item/'+this.idProject+'/template/'+this.idEvalTemp+'/relation/'+currentIdxEval;
   this.localStorageService.setItem("statisticSpStatus",this.statisticSpStatus);
   this.router.navigate([urlRelationItem]);
 },this);
@@ -186,7 +186,7 @@ valueAxisLabel.tooltipText = "{valueY.value}";
 let series = chart.series.push(new am4charts.RadarColumnSeries());
 series.columns.template.width = am4core.percent(90);
 series.columns.template.strokeOpacity = 0;
-series.dataFields.valueY = "value" + this.currentIdxEval;
+series.dataFields.valueY = "value" + currentIdxEval;
 series.dataFields.categoryX = "area";
 series.tooltipText = "{categoryX}:{valueY.value}";
 
@@ -215,8 +215,10 @@ yearSliderContainer.width = am4core.percent(100);
 
 let yearSlider = yearSliderContainer.createChild(am4core.Slider);
 yearSlider.events.on("rangechanged", function () {
-    updateRadarData(startIdxEval + Math.round(yearSlider.start * (endIdxEval - startIdxEval)));
-})
+    let numberGenerated = startIdxEval + Math.round(yearSlider.start * (endIdxEval - startIdxEval));
+    console.log("Numero generado:" + numberGenerated);
+    updateRadarData(numberGenerated);
+});
 yearSlider.orientation = "horizontal";
 yearSlider.start = 0.5;
 
@@ -233,6 +235,7 @@ function generateRadarData() {
             let rawDataItem = { "area": area.description }
             let points : Array<StatisticSpPoint> = area.points;
             for (var y = 0;  y < points.length; y++) {
+              console.log("area:"+area.description);
                 console.log("Puntaje:"+points[y].point);
                 rawDataItem["value" + (startIdxEval + y)] = points[y].point;
             }
@@ -252,8 +255,12 @@ function updateRadarData(idxEval:number) {
     if (idxEval != currentIdxEval) {
         currentIdxEval = idxEval;
         yearLabel.text = evaluados[currentIdxEval].name;
-        series.dataFields.valueY = "value" + currentIdxEval;
+        yearLabel.tooltipText = "Haz click aquí";
+        //series.dataFields.valueY = "value" + currentIdxEval;
+        //series.tooltipText = "{categoryX}:{valueY.value}";
+        this.currentIdxEval = idxEval;
         chart.invalidateRawData();
+        
     }
 }
 

@@ -132,7 +132,7 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 	private BigDecimal getPointAverage(ItemScore average) {
-		BigDecimal averageDifference =  average.getDesiredPerformance().subtract(average.getCurrentPerformance());
+		BigDecimal averageDifference =  average.getCurrentPerformance().subtract(average.getDesiredPerformance());
 		if(averageDifference.compareTo(BigDecimal.ZERO)<0)
 			return BigDecimal.ZERO;
 		return averageDifference;
