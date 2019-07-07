@@ -26,7 +26,7 @@ am4core.useTheme(am4themes_animated);
 export class StatisticsListItemComponent {
   
   private chart: am4charts.RadarChart;
-  private currentIdxEval: number;
+  private currentIdx: number;
   
   private statisticSpStatus: StatisticSp;
 
@@ -77,7 +77,6 @@ export class StatisticsListItemComponent {
    
  loadGraphicRadarTimeline():void {
 
-//this.zone.runOutsideAngular(() => {
 let evaluados : Array<StatisticSpEvaluee> = this.statisticSpStatus.statisticsSpEvaluees;
 console.log("Evaluados: "+evaluados);
 console.log("Cantidad de evaluados: "+evaluados.length);
@@ -85,8 +84,8 @@ let result_evaluaciones : Array<StatisticSpSection> = this.statisticSpStatus.sta
 
 let startIdxEval = 0;
 let endIdxEval = evaluados.length - 1;
-let currentIdxEval = 0;
-this.currentIdxEval = 0;
+//let currentIdxEval = 0;
+this.currentIdx = 0;
 let colorSet = new am4core.ColorSet();
 
 let chart = am4core.create("chartdivRadar", am4charts.RadarChart);
@@ -105,7 +104,7 @@ yearLabel.horizontalCenter = "middle";
 yearLabel.verticalCenter = "middle";
 yearLabel.fill = am4core.color("white").lighten(-0.25);
 yearLabel.fontSize = 18;
-yearLabel.text = evaluados[currentIdxEval].name;
+yearLabel.text = evaluados[this.currentIdx].name;
 yearLabel.clickable = true;
 yearLabel.truncate = true;
 yearLabel.maxWidth = 120;
@@ -113,7 +112,7 @@ yearLabel.tooltipText = "Haz click aquí";
 
 yearLabel.events.on("hit", function () {
   let urlRelationItem = '/main/project/'+ this.idProject+'/template/'+this.idEvalTemp +
-                        '/statistics-list-item/'+this.idProject+'/template/'+this.idEvalTemp+'/relation/'+currentIdxEval;
+                        '/statistics-list-item/'+this.idProject+'/template/'+this.idEvalTemp+'/relation/'+this.currentIdx;
   this.localStorageService.setItem("statisticSpStatus",this.statisticSpStatus);
   this.router.navigate([urlRelationItem]);
 },this);
@@ -163,8 +162,8 @@ categoryAxis.tooltip.defaultState.properties.opacity = 0;
 
 // value axis
 let valueAxis = chart.yAxes.push(new am4charts.ValueAxis<am4charts.AxisRendererRadial>());
-valueAxis.min = -8;
-valueAxis.max = 8;
+valueAxis.min = 0;
+valueAxis.max = 6;
 valueAxis.strictMinMax = true;
 valueAxis.tooltip.defaultState.properties.opacity = 0;
 valueAxis.tooltip.animationDuration = 2;
@@ -181,17 +180,18 @@ valueAxisLabel.truncate = true;
 valueAxisLabel.maxWidth = 120;
 valueAxisLabel.tooltipText = "{valueY.value}";
 
+console.log("Valor corriente inicial: "+this.currentIdx);
 
 // series
 let series = chart.series.push(new am4charts.RadarColumnSeries());
 series.columns.template.width = am4core.percent(90);
 series.columns.template.strokeOpacity = 0;
-series.dataFields.valueY = "value" + currentIdxEval;
+series.dataFields.valueY = "value" + this.currentIdx;
 series.dataFields.categoryX = "area";
 series.tooltipText = "{categoryX}:{valueY.value}";
 
 // this makes columns to be of a different color, depending on value
-series.heatRules.push({ target: series.columns.template, property: "fill", minValue: -8, maxValue: 8, min: am4core.color("#673AB7"), max: am4core.color("#F44336"), dataField: "valueY" });
+series.heatRules.push({ target: series.columns.template, property: "fill", minValue: 0, maxValue: 6, min: am4core.color("#673AB7"), max: am4core.color("#F44336"), dataField: "valueY" });
 
 // cursor
 let cursor = new am4charts.RadarCursor();
@@ -214,30 +214,38 @@ yearSliderContainer.padding(0, 38, 0, 38);
 yearSliderContainer.width = am4core.percent(100);
 
 let yearSlider = yearSliderContainer.createChild(am4core.Slider);
+
 yearSlider.events.on("rangechanged", function () {
+    console.log("Si pude leer: "+this.currentIdx);
     let numberGenerated = startIdxEval + Math.round(yearSlider.start * (endIdxEval - startIdxEval));
-    console.log("Numero generado:" + numberGenerated);
-    updateRadarData(numberGenerated);
-});
+    
+    if(numberGenerated!=this.currentIdx){
+      this.currentIdx = numberGenerated;
+      updateRadarData(numberGenerated);
+    }
+
+    
+},this);
 yearSlider.orientation = "horizontal";
 yearSlider.start = 0.5;
 
-chart.data = generateRadarData();
+chart.data = generateRadarData(this.currentIdx);
 
-function generateRadarData() {
+function generateRadarData(currentId:number) {
     let data = [];
     let i = 0;
     for (var seccion in result_evaluaciones) {
+      
         let nombreSeccion: string = result_evaluaciones[seccion].name;
         let seccionData : Array<StatisticSpItem> = result_evaluaciones[seccion].statisticSpItems;
-
+        console.log("Generando puntajes seccion:"+nombreSeccion);
         seccionData.forEach(function (area) {
             let rawDataItem = { "area": area.description }
             let points : Array<StatisticSpPoint> = area.points;
+            console.log("Area:"+area.description);
             for (var y = 0;  y < points.length; y++) {
-              console.log("area:"+area.description);
                 console.log("Puntaje:"+points[y].point);
-                rawDataItem["value" + (startIdxEval + y)] = points[y].point;
+                rawDataItem["value" + (currentId + y)] = points[y].point;
             }
 
             data.push(rawDataItem);
@@ -251,17 +259,12 @@ function generateRadarData() {
 }
 
 
-function updateRadarData(idxEval:number) {
-    if (idxEval != currentIdxEval) {
-        currentIdxEval = idxEval;
-        yearLabel.text = evaluados[currentIdxEval].name;
+function updateRadarData(currentId:number) {
+        yearLabel.text = evaluados[currentId].name;
         yearLabel.tooltipText = "Haz click aquí";
-        //series.dataFields.valueY = "value" + currentIdxEval;
-        //series.tooltipText = "{categoryX}:{valueY.value}";
-        this.currentIdxEval = idxEval;
-        chart.invalidateRawData();
-        
-    }
+        series.dataFields.valueY = "value" + currentId;
+        series.tooltipText = "{categoryX}:{valueY.value}";
+        chart.invalidateRawData();        
 }
 
 function createRange(name:string, seccionData:Array<StatisticSpItem>, index:number) {
@@ -322,8 +325,8 @@ slider.events.on("rangechanged", function () {
     valueAxis.renderer.axisAngle = chart.startAngle;
 });
 this.chart = chart;
-this.currentIdxEval = currentIdxEval;
-  //  });
+//this.currentIdx = currentIdxEval;
+
 }
   gotoProjectStatus() {
     this.router.navigate(['/main/project/'+ this.idProject+'/template/'+this.idEvalTemp +
@@ -337,10 +340,10 @@ this.currentIdxEval = currentIdxEval;
   }
 
   ngOnDestroy() {
-   // this.zone.runOutsideAngular(() => {
+  
       if (this.chart) {
         this.chart.dispose();
       }
-  //  });
+   
   }
 }
