@@ -78,13 +78,11 @@ export class StatisticsListItemComponent {
  loadGraphicRadarTimeline():void {
 
 let evaluados : Array<StatisticSpEvaluee> = this.statisticSpStatus.statisticsSpEvaluees;
-console.log("Evaluados: "+evaluados);
-console.log("Cantidad de evaluados: "+evaluados.length);
 let result_evaluaciones : Array<StatisticSpSection> = this.statisticSpStatus.statisticsSpSections;
 
 let startIdxEval = 0;
 let endIdxEval = evaluados.length - 1;
-//let currentIdxEval = 0;
+
 this.currentIdx = 0;
 let colorSet = new am4core.ColorSet();
 
@@ -146,7 +144,7 @@ categoryAxisLabel.radius = 38;
 categoryAxisLabel.relativeRotation = 90;
 categoryAxisLabel.truncate = true;
 categoryAxisLabel.maxWidth = 120;
-categoryAxisLabel.tooltipText = "{category}";
+//categoryAxisLabel.tooltipText = "{category}";
 
 categoryAxisRenderer.minGridDistance = 13;
 categoryAxisRenderer.grid.template.radius = -35;
@@ -179,8 +177,6 @@ valueAxisRenderer.grid.template.strokeOpacity = 0.05;
 valueAxisLabel.truncate = true;
 valueAxisLabel.maxWidth = 120;
 valueAxisLabel.tooltipText = "{valueY.value}";
-
-console.log("Valor corriente inicial: "+this.currentIdx);
 
 // series
 let series = chart.series.push(new am4charts.RadarColumnSeries());
@@ -216,10 +212,11 @@ yearSliderContainer.width = am4core.percent(100);
 let yearSlider = yearSliderContainer.createChild(am4core.Slider);
 
 yearSlider.events.on("rangechanged", function () {
-    console.log("Si pude leer: "+this.currentIdx);
+    
     let numberGenerated = startIdxEval + Math.round(yearSlider.start * (endIdxEval - startIdxEval));
     
     if(numberGenerated!=this.currentIdx){
+      
       this.currentIdx = numberGenerated;
       updateRadarData(numberGenerated);
     }
@@ -242,10 +239,10 @@ function generateRadarData(currentId:number) {
         seccionData.forEach(function (area) {
             let rawDataItem = { "area": area.description }
             let points : Array<StatisticSpPoint> = area.points;
-            console.log("Area:"+area.description);
+            console.log("Longitud points:"+points.length);
             for (var y = 0;  y < points.length; y++) {
                 console.log("Puntaje:"+points[y].point);
-                rawDataItem["value" + (currentId + y)] = points[y].point;
+                rawDataItem["value" + (startIdxEval + y)] = points[y].point;
             }
 
             data.push(rawDataItem);
@@ -263,6 +260,7 @@ function updateRadarData(currentId:number) {
         yearLabel.text = evaluados[currentId].name;
         yearLabel.tooltipText = "Haz click aquí";
         series.dataFields.valueY = "value" + currentId;
+        
         series.tooltipText = "{categoryX}:{valueY.value}";
         chart.invalidateRawData();        
 }
@@ -325,7 +323,6 @@ slider.events.on("rangechanged", function () {
     valueAxis.renderer.axisAngle = chart.startAngle;
 });
 this.chart = chart;
-//this.currentIdx = currentIdxEval;
 
 }
   gotoProjectStatus() {

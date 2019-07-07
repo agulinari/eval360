@@ -13,7 +13,7 @@ import lombok.Singular;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@Builder
+@Builder(toBuilder=true)
 public class StatisticsSpItem {
 
 	private Long id;

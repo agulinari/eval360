@@ -89,7 +89,24 @@ public class ReportServiceImpl implements ReportService {
 			stSpEvals.add(spEvaluee);
 		});
 		
-		StatisticsSp stSp = StatisticsSp.builder().statisticsSpSections(stSpSects).statisticsSpEvaluees(stSpEvals).build();
+		Map<String, List<StatisticsSpSection>> groupSections = stSpSects.stream().collect(Collectors.groupingBy(StatisticsSpSection::getName));
+		List<StatisticsSpSection> lstspsectGroup = groupSections.values().stream().map(lss->{
+			String nameSection = lss.get(0).getName();
+			List<List<StatisticsSpItem>> llstspit = lss.stream().map(ssps->ssps.getStatisticSpItems()).collect(Collectors.toList());
+			List<StatisticsSpItem> stspit = llstspit.stream().flatMap(List::stream).collect(Collectors.toList());
+			Map<Long, List<StatisticsSpItem>> mllstspit = stspit.stream().collect(Collectors.groupingBy(StatisticsSpItem::getId));
+			List<StatisticsSpItem> listStSpItGroup = mllstspit.values().stream().map(stspitlist->{
+				StatisticsSpItem stspitAux = stspitlist.get(0);
+				List<List<StatisticsSpPoint>> lstsppoints = stspitlist.stream().map(stsp->stsp.getPoints()).collect(Collectors.toList());
+				List<StatisticsSpPoint> statisticsSpPointsGroup = lstsppoints.stream().flatMap(List::stream).collect(Collectors.toList());
+				StatisticsSpItem ststpitReturn = stspitAux.toBuilder().clearPoints().points(statisticsSpPointsGroup).build();
+				return ststpitReturn;
+			}).collect(Collectors.toList());
+			StatisticsSpSection stspsect = StatisticsSpSection.builder().name(nameSection).statisticSpItems(listStSpItGroup).build();
+			return stspsect;
+		}).collect(Collectors.toList());
+		
+		StatisticsSp stSp = StatisticsSp.builder().statisticsSpSections(lstspsectGroup).statisticsSpEvaluees(stSpEvals).build();
 		return stSp;
 	}
 	
