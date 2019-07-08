@@ -127,10 +127,10 @@ public class ReportServiceImpl implements ReportService {
 				
 				List<StatisticsSpItem> stSpIts = sectTemp.getItems().stream().filter(it->it.getItemType().equals(ItemType.RATING))
 						.map(it->{
-							ItemScore average = calculateAverage(it.getId(), evaluationsForAverage, "", true);
-							ItemScore averageManagers = calculateAverage(it.getId(), evaluationsForAverage, "JEFE", true);
-							ItemScore averagePeers = calculateAverage(it.getId(), evaluationsForAverage, "PAR", true);
-							ItemScore averageDirectReports = calculateAverage(it.getId(), evaluationsForAverage, "SUBORDINADO", true);
+							ItemScore average = calculateAverage(it.getId(), evaluationsForAverage, "", false);
+							ItemScore averageManagers = calculateAverage(it.getId(), evaluationsForAverage, "JEFE", false);
+							ItemScore averagePeers = calculateAverage(it.getId(), evaluationsForAverage, "PAR", false);
+							ItemScore averageDirectReports = calculateAverage(it.getId(), evaluationsForAverage, "SUBORDINADO", false);
 							Optional<ItemTemplate> oitT = sectTemp.getItems().stream().filter(itTemp-> itTemp.getId().equals(it.getId())).findFirst();
 							ItemTemplate itT = (oitT.isPresent())?oitT.get():ItemTemplate.builder().build();
 
@@ -149,9 +149,9 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 	private BigDecimal getPointAverage(ItemScore average) {
-		boolean isCurrentPerformanceOk = (average.getDesiredPerformance().compareTo(BigDecimal.ZERO)<=0);
-		BigDecimal averageDifference =  average.getCurrentPerformance().subtract(average.getDesiredPerformance());
-		if( isCurrentPerformanceOk || averageDifference.compareTo(BigDecimal.ZERO)<0)
+//		boolean isCurrentPerformanceOk = (average.getDesiredPerformance().compareTo(BigDecimal.ZERO)<=0);
+		BigDecimal averageDifference =  average.getDesiredPerformance().subtract(average.getCurrentPerformance());
+		if( /*isCurrentPerformanceOk ||*/ averageDifference.compareTo(BigDecimal.ZERO)<0)
 			return BigDecimal.ZERO;
 		return averageDifference;
 	}
