@@ -271,9 +271,9 @@ function createRange(name:string, seccionData:Array<StatisticSpItem>, index:numb
     axisRange.axisFill.interactionsEnabled = true;
     axisRange.text = name;
     // first area
-    axisRange.category = seccionData[0].description;
+    axisRange.category = seccionData[0].title;
     // last area
-    axisRange.endCategory = seccionData[seccionData.length - 1].description;
+    axisRange.endCategory = seccionData[seccionData.length - 1].title;
     // every 3rd color for a bigger contrast
     axisRange.axisFill.fill = colorSet.getIndex(index * 3);
     axisRange.grid.disabled = true;
