@@ -237,7 +237,7 @@ function generateRadarData(currentId:number) {
         let seccionData : Array<StatisticSpItem> = result_evaluaciones[seccion].statisticSpItems;
         console.log("Generando puntajes seccion:"+nombreSeccion);
         seccionData.forEach(function (area) {
-            let rawDataItem = { "area": area.description }
+            let rawDataItem = { "area": area.title }
             let points : Array<StatisticSpPoint> = area.points;
             console.log("Longitud points:"+points.length);
             for (var y = 0;  y < points.length; y++) {

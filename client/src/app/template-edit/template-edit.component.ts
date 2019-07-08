@@ -144,8 +144,12 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
 
   createSection(): FormGroup {
     return this.fb.group({
-      name: [null, Validators.required],
-      description: [null, Validators.required],
+      name: [null, Validators.compose([
+        Validators.required, Validators.minLength(5), Validators.maxLength(15)])
+      ],
+      description: [null, Validators.compose([
+        Validators.required, Validators.minLength(5), Validators.maxLength(30)])
+      ],
       sectionType: ['QUESTIONS', Validators.required],
       items: this.fb.array([], Validators.required)
     });
@@ -153,8 +157,12 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
 
   createItem(): FormGroup {
     return this.fb.group({
-      title: [null, Validators.required],
-      description: [null, Validators.required],
+      title: [null, Validators.compose([
+        Validators.required, Validators.minLength(5), Validators.maxLength(15)])
+      ],
+      description: [null, Validators.compose([
+        Validators.required, Validators.minLength(5), Validators.maxLength(30)])
+      ],
       itemType: [null, Validators.required]
     });
   }
