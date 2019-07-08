@@ -25,12 +25,13 @@ export class NotificationService {
     const createRememberUserProvider = new CreateRememberUserProvider();
     const listRemembers: Array<CreateRememberUserProvider> = [createRememberUserProvider];
     projectStatus.evalueesStatus.forEach(evaluee => {
-            let fpd = evaluee.feedbackProviders.find(fp => ((fp.id === feedbackProviderStatus.id) && (fp.status === 'PENDIENTE')) !== undefined);
-            if(fpd!=undefined){
-              notifyRememberFeedback.idEvalueeFP = evaluee.id;
+            const fpd = evaluee.feedbackProviders.find(fp =>
+              ((fp.id === feedbackProviderStatus.id) && (fp.status === 'PENDIENTE')) !== undefined);
+            if (fpd !== undefined) {
+              notifyRememberFeedback.idEvalueeFP = fpd.idEval;
             }
     });
-    
+
     createRememberUserProvider.mail = feedbackProviderStatus.mail;
     createRememberUserProvider.username = feedbackProviderStatus.username;
     notifyRememberFeedback.idProject = projectStatus.id;

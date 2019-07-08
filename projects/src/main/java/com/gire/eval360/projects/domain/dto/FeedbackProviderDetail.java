@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 public class FeedbackProviderDetail {
 
 	private Long id;
+	private Long idEval;
 	private Long idUser;
 	private String username;
 	private String avatar;

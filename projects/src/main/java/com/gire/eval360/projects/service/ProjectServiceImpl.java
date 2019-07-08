@@ -475,6 +475,7 @@ public class ProjectServiceImpl implements ProjectService {
 		UserResponse user = this.userServiceRemote.getUserById(efp.getFeedbackProvider().getIdUser());
 
 		FeedbackProviderDetail fpDetail = FeedbackProviderDetail.builder().id(efp.getFeedbackProvider().getId())
+				.idEval(efp.getId())
 				.avatar("").idUser(efp.getFeedbackProvider().getIdUser()).username(user.getUsername())
 				.relationship(efp.getRelationship())
 				.status(efp.getStatus()).build();
