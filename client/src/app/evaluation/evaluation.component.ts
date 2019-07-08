@@ -120,22 +120,27 @@ export class EvaluationComponent implements OnInit, OnDestroy {
 
         // Chequear que el usuario sea el evaluador
         const userId = this.authenticationService.getUserId();
-        let fp;
+        let evalueFp;
         project.evaluees.forEach(evaluee => {
-          const evalueFp = evaluee.feedbackProviders.find(efp => efp.id === +this.idEvalueeFeedbackProvider);
-          if (evalueFp !== undefined) {
-            fp = evalueFp.feedbackProvider;
-          }
+          evalueFp = evaluee.feedbackProviders.find(efp => efp.id === +this.idEvalueeFeedbackProvider);
         });
 
-        if ((fp === undefined) || (fp.idUser !== +userId)) {
+        if ((evalueFp === undefined)
+             || (evalueFp.feedbackProvider === undefined)
+             || (evalueFp.feedbackProvider.idUser !== +userId)) {
           console.log('El usuario no es dueño de la evaluacion, volviendo a la lista');
+          this.gotoProjectList();
+        }
+
+        if (evalueFp.status === 'RESUELTO') {
+          console.log('El usuario ya completó la evaluacion, volviendo a la lista');
+          this.showError('La evaluación ya fue realizada');
           this.gotoProjectList();
         }
 
         // Busco el evaluado
         project.evaluees.forEach(evaluee => {
-          const evalueFp = evaluee.feedbackProviders.find(efp => efp.id === +this.idEvalueeFeedbackProvider);
+          evalueFp = evaluee.feedbackProviders.find(efp => efp.id === +this.idEvalueeFeedbackProvider);
           if (evalueFp !== undefined) {
             this.getUserEvaluee(evaluee.idUser, evalueFp.relationship, project.idEvaluationTemplate);
             this.project = project;
@@ -244,6 +249,7 @@ export class EvaluationComponent implements OnInit, OnDestroy {
     this.submitted = true;
 
     if (this.evaluationForm.invalid) {
+      this.showError('Hay items de la evalación sin completar');
       return;
     }
 

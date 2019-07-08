@@ -325,19 +325,20 @@ public class ReportServiceImpl implements ReportService {
 
 	private AreaToImprove buildAreaToImprove(Item i, Integer managers, Integer peers, Integer directReports, Integer autoeval) {
 		BigDecimal dp = i.getDesiredPerformanceByColleagues();
-		BigDecimal percentDp = dp.add(BigDecimal.valueOf(4)).multiply(BigDecimal.valueOf(12.5));
+		BigDecimal percentDp = (dp.compareTo(BigDecimal.ZERO) <= 0) ? BigDecimal.ZERO : dp.multiply(BigDecimal.valueOf(25));
+		//BigDecimal percentDp = dp.add(BigDecimal.valueOf(4)).multiply(BigDecimal.valueOf(12.5));
 		
 		BigDecimal dpDR = i.getDesiredPerformanceByDirectReports();
-		BigDecimal percentDpDR = dpDR.add(BigDecimal.valueOf(4)).multiply(BigDecimal.valueOf(12.5));
+		BigDecimal percentDpDR = (dpDR.compareTo(BigDecimal.ZERO) <= 0) ? BigDecimal.ZERO : dpDR.multiply(BigDecimal.valueOf(25));
 		
 		BigDecimal dpManagers = i.getDesiredPerformanceByManagers();
-		BigDecimal percentDpManagers = dpManagers.add(BigDecimal.valueOf(4)).multiply(BigDecimal.valueOf(12.5));
+		BigDecimal percentDpManagers = (dpManagers.compareTo(BigDecimal.ZERO) <= 0) ? BigDecimal.ZERO : dpManagers.multiply(BigDecimal.valueOf(25));
 		
 		BigDecimal dpMe = i.getDesiredPerformanceByMe();
-		BigDecimal percentDpMe = dpMe.add(BigDecimal.valueOf(4)).multiply(BigDecimal.valueOf(12.5));
+		BigDecimal percentDpMe = (dpMe.compareTo(BigDecimal.ZERO) <= 0) ? BigDecimal.ZERO : dpMe.multiply(BigDecimal.valueOf(25));
 		
 		BigDecimal dpPeers = i.getDesiredPerformanceByPeers();
-		BigDecimal percentDpPeers = dpPeers.add(BigDecimal.valueOf(4)).multiply(BigDecimal.valueOf(12.5));
+		BigDecimal percentDpPeers = (dpPeers.compareTo(BigDecimal.ZERO) <= 0) ? BigDecimal.ZERO : dpPeers.multiply(BigDecimal.valueOf(25));
 		
 		Score scoreDR = getScore(percentDpDR, directReports);
 		Score scoreManagers = getScore(percentDpManagers, managers);

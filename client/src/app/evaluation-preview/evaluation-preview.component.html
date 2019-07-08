@@ -20,6 +20,7 @@
         <div [formGroupName]="j" class="item-panel">
            
               <p>{{item.get('description').value}}</p>
+              <div *ngIf="item.get('itemType').value==='RATING'">
               <p>Desempeño actual</p>
               <mat-button-toggle-group formControlName="value">
                 <mat-button-toggle value="1">Pobre</mat-button-toggle>
@@ -36,6 +37,7 @@
                 <mat-button-toggle value="4">Muy Bueno</mat-button-toggle>
                 <mat-button-toggle value="5">Excelente</mat-button-toggle>
               </mat-button-toggle-group>
+              </div>
               <mat-form-field *ngIf="item.get('itemType').value==='TEXTBOX'" class="full-width">
                 <textarea matInput rows="4" formControlName="value"></textarea>
               </mat-form-field>          
