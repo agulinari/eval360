@@ -142,8 +142,10 @@ let categoryAxisLabel = categoryAxisRenderer.labels.template;
 categoryAxisLabel.location = 0.5;
 categoryAxisLabel.radius = 38;
 categoryAxisLabel.relativeRotation = 90;
-categoryAxisLabel.truncate = true;
+categoryAxisLabel.truncate = false;
 categoryAxisLabel.maxWidth = 120;
+categoryAxisLabel.visible = true;
+categoryAxisLabel.fill = am4core.color("#ffffff");
 //categoryAxisLabel.tooltipText = "{category}";
 
 categoryAxisRenderer.minGridDistance = 13;
@@ -170,11 +172,11 @@ valueAxis.zIndex = 10;
 
 let valueAxisRenderer = valueAxis.renderer;
 let valueAxisLabel = valueAxisRenderer.labels.template;
+
 valueAxisRenderer.axisFills.template.disabled = true;
 valueAxisRenderer.ticks.template.disabled = true;
 valueAxisRenderer.minGridDistance = 30;
 valueAxisRenderer.grid.template.strokeOpacity = 0.05;
-valueAxisLabel.truncate = true;
 valueAxisLabel.maxWidth = 120;
 valueAxisLabel.tooltipText = "{valueY.value}";
 
@@ -281,7 +283,7 @@ function createRange(name:string, seccionData:Array<StatisticSpItem>, index:numb
 
     let axisFill = axisRange.axisFill as any;
     axisFill.innerRadius = -0.001; // almost the same as 100%, we set it in pixels as later we animate this property to some pixel value
-    axisFill.radius = -20; // negative radius means it is calculated from max radius
+    axisFill.radius = -40; // negative radius means it is calculated from max radius
     axisFill.disabled = false; // as regular fills are disabled, we need to enable this one
     axisFill.fillOpacity = 1;
     axisFill.togglable = true;
@@ -303,7 +305,7 @@ function createRange(name:string, seccionData:Array<StatisticSpItem>, index:numb
     // hover state
     let hoverState = axisFill.states.create("hover");
     hoverState.properties.innerRadius = -20;
-    hoverState.properties.radius = -35;
+    hoverState.properties.radius = -45;
 
     let axisLabel = axisRange.label as any;
     axisLabel.location = 0.5;
