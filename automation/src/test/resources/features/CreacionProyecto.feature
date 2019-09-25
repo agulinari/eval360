@@ -40,12 +40,11 @@ Feature: Creacion de proyecto
 	And El usuario ingresa el nombre del template "<nombre_template>" para la evaluación y lo selecciona
 	And El usuario hace click en siguiente para finalizar la creación del proyecto
 	And El usuario hace click en el botón finalizar
-    Then Verifico que el proyecto creado este en estado "<estado_proyecto>"
-    And El proyecto tenga asignado el nombre "<nombre_proyecto>", la descripcion "<descripcion_proyecto>" y el único administrador "<nombre_administrador>" 
-    And El proyecto tenga asignado el evaluado "<nombre_evaluado>", el evaluador "<nombre_evaluador>", y el reviewer "<nombre_reviewer>"
-    And El proyecto tenga asignado el template de evaluación "<nombre_template>"
+##    Then Verifico que el proyecto creado este en estado "<estado_proyecto>"
+##    And El proyecto tenga asignado el nombre "<nombre_proyecto>", la descripcion "<descripcion_proyecto>" y el único administrador "<nombre_administrador>" 
+##    And El proyecto tenga asignado el evaluado "<nombre_evaluado>", el evaluador "<nombre_evaluador>", y el reviewer "<nombre_reviewer>"
+##    And El proyecto tenga asignado el template de evaluación "<nombre_template>"
 
     Examples: 
       | nombre_proyecto  | descripcion_proyecto | nombre_administrador | nombre_evaluado | nombre_evaluador | relacion_con_evaluado | nombre_reviewer | nombre_template | estado_proyecto |
-      | Proyecto evaluación uno | Creación del primer proyecto | admin | belen | ailin | PAR | psivori | Evaluación 360 | PENDIENTE |
-      | Proyecto evaluación dos | Creación del segundo proyecto | admin | ailin | belen | PAR | psivori | Evaluación 360 | PENDIENTE |
+      | Proyecto evaluación uno | Creación del primer proyecto | admin | user | psivori | PAR | psivori | template1 | PENDIENTE |

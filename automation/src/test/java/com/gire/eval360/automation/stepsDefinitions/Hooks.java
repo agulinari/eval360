@@ -14,7 +14,7 @@ public class Hooks {
 		WebElement usuario = WebChromeDriver.getDriver().findElement(By.xpath("//input[@placeholder='Usuario']"));
 	    WebElement password = WebChromeDriver.getDriver().findElement(By.xpath("//input[@placeholder='Password']"));
 	    usuario.sendKeys("admin");
-	    password.sendKeys("admin1234");
+	    password.sendKeys("admin");
 	    usuario.submit();
 	    password.submit();
 	    WebChromeDriver.getDriver().navigate().forward();

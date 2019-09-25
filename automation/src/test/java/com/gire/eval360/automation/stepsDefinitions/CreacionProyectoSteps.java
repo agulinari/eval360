@@ -185,29 +185,29 @@ public class CreacionProyectoSteps {
 		waitingForView();
 	}
 
-	@Then("^Verifico que el proyecto creado este en estado \"([^\"]*)\"$")
-	public void verifico_que_el_proyecto_creado_este_en_estado(String arg1) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@Then("^El proyecto tenga asignado el nombre \"([^\"]*)\", la descripcion \"([^\"]*)\" y el único administrador \"([^\"]*)\"$")
-	public void el_proyecto_tenga_asignado_el_nombre_la_descripcion_y_el_único_administrador(String arg1, String arg2, String arg3) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@Then("^El proyecto tenga asignado el evaluado \"([^\"]*)\", el evaluador \"([^\"]*)\", y el reviewer \"([^\"]*)\"$")
-	public void el_proyecto_tenga_asignado_el_evaluado_el_evaluador_y_el_reviewer(String arg1, String arg2, String arg3) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
-
-	@Then("^El proyecto tenga asignado el template de evaluación \"([^\"]*)\"$")
-	public void el_proyecto_tenga_asignado_el_template_de_evaluación(String arg1) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
-	}
+//	@Then("^Verifico que el proyecto creado este en estado \"([^\"]*)\"$")
+//	public void verifico_que_el_proyecto_creado_este_en_estado(String arg1) {
+//	    // Write code here that turns the phrase above into concrete actions
+//	    throw new PendingException();
+//	}
+//
+//	@Then("^El proyecto tenga asignado el nombre \"([^\"]*)\", la descripcion \"([^\"]*)\" y el único administrador \"([^\"]*)\"$")
+//	public void el_proyecto_tenga_asignado_el_nombre_la_descripcion_y_el_único_administrador(String arg1, String arg2, String arg3) {
+//	    // Write code here that turns the phrase above into concrete actions
+//	    throw new PendingException();
+//	}
+//
+//	@Then("^El proyecto tenga asignado el evaluado \"([^\"]*)\", el evaluador \"([^\"]*)\", y el reviewer \"([^\"]*)\"$")
+//	public void el_proyecto_tenga_asignado_el_evaluado_el_evaluador_y_el_reviewer(String arg1, String arg2, String arg3) {
+//	    // Write code here that turns the phrase above into concrete actions
+//	    throw new PendingException();
+//	}
+//
+//	@Then("^El proyecto tenga asignado el template de evaluación \"([^\"]*)\"$")
+//	public void el_proyecto_tenga_asignado_el_template_de_evaluación(String arg1) {
+//	    // Write code here that turns the phrase above into concrete actions
+//	    throw new PendingException();
+//	}
 
 
 }
